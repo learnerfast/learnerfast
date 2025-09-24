@@ -1,0 +1,52 @@
+{
+  "name": "softec-nextjs-update",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@dnd-kit/core": "^6.1.0",
+    "@dnd-kit/modifiers": "^9.0.0",
+    "@dnd-kit/sortable": "^8.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "@faker-js/faker": "^8.0.2",
+    "@gsap/react": "^2.1.1",
+    "@hookform/resolvers": "^3.3.4",
+    "@popperjs/core": "^2.11.8",
+    "@supabase/supabase-js": "^2.56.0",
+    "bootstrap": "^5.3.3",
+    "framer-motion": "^10.16.4",
+    "gsap": "^3.12.5",
+    "lucide-react": "^0.460.0",
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-countup": "^6.5.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.51.0",
+    "react-hot-toast": "^2.4.1",
+    "react-intersection-observer": "^9.8.1",
+    "react-modal-video": "^2.0.1",
+    "react-router-dom": "^6.15.0",
+    "react-slick": "^0.30.2",
+    "react-use": "^17.5.0",
+    "sass": "^1.71.1",
+    "slick-carousel": "^1.8.1",
+    "split-text": "^1.0.0",
+    "swiper": "^11.0.7",
+    "uuid": "^9.0.0",
+    "video.js": "^8.23.4",
+    "wow.js": "^1.2.2",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.15",
+    "eslint-config-next": "^15.1.0",
+    "postcss": "^8.4.29",
+    "tailwindcss": "^3.3.3"
+  }
+}

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduFlow - Premium Learning Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i data-lucide="zap" style="width: 24px; height: 24px; color: white;"></i>
+                </div>
+                EduFlow
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div style="display: flex; gap: 1rem;">
+                <a href="signin.html" class="btn" style="background: transparent; color: hsl(var(--muted-foreground)); border: 1px solid hsl(var(--border));">Sign In</a>
+                <a href="register.html" class="btn btn-primary">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content" data-aos="fade-right">
+                <h1>The Future of Learning is Here</h1>
+                <p style="font-size: 1.25rem; color: hsl(var(--muted-foreground)); margin-bottom: 3rem;">Experience next-generation education with AI-powered personalization, immersive content, and world-class instructors.</p>
+                <div style="display: flex; gap: 1.5rem; margin-bottom: 3rem;">
+                    <a href="courses.html" class="btn btn-primary" style="padding: 1rem 2.5rem;">
+                        <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
+                        Start Learning
+                    </a>
+                    <a href="about.html" class="btn" style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); border: 1px solid rgba(139, 92, 246, 0.3); padding: 1rem 2.5rem;">
+                        <i data-lucide="info" style="width: 20px; height: 20px;"></i>
+                        Learn More
+                    </a>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 900; color: hsl(var(--primary));">1M+</div>
+                        <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Active Learners</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 900; color: hsl(var(--primary));">500+</div>
+                        <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Expert Courses</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem; font-weight: 900; color: hsl(var(--primary));">98%</div>
+                        <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual" data-aos="fade-left">
+                <div class="floating-cards">
+                    <div class="floating-card">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; color: hsl(var(--primary));">
+                            <i data-lucide="brain-circuit" style="width: 16px; height: 16px;"></i>
+                            <span style="font-size: 0.875rem; font-weight: 600;">AI-Powered</span>
+                        </div>
+                    </div>
+                    <div class="floating-card">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; color: hsl(var(--primary));">
+                            <i data-lucide="users" style="width: 16px; height: 16px;"></i>
+                            <span style="font-size: 0.875rem; font-weight: 600;">Live Sessions</span>
+                        </div>
+                    </div>
+                    <div class="floating-card">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; color: hsl(var(--primary));">
+                            <i data-lucide="award" style="width: 16px; height: 16px;"></i>
+                            <span style="font-size: 0.875rem; font-weight: 600;">Certified</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="font-size: 6rem; color: rgba(139, 92, 246, 0.3);">🚀</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="courses-section">
+        <div class="container">
+            <h2 class="section-title" data-aos="fade-up">Premium Courses</h2>
+            <div class="courses-grid">
+                <div class="course-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="course-header">
+                        <div class="course-icon">🤖</div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">AI & Machine Learning Mastery</h3>
+                        <p class="course-description">Master artificial intelligence and machine learning with hands-on projects, real-world applications, and cutting-edge techniques used by industry leaders.</p>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">120</span>
+                                <span class="stat-label">Hours</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">50+</span>
+                                <span class="stat-label">Projects</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">4.9</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Python</span>
+                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">TensorFlow</span>
+                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Neural Networks</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">$299</div>
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="course-detail.html" class="btn" style="background: hsl(var(--secondary)); color: hsl(var(--foreground)); flex: 1;">Details</a>
+                            <a href="register.html" class="btn btn-primary" style="flex: 2;">Enroll Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="course-header">
+                        <div class="course-icon">💻</div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Full Stack Development Pro</h3>
+                        <p class="course-description">Build modern web applications from frontend to backend with React, Node.js, and cloud deployment. Industry-ready skills guaranteed.</p>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">150</span>
+                                <span class="stat-label">Hours</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">30+</span>
+                                <span class="stat-label">Projects</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">4.8</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">React</span>
+                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Node.js</span>
+                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">AWS</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">$249</div>
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="course-detail.html" class="btn" style="background: hsl(var(--secondary)); color: hsl(var(--foreground)); flex: 1;">Details</a>
+                            <a href="register.html" class="btn btn-primary" style="flex: 2;">Enroll Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="course-header">
+                        <div class="course-icon">🎨</div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">UX/UI Design Excellence</h3>
+                        <p class="course-description">Create stunning user experiences with advanced design principles, prototyping, and user research methodologies used by top companies.</p>
+                        <div class="course-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">100</span>
+                                <span class="stat-label">Hours</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">25+</span>
+                                <span class="stat-label">Projects</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">4.9</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Figma</span>
+                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Prototyping</span>
+                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">User Research</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">$199</div>
+                        <div style="display: flex; gap: 1rem;">
+                            <a href="course-detail.html" class="btn" style="background: hsl(var(--secondary)); color: hsl(var(--foreground)); flex: 1;">Details</a>
+                            <a href="register.html" class="btn btn-primary" style="flex: 2;">Enroll Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>EduFlow</h3>
+                <p style="color: hsl(var(--muted-foreground)); margin-top: 0.5rem;">Transforming education through cutting-edge technology and world-class instruction.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Platform</h3>
+                <ul>
+                    <li><a href="courses.html">All Courses</a></li>
+                    <li><a href="#">Learning Paths</a></li>
+                    <li><a href="#">Certifications</a></li>
+                    <li><a href="#">Enterprise</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Community</h3>
+                <ul>
+                    <li><a href="#">Discord</a></li>
+                    <li><a href="#">Forums</a></li>
+                    <li><a href="#">Events</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 EduFlow. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Interactive Elements -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+
+    
+    <button class="floating-cta" onclick="openModal()">
+        <i data-lucide="zap" style="width: 20px; height: 20px; margin-right: 0.5rem;"></i>
+        Start Free Trial
+    </button>
+    
+    <div class="chat-widget" onclick="openChat()">
+        <i data-lucide="message-circle" style="width: 24px; height: 24px;"></i>
+    </div>
+    
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Ready to Transform Your Career?</h3>
+            <p style="color: hsl(var(--muted-foreground)); margin-bottom: 2rem;">Join over 1 million learners who have advanced their careers with EduFlow.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <a href="courses.html" class="btn btn-primary">Start Learning</a>
+                <button class="btn" style="background: hsl(var(--secondary)); color: hsl(var(--foreground));" onclick="closeModal()">Maybe Later</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="interactive-bg" id="interactiveBg"></div>
+
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+        lucide.createIcons();
+        
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        });
+        
+
+        
+
+        
+        function openModal() {
+            document.getElementById('modal').style.display = 'flex';
+            setTimeout(() => {
+                document.getElementById('modal').classList.add('show');
+            }, 10);
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+            setTimeout(() => {
+                document.getElementById('modal').style.display = 'none';
+            }, 300);
+        }
+        
+        function openChat() {
+            alert('Chat feature coming soon! Contact us at hello@eduflow.com');
+        }
+        
+        // Interactive background particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'bg-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            document.getElementById('interactiveBg').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 6000);
+        }
+        
+        setInterval(createParticle, 500);
+        
+        // Mouse follow effect
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.createElement('div');
+            cursor.style.position = 'fixed';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursor.style.width = '6px';
+            cursor.style.height = '6px';
+            cursor.style.background = 'rgba(139, 92, 246, 0.5)';
+            cursor.style.borderRadius = '50%';
+            cursor.style.pointerEvents = 'none';
+            cursor.style.zIndex = '9999';
+            cursor.style.animation = 'fadeOut 1s forwards';
+            document.body.appendChild(cursor);
+            
+            setTimeout(() => cursor.remove(), 1000);
+        });
+        
+        // Add fadeOut animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                0% { opacity: 1; transform: scale(1); }
+                100% { opacity: 0; transform: scale(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

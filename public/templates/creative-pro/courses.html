@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - SkillForge</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <div class="top-banner">
+        🔥 FLASH SALE: 90% OFF Everything! Only 2 hours left! Use code FLASH90 🔥
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                SkillForge
+            </a>
+            
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search for anything - courses, instructors, skills...">
+            </div>
+            
+            <div class="nav-actions">
+                <a href="#" class="btn btn-secondary">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    Teach on SkillForge
+                </a>
+                <a href="signin.html" class="btn" style="background: transparent; color: hsl(var(--foreground)); border: 1px solid hsl(var(--border));">
+                    <i class="fas fa-user"></i>
+                    Log In
+                </a>
+                <a href="register.html" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i>
+                    Sign Up
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <section style="background: linear-gradient(135deg, hsl(var(--primary)), #f97316); color: white; padding: 4rem 0;">
+        <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem; text-align: center;">
+            <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 1.5rem;">All Courses</h1>
+            <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">Choose from 213,000+ online video courses with new additions published every month</p>
+            <div class="filter-tabs" style="background: rgba(255,255,255,0.2); display: inline-flex;">
+                <button class="filter-tab active" style="color: white;">Most Popular</button>
+                <button class="filter-tab" style="color: white;">New</button>
+                <button class="filter-tab" style="color: white;">Trending</button>
+                <button class="filter-tab" style="color: white;">Highest Rated</button>
+            </div>
+        </div>
+    </section>
+
+    <section style="padding: 4rem 0;">
+        <div class="container">
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-image">
+                        <div class="course-badge">Bestseller</div>
+                        <div class="course-duration">65.5 hours</div>
+                        <div class="course-icon">💻</div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">The Complete JavaScript Course 2024: From Zero to Expert!</h3>
+                        <p class="course-instructor">Jonas Schmedtmann</p>
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span>4.7 (177,503 ratings)</span>
+                        </div>
+                        <div class="course-stats">
+                            <span><i class="fas fa-play-circle"></i> 319 lectures</span>
+                            <span><i class="fas fa-clock"></i> 65.5 total hours</span>
+                            <span><i class="fas fa-infinity"></i> Full lifetime access</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">
+                            $84.99
+                            <span class="price-original">$199.99</span>
+                        </div>
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-image">
+                        <div class="course-badge">Hot & New</div>
+                        <div class="course-duration">44 hours</div>
+                        <div class="course-icon">🤖</div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Machine Learning A-Z: Hands-On Python & R In Data Science</h3>
+                        <p class="course-instructor">Kirill Eremenko, Hadelin de Ponteves</p>
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span>4.5 (155,318 ratings)</span>
+                        </div>
+                        <div class="course-stats">
+                            <span><i class="fas fa-play-circle"></i> 320 lectures</span>
+                            <span><i class="fas fa-clock"></i> 44 total hours</span>
+                            <span><i class="fas fa-certificate"></i> Certificate</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">
+                            $94.99
+                            <span class="price-original">$199.99</span>
+                        </div>
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-image">
+                        <div class="course-badge">Highest Rated</div>
+                        <div class="course-duration">62 hours</div>
+                        <div class="course-icon">🌐</div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">The Complete Web Developer Course 3.0</h3>
+                        <p class="course-instructor">Rob Percival, Codestars by Rob Percival</p>
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span>4.4 (267,720 ratings)</span>
+                        </div>
+                        <div class="course-stats">
+                            <span><i class="fas fa-play-circle"></i> 383 lectures</span>
+                            <span><i class="fas fa-clock"></i> 62 total hours</span>
+                            <span><i class="fas fa-mobile-alt"></i> Mobile friendly</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">
+                            $74.99
+                            <span class="price-original">$199.99</span>
+                        </div>
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-image">
+                        <div class="course-badge">Editor's Choice</div>
+                        <div class="course-duration">38 hours</div>
+                        <div class="course-icon">🎨</div>
+                    </div>
+                    <div class="course-content">
+                        <h3 class="course-title">Complete Blender Creator: Learn 3D Modelling for Beginners</h3>
+                        <p class="course-instructor">GameDev.tv Team, Rick Davidson</p>
+                        <div class="course-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span>4.6 (89,432 ratings)</span>
+                        </div>
+                        <div class="course-stats">
+                            <span><i class="fas fa-play-circle"></i> 263 lectures</span>
+                            <span><i class="fas fa-clock"></i> 38 total hours</span>
+                            <span><i class="fas fa-download"></i> Downloadable</span>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <div class="course-price">
+                            $89.99
+                            <span class="price-original">$199.99</span>
+                        </div>
+                        <a href="#" class="btn btn-primary">Enroll Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SkillForge</h3>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-top: 0.5rem;">The global marketplace for learning and instruction. Connect, learn, and grow with millions of students and instructors worldwide.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Teach</h3>
+                <ul>
+                    <li><a href="#">Become an Instructor</a></li>
+                    <li><a href="#">Teaching Center</a></li>
+                    <li><a href="#">Instructor Rules & Requirements</a></li>
+                    <li><a href="#">Instructor Help</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>About</h3>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press & News</a></li>
+                    <li><a href="#">Investors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help and Support</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 SkillForge, Inc. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
