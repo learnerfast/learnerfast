@@ -74,7 +74,7 @@ export async function GET(request, { params }) {
     return new Response(html, {
       headers: {
         'Content-Type': 'text/html',
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 's-maxage=60, stale-while-revalidate'
       }
     });
     

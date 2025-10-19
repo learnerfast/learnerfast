@@ -14,7 +14,10 @@ export function middleware(request) {
   
   // Check if it's a subdomain (not www or main domain)
   const mainDomain = process.env.NEXT_PUBLIC_MAIN_DOMAIN || 'learnerfast.com';
-  const subdomain = hostname.replace(`.${mainDomain}`, '').replace(`www.`, '');
+  const isProduction = hostname.includes(mainDomain);
+  const subdomain = isProduction 
+    ? hostname.replace(`.${mainDomain}`, '').replace(`www.`, '')
+    : hostname.split('.')[0];
   
   // If subdomain exists and is not www or main domain
   if (subdomain && subdomain !== mainDomain && subdomain !== 'www' && !hostname.includes('localhost')) {
@@ -28,5 +31,7 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)',
+  ],
 };
