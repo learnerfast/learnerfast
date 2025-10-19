@@ -123,7 +123,7 @@ export const WebsiteProvider = ({ children }) => {
     const supabaseSite = {
       user_id: user.id,
       name: siteName,
-      url: `${siteName.toLowerCase().replace(/\s+/g, '-')}.learnfast.com`,
+      url: siteName.toLowerCase().replace(/\s+/g, '-'),
       status: 'draft',
       last_edited: new Date().toISOString().split('T')[0],
       template_id: template.id,
