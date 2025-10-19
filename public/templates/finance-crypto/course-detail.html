@@ -1,328 +1,199 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitcoin & Cryptocurrency Fundamentals - CryptoLearn</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#ffffff", "background-light": "#f7f7f7", "background-dark": "#191919"}, fontFamily: {display: "Be Vietnam Pro"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}}}};</script>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <h2>CryptoLearn</h2>
-            </div>
-            <ul class="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="signin.html" class="btn btn-outline">Login</a>
-                <a href="register.html" class="btn btn-primary">Sign Up</a>
-            </div>
-        </div>
-    </nav>
-
-    <section class="course-hero">
-        <div class="container">
-            <div class="course-hero-content">
-                <div class="course-info" data-aos="fade-up">
-                    <div class="course-breadcrumb">
-                        <a href="index.html">Home</a> > <a href="courses.html">Courses</a> > Bitcoin Fundamentals
-                    </div>
-                    <div class="course-category">Beginner Level</div>
-                    <h1>Bitcoin & Cryptocurrency Fundamentals</h1>
-                    <p class="course-subtitle">Master the basics of Bitcoin, altcoins, and cryptocurrency markets from industry experts</p>
-                    <div class="course-stats">
-                        <div class="stat-item">
-                            <i class="fas fa-users"></i>
-                            <span>5,240 students</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-star"></i>
-                            <span>4.9 rating</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-clock"></i>
-                            <span>6 weeks</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-certificate"></i>
-                            <span>Certificate included</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-enrollment" data-aos="fade-up" data-aos-delay="200">
-                    <div class="enrollment-card">
-                        <div class="course-preview">
-                            <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=500&h=300&fit=crop" alt="Course Preview">
-                            <div class="play-button">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                        <div class="course-price">
-                            <span class="price-amount">$299</span>
-                            <span class="price-period">one-time payment</span>
-                        </div>
-                        <div class="enrollment-buttons">
-                            <a href="register.html" class="btn btn-primary btn-lg btn-full">
-                                <i class="fas fa-shopping-cart"></i>
-                                Enroll Now
-                            </a>
-                            <a href="signin.html" class="btn btn-outline btn-lg btn-full">
-                                <i class="fas fa-heart"></i>
-                                Add to Wishlist
-                            </a>
-                        </div>
-                        <div class="course-includes">
-                            <h4>This course includes:</h4>
-                            <ul>
-                                <li><i class="fas fa-video"></i> 30 hours of video content</li>
-                                <li><i class="fas fa-file-alt"></i> 20 downloadable resources</li>
-                                <li><i class="fas fa-chart-line"></i> Trading simulator access</li>
-                                <li><i class="fas fa-mobile-alt"></i> Mobile and desktop access</li>
-                                <li><i class="fas fa-infinity"></i> Lifetime access</li>
-                                <li><i class="fas fa-certificate"></i> Certificate of completion</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="course-content">
-        <div class="container">
-            <div class="course-tabs">
-                <div class="tab-buttons">
-                    <button class="tab-btn active" data-tab="overview">Overview</button>
-                    <button class="tab-btn" data-tab="curriculum">Curriculum</button>
-                    <button class="tab-btn" data-tab="instructor">Instructor</button>
-                    <button class="tab-btn" data-tab="reviews">Reviews</button>
-                </div>
-
-                <div class="tab-content active" id="overview">
-                    <div class="overview-content">
-                        <h3>Course Description</h3>
-                        <p>This comprehensive Bitcoin & Cryptocurrency Fundamentals course is designed for beginners who want to understand the world of digital currencies. Learn the technology behind Bitcoin, how cryptocurrency markets work, and develop the foundation needed for successful crypto investing and trading.</p>
-                        
-                        <h3>What You'll Learn</h3>
-                        <div class="learning-objectives">
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Understanding Bitcoin and blockchain technology</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>How to buy, store, and secure cryptocurrencies</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Cryptocurrency market analysis and trends</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Risk management and investment strategies</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Understanding altcoins and DeFi basics</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Legal and tax implications of crypto trading</span>
-                            </div>
-                        </div>
-
-                        <h3>Prerequisites</h3>
-                        <p>No prior experience with cryptocurrency required. Basic computer skills and internet access needed. Perfect for complete beginners.</p>
-                    </div>
-                </div>
-
-                <div class="tab-content" id="curriculum">
-                    <div class="curriculum-content">
-                        <div class="module">
-                            <div class="module-header">
-                                <h4>Module 1: Bitcoin Basics</h4>
-                                <span class="module-duration">2 weeks • 10 hours</span>
-                            </div>
-                            <div class="module-lessons">
-                                <div class="lesson-item">
-                                    <i class="fas fa-play-circle"></i>
-                                    <span>What is Bitcoin?</span>
-                                    <span class="lesson-duration">45 min</span>
-                                </div>
-                                <div class="lesson-item">
-                                    <i class="fas fa-play-circle"></i>
-                                    <span>Blockchain Technology Explained</span>
-                                    <span class="lesson-duration">60 min</span>
-                                </div>
-                                <div class="lesson-item">
-                                    <i class="fas fa-file-alt"></i>
-                                    <span>Setting Up Your First Wallet</span>
-                                    <span class="lesson-duration">30 min</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="module">
-                            <div class="module-header">
-                                <h4>Module 2: Cryptocurrency Markets</h4>
-                                <span class="module-duration">2 weeks • 10 hours</span>
-                            </div>
-                            <div class="module-lessons">
-                                <div class="lesson-item">
-                                    <i class="fas fa-play-circle"></i>
-                                    <span>How Crypto Exchanges Work</span>
-                                    <span class="lesson-duration">50 min</span>
-                                </div>
-                                <div class="lesson-item">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>Reading Price Charts</span>
-                                    <span class="lesson-duration">40 min</span>
-                                </div>
-                                <div class="lesson-item">
-                                    <i class="fas fa-shield-alt"></i>
-                                    <span>Security Best Practices</span>
-                                    <span class="lesson-duration">55 min</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="enroll-cta">
-                            <p>Ready to master cryptocurrency?</p>
-                            <a href="register.html" class="btn btn-primary btn-lg">Enroll Now - $299</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-content" id="instructor">
-                    <div class="instructor-content">
-                        <div class="instructor-profile">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="Instructor">
-                            <div class="instructor-info">
-                                <h3>Michael Chen</h3>
-                                <p class="instructor-title">Cryptocurrency Expert & Trader</p>
-                                <div class="instructor-stats">
-                                    <span><i class="fas fa-star"></i> 4.9 rating</span>
-                                    <span><i class="fas fa-users"></i> 25,000+ students</span>
-                                    <span><i class="fas fa-play-circle"></i> 15 courses</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="instructor-bio">
-                            <p>Michael Chen is a renowned cryptocurrency expert with over 8 years of experience in blockchain technology and crypto trading. He has helped thousands of students navigate the complex world of digital currencies and build successful trading strategies.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-content" id="reviews">
-                    <div class="reviews-content">
-                        <div class="reviews-summary">
-                            <div class="rating-overview">
-                                <span class="rating-score">4.9</span>
-                                <div class="rating-stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <span class="rating-count">(5,240 reviews)</span>
-                            </div>
-                        </div>
-                        <div class="review-item">
-                            <div class="reviewer-info">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face" alt="Reviewer">
-                                <div>
-                                    <h4>David Thompson</h4>
-                                    <div class="review-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p>"Outstanding course! Michael explains complex concepts in simple terms. I went from knowing nothing about crypto to making my first profitable trades."</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="related-courses">
-        <div class="container">
-            <h2>Related Courses</h2>
-            <div class="courses-grid">
-                <div class="course-card">
-                    <div class="course-image">
-                        <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=400&h=250&fit=crop" alt="Trading Course">
-                        <div class="course-price">$599</div>
-                    </div>
-                    <div class="course-content">
-                        <div class="course-category">Advanced</div>
-                        <h3 class="course-title">Advanced Trading Strategies</h3>
-                        <div class="course-buttons">
-                            <a href="course-detail.html" class="btn btn-outline">Details</a>
-                            <a href="register.html" class="btn btn-primary">Enroll</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>CryptoLearn</h3>
-                    <p>Master cryptocurrency trading and blockchain technology.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="courses.html">Courses</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Account</h4>
-                    <ul>
-                        <li><a href="signin.html">Login</a></li>
-                        <li><a href="register.html">Sign Up</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2024 CryptoLearn. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({ duration: 800, once: true });
-
-        // Tab functionality
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById(btn.dataset.tab).classList.add('active');
-            });
-        });
-    </script>
-</body>
-</html>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<div class="flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">CryptoLearn</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<div class="lg:col-span-2 space-y-8">
+<div>
+<h1 class="text-4xl font-bold tracking-tight text-background-dark dark:text-background-light">Mastering Financial Markets</h1>
+<p class="mt-4 text-lg text-background-dark/70 dark:text-background-light/70">
+                  Unlock the secrets of financial markets with this comprehensive course. Learn to analyze market trends, make informed investment decisions, and build a robust financial portfolio.
+                </p>
+</div>
+<div class="aspect-video w-full overflow-hidden rounded-xl">
+<div class="w-full h-full bg-center bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpgUcQmQ29npvN1KDYel6wm65QX6H5NOhzw_-JXPi1PaJ1hwA7rAooYfYKdMp_lWaHooFRHDD3E8v6loGUk74JA7EG7z2wEXIzdzdvykApK_NCr7n1aE7Et6J2UzUJW1aH4dz3Bldiez_F-pqiDq4yjpvqKd1zhLlwS9u_pecAOksSkqgcBiiYyC9ZESq8oOtkOsbN8jdA9Az9dCW-igp1Cavq3cv4X1hvsOzsflXYHRF1nVEWIktz1IG9XEcC7rgwgEamc6K97VPi");'></div>
+</div>
+<div class="space-y-6">
+<div>
+<h2 class="text-2xl font-bold text-background-dark dark:text-background-light">Course Overview</h2>
+<p class="mt-3 text-base text-background-dark/70 dark:text-background-light/70">
+                    This course provides a deep dive into the world of financial markets, covering everything from the basics of trading to advanced investment strategies. Participants will gain practical skills in market analysis, risk management, and portfolio construction, preparing them for success in the dynamic financial landscape.
+                  </p>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-background-dark dark:text-background-light">Instructor</h2>
+<div class="mt-4 flex items-start gap-6">
+<div class="size-24 rounded-full bg-center bg-no-repeat bg-cover flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBSO_PqkFjdQa-vjjAihfBfSyI6cN620kVZb4EXY9m8gm-yECtSp3mtw8fti1QLKkrlZ33JGPtEfWYvESzT4Zt3lq2pAwRF9qHifU33VZ7vjcJV_7S_cj8UFISlE_lYeF5_OwhzwOuJ9XFGxjxxCYObVCvFdCY3CfGxy0IA7tI-1cSAswvNpdSIjt0LMPDI6HCk_F_hgjVI0vQWU4C-UJpVMruu4WXO-divLCzSd_gCYroqUoT2Oe1UtXW9FvXmlxWC_aIecEfo72So");'></div>
+<div>
+<h3 class="text-xl font-bold text-background-dark dark:text-background-light">Dr. Ethan Carter</h3>
+<p class="text-base text-primary">Financial Analyst &amp; Educator</p>
+<p class="mt-2 text-sm text-background-dark/70 dark:text-background-light/70">
+                        With over 15 years of experience in financial markets, Dr. Carter brings a wealth of knowledge and practical insights to this course. His expertise spans across various asset classes, including stocks, bonds, and derivatives.
+                      </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1 space-y-8">
+<div class="p-6 rounded-lg bg-background-light/50 dark:bg-background-dark/50 border border-background-dark/10 dark:border-background-light/10">
+<div class="flex items-baseline justify-between">
+<span class="text-3xl font-bold text-background-dark dark:text-background-light">$499</span>
+<span class="text-sm font-medium text-background-dark/50 dark:text-background-light/50">One-time payment</span>
+</div>
+<button class="mt-6 w-full flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold shadow-lg hover:bg-primary/90 transition-colors">
+<span class="truncate">Enroll Now</span>
+</button>
+<ul class="mt-6 space-y-3 text-sm text-background-dark/70 dark:text-background-light/70">
+<li class="flex items-center gap-3">
+<svg class="size-5 text-primary" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+<path d="m9 12 2 2 4-4"></path>
+</svg>
+<span>Lifetime access</span>
+</li>
+<li class="flex items-center gap-3">
+<svg class="size-5 text-primary" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+<path d="m9 12 2 2 4-4"></path>
+</svg>
+<span>Certificate of completion</span>
+</li>
+<li class="flex items-center gap-3">
+<svg class="size-5 text-primary" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+<path d="m9 12 2 2 4-4"></path>
+</svg>
+<span>Downloadable resources</span>
+</li>
+</ul>
+</div>
+<div class="space-y-2">
+<h2 class="text-2xl font-bold text-background-dark dark:text-background-light">Syllabus</h2>
+<div class="divide-y divide-background-dark/10 dark:divide-background-light/10 border-t border-background-dark/10 dark:border-background-light/10">
+<div class="py-4">
+<p class="font-semibold text-background-dark dark:text-background-light">Module 1</p>
+<p class="text-sm text-background-dark/70 dark:text-background-light/70">Introduction to Financial Markets</p>
+</div>
+<div class="py-4">
+<p class="font-semibold text-background-dark dark:text-background-light">Module 2</p>
+<p class="text-sm text-background-dark/70 dark:text-background-light/70">Market Analysis and Trading Strategies</p>
+</div>
+<div class="py-4">
+<p class="font-semibold text-background-dark dark:text-background-light">Module 3</p>
+<p class="text-sm text-background-dark/70 dark:text-background-light/70">Risk Management and Portfolio Construction</p>
+</div>
+<div class="py-4">
+<p class="font-semibold text-background-dark dark:text-background-light">Module 4</p>
+<p class="text-sm text-background-dark/70 dark:text-background-light/70">Advanced Investment Techniques</p>
+</div>
+<div class="py-4">
+<p class="font-semibold text-background-dark dark:text-background-light">Module 5</p>
+<p class="text-sm text-background-dark/70 dark:text-background-light/70">Case Studies and Real-World Applications</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-background-light dark:bg-background-dark border-t border-background-dark/10 dark:border-background-light/10 mt-auto">
+<div class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="space-y-4">
+<div class="flex items-center gap-3 text-background-dark dark:text-background-light">
+<div class="size-6 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M12.0799 24L4 19.2479L9.95537 8.75216L18.04 13.4961L18.0446 4H29.9554L29.96 13.4961L38.0446 8.75216L44 19.2479L35.92 24L44 28.7521L38.0446 39.2479L29.96 34.5039L29.9554 44H18.0446L18.04 34.5039L9.95537 39.2479L4 28.7521L12.0799 24Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold">FinStream</h2>
+</div>
+<p class="text-sm text-background-dark/70 dark:text-background-light/70">Unlock your financial potential.</p>
+<div class="flex items-center gap-4 text-background-dark/50 dark:text-background-light/50">
+<a class="hover:text-primary transition-colors" href="#">
+<svg class="size-5" fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M247.39,68.94A8,8,0,0,0,240,64H209.57A48.66,48.66,0,0,0,168.1,40a46.91,46.91,0,0,0-33.75,13.7A47.9,47.9,0,0,0,120,88v6.09C79.74,83.47,46.81,50.72,46.46,50.37a8,8,0,0,0-13.65,4.92c-4.31,47.79,9.57,79.77,22,98.18a110.93,110.93,0,0,0,21.88,24.2c-15.23,17.53-39.21,26.74-39.47,26.84a8,8,0,0,0-3.85,11.93c.75,1.12,3.75,5.05,11.08,8.72C53.51,229.7,65.48,232,80,232c70.67,0,129.72-54.42,135.75-124.44l29.91-29.9A8,8,0,0,0,247.39,68.94Zm-45,29.41a8,8,0,0,0-2.32,5.14C196,166.58,143.28,216,80,216c-10.56,0-18-1.4-23.22-3.08,11.51-6.25,27.56-17,37.88-32.48A8,8,0,0,0,92,169.08c-.47-.27-43.91-26.34-44-96,16,13,45.25,33.17,78.67,38.79A8,8,0,0,0,136,104V88a32,32,0,0,1,9.6-22.92A30.94,30.94,0,0,1,167.9,56c12.66.16,24.49,7.88,29.44,19.21A8,8,0,0,0,204.67,80h16Z"></path>
+</svg>
+</a>
+<a class="hover:text-primary transition-colors" href="#">
+<svg class="size-5" fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z"></path>
+</svg>
+</a>
+<a class="hover:text-primary transition-colors" href="#">
+<svg class="size-5" fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+</svg>
+</a>
+</div>
+</div>
+<div>
+<h3 class="text-base font-semibold text-background-dark dark:text-background-light">Quick Links</h3>
+<ul class="mt-4 space-y-2 text-sm text-background-dark/70 dark:text-background-light/70">
+<li><a class="hover:text-primary transition-colors" href="#">Courses</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-base font-semibold text-background-dark dark:text-background-light">Legal</h3>
+<ul class="mt-4 space-y-2 text-sm text-background-dark/70 dark:text-background-light/70">
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h3 class="text-base font-semibold text-background-dark dark:text-background-light">Newsletter</h3>
+<p class="text-sm text-background-dark/70 dark:text-background-light/70">Stay up to date with our latest courses and offers.</p>
+<form class="flex">
+<input class="w-full rounded-l-md border-background-dark/20 bg-background-light/50 dark:border-background-light/20 dark:bg-background-dark/50 px-3 py-2 text-sm text-background-dark dark:text-background-light focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-primary" placeholder="Enter your email" type="email"/>
+<button class="rounded-r-md bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary/90" type="submit">
+                Subscribe
+              </button>
+</form>
+</div>
+</div>
+<div class="mt-8 border-t border-background-dark/10 dark:border-background-light/10 pt-8 text-center text-sm text-background-dark/50 dark:text-background-light/50">
+<p>© 2024 FinStream. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

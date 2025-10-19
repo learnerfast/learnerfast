@@ -9,8 +9,7 @@ const ColorExtractor = () => {
     setIsExtracting(true);
     
     const iframe = document.querySelector('iframe[src*="srcdoc"], iframe[srcdoc]');
-    if (!iframe || !iframe.contentDocument) {
-      console.error('Iframe not found or no content');
+    if (!iframe || !iframe.contentDocument || !iframe.contentDocument.body) {
       setIsExtracting(false);
       return;
     }
@@ -21,17 +20,6 @@ const ColorExtractor = () => {
     console.log('Iframe found:', !!iframe);
     console.log('Document and window found:', !!iframeDoc, !!iframeWindow);
 
-    // Extract colors from various elements
-    const buttons = iframeDoc.querySelectorAll('button, .btn, .button, input[type="submit"], input[type="button"]');
-    const headings = iframeDoc.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    const links = iframeDoc.querySelectorAll('a');
-    const body = iframeDoc.body;
-
-    console.log('Buttons found:', buttons.length);
-    console.log('Headings found:', headings.length);
-    console.log('Links found:', links.length);
-
-    // Get computed styles
     const getComputedColor = (element, property) => {
       if (!element || !iframeWindow) return null;
       const computed = iframeWindow.getComputedStyle(element);
@@ -39,63 +27,70 @@ const ColorExtractor = () => {
       return color && color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent' ? color : null;
     };
 
-    // Convert RGB to HEX
     const rgbToHex = (rgb) => {
       if (!rgb || rgb === 'transparent') return null;
-      
-      const match = rgb.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+      const match = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
       if (!match) return rgb.startsWith('#') ? rgb : null;
-      
-      const r = parseInt(match[1]);
-      const g = parseInt(match[2]);
-      const b = parseInt(match[3]);
-      
-      return '#' + [r, g, b].map(x => {
-        const hex = x.toString(16);
-        return hex.length === 1 ? '0' + hex : hex;
-      }).join('');
+      return '#' + [1,2,3].map(i => parseInt(match[i]).toString(16).padStart(2, '0')).join('');
     };
 
-    // Extract primary color from buttons
-    let primaryColor = null;
-    if (buttons.length > 0) {
-      const buttonColor = getComputedColor(buttons[0], 'background-color');
-      primaryColor = rgbToHex(buttonColor);
-      console.log('Primary color found:', primaryColor);
-    }
-
-    // Extract heading color
-    let headingColor = null;
-    if (headings.length > 0) {
-      const hColor = getComputedColor(headings[0], 'color');
-      headingColor = rgbToHex(hColor);
-      console.log('Heading color:', headingColor);
-    }
-
-    // Extract body background
-    let bodyBgColor = null;
-    if (body) {
-      const bgColor = getComputedColor(body, 'background-color');
-      bodyBgColor = rgbToHex(bgColor);
-      console.log('Body bg color:', bodyBgColor);
-    }
-
-    // Extract link color
-    let linkColor = null;
-    if (links.length > 0) {
-      const lColor = getComputedColor(links[0], 'color');
-      linkColor = rgbToHex(lColor);
-      console.log('Link color:', linkColor);
-    }
+    const findColorBySelectors = (selectors, property) => {
+      for (const selector of selectors) {
+        const elements = iframeDoc.querySelectorAll(selector);
+        for (const el of elements) {
+          const color = getComputedColor(el, property);
+          if (color && color !== 'rgba(0, 0, 0, 0)' && color !== 'transparent') {
+            return rgbToHex(color);
+          }
+        }
+      }
+      return null;
+    };
 
     const colors = {
-      primary: primaryColor || '#ff6b35',
-      darkText: headingColor || '#ffffff',
-      bodyBg: bodyBgColor || '#0f0f0f',
-      linkText: linkColor || '#ff6b35',
-      accent1: primaryColor || '#ff6b35',
-      accent2: linkColor || '#ff6b35'
+      primary: findColorBySelectors([
+        'button:not(.secondary):not(.outline)',
+        '.btn-primary', '.btn:not(.btn-secondary)',
+        '.bg-primary', '.primary',
+        'input[type="submit"]'
+      ], 'background-color'),
+      
+      secondary: findColorBySelectors([
+        '.btn-secondary', 'button.secondary',
+        '.bg-secondary', '.secondary'
+      ], 'background-color'),
+      
+      accent1: findColorBySelectors([
+        '.accent', '.highlight', '.featured',
+        'nav', 'header', '.hero'
+      ], 'background-color'),
+      
+      accent2: findColorBySelectors([
+        '.card', '.box', 'section:nth-child(2)',
+        'footer', '.cta'
+      ], 'background-color'),
+      
+      headingText: findColorBySelectors([
+        'h1', 'h2', 'h3'
+      ], 'color'),
+      
+      bodyText: findColorBySelectors([
+        'p', 'body', '.content'
+      ], 'color'),
+      
+      linkText: findColorBySelectors([
+        'a:not(.btn)', '.link'
+      ], 'color'),
+      
+      background: rgbToHex(getComputedColor(iframeDoc.body, 'background-color'))
     };
+
+    // Filter out null values and provide defaults
+    Object.keys(colors).forEach(key => {
+      if (!colors[key]) {
+        colors[key] = key === 'background' ? '#ffffff' : '#000000';
+      }
+    });
 
     console.log('Extracted colors:', colors);
     setExtractedColors(colors);
@@ -105,11 +100,8 @@ const ColorExtractor = () => {
   };
 
   const applyColorToTemplate = (colorKey, newColor) => {
-    console.log('Applying color:', colorKey, newColor);
-    
     const iframe = document.querySelector('iframe[src*="srcdoc"], iframe[srcdoc]');
-    if (!iframe || !iframe.contentDocument) {
-      console.error('Iframe not found for color application');
+    if (!iframe || !iframe.contentDocument || !iframe.contentDocument.body) {
       return;
     }
 
@@ -127,109 +119,53 @@ const ColorExtractor = () => {
     
     let cssRules = '';
     
-    switch (colorKey) {
-      case 'primary':
-        cssRules = `
-          button:not(.secondary):not(.outline), .btn:not(.btn-secondary):not(.btn-outline), .button:not(.secondary), input[type="submit"], input[type="button"] {
-            background-color: ${newColor} !important;
-          }
-          .bg-primary, .primary-bg, .btn-primary {
-            background-color: ${newColor} !important;
-          }
-          .text-primary, .primary-color {
-            color: ${newColor} !important;
-          }
-          .border-primary {
-            border-color: ${newColor} !important;
-          }
-          /* CSS Variables */
-          :root {
-            --primary-color: ${newColor} !important;
-            --accent-color: ${newColor} !important;
-          }
-        `;
-        break;
-      case 'linkText':
-        cssRules = `
-          a:not(.btn):not(.button) {
-            color: ${newColor} !important;
-          }
-          .link-color {
-            color: ${newColor} !important;
-          }
-          :root {
-            --link-color: ${newColor} !important;
-          }
-        `;
-        break;
-      case 'darkText':
-        cssRules = `
-          h1, h2, h3, h4, h5, h6, .heading {
-            color: ${newColor} !important;
-          }
-          .heading-color, .text-dark {
-            color: ${newColor} !important;
-          }
-          :root {
-            --heading-color: ${newColor} !important;
-            --text-dark: ${newColor} !important;
-          }
-        `;
-        break;
-      case 'bodyBg':
-        cssRules = `
-          body, .main-content, .content {
-            background-color: ${newColor} !important;
-          }
-          :root {
-            --body-bg: ${newColor} !important;
-            --background-color: ${newColor} !important;
-          }
-        `;
-        break;
-      case 'accent1':
-      case 'accent2':
-        cssRules = `
-          .${colorKey}, .accent {
-            color: ${newColor} !important;
-          }
-          .bg-${colorKey}, .bg-accent {
-            background-color: ${newColor} !important;
-          }
-          :root {
-            --${colorKey}: ${newColor} !important;
-          }
-        `;
-        break;
-      default:
-        cssRules = `
-          .${colorKey} {
-            color: ${newColor} !important;
-          }
-          .bg-${colorKey} {
-            background-color: ${newColor} !important;
-          }
-          :root {
-            --${colorKey}: ${newColor} !important;
-          }
-        `;
+    const colorMap = {
+      primary: {
+        bg: ['button:not(.secondary)', '.btn-primary', '.btn:not(.btn-secondary)', '.bg-primary', 'input[type="submit"]'],
+        text: ['.text-primary'],
+        border: ['.border-primary']
+      },
+      secondary: {
+        bg: ['.btn-secondary', 'button.secondary', '.bg-secondary'],
+        text: ['.text-secondary']
+      },
+      accent1: {
+        bg: ['.accent', '.highlight', 'nav', 'header', '.hero', '.bg-accent'],
+        text: ['.text-accent']
+      },
+      accent2: {
+        bg: ['.card', '.box', 'footer', '.cta', '.bg-accent-2'],
+        text: ['.text-accent-2']
+      },
+      headingText: {
+        text: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', '.heading']
+      },
+      bodyText: {
+        text: ['p', 'body', '.content', 'div']
+      },
+      linkText: {
+        text: ['a:not(.btn):not(.button)', '.link']
+      },
+      background: {
+        bg: ['body', '.main-content', '.wrapper']
+      }
+    };
+
+    const config = colorMap[colorKey];
+    if (config) {
+      if (config.bg) cssRules += config.bg.map(s => `${s} { background-color: ${newColor} !important; }`).join('\n');
+      if (config.text) cssRules += config.text.map(s => `${s} { color: ${newColor} !important; }`).join('\n');
+      if (config.border) cssRules += config.border.map(s => `${s} { border-color: ${newColor} !important; }`).join('\n');
+      cssRules += `:root { --${colorKey}: ${newColor} !important; }`;
     }
     
     style.textContent = cssRules;
     iframeDoc.head.appendChild(style);
     
-    // Update extracted colors state
     setExtractedColors(prev => ({
       ...prev,
       [colorKey]: newColor
     }));
-    
-    console.log('Color applied successfully:', colorKey, newColor);
-    
-    // Show toast notification
-    if (typeof window !== 'undefined' && window.showToast) {
-      window.showToast(`${colorKey} color updated!`, 'success');
-    }
   };
 
   // Auto-extract colors when component mounts or iframe loads
@@ -237,9 +173,14 @@ const ColorExtractor = () => {
     // Expose extraction function globally
     window.extractColors = extractColorsFromIframe;
     
-    const timer = setTimeout(() => {
-      extractColorsFromIframe();
-    }, 1000);
+    const checkAndExtract = () => {
+      const iframe = document.querySelector('iframe[src*="srcdoc"], iframe[srcdoc]');
+      if (iframe && iframe.contentDocument && iframe.contentDocument.body) {
+        extractColorsFromIframe();
+      }
+    };
+    
+    const timer = setTimeout(checkAndExtract, 1500);
 
     return () => {
       clearTimeout(timer);
@@ -264,23 +205,21 @@ const ColorExtractor = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="space-y-2">
         {Object.entries(extractedColors).map(([key, color]) => (
           <div key={key} className="flex items-center space-x-2">
-            <div className="flex items-center space-x-2 flex-1">
-              <input
-                type="color"
-                value={color || '#000000'}
-                onChange={(e) => applyColorToTemplate(key, e.target.value)}
-                className="w-6 h-6 rounded border border-gray-300 cursor-pointer"
-              />
-              <div className="flex-1">
-                <div className="text-xs font-medium text-gray-700 capitalize">
-                  {key.replace(/([A-Z])/g, ' $1').trim()}
-                </div>
-                <div className="text-xs text-gray-500 font-mono">
-                  {color || '#000000'}
-                </div>
+            <input
+              type="color"
+              value={color || '#000000'}
+              onChange={(e) => applyColorToTemplate(key, e.target.value)}
+              className="w-8 h-8 rounded border border-gray-300 cursor-pointer flex-shrink-0"
+            />
+            <div className="flex-1 min-w-0">
+              <div className="text-xs font-medium text-gray-700 capitalize">
+                {key.replace(/([A-Z])/g, ' $1').trim()}
+              </div>
+              <div className="text-xs text-gray-500 font-mono truncate">
+                {color || '#000000'}
               </div>
             </div>
           </div>

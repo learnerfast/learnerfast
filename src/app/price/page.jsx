@@ -2,7 +2,7 @@ import Price from "@/components/price";
 import Wrapper from "@/layouts/wrapper";
 
 export const metadata = {
-  title: "Pricing Page - Softec",
+  title: "Pricing Page - LearnerFast",
 };
 
 const PricingPage = () => {

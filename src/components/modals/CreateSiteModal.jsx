@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, CheckCircle, ArrowRight, Image as ImageIcon, Dumbbell, GraduationCap, DollarSign, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const categories = ['All', 'Fitness', 'NGO', 'Education', 'Financial'];
+const categories = ['All', 'Fitness', 'Education', 'Financial'];
 
 const CreateSiteModal = ({
   isOpen,
@@ -46,11 +47,12 @@ const CreateSiteModal = ({
     exit: { opacity: 0, y: 50, scale: 0.95, transition: { duration: 0.2 } },
   };
 
-  return (
+  if (!isOpen) return null;
+
+  return createPortal(
     <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          className="fixed top-0 left-0 right-0 bottom-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
+      <motion.div
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black bg-opacity-50 backdrop-blur-sm"
           initial="hidden"
           animate="visible"
           exit="exit"
@@ -101,7 +103,7 @@ const CreateSiteModal = ({
                     <div className="flex items-center gap-4 mb-6">
                       <button
                         onClick={handleBackToTemplates}
-                        className="p-2 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
+                        className="p-2 rounded-full text-gray-900 font-bold hover:bg-gray-100 transition-colors"
                       >
                         <ArrowRight className="h-5 w-5 rotate-180" />
                       </button>
@@ -119,14 +121,50 @@ const CreateSiteModal = ({
                         key={template.id}
                         onClick={() => handleTemplateSelect(template)}
                         className="group relative bg-white rounded-xl border-2 overflow-hidden transition-all hover:shadow-lg border-gray-200 hover:border-gray-300"
+                        onMouseEnter={(e) => {
+                          const iframe = e.currentTarget.querySelector('iframe');
+                          if (iframe && iframe.contentWindow && iframe.contentWindow.document && iframe.contentWindow.document.documentElement) {
+                            iframe.scrollingDown = true;
+                            iframe.scrollingUp = false;
+                            
+                            const scrollDown = () => {
+                              if (!iframe.scrollingDown || !iframe.contentWindow || !iframe.contentWindow.document || !iframe.contentWindow.document.documentElement) return;
+                              const currentScroll = iframe.contentWindow.scrollY;
+                              const maxScroll = iframe.contentWindow.document.documentElement.scrollHeight - iframe.contentWindow.innerHeight;
+                              if (currentScroll < maxScroll) {
+                                iframe.contentWindow.scrollTo(0, currentScroll + 15);
+                                requestAnimationFrame(scrollDown);
+                              }
+                            };
+                            scrollDown();
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          const iframe = e.currentTarget.querySelector('iframe');
+                          if (iframe && iframe.contentWindow && iframe.contentWindow.document) {
+                            iframe.scrollingDown = false;
+                            iframe.scrollingUp = true;
+                            const scrollUp = () => {
+                              if (!iframe.scrollingUp || !iframe.contentWindow) return;
+                              const currentScroll = iframe.contentWindow.scrollY;
+                              if (currentScroll > 0) {
+                                iframe.contentWindow.scrollTo(0, currentScroll - 20);
+                                requestAnimationFrame(scrollUp);
+                              } else {
+                                iframe.scrollingUp = false;
+                              }
+                            };
+                            scrollUp();
+                          }
+                        }}
                       >
                         <div className="aspect-[3/2] overflow-hidden">
                           <iframe
                             src={`${template.path}index.html`}
-                            className="w-full h-full border-0 scale-50 origin-top-left template-preview pointer-events-none"
-                            style={{ width: '200%', height: '200%' }}
+                            className="w-full h-full border-0 origin-top-left template-preview"
+                            style={{ width: '400%', height: '400%', transform: 'scale(0.25)', minWidth: '1366px' }}
                             title={`Preview of ${template.name}`}
-                            scrolling="no"
+                            scrolling="yes"
                           />
                         </div>
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
@@ -145,7 +183,8 @@ const CreateSiteModal = ({
                       <div className="h-96 bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-200">
                         <iframe
                           src={`${selectedTemplate.path}index.html`}
-                          className="w-full h-full border-0"
+                          className="w-full h-full border-0 origin-top-left"
+                          style={{ width: '200%', height: '200%', transform: 'scale(0.5)', minWidth: '1366px' }}
                           title={`Preview of ${selectedTemplate.name}`}
                           scrolling="yes"
                         />
@@ -194,8 +233,8 @@ const CreateSiteModal = ({
             </div>
           </motion.div>
         </motion.div>
-      )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

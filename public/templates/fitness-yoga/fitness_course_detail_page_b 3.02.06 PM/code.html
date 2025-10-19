@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Course Detail</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1193d4",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "foreground-light": "#111618",
+                        "foreground-dark": "#f0f3f4",
+                        "subtle-light": "#617c89",
+                        "subtle-dark": "#a0b1b9",
+                        "border-light": "#dbe2e6",
+                        "border-dark": "#3a4a52",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .custom-checkbox:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-foreground-light dark:text-foreground-dark">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="w-full border-b border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark/80 backdrop-blur-sm sticky top-0 z-50">
+<div class="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
+<div class="flex items-center gap-4">
+<svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_543)">
+<path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M7.24189 26.4066C7.31369 26.4411 7.64204 26.5637 8.52504 26.3738C9.59462 26.1438 11.0343 25.5311 12.7183 24.4963C14.7583 23.2426 17.0256 21.4503 19.238 19.238C21.4503 17.0256 23.2426 14.7583 24.4963 12.7183C25.5311 11.0343 26.1438 9.59463 26.3738 8.52504C26.5637 7.64204 26.4411 7.31369 26.4066 7.24189C26.345 7.21246 26.143 7.14535 25.6664 7.1918C24.9745 7.25925 23.9954 7.5498 22.7699 8.14278C20.3369 9.32007 17.3369 11.4915 14.4142 14.4142C11.4915 17.3369 9.32007 20.3369 8.14278 22.7699C7.5498 23.9954 7.25925 24.9745 7.1918 25.6664C7.14534 26.143 7.21246 26.345 7.24189 26.4066ZM29.9001 10.7285C29.4519 12.0322 28.7617 13.4172 27.9042 14.8126C26.465 17.1544 24.4686 19.6641 22.0664 22.0664C19.6641 24.4686 17.1544 26.465 14.8126 27.9042C13.4172 28.7617 12.0322 29.4519 10.7285 29.9001L21.5754 40.747C21.6001 40.7606 21.8995 40.931 22.8729 40.7217C23.9424 40.4916 25.3821 39.879 27.0661 38.8441C29.1062 37.5904 31.3734 35.7982 33.5858 33.5858C35.7982 31.3734 37.5904 29.1062 38.8441 27.0661C39.879 25.3821 40.4916 23.9425 40.7216 22.8729C40.931 21.8995 40.7606 21.6001 40.747 21.5754L29.9001 10.7285ZM29.2403 4.41187L43.5881 18.7597C44.9757 20.1473 44.9743 22.1235 44.6322 23.7139C44.2714 25.3919 43.4158 27.2666 42.252 29.1604C40.8128 31.5022 38.8165 34.012 36.4142 36.4142C34.012 38.8165 31.5022 40.8128 29.1604 42.252C27.2666 43.4158 25.3919 44.2714 23.7139 44.6322C22.1235 44.9743 20.1473 44.9757 18.7597 43.5881L4.41187 29.2403C3.29027 28.1187 3.08209 26.5973 3.21067 25.2783C3.34099 23.9415 3.8369 22.4852 4.54214 21.0277C5.96129 18.0948 8.43335 14.7382 11.5858 11.5858C14.7382 8.43335 18.0948 5.9613 21.0277 4.54214C22.4852 3.8369 23.9415 3.34099 25.2783 3.21067C26.5973 3.08209 28.1187 3.29028 29.2403 4.41187Z" fill="currentColor" fill-rule="evenodd"></path>
+</g>
+<defs>
+<clipPath id="clip0_6_543">
+<rect fill="white" height="48" width="48"></rect>
+</clipPath>
+</defs>
+</svg>
+<h2 class="text-xl font-bold">FitLife</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">About</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-white text-sm font-bold rounded-lg px-4 py-2 hover:bg-primary/90 transition-colors hidden sm:block">Enroll Now</button>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full h-10 w-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCDZD5Ty1FrGn4ekR17g_0s58kUsEP60ddCVHQRo7LTnLYNhw9W2j9UieWa3G8vy96djXcvL47cuJqQmRjzMO9RsDt7OEA8GGy2pEqKTg_b5Qah2_ou5eH8pu1SEptWrUl6Mcb7s1RdzlYH8tCjCkwaVzvk7saSEMhW7E71wUSYvKulaNFK6e0FQEUHFpx6Jp0UnGjvYpSFvtzT8MpAStS2E1MUtPerkOYJ4m1-QAWUEaM7p8b3E_6mXj0RzsJpQTUyZss5_D252A");'></div>
+</div>
+</div>
+</header>
+<main class="flex-1">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="max-w-4xl mx-auto">
+<div class="w-full aspect-video rounded-xl overflow-hidden mb-8">
+<div class="w-full h-full bg-center bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuARgAJxxxCOZq22v8RiQVMT-MHlD-Cx5wLR38VeI6Tfge4bcdxedlOytiGEAUglYLf35_CkRFMDUXOyqn0HAoW4ji0ZeyzXP7Rv3HPA4o2l6fVJ4ghEmwUlXXTDoE8nA-nWlXNZjYEYvNGYsRxKPPW_N_rWr-tEr6fxwjIZ1H5w3K3D36m_hr5ZLBldI8zh4Jb1Kg519nTmKDbSaMqlgXrd5JgC0qPtYIPvT4W_T_VBUx8TA3Woe8M-MQBWfeHqYONA6zyQdG87ig");'></div>
+</div>
+<div class="space-y-10">
+<section>
+<h1 class="text-4xl font-bold mb-4">Yoga for Beginners</h1>
+<p class="text-lg text-subtle-light dark:text-subtle-dark">This course is designed for individuals new to yoga, focusing on foundational poses, breathing techniques, and mindfulness practices. Participants will learn to build strength, flexibility, and balance while reducing stress and improving overall well-being.</p>
+</section>
+<section>
+<h2 class="text-3xl font-bold mb-6">What You'll Learn</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="custom-checkbox h-5 w-5 rounded border-2 border-border-light dark:border-border-dark bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 transition" type="checkbox"/>
+<span class="text-base">Master basic yoga poses</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="custom-checkbox h-5 w-5 rounded border-2 border-border-light dark:border-border-dark bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 transition" type="checkbox"/>
+<span class="text-base">Improve flexibility and balance</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="custom-checkbox h-5 w-5 rounded border-2 border-border-light dark:border-border-dark bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 transition" type="checkbox"/>
+<span class="text-base">Learn breathing techniques</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="custom-checkbox h-5 w-5 rounded border-2 border-border-light dark:border-border-dark bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 transition" type="checkbox"/>
+<span class="text-base">Develop mindfulness practices</span>
+</label>
+</div>
+</section>
+<section>
+<h2 class="text-3xl font-bold mb-6">Meet Your Instructor</h2>
+<div class="flex flex-col sm:flex-row items-center gap-6 p-6 bg-background-light dark:bg-background-dark rounded-xl border border-border-light dark:border-border-dark">
+<div class="w-32 h-32 rounded-full overflow-hidden flex-shrink-0">
+<div class="w-full h-full bg-center bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCtpOSpKUlynIQCp6lphCP86rkgeJnRkqzpgHg_MsUjq7KQQhz1YzYamvF0mAjpllg03_-psF88BJjIaAzLKCAz99rDCfTN3zOWIGVJqwqXXz16Lb7e3OqmsHe0SLkL6q_Zl_1A1oW7_iPxlqqqrLvzu7Tr6LxCpRcda3c11mvZf7qfrAM8DfXRmkVcSYXmxru0vIKwuAU0YWOEWTVt6sZoyT_u-pMn1AbV6Ld-rSIFcpQmZEF8O4-iqcqec5B_gMk_SaO_DFEz4w");'></div>
+</div>
+<div class="text-center sm:text-left">
+<h3 class="text-2xl font-bold">Sarah Miller</h3>
+<p class="text-primary font-medium mb-2">Certified Yoga Instructor</p>
+<p class="text-subtle-light dark:text-subtle-dark">Sarah Miller is a certified yoga instructor with over 10 years of experience. She specializes in beginner-friendly yoga and mindfulness practices, helping students of all levels achieve their fitness and wellness goals.</p>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-3xl font-bold mb-6">Course Curriculum</h2>
+<div class="space-y-4">
+<details class="group rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark overflow-hidden" open="">
+<summary class="flex cursor-pointer items-center justify-between p-4 bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+<h3 class="text-lg font-medium">Week 1: Introduction to Yoga</h3>
+<div class="transform transition-transform duration-300 group-open:rotate-180">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+</summary>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<p class="text-subtle-light dark:text-subtle-dark">This week covers the basics of yoga, including proper alignment, breathing techniques, and an introduction to common poses.</p>
+</div>
+</details>
+<details class="group rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark overflow-hidden">
+<summary class="flex cursor-pointer items-center justify-between p-4 bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+<h3 class="text-lg font-medium">Week 2: Foundational Poses</h3>
+<div class="transform transition-transform duration-300 group-open:rotate-180">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+</summary>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<p class="text-subtle-light dark:text-subtle-dark">Dive deeper into fundamental yoga poses, focusing on building strength, stability, and body awareness. We'll break down each pose to ensure safe and effective practice.</p>
+</div>
+</details>
+<details class="group rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark overflow-hidden">
+<summary class="flex cursor-pointer items-center justify-between p-4 bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+<h3 class="text-lg font-medium">Week 3: Breathing and Mindfulness</h3>
+<div class="transform transition-transform duration-300 group-open:rotate-180">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+</summary>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<p class="text-subtle-light dark:text-subtle-dark">Explore the power of pranayama (breathing techniques) and meditation to calm the mind, reduce stress, and cultivate a deeper connection to the present moment.</p>
+</div>
+</details>
+</div>
+</section>
+<section class="text-center pt-8">
+<button class="bg-primary text-white text-lg font-bold rounded-xl px-8 py-4 hover:bg-primary/90 transition-transform transform hover:scale-105">
+                                Enroll Now and Start Your Journey
+                            </button>
+</section>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

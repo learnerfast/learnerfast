@@ -1,370 +1,229 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AcademyPro - Professional Course Platform | Expert-Led Learning</title>
-    <meta name="description" content="Transform your career with expert-led courses in technology, business, and professional development. Join thousands of professionals advancing their skills.">
-    <meta name="keywords" content="online courses, professional development, technology training, business skills, certification">
-    <meta name="author" content="AcademyPro">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://academypro.com/">
-    <meta property="og:title" content="AcademyPro - Professional Course Platform">
-    <meta property="og:description" content="Transform your career with expert-led courses in technology, business, and professional development.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://academypro.com/">
-    <meta property="twitter:title" content="AcademyPro - Professional Course Platform">
-    <meta property="twitter:description" content="Transform your career with expert-led courses in technology, business, and professional development.">
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=630">
-    
-    <link rel="canonical" href="https://academypro.com/">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "EducationalOrganization",
-      "name": "AcademyPro",
-      "description": "Professional course platform offering expert-led training in technology, business, and professional development",
-      "url": "https://academypro.com",
-      "logo": "https://academypro.com/logo.png",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+1-555-123-4567",
-        "contactType": "customer service"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "San Francisco",
-        "addressRegion": "CA",
-        "addressCountry": "US"
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CodeCraft Academy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#1173d4",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+          },
+        },
+      };
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
       }
-    }
-    </script>
+    </style>
 </head>
-<body>
-    <header class="header" role="banner">
-        <nav class="navbar" role="navigation" aria-label="Main navigation">
-            <div class="nav-container">
-                <a href="index.html" class="logo" aria-label="AcademyPro Home">
-                    <span class="logo-text">AcademyPro</span>
-                </a>
-                
-                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                
-                <ul class="nav-links" role="menubar">
-                    <li role="none"><a href="index.html" role="menuitem" aria-current="page">Home</a></li>
-                    <li role="none"><a href="about.html" role="menuitem">About</a></li>
-                    <li role="none"><a href="courses.html" role="menuitem">Courses</a></li>
-                    <li role="none"><a href="contact.html" role="menuitem">Contact</a></li>
-                </ul>
-                
-                <div class="nav-actions">
-                    <a href="signin.html" class="btn btn-outline">Sign In</a>
-                    <a href="register.html" class="btn btn-primary">Get Started</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Academic Pro</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<section class="relative">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent"></div>
+<div class="h-[60vh] min-h-[500px] bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBhwPaKGOhocQrN9aSkjFxMgUsfYvktnGyAPGmVX05lYXmKf4EAh7qnU8QwcOGvC1_aVAEC0PZC-rx4E-_nIpxvx9s7e8cmFC_zAIQQjgOleG-f4-_avLygST_T9-cdbrv7N8SjOWSONAn84t53ebJpw34m_CtlTfpRChYy8ix87X0Y1gI7aim-zBulsHYn5Wlbo59LO28RHU5ivn7Es6uuTynnmJJmYRdH5p_2FexVVFi73_hycKXa_1Sn_Q-dSJQIbiCgNtH8yk7Y");'></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="container mx-auto px-4 text-center text-white">
+<h1 class="text-4xl font-black leading-tight tracking-tight md:text-6xl">Master the Skills of Tomorrow</h1>
+<p class="mx-auto mt-4 max-w-2xl text-lg text-slate-200">Unlock your potential with our expert-led programming courses. Learn from industry leaders and build a career in tech.</p>
+<button class="mt-8 rounded-lg bg-primary px-6 py-3 text-base font-bold text-white shadow-lg transition-transform hover:scale-105">Explore Courses</button>
+</div>
+</div>
+</section>
+<section class="py-16 sm:py-24">
+<div class="container mx-auto px-4">
+<h2 class="mb-12 text-center text-3xl font-bold text-slate-900 dark:text-white">Popular Courses</h2>
+<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+<div class="group transform overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl dark:bg-slate-800/50">
+<img alt="Software Development" class="h-48 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNAWWrx8RATmLJ1fVuWzFQWRKMxksv8uwqGJP4tvt6pkxk62uq66mxM9OsY8SEIekc6jTz-M8sy--5uYF_gYgizu1RkvhDwgtpwGdUDBA5U7MG0T7Lhu7GqPAIf0Qg7gLv0kKUyNmGTKehBgNG_YcsCkOfMpNa3S7otwv4SV2mGgzQyy7bGD7k7KHXSSPMkp04BLsXQVk0qH4-BwV1DqiDv4IgfRAv2pdmXZp7D0WI3-moKrWEsNK4zSP4g5uRzO6tKpJp6Fa5sWR0"/>
+<div class="p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Software Development Fundamentals</h3>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Learn the basics of software engineering and build your first application.</p>
+</div>
+</div>
+<div class="group transform overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl dark:bg-slate-800/50">
+<img alt="Data Science" class="h-48 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAH-CPyGTb6lzFRNo0V_alqZnN61ACLwTX7O2i8Z1HbW6geCJRKemKeKHx2bBQkXeTIZA4JpcxWAtTwHwgeBhQVmwnzApIXu89QiKJhpmE8308QjlEcUSBBsd5kmDwAS7z8G8QAC2JtZpG2hLyMssapR9WIbtbie8AiBJ7nzcDo3anOUG-VLE-xYYYY-myEXEnsdJxkEUk-pzGw3VrxzpeoVwYU6ndxaBaMF-lNPzgTc0cRtsx8ENODiwH08dQ7CYUNMk8cL2oS9w4V"/>
+<div class="p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Data Science Essentials</h3>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Dive into data analysis, machine learning, and visualization techniques.</p>
+</div>
+</div>
+<div class="group transform overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl dark:bg-slate-800/50">
+<img alt="Web Development" class="h-48 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaFOJH3Twnl7WgBTm0o1BHmoBxFGnFEjYuD8hPxPbD2tcCSqxt1XRcPuoLwcYnCoourpEzOU94nJCRjpzHfLFK-mcHjz8p5WWPmEIw54L-ob79X5L8ivb6VhXQLc9DlIFM_aBut0RPzc7wNJlcCjgr9Dy42yQSrSDFdIN907UiGwgh-L2JCgq4gI1JY6qg8iZ_GmG_LUyiH3cO0WDcGq8RaLUY3-0KbLOMYS_X6L4kbzgbM1QtrAQHfsdE5sbTgceGUEIyivrTQL4d"/>
+<div class="p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Web Development Bootcamp</h3>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Become a full-stack web developer with hands-on projects.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-background-light py-16 dark:bg-slate-800/30 sm:py-24">
+<div class="container mx-auto px-4">
+<h2 class="mb-12 text-center text-3xl font-bold text-slate-900 dark:text-white">What Our Students Say</h2>
+<div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+<div class="rounded-xl bg-white p-6 shadow-md dark:bg-slate-800">
+<div class="flex items-center gap-4">
+<img alt="Ethan Carter" class="h-12 w-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnqsuLcyxGpkpGJcAWqLsE2MEtf7DrTeKnMbDhE--lmMjktKasNvNQKvWix5xPyoxvmR17HA3LVdm9hwUQDuKtOpZINkuRedHMy-Sp675YTDy2sw7zP_oH2ueuyw3xMw4ZBrN5YX1EUk79QShG_BuMZ-4oQxC8IzI__II69f2ueifmHtJDrdrWBt4Pitwqd6ku4kYyQ4tkB66xX1xjZzN8sQnuV8JRGNnnLvzw6SqZ8t5Wq5sE0MblyLUphz244LMtkIp8GG9Et_bf"/>
+<div>
+<p class="font-semibold text-slate-900 dark:text-white">Ethan Carter</p>
+<div class="flex text-yellow-400"><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span></div>
+</div>
+</div>
+<p class="mt-4 text-slate-600 dark:text-slate-300">"CodeCraft Academy transformed my career. The instructors are top-notch, and the curriculum is incredibly practical. I landed a job at a leading tech company within months."</p>
+</div>
+<div class="rounded-xl bg-white p-6 shadow-md dark:bg-slate-800">
+<div class="flex items-center gap-4">
+<img alt="Sophia Bennett" class="h-12 w-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAfiSLUeGb1I2uQO6hPj3Zxy3iGzvDHGXEhUh0aEbPlITZwJN4M4ZUbhNSanOCKD9MTaCI8DhYEQTB0ELSba0G_C2uLonnwNM7FpkL-wNTo8rzUCR95NaQN5LCxc6s9to4GFT-vfawJGHOiYgMJ8hTMf2H3a39nbvLzzTIiEp4aLQX330MYmI-v9hq19pbNVCBhyus-YkGrr4IeMtDdwnlukrAXT_G1te80apYCCgAvBU3jPuwCbZb8pS5pJM0pteEXCAh3bg2Xe8Z"/>
+<div>
+<p class="font-semibold text-slate-900 dark:text-white">Sophia Bennett</p>
+<div class="flex text-yellow-400"><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span></div>
+</div>
+</div>
+<p class="mt-4 text-slate-600 dark:text-slate-300">"I was hesitant to switch careers, but CodeCraft Academy made it seamless. The support and resources provided were exceptional, and I now work as a data scientist."</p>
+</div>
+<div class="rounded-xl bg-white p-6 shadow-md dark:bg-slate-800">
+<div class="flex items-center gap-4">
+<img alt="Liam Harper" class="h-12 w-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRiDCjEPuImQlle9VKCVzHlAtkzszOgVDsULbBFFoGoE6c-fDzHw_YYzV5-esiGW5f0_WDhLtuiV-joQmEgvF-8lgFMOL0vwk0HqTuv8Ldqw-bWRXRAffpvQwc9Rx7Pvnrz5jcwueucMG5FXY-UMuto_w3S0V3Bp_02r53Iz4DuoNc5S1aqBkNKY0PAjQeQpGfsQAXiSLqQl-U5YoVvcKVKpVuwcTxIt5gyR1cydxSqNEiLUjgTlVffdE9rj3gS0syIzhCdc6WrWfl"/>
+<div>
+<p class="font-semibold text-slate-900 dark:text-white">Liam Harper</p>
+<div class="flex text-yellow-400"><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base">star</span><span class="material-symbols-outlined !text-base text-slate-300 dark:text-slate-500">star</span></div>
+</div>
+</div>
+<p class="mt-4 text-slate-600 dark:text-slate-300">"The web development bootcamp was intense but rewarding. The hands-on projects and mentorship were invaluable. I'm now building websites for clients."</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 sm:py-24">
+<div class="container mx-auto px-4">
+<div class="text-center">
+<h2 class="text-3xl font-bold text-slate-900 dark:text-white">Why Choose CodeCraft Academy?</h2>
+<p class="mx-auto mt-4 max-w-3xl text-slate-600 dark:text-slate-300">Our courses are designed to provide you with the skills and knowledge needed to succeed in today's competitive tech industry. With a focus on practical, hands-on learning, you'll be ready to tackle real-world challenges from day one.</p>
+</div>
+<div class="mt-16 grid grid-cols-1 gap-12 md:grid-cols-3">
+<div class="text-center">
+<div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20"><span class="material-symbols-outlined !text-3xl">school</span></div>
+<h3 class="mt-6 text-lg font-bold text-slate-900 dark:text-white">Expert Instructors</h3>
+<p class="mt-2 text-slate-600 dark:text-slate-400">Learn from industry veterans with years of experience in software development and data science.</p>
+</div>
+<div class="text-center">
+<div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20"><span class="material-symbols-outlined !text-3xl">groups</span></div>
+<h3 class="mt-6 text-lg font-bold text-slate-900 dark:text-white">Community Support</h3>
+<p class="mt-2 text-slate-600 dark:text-slate-400">Join a vibrant community of learners, mentors, and alumni for collaboration and support.</p>
+</div>
+<div class="text-center">
+<div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary dark:bg-primary/20"><span class="material-symbols-outlined !text-3xl">workspace_premium</span></div>
+<h3 class="mt-6 text-lg font-bold text-slate-900 dark:text-white">Recognized Certification</h3>
+<p class="mt-2 text-slate-600 dark:text-slate-400">Earn a certificate upon completion, recognized by leading tech companies and employers.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-background-light dark:bg-background-dark/30 border-t border-slate-200 dark:border-slate-800">
+<div class="container mx-auto px-4 py-12 lg:px-8">
+<div class="grid grid-cols-1 gap-12 md:grid-cols-4 lg:grid-cols-5">
+<div class="md:col-span-4 lg:col-span-2">
+<div class="flex items-center gap-3">
+<svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z" fill="currentColor"></path>
+</svg>
+<h2 class="text-xl font-bold text-slate-900 dark:text-white">CodeCraft</h2>
+</div>
+<p class="mt-4 max-w-sm text-sm text-slate-600 dark:text-slate-400">Empowering the next generation of tech leaders through accessible, expert-led programming education.</p>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white">Quick Links</h3>
+<ul class="mt-4 space-y-3">
+<li><a class="text-sm text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Courses</a></li>
+<li><a class="text-sm text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">About Us</a></li>
+<li><a class="text-sm text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Blog</a></li>
+<li><a class="text-sm text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Careers</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white">Legal</h3>
+<ul class="mt-4 space-y-3">
+<li><a class="text-sm text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Terms of Service</a></li>
+<li><a class="text-sm text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Privacy Policy</a></li>
+<li><a class="text-sm text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-slate-900 dark:text-white">Contact Us</h3>
+<ul class="mt-4 space-y-3">
+<li class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined !text-base">email</span>
+<span>support@codecraft.com</span>
+</li>
+<li class="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined !text-base">phone</span>
+<span>+1 (555) 123-4567</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="mt-12 border-t border-slate-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+<p class="text-sm text-slate-500 dark:text-slate-400 text-center md:text-left">© 2024 CodeCraft Academy. All rights reserved.</p>
+<div class="flex items-center gap-4">
+<a class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+</a>
+<a class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12.019c0 4.438 2.865 8.229 6.838 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.942.359.308.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12.019C22 6.477 17.523 2 12 2z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM6.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 6 6.5 6s1.5.67 1.5 1.5S7.33 9 6.5 9zm4.5 9H9V10h2v8zm5.5 0h-2v-4.25c0-.62-.25-1-1-1-.75 0-1 .38-1 1V18h-2V10h2v1.25c.38-.62 1-1.25 2-1.25 1.5 0 2.5 1 2.5 3V18z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
 
-    <main role="main">
-        <section class="hero" aria-labelledby="hero-title">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <span>Trusted by 50,000+ Professionals</span>
-                    </div>
-                    <h1 id="hero-title" class="hero-title">
-                        Master Skills That Matter
-                    </h1>
-                    <p class="hero-description">
-                        Advance your career with expert-led courses designed for working professionals. 
-                        Learn from industry leaders and gain practical skills you can apply immediately.
-                    </p>
-                    <div class="hero-actions">
-                        <a href="courses.html" class="btn btn-primary btn-large">
-                            Browse Courses
-                        </a>
-                        <a href="about.html" class="btn btn-outline btn-large">
-                            Learn More
-                        </a>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
-                         alt="Professional learning environment with students collaborating" 
-                         loading="eager">
-                </div>
-            </div>
-        </section>
-
-        <section class="trust-section" aria-labelledby="trust-title">
-            <div class="container">
-                <h2 id="trust-title" class="trust-title">Trusted by Leading Companies</h2>
-                <div class="trust-logos">
-                    <div class="trust-logo">Google</div>
-                    <div class="trust-logo">Microsoft</div>
-                    <div class="trust-logo">Amazon</div>
-                    <div class="trust-logo">Apple</div>
-                    <div class="trust-logo">Meta</div>
-                    <div class="trust-logo">Netflix</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="courses-section" aria-labelledby="courses-title">
-            <div class="container">
-                <div class="section-header">
-                    <h2 id="courses-title" class="section-title">Featured Courses</h2>
-                    <p class="section-subtitle">
-                        Carefully curated courses taught by industry experts to help you advance your career.
-                    </p>
-                </div>
-                
-                <div class="courses-grid">
-                    <article class="course-card">
-                        <div class="course-image">
-                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
-                                 alt="Data Science course" loading="lazy">
-                            <div class="course-level">Intermediate</div>
-                        </div>
-                        <div class="course-content">
-                            <h3 class="course-title">Data Science Fundamentals</h3>
-                            <p class="course-description">
-                                Master Python, statistics, and machine learning to extract insights from data and drive business decisions.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration">12 weeks</span>
-                                <span class="course-students">2,847 students</span>
-                            </div>
-                            <div class="course-footer">
-                                <div class="course-price">$299</div>
-                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </article>
-                    
-                    <article class="course-card">
-                        <div class="course-image">
-                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
-                                 alt="Digital Marketing course" loading="lazy">
-                            <div class="course-level">Beginner</div>
-                        </div>
-                        <div class="course-content">
-                            <h3 class="course-title">Digital Marketing Strategy</h3>
-                            <p class="course-description">
-                                Learn to create effective digital marketing campaigns across social media, email, and search platforms.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration">8 weeks</span>
-                                <span class="course-students">4,123 students</span>
-                            </div>
-                            <div class="course-footer">
-                                <div class="course-price">$199</div>
-                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </article>
-                    
-                    <article class="course-card">
-                        <div class="course-image">
-                            <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
-                                 alt="Project Management course" loading="lazy">
-                            <div class="course-level">Advanced</div>
-                        </div>
-                        <div class="course-content">
-                            <h3 class="course-title">Agile Project Management</h3>
-                            <p class="course-description">
-                                Master agile methodologies and lead high-performing teams to deliver projects on time and within budget.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration">10 weeks</span>
-                                <span class="course-students">1,956 students</span>
-                            </div>
-                            <div class="course-footer">
-                                <div class="course-price">$399</div>
-                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                
-                <div class="section-footer">
-                    <a href="courses.html" class="btn btn-outline btn-large">View All Courses</a>
-                </div>
-            </div>
-        </section>
-        
-        <section class="testimonials-section" aria-labelledby="testimonials-title">
-            <div class="container">
-                <h2 id="testimonials-title" class="section-title">What Our Students Say</h2>
-                
-                <div class="testimonials-grid">
-                    <blockquote class="testimonial">
-                        <p class="testimonial-text">
-                            "The Data Science course completely transformed my career. The practical approach and real-world projects gave me the confidence to transition into a data analyst role."
-                        </p>
-                        <footer class="testimonial-author">
-                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60" 
-                                 alt="Sarah Chen" class="author-avatar">
-                            <div class="author-info">
-                                <cite class="author-name">Sarah Chen</cite>
-                                <div class="author-title">Data Analyst at Microsoft</div>
-                            </div>
-                        </footer>
-                    </blockquote>
-                    
-                    <blockquote class="testimonial">
-                        <p class="testimonial-text">
-                            "Excellent instructors and well-structured content. The project management course helped me lead my team more effectively and deliver better results."
-                        </p>
-                        <footer class="testimonial-author">
-                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=60&h=60" 
-                                 alt="Michael Rodriguez" class="author-avatar">
-                            <div class="author-info">
-                                <cite class="author-name">Michael Rodriguez</cite>
-                                <div class="author-title">Senior PM at Google</div>
-                            </div>
-                        </footer>
-                    </blockquote>
-                </div>
-            </div>
-        </section>
-        
-        <section class="instructor-section" aria-labelledby="instructor-title">
-            <div class="container">
-                <div class="instructor-content">
-                    <div class="instructor-text">
-                        <h2 id="instructor-title" class="section-title">Learn from Industry Experts</h2>
-                        <p class="section-subtitle">
-                            Our instructors are seasoned professionals from leading companies who bring real-world experience to every lesson.
-                        </p>
-                        <div class="instructor-stats">
-                            <div class="stat">
-                                <div class="stat-number">150+</div>
-                                <div class="stat-label">Expert Instructors</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">15+</div>
-                                <div class="stat-label">Years Average Experience</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-number">95%</div>
-                                <div class="stat-label">Student Satisfaction</div>
-                            </div>
-                        </div>
-                        <a href="about.html" class="btn btn-outline">Meet Our Team</a>
-                    </div>
-                    <div class="instructor-image">
-                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400" 
-                             alt="Professional instructor teaching" loading="lazy">
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer" role="contentinfo">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3 class="footer-title">AcademyPro</h3>
-                <p class="footer-description">
-                    Empowering professionals worldwide with expert-led courses and practical skills for career advancement.
-                </p>
-                <div class="social-links">
-                    <a href="#" aria-label="Follow us on LinkedIn">LinkedIn</a>
-                    <a href="#" aria-label="Follow us on Twitter">Twitter</a>
-                    <a href="#" aria-label="Follow us on YouTube">YouTube</a>
-                </div>
-            </div>
-            
-            <div class="footer-section">
-                <h4 class="footer-heading">Courses</h4>
-                <ul class="footer-links">
-                    <li><a href="courses.html">All Courses</a></li>
-                    <li><a href="#">Technology</a></li>
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Design</a></li>
-                    <li><a href="#">Marketing</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4 class="footer-heading">Company</h4>
-                <ul class="footer-links">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4 class="footer-heading">Support</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Accessibility</a></li>
-                    <li><a href="#">Sitemap</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 AcademyPro. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        mobileMenuToggle.addEventListener('click', () => {
-            const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
-            mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
-            navLinks.classList.toggle('active');
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-        
-        // Focus management for accessibility
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                    mobileMenuToggle.focus();
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+</body></html>

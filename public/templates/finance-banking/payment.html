@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#7f13ec",
+              "background-light": "#f7f6f8",
+              "background-dark": "#191022",
+            },
+            fontFamily: {
+              display: ["Space Grotesk"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+      .bg-grid-pattern {
+        background-image: linear-gradient(to right, rgba(127, 19, 236, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(127, 19, 236, 0.1) 1px, transparent 1px);
+        background-size: 2rem 2rem;
+      }
+      .dark .bg-grid-pattern {
+        background-image: linear-gradient(to right, rgba(127, 19, 236, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(127, 19, 236, 0.2) 1px, transparent 1px);
+      }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-black dark:text-white">
+<div class="relative min-h-screen">
+<div class="absolute inset-0 bg-grid-pattern"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background-light dark:to-background-dark"></div>
+<div class="relative z-10 flex flex-col min-h-screen">
+<header class="container mx-auto px-6 py-4">
+<div class="flex items-center justify-between">
+<a class="flex items-center gap-3 text-black dark:text-white" href="#">
+<svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold">Finance Future</h2>
+</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">About</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-sm font-bold bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 dark:hover:bg-primary/30 text-primary px-4 py-2 rounded-lg transition-colors">
+                Sign In
+              </button>
+</div>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center py-12 px-4">
+<div class="w-full max-w-2xl mx-auto">
+<div class="bg-background-light dark:bg-background-dark/50 border border-primary/20 rounded-xl shadow-2xl shadow-primary/10 backdrop-blur-sm overflow-hidden">
+<div class="p-8 md:p-12">
+<h1 class="text-4xl font-bold text-center mb-2">Payment</h1>
+<p class="text-center text-black/60 dark:text-white/60 mb-8">Secure your spot in the future of finance.</p>
+<div class="mb-8">
+<div class="flex border-b border-primary/20">
+<button class="flex-1 py-3 text-sm font-medium text-center border-b-2 border-primary text-primary transition-colors">Credit Card</button>
+<button class="flex-1 py-3 text-sm font-medium text-center text-black/50 dark:text-white/50 hover:text-primary transition-colors">PayPal</button>
+<button class="flex-1 py-3 text-sm font-medium text-center text-black/50 dark:text-white/50 hover:text-primary transition-colors">G Pay</button>
+<button class="flex-1 py-3 text-sm font-medium text-center text-black/50 dark:text-white/50 hover:text-primary transition-colors">Apple Pay</button>
+</div>
+</div>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="md:col-span-2">
+<label class="block text-sm font-medium mb-2" for="card-number">Card Number</label>
+<input class="form-input w-full bg-background-light/50 dark:bg-background-dark/50 border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:border-primary rounded transition-all placeholder:text-black/40 dark:placeholder:text-white/40" id="card-number" placeholder="0000 0000 0000 0000" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2" for="expiry-date">Expiry Date</label>
+<input class="form-input w-full bg-background-light/50 dark:bg-background-dark/50 border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:border-primary rounded transition-all placeholder:text-black/40 dark:placeholder:text-white/40" id="expiry-date" placeholder="MM / YY" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2" for="cvv">CVV</label>
+<input class="form-input w-full bg-background-light/50 dark:bg-background-dark/50 border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:border-primary rounded transition-all placeholder:text-black/40 dark:placeholder:text-white/40" id="cvv" placeholder="123" type="text"/>
+</div>
+<div class="md:col-span-2">
+<label class="block text-sm font-medium mb-2" for="name-on-card">Name on Card</label>
+<input class="form-input w-full bg-background-light/50 dark:bg-background-dark/50 border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:border-primary rounded transition-all placeholder:text-black/40 dark:placeholder:text-white/40" id="name-on-card" placeholder="Your Name" type="text"/>
+</div>
+<div class="md:col-span-2">
+<label class="block text-sm font-medium mb-2" for="billing-address">Billing Address</label>
+<input class="form-input w-full bg-background-light/50 dark:bg-background-dark/50 border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:border-primary rounded transition-all placeholder:text-black/40 dark:placeholder:text-white/40" id="billing-address" placeholder="123 Future Street" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2" for="city">City</label>
+<input class="form-input w-full bg-background-light/50 dark:bg-background-dark/50 border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:border-primary rounded transition-all placeholder:text-black/40 dark:placeholder:text-white/40" id="city" placeholder="New Retroville" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium mb-2" for="postal-code">Postal Code</label>
+<input class="form-input w-full bg-background-light/50 dark:bg-background-dark/50 border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:border-primary rounded transition-all placeholder:text-black/40 dark:placeholder:text-white/40" id="postal-code" placeholder="1985" type="text"/>
+</div>
+<div class="md:col-span-2">
+<label class="block text-sm font-medium mb-2" for="country">Country</label>
+<select class="form-select w-full bg-background-light/50 dark:bg-background-dark/50 border-primary/20 dark:border-primary/30 focus:ring-2 focus:ring-primary focus:border-primary rounded transition-all text-black/80 dark:text-white/80" id="country">
+<option>United States</option>
+<option>Canada</option>
+<option>United Kingdom</option>
+<option>Australia</option>
+</select>
+</div>
+<div class="md:col-span-2 mt-4">
+<button class="w-full bg-primary text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-all transform hover:scale-105 shadow-lg shadow-primary/30" type="submit">
+                      Complete Purchase
+                    </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</main>
+<footer class="w-full py-8 px-4 text-center">
+<div class="container mx-auto border-t border-primary/20 pt-8">
+<div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-4">
+<a class="text-sm text-black/60 dark:text-white/60 hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-sm text-black/60 dark:text-white/60 hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-black/60 dark:text-white/60 hover:text-primary transition-colors" href="#">Contact Us</a>
+</div>
+<p class="text-sm text-black/50 dark:text-white/50">© 2024 Finance Future. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</div>
+
+</body></html>

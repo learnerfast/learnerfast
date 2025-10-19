@@ -1,55 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - ZenFlow</title>
-    <link rel="stylesheet" href="css/style.css">
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#c92b28", "background-light": "#f8f6f6", "background-dark": "#201212"}, fontFamily: {display: "Lexend"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">🧘♀️ ZenFlow</a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html" class="active">About</a></li>
-                <li><a href="courses.html">Classes</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="page-header">
-        <div class="container">
-            <h1>About ZenFlow</h1>
-            <p>Your sanctuary for wellness and inner peace</p>
-        </div>
-    </section>
-
-    <section class="about-content">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-text">
-                    <h2>Our Philosophy</h2>
-                    <p>ZenFlow is more than just a yoga studio—it's a community dedicated to holistic wellness. We believe in the transformative power of yoga to heal the body, calm the mind, and nourish the spirit.</p>
-                </div>
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=400&fit=crop" alt="Yoga Studio">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>ZenFlow</h3>
-                <p>Your journey to wellness and inner peace starts here</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 ZenFlow. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex min-h-screen flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Mindful Movement</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="max-w-4xl mx-auto">
+<section class="text-center mb-16">
+<h2 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">About FitLife Academy</h2>
+<p class="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Our mission is to empower individuals to achieve their fitness goals through accessible, high-quality online education. We believe in a holistic approach to fitness,
+              encompassing physical, mental, and emotional well-being.
+            </p>
+</section>
+<section class="mb-16">
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Our Values</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="flex flex-col items-center text-center p-6 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-800 rounded-lg">
+<div class="p-3 mb-4 bg-primary/10 dark:bg-primary/20 rounded-full text-primary">
+<svg fill="currentColor" height="32" viewbox="0 0 256 256" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M178,32c-20.65,0-38.73,8.88-50,23.89C116.73,40.88,98.65,32,78,32A62.07,62.07,0,0,0,16,94c0,70,103.79,126.66,108.21,129a8,8,0,0,0,7.58,0C136.21,220.66,240,164,240,94A62.07,62.07,0,0,0,178,32ZM128,206.8C109.74,196.16,32,147.69,32,94A46.06,46.06,0,0,1,78,48c19.45,0,35.78,10.36,42.6,27a8,8,0,0,0,14.8,0c6.82-16.67,23.15-27,42.6-27a46.06,46.06,0,0,1,46,46C224,147.61,146.24,196.15,128,206.8Z"></path>
+</svg>
+</div>
+<h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Community</h4>
+<p class="text-gray-600 dark:text-gray-400">We foster a supportive and inclusive community where members can connect, share their journeys, and motivate each other.</p>
+</div>
+<div class="flex flex-col items-center text-center p-6 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-800 rounded-lg">
+<div class="p-3 mb-4 bg-primary/10 dark:bg-primary/20 rounded-full text-primary">
+<svg fill="currentColor" height="32" viewbox="0 0 256 256" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path>
+</svg>
+</div>
+<h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Excellence</h4>
+<p class="text-gray-600 dark:text-gray-400">We are committed to delivering the highest quality fitness education, led by certified instructors and based on the latest research.</p>
+</div>
+<div class="flex flex-col items-center text-center p-6 bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-800 rounded-lg">
+<div class="p-3 mb-4 bg-primary/10 dark:bg-primary/20 rounded-full text-primary">
+<svg fill="currentColor" height="32" viewbox="0 0 256 256" width="32" xmlns="http://www.w3.org/2000/svg">
+<path d="M208,40H48A16,16,0,0,0,32,56v58.78c0,89.61,75.82,119.34,91,124.39a15.53,15.53,0,0,0,10,0c15.2-5.05,91-34.78,91-124.39V56A16,16,0,0,0,208,40Zm0,74.79c0,78.42-66.35,104.62-80,109.18-13.53-4.51-80-30.69-80-109.18V56H208ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.68l50.34-50.34a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"></path>
+</svg>
+</div>
+<h4 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Integrity</h4>
+<p class="text-gray-600 dark:text-gray-400">We uphold the highest standards of honesty, transparency, and ethical conduct in all our interactions.</p>
+</div>
+</div>
+</section>
+<section class="mb-16">
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Meet Our Team</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+<div class="text-center">
+<div class="w-32 h-32 mx-auto rounded-full bg-cover bg-center mb-4" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpr6LCxjZZTDz5r4MaR4-7AdZwrzX_5Rit4IcYW6cPDY65SS77x_wL-8EujpxwvgNzcU5SQTqkizrjDtqDg8LqJMtyXs4vBtlZvMW8wlG0Z8WfIMSKBtMiVAmB7Oau9cLiFfJqPk6TL_2DQJrUbJj0vicVQJ-FJzW7wzJZNcHMVwNrN1Al4O1em3aVqzMnRspdjr71adEN2vnwXnpE1D12QF9R8yZY4t3Qs-q_S1YD1I599ihvSDC4Mtx2e6T-HPsb1yQ_FVISyq6r");'></div>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Dr. Sarah Johnson</h4>
+<p class="text-sm text-primary">Lead Instructor &amp; Fitness Expert</p>
+</div>
+<div class="text-center">
+<div class="w-32 h-32 mx-auto rounded-full bg-cover bg-center mb-4" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCK7TQNbvlNZlwGGBeQlJekfUJgiCR8U8c9u5FJJofGWp-Sk9DHsWN3Hs3iiogMSbxEXV5v2-PD3LsWq9Yj4q8NxUPifYqZX1pF1AFvtDM_bDOU8ugjXpsS7ZuAJQk9f3bvrVjZPFNFamT6U7rgKw-7DYZBkVlfOF6nNUfdezo7EAanJXrJiDy8_4sSPhT8QwBWFBb-ap1GRH81GHm1Sy4V1hEgyXL5CzWxngbxM6O9Ar6UOGjV6UMxEqeDnT6QNLqT5Ws-_abdUN16");'></div>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Mark Thompson</h4>
+<p class="text-sm text-primary">Head of Curriculum Development</p>
+</div>
+<div class="text-center">
+<div class="w-32 h-32 mx-auto rounded-full bg-cover bg-center mb-4" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDhnXbvh9zdkmNi7ILvcSfNHf34tPPg8NfPdBS58zH4HVlUpWwiDxfAM4PaCsKEAlill1ve8cU8czHUjH9uS56B26YNMIp9XqCGqM-gVM8nBf__O2mVGWbASSiWufwDuHxFE14zJs5-AjysdX0loVE2uWSg4c_YJDLh6xCaP6oC8eetdNkWxMSEzzrfFtkjInElj_N4SqP2IBIFc3heWCz0rB70RVdKXsC_YRsq1BagnaJtU4ssctpVpYdkKb33oLZLn4-7um1LQJe-");'></div>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Emily Carter</h4>
+<p class="text-sm text-primary">Community Manager</p>
+</div>
+</div>
+</section>
+<section>
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Success Stories</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-background-light dark:bg-background-dark rounded-lg overflow-hidden shadow-md">
+<div class="w-full h-48 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDe9rNE5W7eZIRrbTa2RM6w-Sea2M35BwNFTCfdIXLLUPfPRn7X7Qf2JGtBPPZmakNxyx5XabO9rGIHN9dTN0ql_vQ86WGING8ETCUeQ4kaitv55dEBT_ZAnKLOz29pSd4ucLCX2nMuAYI5G7vw3eDb3KAw65dZtqhyYIKiyn_HYpSp9hJ18Kf7rZw0ndqNPfy_ccuz7lklza-1Kc8lHnq6xRSVu7QXAcZf_zK5oJgZIi6CQSMBbABQvPhh3E2nUbFn6AP5V3VPfL_s");'></div>
+<div class="p-6">
+<h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">From Couch to 5K</h4>
+<p class="text-gray-600 dark:text-gray-400">"After years of inactivity, I completed my first 5K race with FitLife's guidance."</p>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark rounded-lg overflow-hidden shadow-md">
+<div class="w-full h-48 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAyWxqFmL8HyUw86sAl7_VKm4ZgFNRTqWHyG3YAS55_eVGlKz5-AQDxAUhGbu2WyqpET9IY1AdKcWAT7DoqZu64fIBgQaQJGVckNAw8sJQ82LThRlU5OEnKTVsKdKEO5a4aFMowsUKXNDj8BsUVf_Z4hf8Z89m4ygR6SlrG0VAVCDCITMp4fbSYEs7chNbbb3hjISQ41jhHtzuApr5yaS5cMco6YBavwt91g-7lTkSBpiLSZKNYJ6Fd1YNHaUzGDLgzZqp07pAcNRO3");'></div>
+<div class="p-6">
+<h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Reclaiming My Health</h4>
+<p class="text-gray-600 dark:text-gray-400">"FitLife helped me lose 50 pounds and regain control of my health."</p>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark rounded-lg overflow-hidden shadow-md">
+<div class="w-full h-48 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4qAyAiGwnP_BASjLBfLbzv_y5lupfmFJ2q7coxM4MI-z7vbB2nuE5acxHSV_aklLtJTs2q6c-uKRh5uAAnlb-G9rweuucKCnyV8Hl7Fui4AlHA4x4mh4xCWRF1kqYfqZ8_j95HTAZs9FtGXuAHWVZ7g-2GMz0Td-H5_Kov-aTwfzV-uADqcFBKrlYVdDCAS5_xdRN5ygZhMQNEi0_Aio3SLiqNJa8gs1tpKM7swDae7REgoIuTHc8baT_F2lKj4PZs-Ynjq2NLsB8");'></div>
+<div class="p-6">
+<h4 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Finding My Strength</h4>
+<p class="text-gray-600 dark:text-gray-400">"I discovered my inner strength and confidence through FitLife's empowering programs."</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<footer class="bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-800 mt-16">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col items-center gap-6">
+<div class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+<a class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">About Us</a>
+<a class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Contact</a>
+<a class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Terms of Service</a>
+</div>
+<div class="flex justify-center gap-6">
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M247.39,68.94A8,8,0,0,0,240,64H209.57A48.66,48.66,0,0,0,168.1,40a46.91,46.91,0,0,0-33.75,13.7A47.9,47.9,0,0,0,120,88v6.09C79.74,83.47,46.81,50.72,46.46,50.37a8,8,0,0,0-13.65,4.92c-4.31,47.79,9.57,79.77,22,98.18a110.93,110.93,0,0,0,21.88,24.2c-15.23,17.53-39.21,26.74-39.47,26.84a8,8,0,0,0-3.85,11.93c.75,1.12,3.75,5.05,11.08,8.72C53.51,229.7,65.48,232,80,232c70.67,0,129.72-54.42,135.75-124.44l29.91-29.9A8,8,0,0,0,247.39,68.94Zm-45,29.41a8,8,0,0,0-2.32,5.14C196,166.58,143.28,216,80,216c-10.56,0-18-1.4-23.22-3.08,11.51-6.25,27.56-17,37.88-32.48A8,8,0,0,0,92,169.08c-.47-.27-43.91-26.34-44-96,16,13,45.25,33.17,78.67,38.79A8,8,0,0,0,136,104V88a32,32,0,0,1,9.6-22.92A30.94,30.94,0,0,1,167.9,56c12.66.16,24.49,7.88,29.44,19.21A8,8,0,0,0,204.67,80h16Z"></path>
+</svg>
+</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+</svg>
+</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<svg fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z"></path>
+</svg>
+</a>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400">© 2023 FitLife Academy. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

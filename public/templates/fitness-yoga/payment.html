@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#c92b28", "background-light": "#f8f6f6", "background-dark": "#201212"}, fontFamily: {display: "Lexend"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex min-h-screen flex-col">
+<header class="border-b border-black/10 dark:border-white/10">
+<div class="container mx-auto flex h-16 items-center justify-between px-4 lg:px-6">
+<div class="flex items-center gap-4">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+<span class="material-symbols-outlined text-background-dark text-lg"> fitness_center </span>
+</div>
+<h2 class="text-lg font-bold text-gray-900 dark:text-white">FitFlex</h2>
+</div>
+<nav class="hidden items-center gap-8 lg:flex">
+<a class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white" href="#">Home</a>
+<a class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white" href="#">Workouts</a>
+<a class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white" href="#">Nutrition</a>
+<a class="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white" href="#">Community</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-background-light dark:bg-background-dark ring-1 ring-black/10 dark:ring-white/10 hover:bg-black/5 dark:hover:bg-white/5">
+<span class="material-symbols-outlined text-gray-600 dark:text-gray-300"> notifications </span>
+</button>
+<div class="h-10 w-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBZiEbh8ur2u047-TaBTpLOG8wOKsPIGFYCkVKQOP-0jTgbtY5lfc7WWI1eKJSDu6Pg8H4UY9gC7JJ8CRfTc3-lH3HDtWbDBDJ17GzTvd8DV1F8i7TQgab2syDBcktAwECF5OszGkX9CPmsSLRQbgQTeikgm3AEFV7DEn4BScNV6dFRKPZUsk1aofVEZSj1Ja2dU-nHbzs4-CgfYV-kfCHOclbNQ1wlfmcXILtGgziXwb7391tsezHMtWfuNTVRM-PWOKBD-RKnZK-0");'></div>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<div class="container mx-auto px-4 py-8 lg:px-6 lg:py-12">
+<div class="mx-auto max-w-2xl">
+<div class="mb-6 flex items-center gap-2 text-sm">
+<a class="text-primary/80 hover:text-primary" href="#">Home</a>
+<span class="text-gray-400 dark:text-gray-500">/</span>
+<span class="text-gray-600 dark:text-gray-400">Checkout</span>
+</div>
+<h1 class="mb-8 text-3xl font-bold text-gray-900 dark:text-white">Secure Checkout</h1>
+<div class="space-y-8">
+<div>
+<h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-white">Order Summary</h2>
+<div class="rounded-xl border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5 p-6">
+<div class="flex flex-col gap-1">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Premium Membership</h3>
+<p class="flex items-baseline gap-1.5">
+<span class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white">$19.99</span>
+<span class="text-base font-semibold text-gray-600 dark:text-gray-400">/month</span>
+</p>
+</div>
+<ul class="mt-6 space-y-3 text-sm text-gray-700 dark:text-gray-300">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary"> check_circle </span>
+<span>Access to all workouts</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary"> check_circle </span>
+<span>Personalized training plans</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary"> check_circle </span>
+<span>Nutrition guides</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary"> check_circle </span>
+<span>Community support</span>
+</li>
+</ul>
+</div>
+</div>
+<div>
+<h2 class="mb-4 text-xl font-semibold text-gray-900 dark:text-white">Payment Method</h2>
+<div class="grid grid-cols-2 gap-4">
+<label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-black/10 bg-black/5 p-4 text-center text-sm font-medium text-gray-800 ring-2 ring-transparent transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:ring-primary dark:border-white/10 dark:bg-white/5 dark:text-gray-200 dark:has-[:checked]:border-primary dark:has-[:checked]:bg-primary/20">
+                    Credit Card
+                    <input checked="" class="absolute h-full w-full opacity-0" name="payment_method" type="radio"/>
+</label>
+<label class="group relative flex cursor-pointer items-center justify-center rounded-lg border border-black/10 bg-black/5 p-4 text-center text-sm font-medium text-gray-800 ring-2 ring-transparent transition-all has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:ring-primary dark:border-white/10 dark:bg-white/5 dark:text-gray-200 dark:has-[:checked]:border-primary dark:has-[:checked]:bg-primary/20">
+                    PayPal
+                    <input class="absolute h-full w-full opacity-0" name="payment_method" type="radio"/>
+</label>
+</div>
+</div>
+<div class="space-y-6 rounded-xl border border-black/10 bg-black/5 p-6 dark:border-white/10 dark:bg-white/5">
+<div class="grid grid-cols-1 gap-x-4 gap-y-6">
+<div>
+<label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300" for="card-number">Card Number</label>
+<input class="form-input block w-full rounded-lg border-black/20 bg-background-light p-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-primary dark:border-white/20 dark:bg-background-dark dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary dark:focus:ring-primary" id="card-number" placeholder="0000 0000 0000 0000" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300" for="expiry-date">Expiry Date</label>
+<input class="form-input block w-full rounded-lg border-black/20 bg-background-light p-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-primary dark:border-white/20 dark:bg-background-dark dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary dark:focus:ring-primary" id="expiry-date" placeholder="MM/YY" type="text"/>
+</div>
+<div>
+<label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300" for="cvv">CVV</label>
+<input class="form-input block w-full rounded-lg border-black/20 bg-background-light p-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-primary dark:border-white/20 dark:bg-background-dark dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary dark:focus:ring-primary" id="cvv" placeholder="123" type="text"/>
+</div>
+</div>
+<div>
+<label class="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300" for="name-on-card">Name on Card</label>
+<input class="form-input block w-full rounded-lg border-black/20 bg-background-light p-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-primary dark:border-white/20 dark:bg-background-dark dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary dark:focus:ring-primary" id="name-on-card" placeholder="Enter name as it appears on card" type="text"/>
+</div>
+</div>
+<div class="flex items-center">
+<input class="form-checkbox h-4 w-4 rounded border-gray-300 bg-gray-100 text-primary focus:ring-2 focus:ring-primary dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary" id="save-card" type="checkbox"/>
+<label class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300" for="save-card">Save this card for future purchases</label>
+</div>
+</div>
+<div>
+<button class="flex h-12 w-full items-center justify-center rounded-lg bg-primary px-5 text-base font-bold text-background-dark transition-opacity hover:opacity-90">
+<span>Complete Purchase</span>
+</button>
+<p class="mt-3 text-center text-xs text-gray-500 dark:text-gray-400">
+                  By completing this purchase, you agree to our Terms of Service and Privacy Policy.
+                </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

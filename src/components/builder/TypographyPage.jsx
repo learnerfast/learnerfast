@@ -13,6 +13,21 @@ const TypographyPage = ({ onFontChange }) => {
     const newFonts = { ...fonts, [type]: value };
     setFonts(newFonts);
     
+    const iframe = document.querySelector('#theme-preview-iframe');
+    if (iframe?.contentDocument) {
+      const doc = iframe.contentDocument;
+      let style = doc.getElementById('theme-fonts-style');
+      if (!style) {
+        style = doc.createElement('style');
+        style.id = 'theme-fonts-style';
+        doc.head.appendChild(style);
+      }
+      style.textContent = `
+        h1, h2, h3, h4, h5, h6 { font-family: "${newFonts.headings}", sans-serif !important; }
+        body, p, span, div { font-family: "${newFonts.mainText}", sans-serif !important; }
+      `;
+    }
+    
     if (onFontChange) {
       onFontChange({
         heading: `"${newFonts.headings}", ${newFonts.headings === 'Poppins' ? 'sans-serif' : 'serif'}`,
@@ -25,6 +40,25 @@ const TypographyPage = ({ onFontChange }) => {
   const updateFontSize = (type, size) => {
     const newSizes = { ...fontSizes, [type]: size };
     setFontSizes(newSizes);
+    
+    const iframe = document.querySelector('#theme-preview-iframe');
+    if (iframe?.contentDocument) {
+      const doc = iframe.contentDocument;
+      let style = doc.getElementById('theme-font-sizes-style');
+      if (!style) {
+        style = doc.createElement('style');
+        style.id = 'theme-font-sizes-style';
+        doc.head.appendChild(style);
+      }
+      style.textContent = `
+        h1 { font-size: ${newSizes.h1}px !important; }
+        h2 { font-size: ${newSizes.h2}px !important; }
+        h3 { font-size: ${newSizes.h3}px !important; }
+        .text-large { font-size: ${newSizes.large}px !important; }
+        body, p { font-size: ${newSizes.normal}px !important; }
+        .text-small, small { font-size: ${newSizes.small}px !important; }
+      `;
+    }
     
     if (onFontChange) {
       onFontChange({

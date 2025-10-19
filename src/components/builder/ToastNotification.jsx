@@ -31,7 +31,7 @@ const ToastNotification = ({ message, type = 'info', duration = 3000, onClose })
 
   return (
     <div
-      className={`fixed top-20 right-4 z-50 flex items-center space-x-2 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 ${
+      className={`flex items-center space-x-2 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 ${
         colors[type]
       } ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'}`}
     >
@@ -54,13 +54,9 @@ const ToastNotification = ({ message, type = 'info', duration = 3000, onClose })
 export const useToast = () => {
   const [toasts, setToasts] = useState([]);
 
-  const showToast = (message, type = 'info', duration = 3000) => {
-    const id = Date.now();
-    const toast = { id, message, type, duration };
-    
-    setToasts(prev => [...prev, toast]);
-    
-    // Auto remove
+  const showToast = (message, type = 'info', duration = 2000) => {
+    const id = Date.now() + Math.random();
+    setToasts([{ id, message, type, duration }]);
     setTimeout(() => {
       setToasts(prev => prev.filter(t => t.id !== id));
     }, duration + 300);
@@ -76,15 +72,16 @@ export const useToast = () => {
 // Toast container component
 export const ToastContainer = ({ toasts, onRemoveToast }) => {
   return (
-    <div className="fixed top-0 right-0 z-50 p-4 space-y-2">
+    <div className="fixed top-20 right-4 z-[9999] space-y-2 pointer-events-none">
       {toasts.map(toast => (
-        <ToastNotification
-          key={toast.id}
-          message={toast.message}
-          type={toast.type}
-          duration={toast.duration}
-          onClose={() => onRemoveToast(toast.id)}
-        />
+        <div key={toast.id} className="pointer-events-auto">
+          <ToastNotification
+            message={toast.message}
+            type={toast.type}
+            duration={toast.duration}
+            onClose={() => onRemoveToast(toast.id)}
+          />
+        </div>
       ))}
     </div>
   );

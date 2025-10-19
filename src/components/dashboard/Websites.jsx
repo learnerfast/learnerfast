@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { Plus, Eye, Edit, Trash2, Globe, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -7,15 +8,75 @@ import { toast } from 'react-hot-toast';
 import CreateSiteModal from '../modals/CreateSiteModal';
 import { useWebsite } from '../../contexts/WebsiteContext';
 import { templateService } from '../builder/templateService';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 const siteTemplates = templateService.getTemplates();
+
+const TemplatePreview = ({ template }) => {
+  const [templateHtml, setTemplateHtml] = React.useState('');
+  
+  React.useEffect(() => {
+    const loadTemplate = async () => {
+      try {
+        const response = await fetch(`${template.path}index.html`);
+        let html = await response.text();
+        
+        // Fix relative paths and force desktop viewport
+        html = html
+          .replace(/href="css\//g, `href="${template.path}css/`)
+          .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
+          .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
+          .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`)
+          .replace(/<meta name="viewport"[^>]*>/gi, '<meta name="viewport" content="width=1366, initial-scale=1, user-scalable=no">');
+        
+        // Add desktop viewport if not present
+        if (!html.includes('name="viewport"')) {
+          html = html.replace('<head>', '<head>\n<meta name="viewport" content="width=1366, initial-scale=1, user-scalable=no">');
+        }
+        
+        // Force desktop layout with CSS
+        const desktopCSS = `<style>
+          html, body { min-width: 1366px !important; width: 1366px !important; }
+          * { box-sizing: border-box !important; }
+          @media (max-width: 1366px) { html, body { width: 1366px !important; } }
+        </style>`;
+        html = html.replace('</head>', desktopCSS + '</head>');
+        
+        setTemplateHtml(html);
+      } catch (error) {
+        console.error('Failed to load template:', error);
+      }
+    };
+    
+    loadTemplate();
+  }, [template]);
+  
+  if (!templateHtml) {
+    return (
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+  
+  return (
+    <iframe 
+      srcDoc={templateHtml}
+      className="w-full h-full border-0 pointer-events-none origin-top-left"
+      style={{ width: '366%', height: '366%', transform: 'scale(0.273)' }}
+      sandbox="allow-same-origin allow-scripts"
+    />
+  );
+};
 
 const Websites = () => {
   return <WebsitesList />;
 };
 
 const WebsitesList = () => {
-  const { sites, addSite, deleteSite: deleteSiteFromContext } = useWebsite();
+  const { sites, loading, addSite, deleteSite: deleteSiteFromContext } = useWebsite();
+  const { user } = useAuth();
   const router = useRouter();
   
   // Modal State
@@ -29,6 +90,11 @@ const WebsitesList = () => {
   
   // Loading screen state
   const [showLoadingScreen, setShowLoadingScreen] = useState(false);
+  
+  // Memoized sorted sites
+  const sortedSites = useMemo(() => 
+    sites.sort((a, b) => new Date(b.lastEdited || b.last_edited || 0) - new Date(a.lastEdited || a.last_edited || 0))
+  , [sites]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -166,7 +232,23 @@ const WebsitesList = () => {
               siteName: siteName
             };
             
-            localStorage.setItem(`builder-save-${newSite.id}`, JSON.stringify(saveData));
+            // Save to database if user is logged in
+            if (user?.id) {
+              try {
+                await supabase
+                  .from('website_builder_saves')
+                  .insert({
+                    site_id: newSite.id,
+                    user_id: user.id,
+                    page_contents: saveData.pageContents,
+                    page_data: saveData.pageData,
+                    template_id: selectedTemplate.id,
+                    site_name: siteName
+                  });
+              } catch (error) {
+                console.warn('Failed to save initial builder data:', error);
+              }
+            }
           }
         } catch (error) {
           console.error('Failed to load template:', error);
@@ -215,34 +297,79 @@ const WebsitesList = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sites.sort((a, b) => new Date(b.lastEdited || b.last_edited || 0) - new Date(a.lastEdited || a.last_edited || 0)).map((site) => (
+      {!loading && sortedSites.length === 0 ? (
+        <div className="bg-card rounded-xl shadow-subtle border border-border p-16 text-center">
+          <div className="flex justify-center items-center mx-auto w-20 h-20 bg-primary/10 rounded-full mb-6">
+            <Globe className="h-10 w-10 text-primary" />
+          </div>
+          <h3 className="text-xl font-semibold text-foreground mb-2">No Websites Yet</h3>
+          <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+            Create your first website to start building your online presence and sharing your content with the world.
+          </p>
+          <button 
+            onClick={openModal}
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
+          >
+            Create Your First Website
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {!loading && sortedSites.map((site) => (
           <motion.div
             key={site.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-card rounded-xl shadow-subtle border border-border overflow-hidden transition-all hover:shadow-md hover:-translate-y-1"
           >
-            <div className="aspect-video bg-muted relative overflow-hidden">
-              {(() => {
-                const savedData = localStorage.getItem(`builder-save-${site.id}`);
-                if (savedData) {
-                  const { pageContents } = JSON.parse(savedData);
-                  const html = pageContents['home'] || pageContents[Object.keys(pageContents)[0]];
-                  if (html) {
-                    return (
-                      <iframe
-                        srcDoc={html.replace(/builder-selected|builder-hover/g, '').replace(/data-element-type="[^"]*"/g, '').replace(/outline:[^;]*;?/g, '')}
-                        className="absolute top-0 left-0 border-0 pointer-events-auto"
-                        style={{ transform: 'scale(0.25)', transformOrigin: 'top left', width: '400%', height: '400%' }}
-                        title={`Preview of ${site.name}`}
-                        scrolling="yes"
-                        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-navigation allow-top-navigation allow-modals allow-downloads"
-                      />
-                    );
-                  }
+            <div 
+              className="aspect-video bg-muted relative overflow-hidden"
+              onMouseEnter={(e) => {
+                const iframe = e.currentTarget.querySelector('iframe');
+                if (iframe && iframe.contentWindow) {
+                  iframe.scrollingDown = true;
+                  iframe.scrollingUp = false;
+                  
+                  const scrollDown = () => {
+                    if (!iframe.scrollingDown || !iframe.contentWindow || !iframe.contentWindow.document.documentElement) return;
+                    const currentScroll = iframe.contentWindow.scrollY;
+                    const maxScroll = iframe.contentWindow.document.documentElement.scrollHeight - iframe.contentWindow.innerHeight;
+                    if (currentScroll < maxScroll) {
+                      iframe.contentWindow.scrollTo(0, currentScroll + 10);
+                      requestAnimationFrame(scrollDown);
+                    }
+                  };
+                  scrollDown();
                 }
-                return <div className="absolute inset-0 flex items-center justify-center"><Globe className="h-12 w-12 text-muted-foreground/50" /></div>;
+              }}
+              onMouseLeave={(e) => {
+                const iframe = e.currentTarget.querySelector('iframe');
+                if (iframe && iframe.contentWindow) {
+                  iframe.scrollingDown = false;
+                  iframe.scrollingUp = true;
+                  const scrollUp = () => {
+                    if (!iframe.scrollingUp || !iframe.contentWindow) return;
+                    const currentScroll = iframe.contentWindow.scrollY;
+                    if (currentScroll > 0) {
+                      iframe.contentWindow.scrollTo(0, currentScroll - 15);
+                      requestAnimationFrame(scrollUp);
+                    } else {
+                      iframe.scrollingUp = false;
+                    }
+                  };
+                  scrollUp();
+                }
+              }}
+            >
+              {(() => {
+                const template = siteTemplates.find(t => t.id === site.template_id);
+                return template ? (
+                  <TemplatePreview template={template} />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Globe className="h-12 w-12 text-muted-foreground/50" />
+                  </div>
+                );
               })()}
             </div>
             
@@ -277,66 +404,7 @@ const WebsitesList = () => {
                 
                 <button 
                   onClick={() => {
-                    const savedData = localStorage.getItem(`builder-save-${site.id}`);
-                    if (savedData) {
-                      const { pageContents } = JSON.parse(savedData);
-                      const html = pageContents['home'] || pageContents[Object.keys(pageContents)[0]];
-                      if (html) {
-                        // Fix asset URLs and remove only selection styles, keep content edits
-                        const fixedHtml = html
-                          .replace(/href="\/templates/g, `href="${window.location.origin}/templates`)
-                          .replace(/src="\/templates/g, `src="${window.location.origin}/templates`)
-                          .replace(/url\(\/templates/g, `url(${window.location.origin}/templates`)
-                          .replace(/\s*builder-hover/g, '')
-                          .replace(/\s*builder-selected/g, '')
-                          .replace(/\s*builder-editable/g, '')
-                          .replace(/\s*outline-dashed/g, '')
-                          .replace(/\s*outline-2/g, '')
-                          .replace(/\s*outline-blue-500/g, '')
-                          .replace(/\s*outline-\w+/g, '')
-                          .replace(/\s*border-dashed/g, '')
-                          .replace(/\s*border-blue-500/g, '')
-                          .replace(/\s*cursor-pointer/g, '')
-                          .replace(/style="[^"]*outline[^"]*"/gi, '')
-                          .replace(/style="[^"]*border:[^;]*dashed[^;]*;?[^"]*"/gi, '')
-                          .replace(/data-builder[^=]*="[^"]*"/gi, '')
-                          .replace(/class="[^"]*builder[^"]*"/gi, 'class=""')
-                          .replace(/class="\s*"/g, '');
-                        
-                        // Add aggressive CSS to completely remove all builder interactions
-                        const cleanHtml = fixedHtml.replace('</head>', `
-                          <style>
-                            * { 
-                              outline: none !important; 
-                              cursor: default !important;
-                              pointer-events: auto !important;
-                            }
-                            *:hover {
-                              outline: none !important;
-                              border: none !important;
-                              box-shadow: none !important;
-                            }
-                            [class*="builder"], [data-builder], .builder-element, .builder-hover, .builder-selected { 
-                              outline: none !important; 
-                              border: none !important;
-                              box-shadow: none !important;
-                              background: transparent !important;
-                            }
-                            [style*="outline"], [style*="border"] {
-                              outline: none !important;
-                              border: revert !important;
-                            }
-                          </style>
-                        </head>`);
-                        
-                        const blob = new Blob([cleanHtml], { type: 'text/html' });
-                        const url = URL.createObjectURL(blob);
-                        window.open(url, '_blank');
-                      }
-                    } else {
-                      // Show default template preview
-                      window.open(`${site.templatePath}index.html`, '_blank');
-                    }
+                    window.open(`/api/preview/${site.id}`, '_blank');
                   }}
                   className="flex items-center space-x-1.5 px-3 py-1.5 text-sm bg-accent text-accent-foreground rounded-md hover:bg-muted transition-colors"
                 >
@@ -354,8 +422,9 @@ const WebsitesList = () => {
               </div>
             </div>
           </motion.div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       <CreateSiteModal
         isOpen={isModalOpen}
@@ -369,8 +438,8 @@ const WebsitesList = () => {
       />
 
       {/* Loading Screen */}
-      {showLoadingScreen && (
-        <div className="fixed inset-0 bg-gradient-to-br from-slate-100 via-gray-50 to-blue-50 flex flex-col items-center justify-center z-50 overflow-hidden">
+      {showLoadingScreen && createPortal(
+        <div className="fixed inset-0 bg-gradient-to-br from-slate-100 via-gray-50 to-blue-50 flex flex-col items-center justify-center z-[9999] overflow-hidden">
           {/* Title */}
           <motion.div
             initial={{ opacity: 0, y: -30 }}
@@ -681,7 +750,8 @@ Engineering your digital masterpiece...
               />
             </motion.div>
           </motion.div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Delete Confirmation Modal */}

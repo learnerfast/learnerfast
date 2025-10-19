@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finance Academy - Checkout</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#ffffff", "background-light": "#f7f7f7", "background-dark": "#191919"}, fontFamily: {display: "Be Vietnam Pro"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}}}};</script>
+<style>
+        .form-select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2392adc9' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            -webkit-print-color-adjust: exact;
+            color-adjust: exact;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex min-h-screen flex-col">
+<header class="border-b border-gray-200/10 dark:border-gray-700/50">
+<div class="container mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+<div class="flex items-center gap-4">
+<div class="text-primary h-6 w-6">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 4H42V17.3333V30.6667H24V44H6V30.6667V17.3333H24V4Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold text-gray-900 dark:text-white">
+                        Finance Academy
+                    </h2>
+</div>
+<nav class="hidden items-center gap-8 md:flex">
+<a class="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary" href="#">Courses</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary" href="#">Resources</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary" href="#">Community</a>
+<a class="text-sm font-medium text-gray-600 hover:text-primary dark:text-gray-300 dark:hover:text-primary" href="#">Pricing</a>
+</nav>
+<div class="flex items-center gap-2">
+<button class="rounded bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">
+                        Get started
+                    </button>
+<button class="rounded bg-background-light px-4 py-2 text-sm font-bold text-gray-800 ring-1 ring-inset ring-gray-300/50 transition-colors hover:bg-primary/10 dark:bg-background-dark dark:text-white dark:ring-gray-600/50 dark:hover:bg-primary/20">
+                        Log in
+                    </button>
+</div>
+</div>
+</header>
+<main class="flex-1 py-12 sm:py-16 lg:py-20">
+<div class="container mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 md:grid-cols-2 md:gap-16">
+<div class="space-y-8">
+<h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        Payment &amp; Checkout
+                    </h2>
+<div class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="payment-method">Payment Method</label>
+<div class="mt-2 space-y-3">
+<div class="flex items-center gap-3 rounded-lg border border-gray-300 bg-background-light/50 p-4 ring-2 ring-primary dark:border-gray-600/50 dark:bg-background-dark/70">
+<input checked="" class="h-4 w-4 border-gray-300 text-primary focus:ring-primary" id="card" name="payment-method" type="radio"/>
+<label class="flex w-full cursor-pointer items-center justify-between" for="card">
+<span class="font-medium text-gray-900 dark:text-white">Credit / Debit Card</span>
+<div class="flex items-center gap-2">
+<svg class="h-6 w-auto" fill="#1f2937" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.1,8.39,20.42,5.2A1.4,1.4,0,0,0,19.05,4H4.95A1.4,1.4,0,0,0,3.58,5.2L2.9,8.39A2,2,0,0,0,2,9.86v8.43A1.71,1.71,0,0,0,3.71,20h16.6A1.71,1.71,0,0,0,22,18.29V9.86A2,2,0,0,0,21.1,8.39ZM4,6H20L19.46,8H4.54ZM20,18H4V10H20Z"></path></svg>
+<svg class="h-6 w-auto" fill="#1f2937" viewbox="0 0 38 24" xmlns="http://www.w3.org/2000/svg"><path d="M35 0H3C1.3 0 0 1.3 0 3v18c0 1.7 1.4 3 3 3h32c1.7 0 3-1.3 3-3V3c0-1.7-1.4-3-3-3zM23 18h-8v-2h8v2zm7.4-4c-1.8 0-3.3-1.5-3.3-3.3s1.5-3.3 3.3-3.3 3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3z" fill-rule="nonzero"></path></svg>
+</div>
+</label>
+</div>
+<div class="flex items-center gap-3 rounded-lg border border-gray-300 bg-background-light/50 p-4 dark:border-gray-600/50 dark:bg-background-dark/70">
+<input class="h-4 w-4 border-gray-300 text-primary focus:ring-primary" id="paypal" name="payment-method" type="radio"/>
+<label class="flex w-full cursor-pointer items-center justify-between" for="paypal">
+<span class="font-medium text-gray-900 dark:text-white">PayPal</span>
+<svg class="h-7 w-auto" fill="none" viewbox="0 0 54 34" xmlns="http://www.w3.org/2000/svg"><path d="M3.69 33.15H17.26C24.62 33.15 30.13 27.68 30.13 20.25C30.13 12.82 24.62 7.35 17.26 7.35H9.98L13.84 0.85H0L5.94 28.53C5.16 29.83 4.2 31.02 3.69 33.15Z" fill="#253B80"></path><path d="M21.13 0.85H7.56L3.69 7.35H11.23C18.59 7.35 24.1 12.82 24.1 20.25C24.1 27.68 18.59 33.15 11.23 33.15H4.2L0 33.15" fill="#1595D7"></path><path d="M50.31 16.7C50.94 12.51 47.96 7.42 41.6 7.42H32.41L30.98 9.94L31.11 9.77L29.62 12.21L27.18 16.7H29.13C29.13 16.7 29.41 16.48 29.56 16.48C30.34 16.48 31.01 17.15 30.91 17.97C30.91 17.97 30.15 22.84 29.98 24.12C29.84 25.13 30.56 25.9 31.55 25.9H34.45L36.21 15.39L40.07 15.48C44.13 15.48 46.85 17.8 45.92 21.65C45.31 24.12 43.14 25.9 40.7 25.9H37.89L37.19 30.09L37.17 30.22L37.12 30.68L36.91 32.1L36.87 32.32C36.76 32.88 37.19 33.15 37.7 33.15H41.13C47.46 33.15 51.54 28.75 50.31 16.7Z" fill="#1595D7"></path><path d="M53.11 16.77L53.96 11.2C54.2 9.47 52.88 8.08 51.15 8.08H48.16L48.65 10.97H50.5C51.27 10.97 51.68 11.66 51.52 12.39L50.49 18.57C50.28 19.82 49.19 20.65 47.93 20.65H45.24L46.21 14.62C46.42 13.37 45.33 12.24 44.07 12.24H41.05L41.9 6.78C42.13 5.06 40.82 3.66 39.09 3.66H31.67L32.41 7.42H41.6C47.96 7.42 50.94 12.51 50.31 16.7C51.54 28.75 47.46 33.15 41.13 33.15H37.7C37.19 33.15 36.76 32.88 36.87 32.32L37.89 25.9H40.7C43.14 25.9 45.31 24.12 45.92 21.65C46.85 17.8 44.13 15.48 40.07 15.48L37.17 30.22L37.19 30.09L37.89 25.9H31.55C30.56 25.9 29.84 25.13 29.98 24.12C30.15 22.84 30.91 17.97 30.91 17.97C31.01 17.15 30.34 16.48 29.56 16.48H27.18L32.41 7.42H39.09C40.82 3.66 42.13 5.06 41.9 6.78L41.05 12.24H44.07C45.33 12.24 46.42 13.37 46.21 14.62L45.24 20.65H47.93C49.19 20.65 50.28 19.82 50.49 18.57L51.52 12.39C51.68 11.66 51.27 10.97 50.5 10.97H48.65L48.16 8.08H51.15C52.88 8.08 54.2 9.47 53.96 11.2L53.11 16.77Z" fill="#102E68"></path></svg>
+</label>
+</div>
+<div class="flex items-center gap-3 rounded-lg border border-gray-300 bg-background-light/50 p-4 dark:border-gray-600/50 dark:bg-background-dark/70">
+<input class="h-4 w-4 border-gray-300 text-primary focus:ring-primary" id="bank-transfer" name="payment-method" type="radio"/>
+<label class="flex w-full cursor-pointer items-center justify-between" for="bank-transfer">
+<span class="font-medium text-gray-900 dark:text-white">Bank Transfer</span>
+<svg class="h-8 w-auto text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 21h18"></path>
+<path d="M5 21V7l7-4 7 4v14"></path>
+<path d="M12 21V11"></path>
+<path d="M12 6.5l-4.5 2.5"></path>
+<path d="M12 6.5l4.5 2.5"></path>
+</svg>
+</label>
+</div>
+<div class="flex items-center gap-3 rounded-lg border border-gray-300 bg-background-light/50 p-4 dark:border-gray-600/50 dark:bg-background-dark/70">
+<input class="h-4 w-4 border-gray-300 text-primary focus:ring-primary" id="crypto" name="payment-method" type="radio"/>
+<label class="flex w-full cursor-pointer items-center justify-between" for="crypto">
+<span class="font-medium text-gray-900 dark:text-white">Cryptocurrency</span>
+<svg class="h-8 w-auto text-gray-700 dark:text-gray-300" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"></path>
+<path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"></path>
+<path d="M12 2v2"></path>
+<path d="M12 20v2"></path>
+<path d="m4.9 4.9 1.4 1.4"></path>
+<path d="m17.7 17.7 1.4 1.4"></path>
+<path d="M2 12h2"></path>
+<path d="M20 12h2"></path>
+<path d="m4.9 19.1 1.4-1.4"></path>
+<path d="m17.7 6.3 1.4-1.4"></path>
+</svg>
+</label>
+</div>
+</div>
+</div>
+<form class="space-y-6">
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="card-number">Card number</label>
+<input autocomplete="cc-number" class="mt-1 w-full rounded-lg border-gray-300 bg-background-light/50 p-4 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-primary dark:border-gray-600/50 dark:bg-background-dark/70 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary dark:focus:ring-primary" id="card-number" name="card-number" placeholder="Card number" required="" type="text"/>
+</div>
+<div class="flex gap-4">
+<div class="flex-1">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="expiration-date">Expiration date (MM/YY)</label>
+<input autocomplete="cc-exp" class="mt-1 w-full rounded-lg border-gray-300 bg-background-light/50 p-4 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-primary dark:border-gray-600/50 dark:bg-background-dark/70 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary dark:focus:ring-primary" id="expiration-date" name="expiration-date" placeholder="MM/YY" required="" type="text"/>
+</div>
+<div class="flex-1">
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="cvc">CVC</label>
+<input autocomplete="cc-csc" class="mt-1 w-full rounded-lg border-gray-300 bg-background-light/50 p-4 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-primary dark:border-gray-600/50 dark:bg-background-dark/70 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary dark:focus:ring-primary" id="cvc" name="cvc" placeholder="CVC" required="" type="text"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="name-on-card">Name on card</label>
+<input autocomplete="cc-name" class="mt-1 w-full rounded-lg border-gray-300 bg-background-light/50 p-4 text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-primary dark:border-gray-600/50 dark:bg-background-dark/70 dark:text-white dark:placeholder:text-gray-500 dark:focus:border-primary dark:focus:ring-primary" id="name-on-card" name="name-on-card" placeholder="Name on card" required="" type="text"/>
+</div>
+</form>
+</div>
+</div>
+<div class="space-y-8 rounded-xl bg-white/10 p-6 shadow-lg backdrop-blur-sm dark:bg-background-dark/50 sm:p-8">
+<h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                        Order Summary
+                    </h3>
+<div class="space-y-4">
+<div class="flex justify-between">
+<p class="text-gray-600 dark:text-gray-400">
+                                The Complete Finance Course
+                            </p>
+<p class="font-medium text-gray-900 dark:text-white">$199.00</p>
+</div>
+<div class="flex justify-between">
+<p class="text-gray-600 dark:text-gray-400">Discount</p>
+<p class="font-medium text-green-500">-$20.00</p>
+</div>
+<div class="border-t border-gray-200/20 pt-4 dark:border-gray-700/50"></div>
+<div class="flex justify-between text-lg font-bold">
+<p class="text-gray-900 dark:text-white">Total</p>
+<p class="text-gray-900 dark:text-white">$179.00</p>
+</div>
+</div>
+<div class="space-y-4">
+<p class="text-sm text-gray-500 dark:text-gray-400">
+                            By clicking "Confirm &amp; Pay", you agree to our
+                            <a class="text-primary hover:underline" href="#">Terms of Service</a> and
+                            <a class="text-primary hover:underline" href="#">Privacy Policy</a>.
+                        </p>
+<button class="w-full rounded-lg bg-primary px-5 py-4 text-base font-bold text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-background-dark" type="submit">
+                            Confirm &amp; Pay $179
+                        </button>
+</div>
+<div class="flex items-center justify-center gap-2 pt-4">
+<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect>
+<line x1="16" x2="16" y1="2" y2="6"></line>
+<line x1="8" x2="8" y1="2" y2="6"></line>
+<line x1="3" x2="21" y1="10" y2="10"></line>
+</svg>
+<span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+                            30-Day Money-Back Guarantee
+                        </span>
+</div>
+</div>
+</div>
+</main>
+<footer class="border-t border-gray-200/10 dark:border-gray-700/50">
+<div class="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
+<div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+<nav class="flex flex-wrap justify-center gap-x-6 gap-y-2 md:justify-start">
+<a class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">About</a>
+<a class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">Contact</a>
+<a class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">Terms of Service</a>
+</nav>
+<p class="text-center text-sm text-gray-500 dark:text-gray-400">
+                        © 2023 Finance Academy. All rights reserved.
+                    </p>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

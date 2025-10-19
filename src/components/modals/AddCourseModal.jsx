@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { X, Upload, Sparkles, HelpCircle } from 'lucide-react';
+import { X, Upload, Sparkles, HelpCircle, Globe } from 'lucide-react';
 import HelpButton from '../dashboard/HelpButton';
+import { useWebsite } from '../../contexts/WebsiteContext';
 
 const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
+  const { sites } = useWebsite();
   const [step, setStep] = useState(1);
   const [courseData, setCourseData] = useState({
     title: '',
@@ -10,7 +12,8 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
     coverImage: null,
     access: 'draft',
     price: '',
-    comparePrice: ''
+    comparePrice: '',
+    selectedWebsite: null
   });
   const [isCreating, setIsCreating] = useState(false);
   const [showAIAssistant, setShowAIAssistant] = useState(false);
@@ -82,10 +85,12 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
       if (!titleValid || !descriptionValid) return;
     }
     if (step === 2 && courseData.access !== 'paid') {
-      setStep(4); // Skip pricing step for non-paid courses
+      setStep(sites.length > 0 ? 5 : 4); // Skip pricing, go to website selection if sites exist
     } else if (step === 3 && courseData.access === 'paid' && !courseData.price) {
       return;
-    } else if (step < 4) {
+    } else if (step === 3 && courseData.access === 'paid') {
+      setStep(sites.length > 0 ? 5 : 4); // After pricing, go to website selection if sites exist
+    } else if (step < 5) {
       setStep(step + 1);
     }
   };
@@ -130,7 +135,8 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
       coverImage: null,
       access: 'draft',
       price: '',
-      comparePrice: ''
+      comparePrice: '',
+      selectedWebsite: null
     });
     onClose();
   };
@@ -144,14 +150,19 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
           <div className="flex items-center justify-between p-6 border-b">
             <div className="flex items-center space-x-4">
               <div className="flex space-x-2">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className={`h-2 w-12 rounded-full transition-colors ${
-                      i <= step ? 'bg-teal-500' : 'bg-gray-200'
-                    }`}
-                  />
-                ))}
+                {[1, 2, 3, 4, 5].map((i) => {
+                  if (i === 5 && sites.length === 0) return null;
+                  if (i === 3 && courseData.access !== 'paid' && step > 2) return null;
+                  
+                  return (
+                    <div
+                      key={i}
+                      className={`h-2 w-12 rounded-full transition-colors ${
+                        i <= step ? 'bg-teal-500' : 'bg-gray-200'
+                      }`}
+                    />
+                  );
+                })}
               </div>
             </div>
             <button
@@ -457,6 +468,76 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
               </div>
             )}
 
+            {step === 5 && sites.length > 0 && (
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                    Choose a website
+                  </h2>
+                  <p className="text-gray-600 mb-6">
+                    Select which website should display this course, or skip to keep it in your dashboard only.
+                  </p>
+                </div>
+
+                <div className="space-y-4 max-h-64 overflow-y-auto">
+                  {sites.map((site) => (
+                    <label key={site.id} className="flex items-start space-x-3 cursor-pointer p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                      <input
+                        type="radio"
+                        name="website"
+                        value={site.id}
+                        checked={courseData.selectedWebsite === site.id}
+                        onChange={(e) => setCourseData(prev => ({ ...prev, selectedWebsite: e.target.value }))}
+                        className="mt-1 h-4 w-4 text-teal-600 border-gray-300 focus:ring-teal-500"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2">
+                          <Globe className="h-4 w-4 text-gray-500" />
+                          <div className="font-medium text-gray-900">{site.name}</div>
+                          <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                            site.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {site.status}
+                          </span>
+                        </div>
+                        <div className="text-sm text-gray-600 mt-1">{site.url}</div>
+                      </div>
+                    </label>
+                  ))}
+                  
+                  <label className="flex items-start space-x-3 cursor-pointer p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                    <input
+                      type="radio"
+                      name="website"
+                      value="none"
+                      checked={courseData.selectedWebsite === 'none'}
+                      onChange={(e) => setCourseData(prev => ({ ...prev, selectedWebsite: e.target.value }))}
+                      className="mt-1 h-4 w-4 text-teal-600 border-gray-300 focus:ring-teal-500"
+                    />
+                    <div>
+                      <div className="font-medium text-gray-900">Dashboard only</div>
+                      <div className="text-sm text-gray-600">Keep this course in your dashboard without displaying it on any website</div>
+                    </div>
+                  </label>
+                </div>
+
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => setStep(courseData.access === 'paid' ? 3 : 2)}
+                    className="flex-1 py-3 border border-teal-600 text-teal-600 rounded-lg hover:bg-teal-50 transition-colors font-medium"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={() => setStep(4)}
+                    className="flex-1 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium"
+                  >
+                    Continue
+                  </button>
+                </div>
+              </div>
+            )}
+
             {step === 4 && (
               <div className="space-y-6">
                 <div>
@@ -464,7 +545,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                     Course created successfully!
                   </h2>
                   <p className="text-gray-600 mb-6">
-                    Your course "{courseData.title}" has been created. You can now start adding content and customizing your course.
+                    Your course "{courseData.title}" has been created{sites.length > 0 && courseData.selectedWebsite && courseData.selectedWebsite !== 'none' ? ` and will be displayed on ${sites.find(s => s.id === courseData.selectedWebsite)?.name}` : ''}.
                   </p>
                 </div>
 
@@ -515,7 +596,8 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                         title: courseData.title,
                         description: courseData.description,
                         status: courseData.access === 'draft' ? 'draft' : 'published',
-                        coverImage: courseData.coverImage
+                        coverImage: courseData.coverImage,
+                        websiteId: courseData.selectedWebsite !== 'none' ? courseData.selectedWebsite : null
                       });
                       
                       // Reset form
@@ -526,7 +608,8 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                         coverImage: null,
                         access: 'draft',
                         price: '',
-                        comparePrice: ''
+                        comparePrice: '',
+                        selectedWebsite: null
                       });
                       onClose();
                     }}
@@ -540,7 +623,8 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                         title: courseData.title,
                         description: courseData.description,
                         status: courseData.access === 'draft' ? 'draft' : 'published',
-                        coverImage: courseData.coverImage
+                        coverImage: courseData.coverImage,
+                        websiteId: courseData.selectedWebsite !== 'none' ? courseData.selectedWebsite : null
                       });
                       
                       if (createdCourse && onCourseCreated) {
@@ -555,7 +639,8 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                         coverImage: null,
                         access: 'draft',
                         price: '',
-                        comparePrice: ''
+                        comparePrice: '',
+                        selectedWebsite: null
                       });
                       onClose();
                     }}

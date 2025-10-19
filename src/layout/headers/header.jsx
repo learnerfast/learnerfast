@@ -9,8 +9,10 @@ import React, {useState, useRef, useEffect} from 'react';
 import NavMenu from './nav-menu';
 import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
+import UserDropdown from '@/components/UserDropdown';
+import '@/styles/user-dropdown.css';
 
-import logo from "@/assets/img/logo/logo-black.png"
+import logo from "@/../public/learnerfast-logo.png"
 
 const Header = () => {
 
@@ -18,16 +20,49 @@ const Header = () => {
       const [searchOpen, setSearchOpen] = useState(false)
       const [sidebarOpen, setSidebarOpen] = useState(false)
       const [user, setUser] = useState(null)
+      const [loading, setLoading] = useState(true)
+      const [showDropdown, setShowDropdown] = useState(false)
+      const [dropdownTimeout, setDropdownTimeout] = useState(null)
+      const [sites, setSites] = useState([])
+
+      const loadUserSites = async (userId) => {
+         try {
+            const { data, error } = await supabase
+               .from('sites')
+               .select('*')
+               .eq('user_id', userId)
+               .order('created_at', { ascending: false })
+               .limit(3)
+            
+            if (error) throw error
+            
+            setSites((data || []).slice(0, 3))
+         } catch (error) {
+            console.warn('Error loading sites:', error)
+            setSites([])
+         }
+      }
 
       useEffect(() => {
          const getUser = async () => {
             const { data: { user } } = await supabase.auth.getUser()
             setUser(user)
+            if (user) {
+               loadUserSites(user.id)
+            }
+            setLoading(false)
          }
          getUser()
          
          const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-            setUser(session?.user || null)
+            const currentUser = session?.user || null
+            setUser(currentUser)
+            setLoading(false)
+            if (currentUser) {
+               loadUserSites(currentUser.id)
+            } else {
+               setSites([])
+            }
          })
          
          return () => subscription.unsubscribe()
@@ -86,8 +121,8 @@ const Header = () => {
                   <div className="container">
                      <div className="row align-items-center">
                         <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-4 col-6">
-                           <div className="header-bottom__logo">
-                              <Link href="/"><Image  src={logo} alt="theme-pure" /></Link>
+                           <div className="header-bottom__logo" style={{marginLeft: '-20px'}}>
+                              <Link href="/"><Image  src={logo} alt="theme-pure" style={{maxWidth: '150px', height: 'auto'}} /></Link>
                            </div>
                         </div>
                         <div className="col-xxl-6 col-xl-5 col-lg-5 d-none d-lg-block">
@@ -100,15 +135,26 @@ const Header = () => {
                         <div className="col-xxl-4 col-xl-5 col-lg-5 col-md-8 col-6">
                            <div className="header-bottom__right d-flex align-items-center justify-content-end">
                               <div className="header-bottom__action">
-                                 <a className="d-none d-md-inline-block search-open-btn"
-                                    onClick={() => setSearchOpen(true)} > 
-                                    <SearchIconTwo />
-                                 </a>
-                                 {user ? (
-                                    <div className="d-none d-lg-inline-block last-child d-flex align-items-center">
-                                       <UserIcon /> 
-                                       <span className="me-2">{user.user_metadata?.full_name || user.email}</span>
-                                       <button onClick={handleLogout} className="btn btn-sm">Logout</button>
+                                 {loading ? null : user ? (
+                                    <div className="d-none d-lg-inline-block last-child position-relative"
+                                         onMouseEnter={() => {
+                                            if (dropdownTimeout) clearTimeout(dropdownTimeout)
+                                            setShowDropdown(true)
+                                         }}
+                                         onMouseLeave={() => {
+                                            const timeout = setTimeout(() => setShowDropdown(false), 300)
+                                            setDropdownTimeout(timeout)
+                                         }}>
+                                       <div className="d-flex align-items-center cursor-pointer tp-header-action-item">
+                                          <UserIcon /> 
+                                          <span className="ms-2">{user.user_metadata?.full_name || user.email}</span>
+                                          <svg className="ms-1" width="8" height="5" viewBox="0 0 8 5" fill="none">
+                                             <path d="M1 1L4 4L7 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                          </svg>
+                                       </div>
+                                       {showDropdown && (
+                                          <UserDropdown sites={sites} onLogout={handleLogout} />
+                                       )}
                                     </div>
                                  ) : (
                                     <Link className="d-none d-lg-inline-block last-child" href="/sign-in">
@@ -118,10 +164,12 @@ const Header = () => {
                                  )}
                               </div>
                               <div className="header-bottom__btn d-flex align-items-center">
-                                 <Link className="tp-btn-white tp-btn-hover alt-color-black d-none d-md-inline-block" href="/register">
-                                    <span className="white-text">Get Started</span>
-                                    <b></b>
-                                 </Link>
+                                 {!loading && !user && (
+                                    <Link className="tp-btn-white tp-btn-hover alt-color-black d-none d-md-inline-block" href="/register">
+                                       <span className="white-text">Get Started</span>
+                                       <b></b>
+                                    </Link>
+                                 )}
                                  <a className="header-bottom__bar d-lg-none tp-menu-bar" onClick={() => setSidebarOpen(true)}><i className="fal fa-bars"></i></a>
                               </div>
                            </div>

@@ -1,116 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Training - FitCoach</title>
-    <link rel="stylesheet" href="css/style.css">
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Course Detail</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1193d4",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "foreground-light": "#111618",
+                        "foreground-dark": "#f0f3f4",
+                        "subtle-light": "#617c89",
+                        "subtle-dark": "#a0b1b9",
+                        "border-light": "#dbe2e6",
+                        "border-dark": "#3a4a52",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .custom-checkbox:checked {
+            background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
+        }
+    </style>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">🏋️ FitCoach</a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="courses.html">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div class="nav-buttons">
-                <a href="signin.html" class="btn btn-outline">Sign In</a>
-                <a href="register.html" class="btn btn-primary">Get Started</a>
-            </div>
-        </div>
-    </nav>
+<body class="bg-background-light dark:bg-background-dark font-display text-foreground-light dark:text-foreground-dark">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">FitCoach Pro</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="max-w-4xl mx-auto">
+<div class="w-full aspect-video rounded-xl overflow-hidden mb-8">
+<div class="w-full h-full bg-center bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuARgAJxxxCOZq22v8RiQVMT-MHlD-Cx5wLR38VeI6Tfge4bcdxedlOytiGEAUglYLf35_CkRFMDUXOyqn0HAoW4ji0ZeyzXP7Rv3HPA4o2l6fVJ4ghEmwUlXXTDoE8nA-nWlXNZjYEYvNGYsRxKPPW_N_rWr-tEr6fxwjIZ1H5w3K3D36m_hr5ZLBldI8zh4Jb1Kg519nTmKDbSaMqlgXrd5JgC0qPtYIPvT4W_T_VBUx8TA3Woe8M-MQBWfeHqYONA6zyQdG87ig");'></div>
+</div>
+<div class="space-y-10">
+<section>
+<h1 class="text-4xl font-bold mb-4">Yoga for Beginners</h1>
+<p class="text-lg text-subtle-light dark:text-subtle-dark">This course is designed for individuals new to yoga, focusing on foundational poses, breathing techniques, and mindfulness practices. Participants will learn to build strength, flexibility, and balance while reducing stress and improving overall well-being.</p>
+</section>
+<section>
+<h2 class="text-3xl font-bold mb-6">What You'll Learn</h2>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="custom-checkbox h-5 w-5 rounded border-2 border-border-light dark:border-border-dark bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 transition" type="checkbox"/>
+<span class="text-base">Master basic yoga poses</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="custom-checkbox h-5 w-5 rounded border-2 border-border-light dark:border-border-dark bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 transition" type="checkbox"/>
+<span class="text-base">Improve flexibility and balance</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="custom-checkbox h-5 w-5 rounded border-2 border-border-light dark:border-border-dark bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 transition" type="checkbox"/>
+<span class="text-base">Learn breathing techniques</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="custom-checkbox h-5 w-5 rounded border-2 border-border-light dark:border-border-dark bg-transparent text-primary checked:bg-primary checked:border-primary focus:ring-0 focus:ring-offset-0 transition" type="checkbox"/>
+<span class="text-base">Develop mindfulness practices</span>
+</label>
+</div>
+</section>
+<section>
+<h2 class="text-3xl font-bold mb-6">Meet Your Instructor</h2>
+<div class="flex flex-col sm:flex-row items-center gap-6 p-6 bg-background-light dark:bg-background-dark rounded-xl border border-border-light dark:border-border-dark">
+<div class="w-32 h-32 rounded-full overflow-hidden flex-shrink-0">
+<div class="w-full h-full bg-center bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCtpOSpKUlynIQCp6lphCP86rkgeJnRkqzpgHg_MsUjq7KQQhz1YzYamvF0mAjpllg03_-psF88BJjIaAzLKCAz99rDCfTN3zOWIGVJqwqXXz16Lb7e3OqmsHe0SLkL6q_Zl_1A1oW7_iPxlqqqrLvzu7Tr6LxCpRcda3c11mvZf7qfrAM8DfXRmkVcSYXmxru0vIKwuAU0YWOEWTVt6sZoyT_u-pMn1AbV6Ld-rSIFcpQmZEF8O4-iqcqec5B_gMk_SaO_DFEz4w");'></div>
+</div>
+<div class="text-center sm:text-left">
+<h3 class="text-2xl font-bold">Sarah Miller</h3>
+<p class="text-primary font-medium mb-2">Certified Yoga Instructor</p>
+<p class="text-subtle-light dark:text-subtle-dark">Sarah Miller is a certified yoga instructor with over 10 years of experience. She specializes in beginner-friendly yoga and mindfulness practices, helping students of all levels achieve their fitness and wellness goals.</p>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-3xl font-bold mb-6">Course Curriculum</h2>
+<div class="space-y-4">
+<details class="group rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark overflow-hidden" open="">
+<summary class="flex cursor-pointer items-center justify-between p-4 bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+<h3 class="text-lg font-medium">Week 1: Introduction to Yoga</h3>
+<div class="transform transition-transform duration-300 group-open:rotate-180">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+</summary>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<p class="text-subtle-light dark:text-subtle-dark">This week covers the basics of yoga, including proper alignment, breathing techniques, and an introduction to common poses.</p>
+</div>
+</details>
+<details class="group rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark overflow-hidden">
+<summary class="flex cursor-pointer items-center justify-between p-4 bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+<h3 class="text-lg font-medium">Week 2: Foundational Poses</h3>
+<div class="transform transition-transform duration-300 group-open:rotate-180">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+</summary>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<p class="text-subtle-light dark:text-subtle-dark">Dive deeper into fundamental yoga poses, focusing on building strength, stability, and body awareness. We'll break down each pose to ensure safe and effective practice.</p>
+</div>
+</details>
+<details class="group rounded-lg border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark overflow-hidden">
+<summary class="flex cursor-pointer items-center justify-between p-4 bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors">
+<h3 class="text-lg font-medium">Week 3: Breathing and Mindfulness</h3>
+<div class="transform transition-transform duration-300 group-open:rotate-180">
+<svg fill="currentColor" height="24" viewBox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+</svg>
+</div>
+</summary>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<p class="text-subtle-light dark:text-subtle-dark">Explore the power of pranayama (breathing techniques) and meditation to calm the mind, reduce stress, and cultivate a deeper connection to the present moment.</p>
+</div>
+</details>
+</div>
+</section>
+<section class="text-center pt-8">
+<button class="bg-primary text-white text-lg font-bold rounded-xl px-8 py-4 hover:bg-primary/90 transition-transform transform hover:scale-105">
+                                Enroll Now and Start Your Journey
+                            </button>
+</section>
+</div>
+</div>
+</div>
+</main>
+</div>
 
-    <section style="padding: 4rem 0; background: #f8f9fa;">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
-                <div>
-                    <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Personal Training Sessions</h1>
-                    <p style="font-size: 1.125rem; color: #666; margin-bottom: 2rem;">One-on-one training sessions tailored to your specific goals and fitness level with certified personal trainer.</p>
-                    
-                    <div style="background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                        <h3 style="margin-bottom: 1rem;">What's Included</h3>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                <span style="color: #28a745;">✓</span> Customized workout plans
-                            </li>
-                            <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                <span style="color: #28a745;">✓</span> Form correction & technique guidance
-                            </li>
-                            <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                <span style="color: #28a745;">✓</span> Progress tracking and assessments
-                            </li>
-                            <li style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                                <span style="color: #28a745;">✓</span> Nutritional guidance
-                            </li>
-                            <li style="display: flex; align-items: center; gap: 0.5rem;">
-                                <span style="color: #28a745;">✓</span> 24/7 support via app
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                        <h3 style="margin-bottom: 1rem;">Session Details</h3>
-                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-                            <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 6px;">
-                                <div style="font-size: 1.5rem; font-weight: bold; color: #007bff;">60</div>
-                                <div style="font-size: 0.875rem; color: #666;">Minutes</div>
-                            </div>
-                            <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 6px;">
-                                <div style="font-size: 1.5rem; font-weight: bold; color: #007bff;">1-on-1</div>
-                                <div style="font-size: 0.875rem; color: #666;">Training</div>
-                            </div>
-                            <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 6px;">
-                                <div style="font-size: 1.5rem; font-weight: bold; color: #007bff;">All</div>
-                                <div style="font-size: 0.875rem; color: #666;">Levels</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="position: sticky; top: 2rem;">
-                    <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                        <div style="text-align: center; margin-bottom: 2rem;">
-                            <div style="font-size: 2.5rem; font-weight: bold; color: #007bff;">$75</div>
-                            <div style="color: #666;">per session</div>
-                        </div>
-                        
-                        <div style="margin-bottom: 1.5rem;">
-                            <div style="background: #e8f5e8; padding: 1rem; border-radius: 6px; text-align: center;">
-                                <div style="font-weight: bold; color: #28a745;">Free Consultation</div>
-                                <div style="font-size: 0.875rem; color: #666;">First session assessment</div>
-                            </div>
-                        </div>
-
-                        <div style="display: flex; flex-direction: column; gap: 1rem;">
-                            <a href="register.html" class="btn btn-primary" style="width: 100%; padding: 1rem; text-align: center;">Book Session</a>
-                            <a href="contact.html" class="btn btn-outline" style="width: 100%; padding: 1rem; text-align: center;">Free Consultation</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>FitCoach</h3>
-                <p>Your dedicated partner in achieving optimal health and fitness</p>
-            </div>
-            <div class="footer-section">
-                <h3>Services</h3>
-                <ul>
-                    <li><a href="#">Personal Training</a></li>
-                    <li><a href="#">Nutrition Coaching</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 FitCoach. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+</body></html>

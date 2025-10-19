@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Send, Users, MessageSquare, Mail, Bell, Calendar, Filter, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { toast } from 'react-hot-toast';
+import { supabase } from '../../lib/supabase';
 // Mock data generator
 const faker = {
   person: {
@@ -44,28 +45,36 @@ const Communication = () => {
   const [showNewMessageModal, setShowNewMessageModal] = useState(false);
   const { user } = useAuth();
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!newMessage.recipient || !newMessage.subject || !newMessage.content) {
       toast.error('Please fill in all fields');
       return;
     }
     
-    // Save message to localStorage for demo
-    const messages = JSON.parse(localStorage.getItem('user-messages') || '[]');
-    messages.unshift({
-      id: Date.now(),
-      sender: user?.email || 'You',
-      recipient: newMessage.recipient,
-      subject: newMessage.subject,
-      content: newMessage.content,
-      timestamp: new Date(),
-      read: false
-    });
-    localStorage.setItem('user-messages', JSON.stringify(messages));
+    if (!user?.id) {
+      toast.error('Please log in to send messages');
+      return;
+    }
     
-    toast.success('Message sent successfully!');
-    setNewMessage({ recipient: '', subject: '', content: '' });
-    setShowNewMessageModal(false);
+    try {
+      const { error } = await supabase
+        .from('user_messages')
+        .insert({
+          sender_id: user.id,
+          recipient_email: newMessage.recipient,
+          subject: newMessage.subject,
+          content: newMessage.content
+        });
+      
+      if (error) throw error;
+      
+      toast.success('Message sent successfully!');
+      setNewMessage({ recipient: '', subject: '', content: '' });
+      setShowNewMessageModal(false);
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      toast.error('Failed to send message');
+    }
   };
 
   // Generate demo data

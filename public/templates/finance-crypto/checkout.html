@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#ffffff", "background-light": "#f7f7f7", "background-dark": "#191919"}, fontFamily: {display: "Be Vietnam Pro"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}}}};</script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<header class="sticky top-0 z-10 flex h-16 w-full items-center justify-between border-b border-white/10 bg-background-light/80 px-10 backdrop-blur-sm dark:bg-background-dark/80">
+<div class="flex items-center gap-4 text-slate-800 dark:text-white">
+<svg class="h-6 w-6 text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+<h2 class="text-lg font-bold">Financia</h2>
+</div>
+<nav class="hidden items-center gap-8 md:flex">
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Courses</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Resources</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Community</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-primary" href="#">Pricing</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="rounded-lg bg-primary/10 px-4 py-2 text-sm font-bold text-primary transition-colors hover:bg-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30">
+            Log in
+          </button>
+<button class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">
+            Get started
+          </button>
+</div>
+</header>
+<main class="flex flex-1 flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+<div class="w-full max-w-2xl rounded-xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-primary/5 backdrop-blur-lg">
+<div class="text-center">
+<svg class="mx-auto h-16 w-16 text-primary" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<h2 class="mt-4 text-3xl font-bold tracking-tight text-slate-800 dark:text-white">Thank you for your purchase!</h2>
+<p class="mt-2 text-slate-600 dark:text-slate-400">
+              Your order has been successfully processed. You will receive an email confirmation shortly with details about your purchase and access instructions.
+            </p>
+</div>
+<div class="mt-8 space-y-6">
+<div class="rounded-lg border border-white/10 p-6">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white">Order Summary</h3>
+<div class="mt-4 space-y-4">
+<div class="flex justify-between border-t border-white/10 pt-4">
+<p class="text-sm text-slate-500 dark:text-slate-400">Order Number</p>
+<p class="text-sm font-medium text-slate-800 dark:text-white">#123456789</p>
+</div>
+<div class="flex justify-between border-t border-white/10 pt-4">
+<p class="text-sm text-slate-500 dark:text-slate-400">Date</p>
+<p class="text-sm font-medium text-slate-800 dark:text-white">July 26, 2024</p>
+</div>
+<div class="flex justify-between border-t border-white/10 pt-4">
+<p class="text-sm text-slate-500 dark:text-slate-400">Total</p>
+<p class="text-sm font-medium text-slate-800 dark:text-white">$199.00</p>
+</div>
+<div class="flex justify-between border-t border-white/10 pt-4">
+<p class="text-sm text-slate-500 dark:text-slate-400">Payment Method</p>
+<p class="text-sm font-medium text-slate-800 dark:text-white">Credit Card</p>
+</div>
+</div>
+</div>
+<div class="rounded-lg border border-white/10 p-6">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white">Items Purchased</h3>
+<div class="mt-4 flex items-center gap-4">
+<div class="h-16 w-16 flex-shrink-0 rounded-lg bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAbBUySy6yvzBYz7Kr6sJxCRZhcFDdtycJfaCL9NdEbKipUWKYM-M5R8GcQ1Exzoz3i6Lb4M44PTcykFWyZxPurXJL9Wz9lzuuq_wgEwrvvi4_qmqBKZsKJEgDZjP3D-CtnAv3KEyW5P8ZZieEPWzW0VWkWvBcPEwi3k5-HxC3AwBx9tm9voSSwFfcITalyY6NUCP9FsUSflp6jmACLzEGYySrtEQz4rYCPLOr0f7E01Obca8GQQWfBgTciYf922YijFJQQ1Tsk744z");'></div>
+<div class="flex-grow">
+<p class="font-medium text-slate-800 dark:text-white">Financial Modeling Mastery</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Advanced Financial Modeling Course</p>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-center">
+<button class="w-full rounded-lg bg-primary px-6 py-3 text-base font-bold text-white shadow-lg shadow-primary/20 transition-transform hover:scale-105 sm:w-auto">
+                Access Your Course
+              </button>
+</div>
+<p class="pt-4 text-center text-sm text-slate-500 dark:text-slate-400">
+              If you have any questions, please contact our support team at
+              <a class="font-medium text-primary hover:underline" href="mailto:support@financia.com">support@financia.com</a>
+</p>
+</div>
+</div>
+</main>
+<footer class="w-full bg-background-light py-10 dark:bg-background-dark">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col items-center justify-between gap-6 md:flex-row">
+<nav class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+<a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Terms of Service</a>
+<a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Contact Us</a>
+</nav>
+<div class="flex justify-center gap-6">
+<a class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24">
+<path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+</svg>
+</a>
+<a class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path>
+</svg>
+</a>
+<a class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24">
+<path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.791 2.013 10.145 2 12.315 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 8a3 3 0 110-6 3 3 0 010 6zm5.25-9.75a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" fill-rule="evenodd"></path>
+</svg>
+</a>
+<a class="text-slate-400 hover:text-primary dark:text-slate-500 dark:hover:text-primary" href="#">
+<svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24">
+<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+</svg>
+</a>
+</div>
+<p class="text-center text-sm text-slate-500 dark:text-slate-400">© 2024 Financia. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

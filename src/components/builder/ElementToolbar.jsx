@@ -20,49 +20,116 @@ import { useBuilder } from '../../contexts/BuilderContext';
 const ElementToolbar = ({ element, position = { x: 0, y: 0 } }) => {
   const { setSelectedElement, updateElement, deleteElement } = useBuilder();
   const [isDragging, setIsDragging] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isLocked, setIsLocked] = useState(false);
 
   const handleDuplicate = () => {
     if (element?.element) {
       const cloned = element.element.cloneNode(true);
+      cloned.removeAttribute('data-builder-selected');
+      cloned.classList.remove('builder-selected');
       element.element.parentNode.insertBefore(cloned, element.element.nextSibling);
+      
+      if (window.showToast) {
+        window.showToast('Element duplicated', 'success');
+      }
     }
   };
 
   const handleDelete = () => {
     if (element?.element) {
-      element.element.remove();
-      setSelectedElement(null);
+      if (confirm('Are you sure you want to delete this element?')) {
+        element.element.remove();
+        setSelectedElement(null);
+        
+        if (window.showToast) {
+          window.showToast('Element deleted', 'success');
+        }
+      }
     }
   };
 
   const handleMoveUp = () => {
     if (element?.element?.previousElementSibling) {
       element.element.parentNode.insertBefore(element.element, element.element.previousElementSibling);
+      
+      if (window.showToast) {
+        window.showToast('Element moved up', 'success');
+      }
     }
   };
 
   const handleMoveDown = () => {
     if (element?.element?.nextElementSibling) {
       element.element.parentNode.insertBefore(element.element.nextElementSibling, element.element);
+      
+      if (window.showToast) {
+        window.showToast('Element moved down', 'success');
+      }
     }
   };
 
   const handleStartDrag = () => {
+    if (isLocked) {
+      if (window.showToast) {
+        window.showToast('Element is locked', 'warning');
+      }
+      return;
+    }
+    
     setIsDragging(true);
-    // Add drag functionality here
+    if (element?.element) {
+      element.element.style.cursor = 'move';
+      element.element.draggable = true;
+    }
+  };
+
+  const handleToggleVisibility = () => {
+    if (element?.element) {
+      const newVisibility = !isVisible;
+      setIsVisible(newVisibility);
+      element.element.style.display = newVisibility ? '' : 'none';
+      
+      if (window.showToast) {
+        window.showToast(`Element ${newVisibility ? 'shown' : 'hidden'}`, 'success');
+      }
+    }
+  };
+
+  const handleToggleLock = () => {
+    if (element?.element) {
+      const newLockState = !isLocked;
+      setIsLocked(newLockState);
+      element.element.style.pointerEvents = newLockState ? 'none' : 'auto';
+      element.element.setAttribute('data-locked', newLockState);
+      
+      if (window.showToast) {
+        window.showToast(`Element ${newLockState ? 'locked' : 'unlocked'}`, 'success');
+      }
+    }
+  };
+
+  const handleEdit = () => {
+    if (element?.element) {
+      const isEditable = element.element.getAttribute('contenteditable') === 'true';
+      
+      if (isEditable) {
+        element.element.setAttribute('contenteditable', 'false');
+        element.element.style.outline = '';
+        element.element.blur();
+      } else {
+        element.element.setAttribute('contenteditable', 'true');
+        element.element.style.outline = '2px solid #3b82f6';
+        element.element.focus();
+      }
+    }
   };
 
   const tools = [
     {
       icon: Edit3,
       label: 'Edit',
-      action: () => {
-        if (element?.element) {
-          element.element.setAttribute('contenteditable', 'true');
-          element.element.style.outline = '2px solid #3b82f6';
-          element.element.focus();
-        }
-      },
+      action: handleEdit,
       color: 'text-blue-600 hover:bg-blue-50'
     },
     {
@@ -81,13 +148,27 @@ const ElementToolbar = ({ element, position = { x: 0, y: 0 } }) => {
       icon: ArrowUp,
       label: 'Move Up',
       action: handleMoveUp,
-      color: 'text-gray-600 hover:bg-gray-50'
+      color: 'text-gray-600 hover:bg-gray-50',
+      disabled: !element?.element?.previousElementSibling
     },
     {
       icon: ArrowDown,
       label: 'Move Down',
       action: handleMoveDown,
-      color: 'text-gray-600 hover:bg-gray-50'
+      color: 'text-gray-600 hover:bg-gray-50',
+      disabled: !element?.element?.nextElementSibling
+    },
+    {
+      icon: isVisible ? Eye : EyeOff,
+      label: isVisible ? 'Hide' : 'Show',
+      action: handleToggleVisibility,
+      color: 'text-indigo-600 hover:bg-indigo-50'
+    },
+    {
+      icon: isLocked ? Lock : Unlock,
+      label: isLocked ? 'Unlock' : 'Lock',
+      action: handleToggleLock,
+      color: 'text-yellow-600 hover:bg-yellow-50'
     },
     {
       icon: Trash2,
@@ -119,7 +200,8 @@ const ElementToolbar = ({ element, position = { x: 0, y: 0 } }) => {
           key={index}
           onClick={tool.action}
           title={tool.label}
-          className={`p-2 rounded-md transition-colors ${tool.color}`}
+          disabled={tool.disabled}
+          className={`p-2 rounded-md transition-colors ${tool.color} ${tool.disabled ? 'opacity-30 cursor-not-allowed' : ''}`}
         >
           <tool.icon className="h-4 w-4" />
         </button>

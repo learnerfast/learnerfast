@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - AcademyPro | Professional Course Platform</title>
+    <meta name="description" content="Explore our comprehensive catalog of professional courses taught by industry experts. Advance your career with practical skills in technology, business, and more.">
+    <meta name="keywords" content="online courses, professional development, technology training, business skills, certification courses">
+    
+    <link rel="canonical" href="https://academypro.com/courses">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Structured Data for Course Listings -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "AcademyPro Courses",
+      "description": "Professional courses for career advancement",
+      "itemListElement": [
+        {
+          "@type": "Course",
+          "name": "Data Science Fundamentals",
+          "description": "Master Python, statistics, and machine learning to extract insights from data and drive business decisions.",
+          "provider": {
+            "@type": "Organization",
+            "name": "AcademyPro"
+          },
+          "courseCode": "DS101",
+          "educationalLevel": "Intermediate",
+          "timeRequired": "P12W",
+          "offers": {
+            "@type": "Offer",
+            "price": "299",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "Course",
+          "name": "Digital Marketing Strategy",
+          "description": "Learn to create effective digital marketing campaigns across social media, email, and search platforms.",
+          "provider": {
+            "@type": "Organization",
+            "name": "AcademyPro"
+          },
+          "courseCode": "DM101",
+          "educationalLevel": "Beginner",
+          "timeRequired": "P8W",
+          "offers": {
+            "@type": "Offer",
+            "price": "199",
+            "priceCurrency": "USD"
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <header class="header" role="banner">
+        <nav class="navbar" role="navigation" aria-label="Main navigation">
+            <div class="nav-container">
+                <a href="index.html" class="logo" aria-label="AcademyPro Home">
+                    <span class="logo-text">AcademyPro</span>
+                </a>
+                
+                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                
+                <ul class="nav-links" role="menubar">
+                    <li role="none"><a href="index.html" role="menuitem">Home</a></li>
+                    <li role="none"><a href="about.html" role="menuitem">About</a></li>
+                    <li role="none"><a href="courses.html" role="menuitem" aria-current="page">Courses</a></li>
+                    <li role="none"><a href="contact.html" role="menuitem">Contact</a></li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <a href="signin.html" class="btn btn-outline">Sign In</a>
+                    <a href="register.html" class="btn btn-primary">Get Started</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main role="main">
+        <section class="page-hero" aria-labelledby="courses-title">
+            <div class="container">
+                <div class="page-hero-content">
+                    <h1 id="courses-title" class="page-title">Professional Courses</h1>
+                    <p class="page-subtitle">
+                        Advance your career with expert-led courses designed for working professionals. 
+                        Learn practical skills you can apply immediately.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="filters-section" aria-label="Course filters">
+            <div class="container">
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <label for="category-filter" class="filter-label">Category:</label>
+                        <select id="category-filter" class="filter-select" aria-label="Filter by category">
+                            <option value="all">All Categories</option>
+                            <option value="technology">Technology</option>
+                            <option value="business">Business</option>
+                            <option value="design">Design</option>
+                            <option value="marketing">Marketing</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="level-filter" class="filter-label">Level:</label>
+                        <select id="level-filter" class="filter-select" aria-label="Filter by difficulty level">
+                            <option value="all">All Levels</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="duration-filter" class="filter-label">Duration:</label>
+                        <select id="duration-filter" class="filter-select" aria-label="Filter by course duration">
+                            <option value="all">Any Duration</option>
+                            <option value="short">1-4 weeks</option>
+                            <option value="medium">5-12 weeks</option>
+                            <option value="long">13+ weeks</option>
+                        </select>
+                    </div>
+                    
+                    <div class="search-group">
+                        <label for="search-input" class="sr-only">Search courses</label>
+                        <input type="search" id="search-input" class="search-input" placeholder="Search courses..." aria-label="Search courses">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="courses-catalog" aria-labelledby="catalog-title">
+            <div class="container">
+                <h2 id="catalog-title" class="sr-only">Course Catalog</h2>
+                
+                <div class="courses-grid" id="courses-grid">
+                    <article class="course-card" data-category="technology" data-level="intermediate" data-duration="medium">
+                        <div class="course-image">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                                 alt="Data Science course materials and laptop" loading="lazy">
+                            <div class="course-level">Intermediate</div>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">Technology</div>
+                            <h3 class="course-title">Data Science Fundamentals</h3>
+                            <p class="course-description">
+                                Master Python, statistics, and machine learning to extract insights from data and drive business decisions.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration">12 weeks</span>
+                                <span class="course-students">2,847 students</span>
+                                <div class="course-rating">
+                                    <span class="rating-stars">★★★★★</span>
+                                    <span class="rating-score">4.8</span>
+                                </div>
+                            </div>
+                            <div class="course-footer">
+                                <div class="course-price">$299</div>
+                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="course-card" data-category="marketing" data-level="beginner" data-duration="medium">
+                        <div class="course-image">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                                 alt="Digital marketing dashboard and analytics" loading="lazy">
+                            <div class="course-level">Beginner</div>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">Marketing</div>
+                            <h3 class="course-title">Digital Marketing Strategy</h3>
+                            <p class="course-description">
+                                Learn to create effective digital marketing campaigns across social media, email, and search platforms.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration">8 weeks</span>
+                                <span class="course-students">4,123 students</span>
+                                <div class="course-rating">
+                                    <span class="rating-stars">★★★★★</span>
+                                    <span class="rating-score">4.7</span>
+                                </div>
+                            </div>
+                            <div class="course-footer">
+                                <div class="course-price">$199</div>
+                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="course-card" data-category="business" data-level="advanced" data-duration="medium">
+                        <div class="course-image">
+                            <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                                 alt="Project management meeting with team" loading="lazy">
+                            <div class="course-level">Advanced</div>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">Business</div>
+                            <h3 class="course-title">Agile Project Management</h3>
+                            <p class="course-description">
+                                Master agile methodologies and lead high-performing teams to deliver projects on time and within budget.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration">10 weeks</span>
+                                <span class="course-students">1,956 students</span>
+                                <div class="course-rating">
+                                    <span class="rating-stars">★★★★★</span>
+                                    <span class="rating-score">4.9</span>
+                                </div>
+                            </div>
+                            <div class="course-footer">
+                                <div class="course-price">$399</div>
+                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="course-card" data-category="design" data-level="intermediate" data-duration="medium">
+                        <div class="course-image">
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                                 alt="UX design wireframes and prototypes" loading="lazy">
+                            <div class="course-level">Intermediate</div>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">Design</div>
+                            <h3 class="course-title">UX/UI Design Mastery</h3>
+                            <p class="course-description">
+                                Create user-centered designs that drive engagement and conversion through proven UX/UI principles.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration">14 weeks</span>
+                                <span class="course-students">3,241 students</span>
+                                <div class="course-rating">
+                                    <span class="rating-stars">★★★★★</span>
+                                    <span class="rating-score">4.8</span>
+                                </div>
+                            </div>
+                            <div class="course-footer">
+                                <div class="course-price">$349</div>
+                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="course-card" data-category="technology" data-level="beginner" data-duration="short">
+                        <div class="course-image">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                                 alt="Web development code on computer screen" loading="lazy">
+                            <div class="course-level">Beginner</div>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">Technology</div>
+                            <h3 class="course-title">Web Development Basics</h3>
+                            <p class="course-description">
+                                Learn HTML, CSS, and JavaScript fundamentals to build responsive websites from scratch.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration">6 weeks</span>
+                                <span class="course-students">5,672 students</span>
+                                <div class="course-rating">
+                                    <span class="rating-stars">★★★★☆</span>
+                                    <span class="rating-score">4.6</span>
+                                </div>
+                            </div>
+                            <div class="course-footer">
+                                <div class="course-price">$149</div>
+                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                    <article class="course-card" data-category="business" data-level="intermediate" data-duration="short">
+                        <div class="course-image">
+                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
+                                 alt="Financial analysis charts and graphs" loading="lazy">
+                            <div class="course-level">Intermediate</div>
+                        </div>
+                        <div class="course-content">
+                            <div class="course-category">Business</div>
+                            <h3 class="course-title">Financial Analysis</h3>
+                            <p class="course-description">
+                                Master financial modeling, valuation techniques, and investment analysis for better business decisions.
+                            </p>
+                            <div class="course-meta">
+                                <span class="course-duration">8 weeks</span>
+                                <span class="course-students">2,134 students</span>
+                                <div class="course-rating">
+                                    <span class="rating-stars">★★★★★</span>
+                                    <span class="rating-score">4.7</span>
+                                </div>
+                            </div>
+                            <div class="course-footer">
+                                <div class="course-price">$279</div>
+                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                
+                <div class="pagination" role="navigation" aria-label="Course pagination">
+                    <button class="pagination-btn" aria-label="Previous page" disabled>Previous</button>
+                    <button class="pagination-btn active" aria-current="page">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn" aria-label="Next page">Next</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="newsletter-section">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2 class="newsletter-title">Stay Updated</h2>
+                    <p class="newsletter-description">
+                        Get notified about new courses, special offers, and learning resources.
+                    </p>
+                    <form class="newsletter-form" aria-label="Newsletter signup">
+                        <label for="email-input" class="sr-only">Email address</label>
+                        <input type="email" id="email-input" class="newsletter-input" placeholder="Enter your email" required aria-describedby="email-help">
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                        <div id="email-help" class="sr-only">We'll send you updates about new courses and offers</div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">AcademyPro</h3>
+                <p class="footer-description">
+                    Empowering professionals worldwide with expert-led courses and practical skills for career advancement.
+                </p>
+                <div class="social-links">
+                    <a href="#" aria-label="Follow us on LinkedIn">LinkedIn</a>
+                    <a href="#" aria-label="Follow us on Twitter">Twitter</a>
+                    <a href="#" aria-label="Follow us on YouTube">YouTube</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="footer-heading">Courses</h4>
+                <ul class="footer-links">
+                    <li><a href="courses.html">All Courses</a></li>
+                    <li><a href="#">Technology</a></li>
+                    <li><a href="#">Business</a></li>
+                    <li><a href="#">Design</a></li>
+                    <li><a href="#">Marketing</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="footer-heading">Company</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4 class="footer-heading">Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                    <li><a href="#">Sitemap</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 AcademyPro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+            mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
+            navLinks.classList.toggle('active');
+        });
+        
+        // Course filtering functionality
+        const categoryFilter = document.getElementById('category-filter');
+        const levelFilter = document.getElementById('level-filter');
+        const durationFilter = document.getElementById('duration-filter');
+        const searchInput = document.getElementById('search-input');
+        const coursesGrid = document.getElementById('courses-grid');
+        const courseCards = document.querySelectorAll('.course-card');
+        
+        function filterCourses() {
+            const categoryValue = categoryFilter.value;
+            const levelValue = levelFilter.value;
+            const durationValue = durationFilter.value;
+            const searchValue = searchInput.value.toLowerCase();
+            
+            courseCards.forEach(card => {
+                const category = card.dataset.category;
+                const level = card.dataset.level;
+                const duration = card.dataset.duration;
+                const title = card.querySelector('.course-title').textContent.toLowerCase();
+                const description = card.querySelector('.course-description').textContent.toLowerCase();
+                
+                const categoryMatch = categoryValue === 'all' || category === categoryValue;
+                const levelMatch = levelValue === 'all' || level === levelValue;
+                const durationMatch = durationValue === 'all' || duration === durationValue;
+                const searchMatch = searchValue === '' || title.includes(searchValue) || description.includes(searchValue);
+                
+                if (categoryMatch && levelMatch && durationMatch && searchMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        categoryFilter.addEventListener('change', filterCourses);
+        levelFilter.addEventListener('change', filterCourses);
+        durationFilter.addEventListener('change', filterCourses);
+        searchInput.addEventListener('input', filterCourses);
+        
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('.newsletter-form');
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email-input').value;
+            alert('Thank you for subscribing! We\'ll keep you updated with our latest courses.');
+            document.getElementById('email-input').value = '';
+        });
+        
+        // Focus management for accessibility
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
+                    mobileMenuToggle.focus();
+                }
+            }
+        });
+    </script>
+
+    <style>
+        /* Additional styles for Courses page */
+        .page-hero {
+            background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-accent) 100%);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .filters-section {
+            background: var(--background-primary);
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .filters-container {
+            display: flex;
+            gap: 2rem;
+            align-items: end;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--background-primary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .search-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--background-primary);
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .courses-catalog {
+            padding: 4rem 0;
+            background: var(--background-secondary);
+        }
+
+        .course-category {
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating-stars {
+            color: #fbbf24;
+            font-size: 0.875rem;
+        }
+
+        .rating-score {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .pagination-btn {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border-color);
+            background: var(--background-primary);
+            color: var(--text-primary);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .pagination-btn.active {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .newsletter-section {
+            background: var(--primary-color);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .newsletter-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .newsletter-description {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-select {
+                min-width: auto;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .newsletter-input {
+                min-width: auto;
+            }
+        }
+    </style>
+</body>
+</html>

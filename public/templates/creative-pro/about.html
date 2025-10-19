@@ -1,128 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - SkillForge</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduSite - About Us</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#bac5ee", "background-light": "#f6f6f8", "background-dark": "#13151f"}, fontFamily: {display: "Work Sans"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+<style>
+    body {
+      font-family: 'Work Sans', sans-serif;
+    }
+  </style>
 </head>
-<body>
-    <div class="top-banner">
-        🔥 FLASH SALE: 90% OFF Everything! Only 2 hours left! Use code FLASH90 🔥
-    </div>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                SkillForge
-            </a>
-            
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Search for anything - courses, instructors, skills...">
-            </div>
-            
-            <div class="nav-actions">
-                <a href="#" class="btn btn-secondary">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    Teach on SkillForge
-                </a>
-                <a href="signin.html" class="btn" style="background: transparent; color: hsl(var(--foreground)); border: 1px solid hsl(var(--border));">
-                    <i class="fas fa-user"></i>
-                    Log In
-                </a>
-                <a href="register.html" class="btn btn-primary">
-                    <i class="fas fa-rocket"></i>
-                    Sign Up
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <section style="background: linear-gradient(135deg, hsl(var(--primary)), #f97316); color: white; padding: 4rem 0;">
-        <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem; text-align: center;">
-            <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 1.5rem;">About SkillForge</h1>
-            <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">Empowering millions of learners worldwide to achieve their goals through accessible, high-quality education.</p>
-        </div>
-    </section>
-
-    <section style="padding: 4rem 0;">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-bottom: 4rem;">
-                <div>
-                    <h2 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 2rem; background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--primary))); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Our Story</h2>
-                    <p style="color: hsl(var(--muted-foreground)); margin-bottom: 2rem; line-height: 1.7; font-size: 1.125rem;">Founded in 2010, SkillForge has grown from a small startup to the world's largest marketplace for learning and instruction, with over 57 million students and 213,000+ courses.</p>
-                    <p style="color: hsl(var(--muted-foreground)); line-height: 1.7; font-size: 1.125rem;">We believe that everyone has the right to create and share what they know, and to learn what they need to succeed.</p>
-                </div>
-                <div style="background: linear-gradient(135deg, hsl(var(--primary)), #f97316); border-radius: var(--radius); height: 300px; display: flex; align-items: center; justify-content: center; color: white; font-size: 5rem;">
-                    🚀
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 4rem;">
-                <div style="text-align: center; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 2rem;">
-                    <div style="font-size: 2.5rem; font-weight: 900; color: hsl(var(--primary)); margin-bottom: 0.5rem;">57M+</div>
-                    <div style="color: hsl(var(--muted-foreground)); font-weight: 500;">Students</div>
-                </div>
-                <div style="text-align: center; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 2rem;">
-                    <div style="font-size: 2.5rem; font-weight: 900; color: hsl(var(--primary)); margin-bottom: 0.5rem;">213K+</div>
-                    <div style="color: hsl(var(--muted-foreground)); font-weight: 500;">Courses</div>
-                </div>
-                <div style="text-align: center; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 2rem;">
-                    <div style="font-size: 2.5rem; font-weight: 900; color: hsl(var(--primary)); margin-bottom: 0.5rem;">75K+</div>
-                    <div style="color: hsl(var(--muted-foreground)); font-weight: 500;">Instructors</div>
-                </div>
-                <div style="text-align: center; background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 2rem;">
-                    <div style="font-size: 2.5rem; font-weight: 900; color: hsl(var(--primary)); margin-bottom: 0.5rem;">190+</div>
-                    <div style="color: hsl(var(--muted-foreground)); font-weight: 500;">Countries</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>SkillForge</h3>
-                <p style="color: rgba(255, 255, 255, 0.8); margin-top: 0.5rem;">The global marketplace for learning and instruction. Connect, learn, and grow with millions of students and instructors worldwide.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Teach</h3>
-                <ul>
-                    <li><a href="#">Become an Instructor</a></li>
-                    <li><a href="#">Teaching Center</a></li>
-                    <li><a href="#">Instructor Rules & Requirements</a></li>
-                    <li><a href="#">Instructor Help</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>About</h3>
-                <ul>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press & News</a></li>
-                    <li><a href="#">Investors</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">Help and Support</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 SkillForge, Inc. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Creative Pro</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+<div class="max-w-4xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="text-4xl sm:text-5xl font-bold tracking-tight text-gray-900 dark:text-white">About EduSite</h2>
+<p class="mt-6 text-lg leading-8 text-gray-600 dark:text-gray-400">
+              EduSite is a leading online education platform dedicated to providing high-quality courses and resources to learners worldwide. Our mission is to make education accessible, engaging, and effective for everyone, regardless of their background or location.
+            </p>
+</div>
+<div class="grid md:grid-cols-2 gap-12 mb-20">
+<div class="space-y-4">
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">Our Mission</h3>
+<p class="text-gray-600 dark:text-gray-400">
+                At EduSite, our mission is to democratize education by offering a diverse range of courses taught by industry experts. We strive to create an inclusive learning environment that fosters collaboration, innovation, and critical thinking. Our goal is to equip learners with the knowledge and skills they need to succeed in today's rapidly evolving world.
+              </p>
+</div>
+<div class="space-y-4">
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">Our Values</h3>
+<ul class="space-y-3 text-gray-600 dark:text-gray-400">
+<li class="flex items-start">
+<span class="text-primary font-bold mr-2">✓</span>
+<span><strong>Quality:</strong> We are committed to delivering high-quality courses that meet the highest standards of educational excellence.</span>
+</li>
+<li class="flex items-start">
+<span class="text-primary font-bold mr-2">✓</span>
+<span><strong>Accessibility:</strong> We believe that education should be accessible to everyone, and we strive to remove barriers to learning.</span>
+</li>
+<li class="flex items-start">
+<span class="text-primary font-bold mr-2">✓</span>
+<span><strong>Innovation:</strong> We embrace innovation and continuously seek new ways to enhance the learning experience.</span>
+</li>
+<li class="flex items-start">
+<span class="text-primary font-bold mr-2">✓</span>
+<span><strong>Community:</strong> We foster a supportive and collaborative community of learners and instructors.</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="mb-20">
+<div class="text-center mb-12">
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white">Meet Our Team</h3>
+<p class="mt-4 text-lg text-gray-600 dark:text-gray-400">The passionate individuals behind our educational platform.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="text-center bg-background-light dark:bg-background-dark p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+<img alt="Dr. Amelia Harper, CEO &amp; Founder" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuClAF2xSHOkcoyVwfiQSYKENv6e1iwr2SxaJvzrab6iSE5JY6I0d9mM_0upxPMAUQxiiX5isX8aqpvLQAM_NWIa3vMuSSCbda2iUgynSKhViEBml6FyqZyfB5-g2qQOnYhUdp88sALR7JzjBFvtVGjMj_WhiV7hbRYO5xn1s0jh2xk-dQyL1PdblU0mp9Va4aa9Ogkw6lBZ5w0yTgfY50Ay1dnQBB_zuY5nXdT7HLrdWwUSfgTGt3Cr7oXSattdvxNSbq75Vd4idGbB"/>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Dr. Amelia Harper</h4>
+<p class="text-primary">CEO &amp; Founder</p>
+</div>
+<div class="text-center bg-background-light dark:bg-background-dark p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+<img alt="Mr. Ethan Carter, Head of Curriculum" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlZbzWDdPmaqfDW3LX8B4PcJJzTnKdscTrkkDiOTzhN0IG4DXmw7007gk9hQnLiwWKBGxmiojm6IswZwsJesr6rrXQ-RrQ4WqIZiCGTtvwYMgnf2S08HQodp7q7bT3b4qPyCNafgbQkZN_5J96xgJwpLAhoiZsPqVacaSxFF9CChdJ6FPw9Niu2GL8oVqAz1xjf9IjDudiBCUSLQ9aBFM2ggEsbCMRJl-M00e_P4tXUm28_vIlhHfjJhnE0usO30PgXn822BGsdhIc"/>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Mr. Ethan Carter</h4>
+<p class="text-primary">Head of Curriculum</p>
+</div>
+<div class="text-center bg-background-light dark:bg-background-dark p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+<img alt="Ms. Olivia Bennett, Lead Instructor" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9uWgTP-Y63Td-ztXjNZsdV7IMVZXJb5jeIfD-OM6XKc573zi2QJ2uaBrHp1cKC_zA0R9eK4u7bofhSZzavg4drVodpAGLXSjS0jjvI4ZKoFqw37NBuppXS6leJ5v9szGB-UHLr1tLcsLzecCDCYt7W479TZOZQdY9C8BjaOz4iT9qxo8H3SQY433DshGYXgkrCHM01pTSgNa5CXn4dhrI466EQERS8Jc5Xpl0flE9_YXRV8LAbdEQdIQC017seGEUaVvUe-8TSC3e"/>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Ms. Olivia Bennett</h4>
+<p class="text-primary">Lead Instructor</p>
+</div>
+</div>
+</div>
+<div class="text-center">
+<h3 class="text-3xl font-bold text-gray-900 dark:text-white">Contact Us</h3>
+<p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-400">If you have any questions or would like to learn more about EduSite, please don't hesitate to get in touch. We look forward to hearing from you!</p>
+<div class="mt-8">
+<a class="inline-block px-8 py-3 text-lg font-semibold text-white bg-primary rounded-lg hover:bg-primary/90 transition-colors" href="mailto:support@edusite.com">
+                Email Us
+              </a>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-800">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="col-span-2 md:col-span-1">
+<div class="flex items-center gap-3">
+<svg class="h-8 w-8 text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+<h1 class="text-xl font-bold text-gray-900 dark:text-white">EduSite</h1>
+</div>
+<p class="mt-4 text-sm text-gray-500 dark:text-gray-400">© 2024 EduSite. All rights reserved.</p>
+</div>
+<div>
+<h4 class="font-semibold text-gray-800 dark:text-gray-200">Quick Links</h4>
+<ul class="mt-4 space-y-2 text-sm">
+<li><a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">Home</a></li>
+<li><a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">Courses</a></li>
+<li><a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">About</a></li>
+<li><a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold text-gray-800 dark:text-gray-200">Legal</h4>
+<ul class="mt-4 space-y-2 text-sm">
+<li><a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">Privacy Policy</a></li>
+<li><a class="text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-semibold text-gray-800 dark:text-gray-200">Connect</h4>
+<div class="flex mt-4 space-x-4">
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 012.772 2.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-2.772 2.772c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-2.772-2.772c-.247-.636-.416-1.363-.465-2.427C2.013 14.784 2 14.43 2 12s.013-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 012.772-2.772c.636-.247 1.363-.416 2.427-.465C9.53 2.013 9.885 2 12.315 2zM12 7a5 5 0 100 10 5 5 0 000-10zm0 8a3 3 0 110-6 3 3 0 010 6zm6.406-11.845a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

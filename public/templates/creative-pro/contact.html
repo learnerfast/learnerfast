@@ -1,173 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - SkillForge</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>EduPlatform - Contact Us</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#bac5ee", "background-light": "#f6f6f8", "background-dark": "#13151f"}, fontFamily: {display: "Work Sans"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+<style>
+    .form-input::placeholder {
+      color: #6b7280;
+    }
+    .dark .form-input::placeholder {
+      color: #9ca3af;
+    }
+  </style>
 </head>
-<body>
-    <div class="top-banner">
-        🔥 FLASH SALE: 90% OFF Everything! Only 2 hours left! Use code FLASH90 🔥
-    </div>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                SkillForge
-            </a>
-            
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Search for anything - courses, instructors, skills...">
-            </div>
-            
-            <div class="nav-actions">
-                <a href="#" class="btn btn-secondary">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    Teach on SkillForge
-                </a>
-                <a href="signin.html" class="btn" style="background: transparent; color: hsl(var(--foreground)); border: 1px solid hsl(var(--border));">
-                    <i class="fas fa-user"></i>
-                    Log In
-                </a>
-                <a href="register.html" class="btn btn-primary">
-                    <i class="fas fa-rocket"></i>
-                    Sign Up
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <section style="background: linear-gradient(135deg, hsl(var(--primary)), #f97316); color: white; padding: 4rem 0;">
-        <div style="max-width: 1400px; margin: 0 auto; padding: 0 2rem; text-align: center;">
-            <h1 style="font-size: 3.5rem; font-weight: 900; margin-bottom: 1.5rem;">Get in Touch</h1>
-            <p style="font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9;">Have questions? We're here to help you succeed on your learning journey.</p>
-        </div>
-    </section>
-
-    <section style="padding: 4rem 0;">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
-                <div>
-                    <div style="background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow);">
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, hsl(var(--primary)), #f97316); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
-                                <i class="fas fa-envelope" style="font-size: 1.25rem;"></i>
-                            </div>
-                            <div>
-                                <h3 style="font-weight: 700; margin-bottom: 0.25rem;">Email Support</h3>
-                                <p style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Get help via email</p>
-                            </div>
-                        </div>
-                        <p style="color: hsl(var(--primary)); font-weight: 600;">support@skillforge.com</p>
-                    </div>
-
-                    <div style="background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow);">
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, hsl(var(--primary)), #f97316); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
-                                <i class="fas fa-phone" style="font-size: 1.25rem;"></i>
-                            </div>
-                            <div>
-                                <h3 style="font-weight: 700; margin-bottom: 0.25rem;">Phone Support</h3>
-                                <p style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Call us directly</p>
-                            </div>
-                        </div>
-                        <p style="color: hsl(var(--primary)); font-weight: 600;">+1 (555) 987-6543</p>
-                    </div>
-
-                    <div style="background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow);">
-                        <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, hsl(var(--primary)), #f97316); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
-                                <i class="fas fa-comments" style="font-size: 1.25rem;"></i>
-                            </div>
-                            <div>
-                                <h3 style="font-weight: 700; margin-bottom: 0.25rem;">Live Chat</h3>
-                                <p style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Chat with our team</p>
-                            </div>
-                        </div>
-                        <p style="color: hsl(var(--primary)); font-weight: 600;">Available 24/7</p>
-                    </div>
-                </div>
-
-                <div style="background: hsl(var(--card)); border: 1px solid hsl(var(--border)); border-radius: var(--radius); padding: 3rem; box-shadow: var(--shadow);">
-                    <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; color: hsl(var(--foreground));">Send us a Message</h2>
-                    <form style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: hsl(var(--foreground));">Full Name</label>
-                            <input type="text" style="width: 100%; padding: 0.875rem; border: 2px solid hsl(var(--border)); border-radius: var(--radius); background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 1rem;">
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: hsl(var(--foreground));">Email Address</label>
-                            <input type="email" style="width: 100%; padding: 0.875rem; border: 2px solid hsl(var(--border)); border-radius: var(--radius); background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 1rem;">
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: hsl(var(--foreground));">Subject</label>
-                            <select style="width: 100%; padding: 0.875rem; border: 2px solid hsl(var(--border)); border-radius: var(--radius); background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 1rem;">
-                                <option>General Inquiry</option>
-                                <option>Course Support</option>
-                                <option>Technical Issue</option>
-                                <option>Billing Question</option>
-                                <option>Instructor Application</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: hsl(var(--foreground));">Message</label>
-                            <textarea rows="5" style="width: 100%; padding: 0.875rem; border: 2px solid hsl(var(--border)); border-radius: var(--radius); background: hsl(var(--background)); color: hsl(var(--foreground)); resize: vertical; font-size: 1rem;"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem;">
-                            <i class="fas fa-paper-plane"></i>
-                            Send Message
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>SkillForge</h3>
-                <p style="color: rgba(255, 255, 255, 0.8); margin-top: 0.5rem;">The global marketplace for learning and instruction. Connect, learn, and grow with millions of students and instructors worldwide.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Teach</h3>
-                <ul>
-                    <li><a href="#">Become an Instructor</a></li>
-                    <li><a href="#">Teaching Center</a></li>
-                    <li><a href="#">Instructor Rules & Requirements</a></li>
-                    <li><a href="#">Instructor Help</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>About</h3>
-                <ul>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press & News</a></li>
-                    <li><a href="#">Investors</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">Help and Support</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 SkillForge, Inc. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+<body class="bg-background-light dark:bg-background-dark font-display text-[#374151] dark:text-[#d1d5db]">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Creative Pro</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main>
+<section class="relative py-20 lg:py-32">
+<div class="absolute inset-0">
+<img alt="A bright and modern university library with students studying." class="w-full h-full object-cover opacity-10 dark:opacity-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXpVxOLtqRg1wr9dOlmKaXfM0MfYyyxbRGPis3o9nPjFWT3_1oSWbb_zqw2b6xYs0uxOxe-yJe8way8Gl-kMc8PpW1q1hbRjSDud8Wk1laRP69tLLbzTGGhv80hTVKC4HK3jsmWOaLjrTJb2nAz9HgKAk7eEku-jwcg9XgAflv-PbW4ZUpThkirdyNeQsJpTZGfk983kTN9YHB0VNM8E44aP_mhZ6H4MDfHDS8avwc_JdUIedHOBIrhP56EbOG5Lp4Ez8X6PLjrM3x"/>
+</div>
+<div class="container mx-auto px-4 lg:px-6 relative">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="text-center lg:text-left">
+<h1 class="text-4xl lg:text-6xl font-bold text-[#1f2937] dark:text-white leading-tight">Get in Touch</h1>
+<p class="mt-4 text-lg text-[#4b5563] dark:text-[#9ca3af] max-w-lg mx-auto lg:mx-0">We are here to help and answer any question you might have. We look forward to hearing from you.</p>
+<div class="mt-8 space-y-4 text-left inline-block">
+<div class="flex items-center gap-4">
+<div class="bg-primary/10 dark:bg-primary/20 p-3 rounded-full text-primary">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h3 class="font-semibold text-[#1f2937] dark:text-white">Email Us</h3>
+<a class="text-primary hover:underline" href="mailto:support@eduplatform.com">support@eduplatform.com</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-primary/10 dark:bg-primary/20 p-3 rounded-full text-primary">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<h3 class="font-semibold text-[#1f2937] dark:text-white">Call Us</h3>
+<a class="text-primary hover:underline" href="tel:+1-555-123-4567">+1 (555) 123-4567</a>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark p-8 rounded-lg shadow-2xl">
+<form action="#" class="space-y-6" method="POST">
+<div>
+<label class="sr-only" for="name">Your Name</label>
+<input class="form-input w-full bg-primary/5 dark:bg-primary/10 border-primary/20 dark:border-primary/30 rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300" id="name" name="name" placeholder="Your Name" type="text"/>
+</div>
+<div>
+<label class="sr-only" for="email">Your Email</label>
+<input class="form-input w-full bg-primary/5 dark:bg-primary/10 border-primary/20 dark:border-primary/30 rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300" id="email" name="email" placeholder="Your Email" type="email"/>
+</div>
+<div>
+<label class="sr-only" for="subject">Subject</label>
+<input class="form-input w-full bg-primary/5 dark:bg-primary/10 border-primary/20 dark:border-primary/30 rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300" id="subject" name="subject" placeholder="Subject" type="text"/>
+</div>
+<div>
+<label class="sr-only" for="message">Your Message</label>
+<textarea class="form-input w-full bg-primary/5 dark:bg-primary/10 border-primary/20 dark:border-primary/30 rounded-lg py-3 px-4 focus:ring-2 focus:ring-primary focus:border-primary transition-all duration-300" id="message" name="message" placeholder="Your Message" rows="5"></textarea>
+</div>
+<div>
+<button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-all duration-300" type="submit">
+                  Send Message
+                </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-background-light dark:bg-background-dark border-t border-primary/20 dark:border-primary/30">
+<div class="container mx-auto px-4 lg:px-6 py-12">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+<div class="col-span-2 lg:col-span-2">
+<a class="flex items-center gap-3 mb-4" href="#">
+<svg class="h-8 w-8 text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg"><path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path></svg>
+<span class="text-2xl font-bold text-[#1f2937] dark:text-white">EduPlatform</span>
+</a>
+<p class="text-sm text-[#4b5563] dark:text-[#9ca3af]">Empowering minds through accessible online education.</p>
+</div>
+<div>
+<h3 class="font-semibold text-[#1f2937] dark:text-white mb-4">Quick Links</h3>
+<ul class="space-y-2">
+<li><a class="text-sm hover:text-primary transition-colors" href="#">Home</a></li>
+<li><a class="text-sm hover:text-primary transition-colors" href="#">Courses</a></li>
+<li><a class="text-sm hover:text-primary transition-colors" href="#">About</a></li>
+<li><a class="text-sm hover:text-primary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h3 class="font-semibold text-[#1f2937] dark:text-white mb-4">Resources</h3>
+<ul class="space-y-2">
+<li><a class="text-sm hover:text-primary transition-colors" href="#">Blog</a></li>
+<li><a class="text-sm hover:text-primary transition-colors" href="#">Help Center</a></li>
+<li><a class="text-sm hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="text-sm hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div class="col-span-2 lg:col-span-2">
+<h3 class="font-semibold text-[#1f2937] dark:text-white mb-4">Stay Connected</h3>
+<div class="flex space-x-4">
+<a class="text-[#4b5563] dark:text-[#9ca3af] hover:text-primary transition-colors" href="#">
+<svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.298 1.636 4.216 3.81 4.654-.704.192-1.447.223-2.18.084.619 1.954 2.425 3.377 4.564 3.414-1.658 1.299-3.756 2.074-6.033 2.074-.39 0-.777-.023-1.156-.067 2.149 1.385 4.695 2.196 7.447 2.196 9.42 0 14.59-7.82 14.59-14.598 0-.22-.005-.44-.015-.657.998-.722 1.865-1.625 2.56-2.656z"></path></svg>
+</a>
+<a class="text-[#4b5563] dark:text-[#9ca3af] hover:text-primary transition-colors" href="#">
+<svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path></svg>
+</a>
+<a class="text-[#4b5563] dark:text-[#9ca3af] hover:text-primary transition-colors" href="#">
+<svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.058 1.281-.072 1.689-.072 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"></path></svg>
+</a>
+</div>
+</div>
+</div>
+<div class="mt-12 border-t border-primary/20 dark:border-primary/30 pt-8 text-center text-sm text-[#4b5563] dark:text-[#9ca3af]">
+<p>© 2024 EduPlatform. All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+</body></html>

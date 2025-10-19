@@ -23,32 +23,26 @@ import {
   ChevronLeft,
   ChevronRight,
   Play,
-  HelpCircle
+  HelpCircle,
+  Globe
 } from 'lucide-react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 import HelpButton from './HelpButton';
 import { useCourseBuilder } from './Courses';
+import { useWebsite } from '../../contexts/WebsiteContext';
 
 const CourseBuilder = ({ course, onBack }) => {
+  const { sites } = useWebsite();
   const courseBuilder = useCourseBuilder();
   const activeTab = courseBuilder.activeTab;
   const setActiveTab = courseBuilder.setActiveTab;
-  const [sections, setSections] = useState([
-    {
-      id: 1,
-      title: 'demo',
-      description: '',
-      access: 'draft',
-      activities: []
-    }
-  ]);
+  const [sections, setSections] = useState([]);
   const [showSectionModal, setShowSectionModal] = useState(false);
   const [editingSection, setEditingSection] = useState(null);
   const [sectionForm, setSectionForm] = useState({
     title: '',
-    description: '',
-    access: 'draft'
+    description: ''
   });
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showActivityModal, setShowActivityModal] = useState(false);
@@ -56,7 +50,9 @@ const CourseBuilder = ({ course, onBack }) => {
   const [currentSectionId, setCurrentSectionId] = useState(null);
   const [showPreview, setShowPreview] = useState(false);
   const [selectedActivity, setSelectedActivity] = useState(null);
-  const [videoForm, setVideoForm] = useState({ title: '', source: 'vimeo', url: '', file: null });
+  const [videoForm, setVideoForm] = useState({ title: '', source: 'youtube', url: '', file: null });
+  const [uploadMessage, setUploadMessage] = useState({ type: '', text: '' });
+  const [deleteConfirm, setDeleteConfirm] = useState({ show: false, activityId: null, sectionId: null, type: null });
   const [coursePrice, setCoursePrice] = useState(0);
   const [compareAtPrice, setCompareAtPrice] = useState(0);
   const [showComparePrice, setShowComparePrice] = useState(false);
@@ -70,6 +66,7 @@ const CourseBuilder = ({ course, onBack }) => {
   const [loadedCourseImage, setLoadedCourseImage] = useState(null);
   const [accessType, setAccessType] = useState('free');
   const [navigationType, setNavigationType] = useState('global');
+  const [selectedWebsite, setSelectedWebsite] = useState(null);
 
   useEffect(() => {
     if (course) {
@@ -77,8 +74,128 @@ const CourseBuilder = ({ course, onBack }) => {
       setCourseDescription(course.description || '');
       loadCourseSettings();
       loadAccessSettings();
+      loadCourseSections();
     }
   }, [course]);
+
+  const loadCourseSections = async () => {
+    if (!course?.id) return;
+    try {
+      const { supabase } = await import('../../lib/supabase');
+      const { data, error } = await supabase
+        .from('course_sections')
+        .select(`
+          *,
+          course_activities(
+            id,
+            title,
+            activity_type,
+            completed,
+            source,
+            url,
+            file_url
+          )
+        `)
+        .eq('course_id', course.id)
+        .order('order_index');
+      
+      if (error) throw error;
+      
+      console.log('Loaded sections data:', data);
+      
+      const loadedSections = data || [];
+      setSections(loadedSections.map(section => ({
+        id: section.id,
+        title: section.title,
+        description: section.description,
+        activities: (section.course_activities || [])
+          .map(activity => ({
+            id: activity.id,
+            title: activity.title,
+            type: activity.activity_type,
+            completed: activity.completed || false,
+            source: activity.source,
+            url: activity.url,
+            file_url: activity.file_url
+          }))
+      })));
+    } catch (error) {
+      console.warn('Failed to load course sections:', error);
+    }
+  };
+
+  const validateVideoUrl = (source, url) => {
+    if (!url) return false;
+    switch (source) {
+      case 'youtube':
+        // More comprehensive YouTube URL validation
+        const youtubeRegex = /^(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})(?:\S+)?$/;
+        return youtubeRegex.test(url.trim());
+      case 'vimeo':
+        const vimeoRegex = /^(?:https?:\/\/)?(?:www\.)?vimeo\.com\/([0-9]+)(?:\S+)?$/;
+        return vimeoRegex.test(url.trim());
+      default:
+        return true;
+    }
+  };
+
+  const showMessage = (type, text) => {
+    setUploadMessage({ type, text });
+    setTimeout(() => {
+      setUploadMessage({ type: '', text: '' });
+    }, 3000);
+  };
+
+  const handleDeleteActivity = (sectionId, activityId) => {
+    setDeleteConfirm({ show: true, activityId, sectionId, type: 'activity' });
+  };
+
+  const handleDeleteSection = (sectionId) => {
+    setDeleteConfirm({ show: true, sectionId, type: 'section' });
+  };
+
+  const confirmDelete = async () => {
+    const { sectionId, activityId, type } = deleteConfirm;
+    try {
+      const { supabase } = await import('../../lib/supabase');
+      
+      if (type === 'activity') {
+        await supabase.from('course_activities').delete().eq('id', activityId);
+        
+        const updatedSections = sections.map(section => 
+          section.id === sectionId 
+            ? { ...section, activities: section.activities.filter(activity => activity.id !== activityId) }
+            : section
+        );
+        setSections(updatedSections);
+        showMessage('success', 'Activity deleted successfully');
+      } else if (type === 'section') {
+        await supabase.from('course_activities').delete().eq('section_id', sectionId);
+        await supabase.from('course_sections').delete().eq('id', sectionId);
+        
+        setSections(prev => prev.filter(section => section.id !== sectionId));
+        showMessage('success', 'Section deleted successfully');
+      }
+      
+      setDeleteConfirm({ show: false, activityId: null, sectionId: null, type: null });
+    } catch (error) {
+      console.warn('Failed to delete:', error);
+      showMessage('error', `Failed to delete ${type}`);
+    }
+  };
+
+  const convertToEmbedUrl = (source, url) => {
+    switch (source) {
+      case 'youtube':
+        const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+        return ytMatch ? `https://www.youtube.com/embed/${ytMatch[1]}` : url;
+      case 'vimeo':
+        const vimeoMatch = url.match(/(?:vimeo\.com\/)([0-9]+)/);
+        return vimeoMatch ? `https://player.vimeo.com/video/${vimeoMatch[1]}` : url;
+      default:
+        return url;
+    }
+  };
 
   const loadAccessSettings = async () => {
     if (!course?.id) return;
@@ -242,8 +359,7 @@ const CourseBuilder = ({ course, onBack }) => {
     {
       category: 'Contents',
       items: [
-        { id: 'course-outline', label: 'Course outline', icon: BookOpen, active: true },
-        { id: 'course-page-layout', label: 'Course page layout', icon: FileText }
+        { id: 'course-outline', label: 'Course outline', icon: BookOpen, active: true }
       ]
     },
     {
@@ -258,7 +374,7 @@ const CourseBuilder = ({ course, onBack }) => {
   ];
 
   const handleAddSection = () => {
-    setSectionForm({ title: '', description: '', access: 'draft' });
+    setSectionForm({ title: '', description: '' });
     setEditingSection(null);
     setShowSectionModal(true);
   };
@@ -266,34 +382,50 @@ const CourseBuilder = ({ course, onBack }) => {
   const handleEditSection = (section) => {
     setSectionForm({
       title: section.title,
-      description: section.description,
-      access: section.access
+      description: section.description
     });
     setEditingSection(section);
     setShowSectionModal(true);
   };
 
-  const handleSaveSection = () => {
+  const handleSaveSection = async () => {
     if (!sectionForm.title.trim()) return;
 
-    if (editingSection) {
-      setSections(prev => prev.map(section => 
-        section.id === editingSection.id 
-          ? { ...section, ...sectionForm }
-          : section
-      ));
-    } else {
-      const newSection = {
-        id: Date.now(),
-        ...sectionForm,
-        activities: []
-      };
-      setSections(prev => [...prev, newSection]);
+    try {
+      const { supabase } = await import('../../lib/supabase');
+      
+      if (editingSection) {
+        await supabase.from('course_sections').update({
+          title: sectionForm.title,
+          description: sectionForm.description
+        }).eq('id', editingSection.id);
+        setSections(prev => prev.map(section => 
+          section.id === editingSection.id 
+            ? { ...section, ...sectionForm }
+            : section
+        ));
+      } else {
+        const { data, error } = await supabase.from('course_sections').insert({
+          course_id: course.id,
+          title: sectionForm.title,
+          description: sectionForm.description,
+          order_index: sections.length
+        }).select().single();
+        
+        if (error) throw error;
+        
+        const newSection = { ...data, activities: [] };
+        setSections(prev => [...prev, newSection]);
+      }
+      
+      setShowSectionModal(false);
+      setSectionForm({ title: '', description: '' });
+      setEditingSection(null);
+      showMessage('success', editingSection ? 'Section updated' : 'Section added');
+    } catch (error) {
+      console.warn('Failed to save section:', error);
+      showMessage('error', 'Failed to save section');
     }
-    
-    setShowSectionModal(false);
-    setSectionForm({ title: '', description: '', access: 'draft' });
-    setEditingSection(null);
   };
 
   const getAccessBadgeClass = (access) => {
@@ -312,9 +444,6 @@ const CourseBuilder = ({ course, onBack }) => {
       <div className="mb-6">
         <div className="flex items-center space-x-4 mb-2">
           <h2 className="text-2xl font-semibold text-gray-900">Course outline</h2>
-          <button className="text-blue-600 hover:text-blue-700 text-sm">
-            Learn more
-          </button>
         </div>
         <p className="text-gray-600">
           Develop your course outline and contents and set up the drip feed to schedule lesson delivery.
@@ -328,10 +457,6 @@ const CourseBuilder = ({ course, onBack }) => {
         >
           <Eye className="h-4 w-4" />
           <span>Preview</span>
-        </button>
-        <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-          <Rss className="h-4 w-4" />
-          <span>Drip Feed</span>
         </button>
       </div>
 
@@ -356,9 +481,13 @@ const CourseBuilder = ({ course, onBack }) => {
                     )}
                   </div>
                 </div>
-                <span className={`px-2 py-1 text-xs rounded-full ${getAccessBadgeClass(section.access)}`}>
-                  {section.access}
-                </span>
+                <button
+                  onClick={() => handleDeleteSection(section.id)}
+                  className="p-1 text-red-500 hover:text-red-700 hover:bg-red-50 rounded transition-all duration-200"
+                  title="Delete section"
+                >
+                  <X className="h-4 w-4" />
+                </button>
               </div>
             </div>
             
@@ -366,21 +495,32 @@ const CourseBuilder = ({ course, onBack }) => {
               {section.activities.length > 0 && (
                 <div className="mb-4 space-y-2">
                   {section.activities.map((activity) => (
-                    <div key={activity.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                      <div className="text-gray-400">
-                        {activity.type === 'video' ? <Video className="h-4 w-4" /> : 
-                         activity.type === 'pdf' ? <FileText className="h-4 w-4" /> : 
-                         activity.type === 'audio' ? <Video className="h-4 w-4" /> : 
-                         activity.type === 'presentation' ? <FileText className="h-4 w-4" /> : 
-                         <FileText className="h-4 w-4" />}
+                    <div key={activity.id} className="group relative">
+                      <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div className="text-gray-400">
+                          {activity.type === 'video' ? <Video className="h-4 w-4" /> : 
+                           activity.type === 'pdf' ? <FileText className="h-4 w-4" /> : 
+                           activity.type === 'audio' ? <Video className="h-4 w-4" /> : 
+                           activity.type === 'presentation' ? <FileText className="h-4 w-4" /> : 
+                           <FileText className="h-4 w-4" />}
+                        </div>
+                        <span className="text-sm font-medium text-gray-900 flex-1">{activity.title}</span>
+                        <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded">{activity.type}</span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteActivity(section.id, activity.id);
+                          }}
+                          className="ml-2 p-1 text-white bg-red-500 hover:bg-red-600 rounded transition-all duration-200"
+                          title="Delete activity"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
                       </div>
-                      <span className="text-sm font-medium text-gray-900">{activity.title}</span>
-                      <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded">{activity.type}</span>
                     </div>
                   ))}
                 </div>
               )}
-              
               <div className="flex items-center justify-center space-x-6 text-sm">
                 <button 
                   onClick={() => { setCurrentSectionId(section.id); setShowActivityModal(true); }}
@@ -550,6 +690,54 @@ const CourseBuilder = ({ course, onBack }) => {
                 />
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Website Display */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold mb-4">Website Display</h3>
+          <p className="text-gray-600 mb-6">Choose which website should display this course, or keep it in your dashboard only.</p>
+          
+          <div className="space-y-4 max-h-48 overflow-y-auto">
+            {sites.map((site) => (
+              <label key={site.id} className="flex items-start space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+                <input
+                  type="radio"
+                  name="website"
+                  value={site.id}
+                  checked={selectedWebsite === site.id}
+                  onChange={(e) => setSelectedWebsite(e.target.value)}
+                  className="mt-1 h-4 w-4 text-teal-600 border-gray-300 focus:ring-teal-500"
+                />
+                <div className="flex-1">
+                  <div className="flex items-center space-x-2">
+                    <Globe className="h-4 w-4 text-gray-500" />
+                    <div className="font-medium text-gray-900">{site.name}</div>
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                      site.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {site.status}
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-600 mt-1">{site.url}</div>
+                </div>
+              </label>
+            ))}
+            
+            <label className="flex items-start space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors">
+              <input
+                type="radio"
+                name="website"
+                value="none"
+                checked={selectedWebsite === 'none' || selectedWebsite === null}
+                onChange={(e) => setSelectedWebsite(e.target.value)}
+                className="mt-1 h-4 w-4 text-teal-600 border-gray-300 focus:ring-teal-500"
+              />
+              <div>
+                <div className="font-medium text-gray-900">Dashboard only</div>
+                <div className="text-sm text-gray-600">Keep this course in your dashboard without displaying it on any website</div>
+              </div>
+            </label>
           </div>
         </div>
 
@@ -1644,9 +1832,16 @@ const CourseBuilder = ({ course, onBack }) => {
 
   const renderCoursePreview = () => {
     
+    // Calculate progress based on completed activities
+    const totalActivities = sections.reduce((total, section) => total + section.activities.length, 0);
+    const completedActivities = sections.reduce((total, section) => 
+      total + section.activities.filter(activity => activity.completed).length, 0
+    );
+    const progressPercentage = totalActivities > 0 ? Math.round((completedActivities / totalActivities) * 100) : 0;
+
     const courseData = {
       title: course?.title || 'demon',
-      progress: 5,
+      progress: progressPercentage,
       sections: sections.map((section, index) => ({
         id: section.id,
         title: section.title,
@@ -1676,7 +1871,10 @@ const CourseBuilder = ({ course, onBack }) => {
         <div className="w-96 bg-white border-r border-gray-200 flex flex-col">
           <div className="bg-orange-400 text-white p-6">
             <div className="flex items-center justify-between mb-4">
-              <button className="flex items-center text-white/80 hover:text-white">
+              <button 
+                onClick={() => setShowPreview(false)}
+                className="flex items-center text-white/80 hover:text-white"
+              >
                 <ChevronLeft className="w-4 h-4 mr-1" />
                 Back to course page
               </button>
@@ -1718,7 +1916,22 @@ const CourseBuilder = ({ course, onBack }) => {
                 {section.lessons.map((lesson) => (
                   <div 
                     key={lesson.id} 
-                    onClick={() => setSelectedActivity(lesson)}
+                    onClick={() => {
+                      setSelectedActivity(lesson);
+                      // Mark as completed when clicked
+                      if (!lesson.completed) {
+                        setSections(prev => prev.map(s => 
+                          s.id === section.id 
+                            ? {
+                                ...s, 
+                                activities: s.activities.map(a => 
+                                  a.id === lesson.id ? { ...a, completed: true } : a
+                                )
+                              }
+                            : s
+                        ));
+                      }
+                    }}
                     className={`ml-6 mb-2 p-3 rounded-lg cursor-pointer transition-colors ${
                       selectedActivity?.id === lesson.id ? 'bg-orange-50 border-l-4 border-orange-400' : 'hover:bg-gray-50'
                     }`}
@@ -1765,48 +1978,68 @@ const CourseBuilder = ({ course, onBack }) => {
 
           <div className="flex-1 flex items-center justify-center bg-gray-50">
             {selectedActivity ? (
-              <div className="w-full h-full p-8">
+              <div className="w-full h-full p-4">
                 {selectedActivity.type === 'video' ? (
-                  <div className="w-full max-w-4xl mx-auto">
+                  <div className="w-full h-full flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{selectedActivity.title}</h3>
-                    {selectedActivity.file ? (
-                      <video controls className="w-full h-auto bg-black rounded-lg" style={{maxHeight: '500px'}} key={selectedActivity.id}>
-                        <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : selectedActivity.source && ['youtube', 'vimeo', 'vdocipher', 'gumlet', 'iframe', 'script', 'embed'].includes(selectedActivity.source) ? (
-                      <div dangerouslySetInnerHTML={{__html: selectedActivity.url}} />
-                    ) : selectedActivity.url ? (
-                      <video controls className="w-full h-auto bg-black rounded-lg" style={{maxHeight: '500px'}} key={selectedActivity.id} preload="metadata">
-                        <source src={selectedActivity.url} />
-                        Your browser does not support the video tag.
-                      </video>
-                    ) : null}
+                    <div className="flex-1 w-full">
+                      {selectedActivity.file ? (
+                        <video controls className="w-full h-full bg-black rounded-lg" key={selectedActivity.id}>
+                          <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : selectedActivity.source === 'youtube' && selectedActivity.url ? (
+                        <iframe 
+                          src={selectedActivity.url.includes('embed') ? selectedActivity.url : 
+                               selectedActivity.url.includes('watch?v=') ? selectedActivity.url.replace('watch?v=', 'embed/') :
+                               selectedActivity.url.includes('youtu.be/') ? selectedActivity.url.replace('youtu.be/', 'youtube.com/embed/') :
+                               selectedActivity.url}
+                          className="w-full h-full rounded-lg"
+                          frameBorder="0"
+                          allowFullScreen
+                          title={selectedActivity.title}
+                        />
+                      ) : selectedActivity.source && ['vimeo', 'vdocipher', 'gumlet', 'iframe', 'script', 'embed'].includes(selectedActivity.source) ? (
+                        <div className="w-full h-full" dangerouslySetInnerHTML={{__html: selectedActivity.url}} />
+                      ) : selectedActivity.url ? (
+                        <video controls className="w-full h-full bg-black rounded-lg" key={selectedActivity.id} preload="metadata">
+                          <source src={selectedActivity.url} />
+                          Your browser does not support the video tag.
+                        </video>
+                      ) : null}
+                    </div>
                   </div>
                 ) : selectedActivity.type === 'pdf' && selectedActivity.file ? (
-                  <div className="w-full h-full">
+                  <div className="w-full h-full flex flex-col">
                     <h3 className="text-xl font-semibold mb-4">{selectedActivity.title}</h3>
-                    <iframe 
-                      src={URL.createObjectURL(selectedActivity.file)} 
-                      className="w-full border rounded-lg"
-                      style={{height: 'calc(100vh - 200px)'}}
-                      title={selectedActivity.title}
-                    />
+                    <div className="flex-1">
+                      <iframe 
+                        src={URL.createObjectURL(selectedActivity.file)} 
+                        className="w-full h-full border rounded-lg"
+                        title={selectedActivity.title}
+                      />
+                    </div>
                   </div>
-                ) : selectedActivity.type === 'audio' && selectedActivity.file ? (
-                  <div className="w-full max-w-2xl mx-auto text-center">
-                    <h3 className="text-xl font-semibold mb-4">{selectedActivity.title}</h3>
-                    <audio controls className="w-full">
-                      <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
-                      Your browser does not support the audio tag.
-                    </audio>
+                ) : selectedActivity.type === 'audio' ? (
+                  <div className="w-full h-full flex flex-col items-center justify-center">
+                    <h3 className="text-xl font-semibold mb-8">{selectedActivity.title}</h3>
+                    <div className="w-full max-w-2xl">
+                      <audio controls className="w-full">
+                        {selectedActivity.file ? (
+                          <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
+                        ) : selectedActivity.url ? (
+                          <source src={selectedActivity.url} />
+                        ) : null}
+                        Your browser does not support the audio tag.
+                      </audio>
+                    </div>
                   </div>
                 ) : selectedActivity.type === 'presentation' && selectedActivity.file ? (
-                  <div className="w-full text-center">
-                    <h3 className="text-xl font-semibold mb-4">{selectedActivity.title}</h3>
-                    <div className="bg-gray-100 p-8 rounded-lg">
-                      <FileText className="w-16 h-16 mx-auto mb-4 text-gray-400" />
-                      <p className="text-gray-600 mb-4">Presentation: {selectedActivity.file.name}</p>
+                  <div className="w-full h-full flex flex-col items-center justify-center">
+                    <h3 className="text-xl font-semibold mb-8">{selectedActivity.title}</h3>
+                    <div className="bg-gray-100 p-12 rounded-lg">
+                      <FileText className="w-20 h-20 mx-auto mb-6 text-gray-400" />
+                      <p className="text-gray-600 mb-6 text-lg">Presentation: {selectedActivity.file.name}</p>
                       <button 
                         onClick={() => {
                           const url = URL.createObjectURL(selectedActivity.file);
@@ -1815,7 +2048,7 @@ const CourseBuilder = ({ course, onBack }) => {
                           a.download = selectedActivity.file.name;
                           a.click();
                         }}
-                        className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                        className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-lg"
                       >
                         Download Presentation
                       </button>
@@ -1894,6 +2127,13 @@ const CourseBuilder = ({ course, onBack }) => {
 
   return (
     <div className="h-screen bg-gray-50">
+      {/* Success/Error Messages */}
+      {uploadMessage.text && (
+        <div className={`mx-6 mt-4 p-3 rounded-lg ${uploadMessage.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+          {uploadMessage.text}
+        </div>
+      )}
+
       {/* Main Content - Sidebar is now handled by parent */}
       {renderContent()}
       
@@ -1964,7 +2204,7 @@ const CourseBuilder = ({ course, onBack }) => {
                   multiple 
                   accept="video/*,audio/*,.pdf,.ppt,.pptx,.zip"
                   className="hidden" 
-                  onChange={(e) => {
+                  onChange={async (e) => {
                     const files = Array.from(e.target.files);
                     const newActivities = files.map(file => ({
                       id: Date.now() + Math.random(),
@@ -1980,8 +2220,52 @@ const CourseBuilder = ({ course, onBack }) => {
                         : section
                     ));
                     
-                    alert(`Added ${files.length} activity(ies) to section!`);
+                    // Save to database
+                    if (course?.id) {
+                      try {
+                        const { supabase } = await import('../../lib/supabase');
+                        const activitiesToInsert = newActivities.map((activity, index) => ({
+                          course_id: course.id,
+                          section_id: currentSectionId,
+                          title: activity.title,
+                          activity_type: activity.type,
+                          source: 'upload',
+                          file_url: null,
+                          completed: false
+                        }));
+                        const { data, error } = await supabase.from('course_activities').insert(activitiesToInsert).select();
+                        if (error) throw error;
+                        
+                        // Update local state with database IDs
+                        if (data) {
+                          setSections(prev => prev.map(section => 
+                            section.id === currentSectionId 
+                              ? { 
+                                  ...section, 
+                                  activities: [
+                                    ...section.activities.filter(a => !newActivities.find(na => na.id === a.id)),
+                                    ...data.map((dbActivity, index) => ({
+                                      id: dbActivity.id,
+                                      title: dbActivity.title,
+                                      type: dbActivity.activity_type,
+                                      completed: dbActivity.completed,
+                                      source: dbActivity.source,
+                                      url: dbActivity.url,
+                                      file_url: dbActivity.file_url,
+                                      file: newActivities[index]?.file // Keep the file object for preview
+                                    }))
+                                  ]
+                                }
+                              : section
+                          ));
+                        }
+                      } catch (error) {
+                        console.warn('Failed to save activities:', error);
+                      }
+                    }
+                    
                     setShowUploadModal(false);
+                    showMessage('success', `Added ${files.length} activity(ies) to section!`);
                   }}
                 />
                 
@@ -2027,10 +2311,8 @@ const CourseBuilder = ({ course, onBack }) => {
                   {[
                     { icon: Video, title: 'Video (interactive)', desc: 'Upload your video, add interactivity, auto-create interactive transcripts.', color: 'bg-purple-600' },
                     { icon: FileText, title: 'PDF', desc: 'Upload and present PDFs files in the course player.', color: 'bg-red-600' },
-                    { icon: BookOpen, title: 'SCORM / HTML5 package', desc: 'Upload a SCORM / HTML 5 package as a learning activity.', color: 'bg-green-600' },
                     { icon: Video, title: 'Presentation', desc: 'Upload presentation files in .ppt, .pptx or .odp formats (e.g. PowerPoint files).', color: 'bg-orange-600' },
-                    { icon: Video, title: 'Audio', desc: 'Upload an audio file or set the URL of the related audio file.', color: 'bg-blue-600' },
-                    { icon: Video, title: 'Youtube', desc: 'Add YouTube videos to your course.', color: 'bg-red-500' }
+                    { icon: Video, title: 'Audio', desc: 'Upload an audio file or set the URL of the related audio file.', color: 'bg-blue-600' }
                   ].map((activity) => {
                     const Icon = activity.icon;
                     return (
@@ -2044,33 +2326,164 @@ const CourseBuilder = ({ course, onBack }) => {
                             return;
                           }
                           
+                          if (activity.title.includes('Audio')) {
+                            // Handle Audio with URL option
+                            const choice = confirm('Upload audio file? (Cancel for URL)');
+                            if (choice) {
+                              const input = document.createElement('input');
+                              input.type = 'file';
+                              input.accept = 'audio/*';
+                              input.onchange = async (e) => {
+                                const file = e.target.files[0];
+                                if (file) {
+                                  // Save to database first
+                                  if (course?.id) {
+                                    try {
+                                      const { supabase } = await import('../../lib/supabase');
+                                      const { data, error } = await supabase.from('course_activities').insert({
+                                        course_id: course.id,
+                                        section_id: currentSectionId,
+                                        title: file.name.replace(/\.[^/.]+$/, ""),
+                                        activity_type: 'audio',
+                                        source: 'upload',
+                                        url: null,
+                                        file_url: file.name,
+                                        completed: false
+                                      }).select().single();
+                                      
+                                      if (error) throw error;
+                                      
+                                      // Add to local state with database ID
+                                      const newActivity = {
+                                        id: data.id,
+                                        title: data.title,
+                                        type: data.activity_type,
+                                        completed: data.completed,
+                                        file: file,
+                                        source: data.source,
+                                        url: data.url,
+                                        file_url: data.file_url
+                                      };
+                                      
+                                      setSections(prev => prev.map(section => 
+                                        section.id === currentSectionId 
+                                          ? { ...section, activities: [...section.activities, newActivity] }
+                                          : section
+                                      ));
+                                      
+                                      showMessage('success', 'Audio activity added successfully');
+                                    } catch (error) {
+                                      console.error('Failed to save audio activity:', error);
+                                      showMessage('error', 'Failed to save audio activity');
+                                    }
+                                  }
+                                }
+                              };
+                              input.click();
+                            } else {
+                              const url = prompt('Enter audio URL:');
+                              if (url) {
+                                const title = prompt('Audio title:') || 'Audio Lesson';
+                                // Save to database first
+                                if (course?.id) {
+                                  (async () => {
+                                    try {
+                                      const { supabase } = await import('../../lib/supabase');
+                                      const { data, error } = await supabase.from('course_activities').insert({
+                                        course_id: course.id,
+                                        section_id: currentSectionId,
+                                        title: title,
+                                        activity_type: 'audio',
+                                        source: 'url',
+                                        url: url,
+                                        file_url: null,
+                                        completed: false
+                                      }).select().single();
+                                      
+                                      if (error) throw error;
+                                      
+                                      // Add to local state with database ID
+                                      const newActivity = {
+                                        id: data.id,
+                                        title: data.title,
+                                        type: data.activity_type,
+                                        completed: data.completed,
+                                        source: data.source,
+                                        url: data.url,
+                                        file_url: data.file_url
+                                      };
+                                      
+                                      setSections(prev => prev.map(section => 
+                                        section.id === currentSectionId 
+                                          ? { ...section, activities: [...section.activities, newActivity] }
+                                          : section
+                                      ));
+                                      
+                                      showMessage('success', 'Audio activity added successfully');
+                                    } catch (error) {
+                                      console.error('Failed to save audio activity:', error);
+                                      showMessage('error', 'Failed to save audio activity');
+                                    }
+                                  })();
+                                }
+                              }
+                            }
+                            setShowActivityModal(false);
+                            return;
+                          }
+                          
                           const input = document.createElement('input');
                           input.type = 'file';
                           input.accept = activity.title.includes('PDF') ? '.pdf' :
-                                        activity.title.includes('Audio') ? 'audio/*' :
-                                        activity.title.includes('Presentation') ? '.ppt,.pptx,.odp' :
-                                        activity.title.includes('SCORM') ? '.zip' : '*';
+                                        activity.title.includes('Presentation') ? '.ppt,.pptx,.odp' : '*';
                           
-                          input.onchange = (e) => {
+                          input.onchange = async (e) => {
                             const file = e.target.files[0];
                             if (file) {
-                              const newActivity = {
-                                id: Date.now() + Math.random(),
-                                title: file.name.replace(/\.[^/.]+$/, ""),
-                                type: activity.title.includes('PDF') ? 'pdf' :
-                                      activity.title.includes('Audio') ? 'audio' :
-                                      activity.title.includes('Presentation') ? 'presentation' :
-                                      activity.title.includes('SCORM') ? 'scorm' : 'file',
-                                completed: false,
-                                file: file,
-                                source: 'upload'
-                              };
+                              const activityType = activity.title.includes('PDF') ? 'pdf' :
+                                                 activity.title.includes('Presentation') ? 'presentation' : 'file';
                               
-                              setSections(prev => prev.map(section => 
-                                section.id === currentSectionId 
-                                  ? { ...section, activities: [...section.activities, newActivity] }
-                                  : section
-                              ));
+                              // Save to database first
+                              if (course?.id) {
+                                try {
+                                  const { supabase } = await import('../../lib/supabase');
+                                  const { data, error } = await supabase.from('course_activities').insert({
+                                    course_id: course.id,
+                                    section_id: currentSectionId,
+                                    title: file.name.replace(/\.[^/.]+$/, ""),
+                                    activity_type: activityType,
+                                    source: 'upload',
+                                    url: null,
+                                    file_url: file.name,
+                                    completed: false
+                                  }).select().single();
+                                  
+                                  if (error) throw error;
+                                  
+                                  // Add to local state with database ID
+                                  const newActivity = {
+                                    id: data.id,
+                                    title: data.title,
+                                    type: data.activity_type,
+                                    completed: data.completed,
+                                    file: file,
+                                    source: data.source,
+                                    url: data.url,
+                                    file_url: data.file_url
+                                  };
+                                  
+                                  setSections(prev => prev.map(section => 
+                                    section.id === currentSectionId 
+                                      ? { ...section, activities: [...section.activities, newActivity] }
+                                      : section
+                                  ));
+                                  
+                                  showMessage('success', 'Activity added successfully');
+                                } catch (error) {
+                                  console.error('Failed to save activity:', error);
+                                  showMessage('error', 'Failed to save activity');
+                                }
+                              }
                             }
                           };
                           
@@ -2125,8 +2538,8 @@ const CourseBuilder = ({ course, onBack }) => {
                   onChange={(e) => setVideoForm(prev => ({ ...prev, source: e.target.value, url: '', file: null }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 mb-3"
                 >
-                  <option value="vimeo">Vimeo</option>
                   <option value="youtube">YouTube</option>
+                  <option value="vimeo">Vimeo</option>
                   <option value="vdocipher">VdoCipher</option>
                   <option value="gumlet">Gumlet</option>
                   <option value="iframe">iFrame</option>
@@ -2186,32 +2599,128 @@ const CourseBuilder = ({ course, onBack }) => {
                 Cancel
               </button>
               <button
-                onClick={() => {
-                  if (videoForm.title && (videoForm.url || videoForm.file)) {
-                    const newActivity = {
-                      id: Date.now() + Math.random(),
-                      title: videoForm.title,
-                      type: 'video',
-                      completed: false,
-                      source: videoForm.source,
-                      url: videoForm.url,
-                      file: videoForm.file
-                    };
-                    
-                    setSections(prev => prev.map(section => 
-                      section.id === currentSectionId 
-                        ? { ...section, activities: [...section.activities, newActivity] }
-                        : section
-                    ));
-                    
-                    setShowVideoModal(false);
+                onClick={async () => {
+                  if (!videoForm.title) {
+                    showMessage('error', 'Please enter a video title');
+                    return;
                   }
+                  
+                  if (!videoForm.url && !videoForm.file) {
+                    showMessage('error', 'Please provide a video URL or upload a file');
+                    return;
+                  }
+                  
+                  if (videoForm.source === 'youtube' && videoForm.url) {
+                    console.log('Validating YouTube URL:', videoForm.url);
+                    const isValid = validateVideoUrl('youtube', videoForm.url);
+                    console.log('YouTube URL validation result:', isValid);
+                    if (!isValid) {
+                      showMessage('error', 'Please enter a valid YouTube URL (e.g., https://www.youtube.com/watch?v=... or https://youtu.be/...)');
+                      return;
+                    }
+                  }
+                  
+                  if (videoForm.source === 'vimeo' && videoForm.url) {
+                    if (!validateVideoUrl('vimeo', videoForm.url)) {
+                      showMessage('error', 'Please enter a valid Vimeo URL (e.g., https://vimeo.com/...)');
+                      return;
+                    }
+                  }
+                  
+                  const newActivity = {
+                    id: Date.now() + Math.random(),
+                    title: videoForm.title,
+                    type: 'video',
+                    completed: false,
+                    source: videoForm.source,
+                    url: videoForm.source === 'youtube' ? convertToEmbedUrl(videoForm.source, videoForm.url) : videoForm.url,
+                    file: videoForm.file
+                  };
+                  
+                  const updatedSections = sections.map(section => 
+                    section.id === currentSectionId 
+                      ? { ...section, activities: [...section.activities, newActivity] }
+                      : section
+                  );
+                  setSections(updatedSections);
+                  
+                  if (course?.id) {
+                    try {
+                      const { supabase } = await import('../../lib/supabase');
+                      const { data, error } = await supabase.from('course_activities').insert({
+                        course_id: course.id,
+                        section_id: currentSectionId,
+                        title: newActivity.title,
+                        activity_type: newActivity.type,
+                        source: newActivity.source,
+                        url: newActivity.url,
+                        file_url: newActivity.file ? newActivity.file.name : null,
+                        completed: false
+                      }).select().single();
+                      
+                      if (error) throw error;
+                      
+                      // Update local state with database ID
+                      if (data) {
+                        setSections(prev => prev.map(section => 
+                          section.id === currentSectionId 
+                            ? { 
+                                ...section, 
+                                activities: section.activities.map(a => 
+                                  a.id === newActivity.id 
+                                    ? { ...a, id: data.id }
+                                    : a
+                                )
+                              }
+                            : section
+                        ));
+                      }
+                    } catch (error) {
+                      console.warn('Failed to save activity:', error);
+                    }
+                  }
+                  
+                  setShowVideoModal(false);
+                  setVideoForm({ title: '', source: 'youtube', url: '', file: null });
+                  showMessage('success', 'Video activity added successfully');
                 }}
                 disabled={!videoForm.title || (!videoForm.url && !videoForm.file)}
                 className="flex-1 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Add Video
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm.show && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-xl shadow-lg max-w-md w-full mx-4">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                Delete {deleteConfirm.type === 'section' ? 'Section' : 'Activity'}
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Are you sure you want to delete this {deleteConfirm.type}? 
+                {deleteConfirm.type === 'section' && ' All activities in this section will also be deleted.'} 
+                This action cannot be undone.
+              </p>
+              <div className="flex space-x-3">
+                <button
+                  onClick={() => setDeleteConfirm({ show: false, activityId: null, sectionId: null, type: null })}
+                  className="flex-1 px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={confirmDelete}
+                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -2267,50 +2776,7 @@ const CourseBuilder = ({ course, onBack }) => {
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Access
-                </label>
-                <div className="space-y-3">
-                  {[
-                    {
-                      id: 'draft',
-                      title: 'Draft',
-                      description: 'The section will be invisible to the users.'
-                    },
-                    {
-                      id: 'soon',
-                      title: 'Soon',
-                      description: 'The section will be visible to the users but the learning activities will not be accessible.'
-                    },
-                    {
-                      id: 'free',
-                      title: 'Free',
-                      description: 'The section will be visible and accessible to all users.'
-                    },
-                    {
-                      id: 'paid',
-                      title: 'Paid',
-                      description: 'The section will be accessible only to users who have purchased the course.'
-                    }
-                  ].map((option) => (
-                    <label key={option.id} className="flex items-start space-x-3 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="access"
-                        value={option.id}
-                        checked={sectionForm.access === option.id}
-                        onChange={(e) => setSectionForm(prev => ({ ...prev, access: e.target.value }))}
-                        className="mt-1 h-4 w-4 text-teal-600 border-gray-300 focus:ring-teal-500"
-                      />
-                      <div>
-                        <div className="font-medium text-gray-900">{option.title}</div>
-                        <div className="text-sm text-gray-600">{option.description}</div>
-                      </div>
-                    </label>
-                  ))}
-                </div>
-              </div>
+
             </div>
             
             <div className="p-6 border-t border-gray-200 flex space-x-3">

@@ -1,175 +1,362 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete JavaScript Course - SkillForge</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#bac5ee", "background-light": "#f6f6f8", "background-dark": "#13151f"}, fontFamily: {display: "Work Sans"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+<style type="text/tailwindcss">
+        [x-cloak] { display: none !important; }
+    </style>
+<script defer="" src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                SkillForge
-            </a>
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-input" placeholder="Search for anything...">
-            </div>
-            <div class="nav-actions">
-                <a href="signin.html" class="btn">Log In</a>
-                <a href="register.html" class="btn btn-primary">Sign Up</a>
-            </div>
-        </div>
-    </nav>
-
-    <section style="padding: 6rem 0 4rem; background: var(--gradient-primary); color: white;">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: start;">
-                <div>
-                    <div style="margin-bottom: 1rem;">
-                        <span style="background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600;">Bestseller</span>
-                    </div>
-                    <h1 style="font-size: 3rem; margin-bottom: 1rem; color: white;">The Complete JavaScript Course 2024</h1>
-                    <p style="font-size: 1.25rem; margin-bottom: 1rem; opacity: 0.9;">From Zero to Expert!</p>
-                    <p style="margin-bottom: 2rem; opacity: 0.8;">by Jonas Schmedtmann</p>
-                    
-                    <div style="display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem;">
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <div style="color: #fbbf24;">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <span>4.7 (177,503 ratings)</span>
-                        </div>
-                        <span>319 lectures</span>
-                        <span>65.5 total hours</span>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
-                        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: var(--radius); backdrop-filter: blur(10px);">
-                            <i class="fas fa-play-circle" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
-                            <div style="font-weight: 600;">319 Lectures</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: var(--radius); backdrop-filter: blur(10px);">
-                            <i class="fas fa-clock" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
-                            <div style="font-weight: 600;">65.5 Hours</div>
-                        </div>
-                        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: var(--radius); backdrop-filter: blur(10px);">
-                            <i class="fas fa-certificate" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
-                            <div style="font-weight: 600;">Certificate</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="position: sticky; top: 120px;">
-                    <div style="background: hsl(var(--card)); padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
-                        <div style="text-align: center; margin-bottom: 2rem;">
-                            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
-                                <span style="font-size: 2.5rem; font-weight: 900; color: hsl(var(--primary));">$84.99</span>
-                                <span style="text-decoration: line-through; color: hsl(var(--muted-foreground)); font-size: 1.25rem;">$199.99</span>
-                            </div>
-                            <div style="background: #dc2626; color: white; padding: 0.5rem 1rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem;">57% OFF - Limited Time</div>
-                        </div>
-
-                        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
-                            <a href="register.html" class="btn btn-primary" style="width: 100%; padding: 1.25rem; font-size: 1.125rem;">
-                                <i class="fas fa-shopping-cart"></i>
-                                Enroll Now
-                            </a>
-                            <button class="btn btn-secondary" style="width: 100%;">
-                                <i class="fas fa-heart"></i>
-                                Add to Wishlist
-                            </button>
-                        </div>
-
-                        <div style="border-top: 1px solid hsl(var(--border)); padding-top: 1.5rem;">
-                            <h4 style="margin-bottom: 1rem;">This course includes:</h4>
-                            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.875rem;">
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i class="fas fa-infinity" style="color: hsl(var(--primary));"></i>
-                                    <span>Full lifetime access</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i class="fas fa-mobile-alt" style="color: hsl(var(--primary));"></i>
-                                    <span>Access on mobile and TV</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i class="fas fa-download" style="color: hsl(var(--primary));"></i>
-                                    <span>Downloadable resources</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i class="fas fa-medal" style="color: hsl(var(--primary));"></i>
-                                    <span>Certificate of completion</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section style="padding: 4rem 0;">
-        <div class="container">
-            <div style="max-width: 800px;">
-                <h2 style="margin-bottom: 2rem;">What you'll learn</h2>
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 3rem;">
-                    <div style="display: flex; align-items: start; gap: 0.75rem;">
-                        <i class="fas fa-check" style="color: hsl(var(--primary)); margin-top: 0.25rem;"></i>
-                        <span>Become an advanced, confident, and modern JavaScript developer</span>
-                    </div>
-                    <div style="display: flex; align-items: start; gap: 0.75rem;">
-                        <i class="fas fa-check" style="color: hsl(var(--primary)); margin-top: 0.25rem;"></i>
-                        <span>Build 6 beautiful real-world projects for your portfolio</span>
-                    </div>
-                    <div style="display: flex; align-items: start; gap: 0.75rem;">
-                        <i class="fas fa-check" style="color: hsl(var(--primary)); margin-top: 0.25rem;"></i>
-                        <span>Become job-ready by understanding how JavaScript really works</span>
-                    </div>
-                    <div style="display: flex; align-items: start; gap: 0.75rem;">
-                        <i class="fas fa-check" style="color: hsl(var(--primary)); margin-top: 0.25rem;"></i>
-                        <span>Learn modern ES6+ from the beginning</span>
-                    </div>
-                </div>
-
-                <h3 style="margin-bottom: 1.5rem;">Course Description</h3>
-                <p style="line-height: 1.7; color: hsl(var(--muted-foreground));">This is the most complete JavaScript course on Udemy. It's an all-in-one package that will take you from the very fundamentals of JavaScript, all the way to building modern and complex applications. You will learn modern JavaScript from the very beginning, step-by-step. I will guide you through practical and fun code examples, important theory about how JavaScript works behind the scenes, and beautiful and complete projects.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>SkillForge</h3>
-                <p>The global marketplace for learning and instruction.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Teach</h3>
-                <ul>
-                    <li><a href="#">Become an Instructor</a></li>
-                    <li><a href="#">Teaching Center</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">Help and Support</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 SkillForge, Inc. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Creative Pro</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<div class="lg:col-span-2 space-y-8">
+<div>
+<div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
+<a class="hover:text-primary" href="#">Courses</a>
+<span>/</span>
+<span class="font-medium text-gray-800 dark:text-gray-200">Introduction to Data Science</span>
+</div>
+<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">Introduction to Data Science</h1>
+<p class="mt-4 text-lg text-gray-600 dark:text-gray-300"> Learn the fundamentals of data science, including data analysis, visualization, and machine learning techniques. This course is designed for beginners with no prior experience. </p>
+</div>
+<div class="rounded-xl overflow-hidden shadow-lg">
+<div class="w-full bg-center bg-no-repeat bg-cover aspect-video" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAqW9Mg2cNP-HiQ7AHcjMH6W8pQa-MjQhzsGpTHnPINGVcec2-uLl-aLEUyKp_qwKK5kzvWnc0dgCRbNq19u4B0PuomcxXuCdN21P4RK-hHQidaImwkwSEsZZ-mupkDpiUIZTwvZGWATYK7K_LHbDR-TH2-e3CZNWTsqVHeMYgMLCOMxagye1TCrH2_XdoihHglXE8KeY8MYEkZSopnevU5dY_iiu7UsAJkucdDQX0mJqVvo_OhpZi1cLiHS8tYOxhyDQ6DN1oNBVYx");'></div>
+</div>
+<div class="space-y-8" x-data="{ activeTab: 'syllabus' }">
+<div class="border-b border-gray-200 dark:border-gray-700">
+<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+<button :class="activeTab === 'syllabus' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600'" @click="activeTab = 'syllabus'" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"> Syllabus </button>
+<button :class="activeTab === 'instructor' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600'" @click="activeTab = 'instructor'" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"> Instructor </button>
+<button :class="activeTab === 'reviews' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600'" @click="activeTab = 'reviews'" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"> Reviews </button>
+</nav>
+</div>
+<div class="space-y-8" x-cloak="" x-show="activeTab === 'syllabus'">
+<div>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">What You'll Learn</h2>
+<ul class="space-y-3 text-gray-600 dark:text-gray-300">
+<li class="flex items-start gap-3">
+<div class="w-6 h-6 flex-shrink-0 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mt-1">
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<p>Understand the basics of data science and its applications</p>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-6 h-6 flex-shrink-0 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mt-1">
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<p>Master data analysis techniques using Python libraries</p>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-6 h-6 flex-shrink-0 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mt-1">
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<p>Create insightful data visualizations to communicate findings</p>
+</li>
+<li class="flex items-start gap-3">
+<div class="w-6 h-6 flex-shrink-0 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mt-1">
+<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<p>Build and evaluate machine learning models for predictive tasks</p>
+</li>
+</ul>
+</div>
+<div class="space-y-3" x-data="{ open: 'module1' }">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Course Syllabus</h2>
+<div class="bg-white dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700">
+<div @click="open = open === 'module1' ? '' : 'module1'">
+<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+<span>Module 1: Introduction to Data Science</span>
+<svg :class="{ 'rotate-180': open === 'module1' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module1'"> Overview of the data science workflow, key concepts, and real-world applications. Introduction to the tools and libraries used throughout the course. </div>
+</div>
+<div @click="open = open === 'module2' ? '' : 'module2'">
+<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+<span>Module 2: Data Analysis with Python</span>
+<svg :class="{ 'rotate-180': open === 'module2' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module2'"> Deep dive into data manipulation and analysis using popular Python libraries like Pandas and NumPy. </div>
+</div>
+<div @click="open = open === 'module3' ? '' : 'module3'">
+<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+<span>Module 3: Data Visualization Techniques</span>
+<svg :class="{ 'rotate-180': open === 'module3' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module3'"> Learn to create compelling visualizations with Matplotlib and Seaborn to communicate insights effectively. </div>
+</div>
+<div @click="open = open === 'module4' ? '' : 'module4'">
+<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+<span>Module 4: Machine Learning Fundamentals</span>
+<svg :class="{ 'rotate-180': open === 'module4' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module4'"> Introduction to supervised and unsupervised learning models with scikit-learn. Model building, training, and evaluation. </div>
+</div>
+<div @click="open = open === 'module5' ? '' : 'module5'">
+<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+<span>Module 5: Capstone Project</span>
+<svg :class="{ 'rotate-180': open === 'module5' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module5'"> Apply all your learned skills to a real-world dataset, from data cleaning and analysis to building a predictive model and presenting your findings. </div>
+</div>
+</div>
+</div>
+</div>
+<div x-cloak="" x-show="activeTab === 'instructor'">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Instructor</h2>
+<div class="flex flex-col sm:flex-row items-start gap-6 p-6 bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-28 h-28 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCWGL0OnFs8AhVX6Bv9bsfsnYGVEzRf3RRUKxXTcLl2aXTBsClkdNOQop93XYPG6fVnTMO2oBVHK3qXfDmBPSa6zm7JknF88WDrO7byBujhLlcvMT_a4swu3Q9MBTD7jvQBnXbCFf1rMTsTz8MyVzWz4IBaznIRbbjMnwfFzyAHzb7mbfgdFhUjhZQZFFsnxH5XxIq3uqGOGYCq3QjtFb1iMrCCX_qCUi3gQ7yxpbV5EmEGfnW5RY2Wwu4oBx5Wsr2dzu4KHt3JrrIs");'></div>
+<div class="flex flex-col">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Dr. Emily Carter</h3>
+<p class="text-primary font-medium mt-1">Lead Data Scientist</p>
+<p class="mt-3 text-gray-600 dark:text-gray-300"> Dr. Carter has over 10 years of experience in data science and has worked with leading tech companies. She holds a PhD in Statistics from Stanford University. </p>
+</div>
+</div>
+</div>
+<div x-cloak="" x-show="activeTab === 'reviews'">
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Reviews</h2>
+<div class="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm">
+<div class="flex flex-col sm:flex-row items-center gap-8 mb-6">
+<div class="flex flex-col gap-2 items-center text-center">
+<p class="text-5xl font-black text-gray-900 dark:text-white">4.7</p>
+<div class="flex text-primary">
+<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,188.84,81,218.42l11.23-53.7L46.3,124.3l54.83-4.73L128,72l26.87,47.59,54.83,4.73-45.93,40.42L175,218.42ZM239.2,97.29a16,16,0,0,0-13.81-11L166,81.17,142.72,25.81h0a15.95,15.95,0,0,0-29.44,0L90.07,81.17,30.61,86.32a16,16,0,0,0-9.11,28.06L66.61,153.8,53.09,212.34a16,16,0,0,0,23.84,17.34l51-31,51.11,31a16,16,0,0,0,23.84-17.34l-13.51-58.6,45.1-39.36A16,16,0,0,0,239.2,97.29Z"></path>
+</svg>
+</div>
+<p class="text-sm text-gray-600 dark:text-gray-400">125 reviews</p>
+</div>
+<div class="grid flex-1 grid-cols-[auto_1fr_auto] items-center gap-x-3 gap-y-1 min-w-[200px]">
+<p class="text-sm">5</p>
+<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+<div class="h-2 rounded-full bg-primary" style="width: 50%;"></div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400">50%</p>
+<p class="text-sm">4</p>
+<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+<div class="h-2 rounded-full bg-primary" style="width: 30%;"></div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400">30%</p>
+<p class="text-sm">3</p>
+<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+<div class="h-2 rounded-full bg-primary" style="width: 10%;"></div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400">10%</p>
+<p class="text-sm">2</p>
+<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+<div class="h-2 rounded-full bg-primary" style="width: 5%;"></div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400">5%</p>
+<p class="text-sm">1</p>
+<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+<div class="h-2 rounded-full bg-primary" style="width: 5%;"></div>
+</div>
+<p class="text-sm text-gray-500 dark:text-gray-400">5%</p>
+</div>
+</div>
+<div class="space-y-6">
+<div class="flex flex-col gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmn969aiLR3gtChS2qD0Ylb1vTe_JmGpiXK9NHsd-PjYbkXZoh8QN5IrF2cDpSuZiFNMBmWL6UNOkTrZiN7lBMs6xsXiZCEfnIBkzztFXmWeEZzHzCUb7vr3D5QaIm9Ky4ZWzBPKnb3efIJZg0KzQujSFQXgsgnhwRo5iyE9irxnGeurXYhKB3idLQSbEyljUUcZ3zxnEeGos7mU4s_jKo9lgVUgqUly9YnWj61u4DgSkIRJ5tFoXuGYVAQH1aA9e5DLH78aAVHPfQ");'></div>
+<div>
+<p class="font-medium text-gray-900 dark:text-white">Liam Harper</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">2023-08-15</p>
+</div>
+</div>
+<div class="flex text-primary">
+<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+</div>
+<p class="text-gray-600 dark:text-gray-300">This course exceeded my expectations! The content was well-structured and easy to follow, even for someone with no prior data science experience. Dr. Carter is an excellent instructor, and her explanations were clear and concise.</p>
+</div>
+<div class="flex flex-col gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDdPdszI38p3hpWAXU5wJkcI0R1W39Kx8FhEERLJQLwVOe3O5aUyGhpsvBu50wjwZZZKraVHrQzbxZLwbGLQQL4ci9BFYMNllaJ-40rWKThZby5SdqOzQ88stHLmw6yUqBHma8Y9xY2oao2XiOshv-ni1TcCvWUSiypb6TTd8mlwlflVFeh-ky8QG8dAlQllyv0bhMECROmfl4a3UcLk28JTvtoJgRuH48DyKuG9dJxf_nGxyEdJ6nXBAx3SHqmQf2vaz-lXy78eKDq");'></div>
+<div>
+<p class="font-medium text-gray-900 dark:text-white">Sophia Bennett</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">2023-07-22</p>
+</div>
+</div>
+<div class="flex text-primary">
+<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
+</svg>
+<svg class="text-gray-300 dark:text-gray-600" fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,188.84,81,218.42l11.23-53.7L46.3,124.3l54.83-4.73L128,72l26.87,47.59,54.83,4.73-45.93,40.42L175,218.42ZM239.2,97.29a16,16,0,0,0-13.81-11L166,81.17,142.72,25.81h0a15.95,15.95,0,0,0-29.44,0L90.07,81.17,30.61,86.32a16,16,0,0,0-9.11,28.06L66.61,153.8,53.09,212.34a16,16,0,0,0,23.84,17.34l51-31,51.11,31a16,16,0,0,0,23.84-17.34l-13.51-58.6,45.1-39.36A16,16,0,0,0,239.2,97.29Z"></path>
+</svg>
+</div>
+<p class="text-gray-600 dark:text-gray-300">I found the course to be very informative and practical. The hands-on projects were particularly helpful in reinforcing the concepts learned. However, some modules could have been more in-depth.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="lg:col-span-1">
+<div class="sticky top-12 space-y-6">
+<div class="border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-6 bg-white dark:bg-gray-800/50">
+<p class="text-3xl font-bold text-gray-900 dark:text-white">$299</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">One-time payment</p>
+<button class="mt-6 w-full flex items-center justify-center rounded-lg h-12 px-5 bg-primary text-white text-base font-bold shadow-lg hover:bg-primary/90 transition-colors">
+<span class="truncate">Enroll Now</span>
+</button>
+<div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 space-y-4">
+<h3 class="text-lg font-bold text-gray-900 dark:text-white">Course Details</h3>
+<div class="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+<svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div>
+<p class="font-medium text-sm">Duration: <span class="font-normal">8 Weeks</span></p>
+</div>
+</div>
+<div class="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+<svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div>
+<p class="font-medium text-sm">Level: <span class="font-normal">Beginner</span></p>
+</div>
+</div>
+<div class="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+<svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div>
+<p class="font-medium text-sm">Format: <span class="font-normal">Online, Self-paced</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<footer class="bg-gray-100 dark:bg-gray-900/50 mt-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="flex flex-col md:flex-row items-center justify-between gap-8">
+<div class="flex items-center gap-4 text-gray-900 dark:text-white">
+<div class="w-8 h-8 text-primary">
+<svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold">EduSite</h2>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-gray-600 dark:text-gray-400">
+<a class="hover:text-primary" href="#">About</a>
+<a class="hover:text-primary" href="#">Contact</a>
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+<p class="text-sm text-gray-500 dark:text-gray-400">© 2024 EduSite. All rights reserved.</p>
+<div class="flex items-center gap-4 text-gray-500 dark:text-gray-400">
+<a class="hover:text-primary" href="#">
+<svg fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M247.39,68.94A8,8,0,0,0,240,64H209.57A48.66,48.66,0,0,0,168.1,40a46.91,46.91,0,0,0-33.75,13.7A47.9,47.9,0,0,0,120,88v6.09C79.74,83.47,46.81,50.72,46.46,50.37a8,8,0,0,0-13.65,4.92c-4.31,47.79,9.57,79.77,22,98.18a110.93,110.93,0,0,0,21.88,24.2c-15.23,17.53-39.21,26.74-39.47,26.84a8,8,0,0,0-3.85,11.93c.75,1.12,3.75,5.05,11.08,8.72C53.51,229.7,65.48,232,80,232c70.67,0,129.72-54.42,135.75-124.44l29.91-29.9A8,8,0,0,0,247.39,68.94Zm-45,29.41a8,8,0,0,0-2.32,5.14C196,166.58,143.28,216,80,216c-10.56,0-18-1.4-23.22-3.08,11.51-6.25,27.56-17,37.88-32.48A8,8,0,0,0,92,169.08c-.47-.27-43.91-26.34-44-96,16,13,45.25,33.17,78.67,38.79A8,8,0,0,0,136,104V88a32,32,0,0,1,9.6-22.92A30.94,30.94,0,0,1,167.9,56c12.66.16,24.49,7.88,29.44,19.21A8,8,0,0,0,204.67,80h16Z"></path>
+</svg>
+</a>
+<a class="hover:text-primary" href="#">
+<svg fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z"></path>
+</svg>
+</a>
+<a class="hover:text-primary" href="#">
+<svg fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

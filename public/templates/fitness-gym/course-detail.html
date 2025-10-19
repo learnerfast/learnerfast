@@ -1,210 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beast Mode Program - FitForge</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Stitch Design</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#ee4b2b",
+              "background-light": "#f8f6f6",
+              "background-dark": "#221310",
+            },
+            fontFamily: {
+              display: ["Lexend"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
 </head>
-<body>
-    <div class="energy-bar"></div>
-    
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <span class="logo-text">FitForge</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="courses.html">Training</a></li>
-                <li><a href="about.html">Coaches</a></li>
-                <li><a href="contact.html">Join</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="signin.html" class="btn btn-ghost">Sign In</a>
-                <a href="register.html" class="btn btn-primary">Start Training</a>
-            </div>
-        </div>
-    </nav>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex min-h-screen w-full flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Elite Fitness</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+<div class="lg:col-span-2">
+<div class="relative aspect-video w-full overflow-hidden rounded-xl bg-cover bg-center shadow-lg" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 40%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuCAo8oLGzyh_xeTvgbqYgPgDnmhyJizF0pgwjxXUzRp6Zc-eALUyq07bwR3dRgoheOP78pQ335ppAcOwg0rNNtBxVzTd3n0R6OgKRb7apYGSInZ3CfvbqX-_BLuGUuBPIkH1RZmm_LQkv9yCmy2DWDW0skoEwkpgAUZpELGDWlrqEzK00_roG1EPL4QGPzTXFpKf3SBlIjOzA01a4rpzs9_ePFqPk-Lqs5sAsfBUjfXvr-HzPp6xR2oQhMbNmjhIj7_qLdxRdO5cQ");'>
+<div class="absolute bottom-0 left-0 p-6 md:p-8">
+<h1 class="text-3xl md:text-4xl font-extrabold text-white">Advanced Strength Training</h1>
+</div>
+</div>
+<div class="mt-8 space-y-8">
+<div>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Course Description</h2>
+<p class="mt-4 text-base leading-relaxed text-gray-600 dark:text-gray-300">
+                    This course is designed for individuals with a solid foundation in strength training who are looking to take their fitness to the next level. You'll learn advanced techniques, including Olympic lifts, plyometrics, and periodization strategies, to maximize muscle growth and strength gains.
+                  </p>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Learning Objectives</h2>
+<ul class="mt-4 space-y-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1"> check_circle </span>
+<span class="text-base text-gray-600 dark:text-gray-300">Master advanced weightlifting techniques</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1"> check_circle </span>
+<span class="text-base text-gray-600 dark:text-gray-300">Develop personalized training programs</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1"> check_circle </span>
+<span class="text-base text-gray-600 dark:text-gray-300">Understand the principles of periodization</span>
+</li>
+</ul>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Curriculum</h2>
+<div class="mt-4 border border-gray-200 dark:border-gray-700/50 rounded-lg">
+<div class="p-4 border-b border-gray-200 dark:border-gray-700/50">
+<h3 class="font-semibold text-gray-800 dark:text-gray-100">Module 1: Advanced Techniques</h3>
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Introduction to advanced lifting techniques</p>
+</div>
+<div class="p-4 border-b border-gray-200 dark:border-gray-700/50">
+<h3 class="font-semibold text-gray-800 dark:text-gray-100">Module 2: Program Design</h3>
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Designing personalized training programs</p>
+</div>
+<div class="p-4">
+<h3 class="font-semibold text-gray-800 dark:text-gray-100">Module 3: Periodization</h3>
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Implementing periodization strategies</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:col-span-1 space-y-8">
+<div class="bg-background-light dark:bg-background-dark p-6 rounded-xl border border-gray-200 dark:border-gray-700/50 shadow-sm">
+<button class="w-full rounded-lg h-12 px-6 text-base font-bold bg-primary text-white hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+                  Enroll Now
+                  <span class="material-symbols-outlined"> arrow_forward </span>
+</button>
+<div class="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">30-Day Money-Back Guarantee</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark p-6 rounded-xl border border-gray-200 dark:border-gray-700/50 shadow-sm">
+<h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Instructor</h2>
+<div class="flex items-center gap-4">
+<div class="w-20 h-20 rounded-full overflow-hidden bg-cover bg-center flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB9EXN6yeWry6j_gQnVDB1rlbxrtC1f6ohvUcPuwdHgh7dYJB_0pd83U_CymGPHr21Ula4azGrsW4KBf5FhWlw91oYg8j3EqBz00kOqcVdVNXceiMXcFlGueXBZWfEgChLBChixjpKkzmSWQ98nfDQFqWxp_KkBaZzPYPDt3YV5UHDTP4kE1hzto2pMKkOOPkbVasOFr14Z9JMRiCdioMIHtY0HbRNak4vQaospQXmCB3W2_8StI68EJzEOY9NjjL6B9mfeTeFx4A");'></div>
+<div>
+<h3 class="text-lg font-bold text-gray-800 dark:text-gray-100">Mark Johnson</h3>
+<p class="text-sm text-primary">Certified Strength and Conditioning Specialist</p>
+</div>
+</div>
+<p class="mt-4 text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+                  Mark Johnson is a highly experienced strength and conditioning coach with over 15 years in the industry. He has worked with professional athletes and fitness enthusiasts alike, helping them achieve their peak performance.
+                </p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
 
-    <section style="padding: 8rem 0 4rem; background: linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(255, 87, 34, 0.1)); position: relative; overflow: hidden;">
-        <div style="position: absolute; inset: 0; background: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"fitness-pattern\" width=\"20\" height=\"20\" patternUnits=\"userSpaceOnUse\"><circle cx=\"10\" cy=\"10\" r=\"1\" fill=\"rgba(255,87,34,0.1)\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23fitness-pattern)\"/></svg>'); animation: float 8s ease-in-out infinite;"></div>
-        <div class="container" style="position: relative; z-index: 1;">
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: start;">
-                <div>
-                    <div style="margin-bottom: 2rem;">
-                        <span style="background: var(--gradient-primary); color: white; padding: 0.75rem 1.5rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">🔥 Most Popular</span>
-                    </div>
-                    <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 700; color: hsl(var(--foreground)); font-family: 'Oswald', sans-serif;">Beast Mode</h1>
-                    <p style="font-size: 1.5rem; color: hsl(var(--primary)); margin-bottom: 2rem; font-weight: 600;">High-Intensity Strength Training</p>
-                    <p style="font-size: 1.125rem; color: hsl(var(--muted-foreground)); margin-bottom: 3rem; line-height: 1.7;">Transform your physique with our most intense strength training program. Designed for serious athletes and fitness enthusiasts who want to push their limits and achieve extraordinary results.</p>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; margin-bottom: 3rem;">
-                        <div style="text-align: center; background: rgba(255, 87, 34, 0.1); padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(255, 87, 34, 0.2);">
-                            <div style="font-size: 2.5rem; font-weight: 900; color: hsl(var(--primary)); margin-bottom: 0.5rem; font-family: 'Oswald', sans-serif;">45-60</div>
-                            <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: 0.5px;">Minutes</div>
-                        </div>
-                        <div style="text-align: center; background: rgba(255, 87, 34, 0.1); padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(255, 87, 34, 0.2);">
-                            <div style="font-size: 2.5rem; font-weight: 900; color: hsl(var(--primary)); margin-bottom: 0.5rem; font-family: 'Oswald', sans-serif;">+40%</div>
-                            <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: 0.5px;">Strength Gain</div>
-                        </div>
-                        <div style="text-align: center; background: rgba(255, 87, 34, 0.1); padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(255, 87, 34, 0.2);">
-                            <div style="font-size: 2.5rem; font-weight: 900; color: hsl(var(--primary)); margin-bottom: 0.5rem; font-family: 'Oswald', sans-serif;">-15%</div>
-                            <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: 0.5px;">Body Fat</div>
-                        </div>
-                        <div style="text-align: center; background: rgba(255, 87, 34, 0.1); padding: 2rem; border-radius: var(--radius); border: 1px solid rgba(255, 87, 34, 0.2);">
-                            <div style="font-size: 2.5rem; font-weight: 900; color: hsl(var(--primary)); margin-bottom: 0.5rem; font-family: 'Oswald', sans-serif;">4.9</div>
-                            <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); text-transform: uppercase; letter-spacing: 0.5px;">Rating</div>
-                        </div>
-                    </div>
-
-                    <div style="background: hsl(var(--card)); padding: 2.5rem; border-radius: var(--radius); border: 1px solid hsl(var(--border)); box-shadow: var(--shadow); margin-bottom: 3rem;">
-                        <h3 style="margin-bottom: 2rem; font-size: 1.5rem; font-family: 'Oswald', sans-serif;">Program Features</h3>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-dumbbell" style="color: white; font-size: 1.25rem;"></i>
-                                </div>
-                                <span style="font-weight: 600;">Advanced Weightlifting</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-users" style="color: white; font-size: 1.25rem;"></i>
-                                </div>
-                                <span style="font-weight: 600;">Small Group Training</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-chart-line" style="color: white; font-size: 1.25rem;"></i>
-                                </div>
-                                <span style="font-weight: 600;">Progress Tracking</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="width: 50px; height: 50px; background: var(--gradient-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <i class="fas fa-mobile-alt" style="color: white; font-size: 1.25rem;"></i>
-                                </div>
-                                <span style="font-weight: 600;">Mobile App Access</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="background: linear-gradient(135deg, rgba(255, 87, 34, 0.1), rgba(255, 193, 7, 0.1)); padding: 2.5rem; border-radius: var(--radius); border: 1px solid rgba(255, 87, 34, 0.2);">
-                        <h3 style="margin-bottom: 1.5rem; font-family: 'Oswald', sans-serif;">Weekly Schedule</h3>
-                        <div style="display: flex; flex-direction: column; gap: 1rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: hsl(var(--card)); border-radius: calc(var(--radius) - 4px); border: 1px solid hsl(var(--border));">
-                                <div>
-                                    <span style="font-weight: 700; color: hsl(var(--primary));">Monday & Thursday</span>
-                                    <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); margin-top: 0.25rem;">Upper Body Strength</div>
-                                </div>
-                                <span style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">60 min</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: hsl(var(--card)); border-radius: calc(var(--radius) - 4px); border: 1px solid hsl(var(--border));">
-                                <div>
-                                    <span style="font-weight: 700; color: hsl(var(--primary));">Tuesday & Friday</span>
-                                    <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); margin-top: 0.25rem;">Lower Body Power</div>
-                                </div>
-                                <span style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">60 min</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background: hsl(var(--card)); border-radius: calc(var(--radius) - 4px); border: 1px solid hsl(var(--border));">
-                                <div>
-                                    <span style="font-weight: 700; color: hsl(var(--primary));">Saturday</span>
-                                    <div style="font-size: 0.875rem; color: hsl(var(--muted-foreground)); margin-top: 0.25rem;">Full Body Conditioning</div>
-                                </div>
-                                <span style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">45 min</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="position: sticky; top: 120px;">
-                    <div style="background: hsl(var(--card)); padding: 2.5rem; border-radius: var(--radius); border: 1px solid hsl(var(--border)); box-shadow: var(--shadow);">
-                        <div style="text-align: center; margin-bottom: 2rem;">
-                            <div style="font-size: 3.5rem; font-weight: 900; color: hsl(var(--primary)); margin-bottom: 0.5rem; font-family: 'Oswald', sans-serif;">$89</div>
-                            <div style="color: hsl(var(--muted-foreground)); font-size: 1rem;">/month</div>
-                        </div>
-                        
-                        <div style="margin-bottom: 2rem;">
-                            <div style="background: var(--gradient-primary); color: white; padding: 1.5rem; border-radius: calc(var(--radius) - 4px); text-align: center; margin-bottom: 1.5rem;">
-                                <div style="font-weight: 700; margin-bottom: 0.5rem;">🎯 7-Day Free Trial</div>
-                                <div style="font-size: 0.875rem; opacity: 0.9;">Cancel anytime, no commitment</div>
-                            </div>
-                        </div>
-
-                        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
-                            <a href="register.html" class="btn btn-primary" style="width: 100%; padding: 1.5rem; font-size: 1.125rem;">
-                                <i class="fas fa-bolt"></i>
-                                Start Beast Mode
-                            </a>
-                            <button class="btn btn-ghost" style="width: 100%;">
-                                <i class="fas fa-heart"></i>
-                                Save Program
-                            </button>
-                        </div>
-
-                        <div style="border-top: 1px solid hsl(var(--border)); padding-top: 1.5rem;">
-                            <h4 style="margin-bottom: 1rem; font-size: 1rem; font-family: 'Oswald', sans-serif;">Program Includes:</h4>
-                            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.875rem;">
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i class="fas fa-infinity" style="color: hsl(var(--primary));"></i>
-                                    <span>Unlimited gym access</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i class="fas fa-user-tie" style="color: hsl(var(--primary));"></i>
-                                    <span>Personal trainer sessions</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i class="fas fa-mobile-alt" style="color: hsl(var(--primary));"></i>
-                                    <span>FitForge mobile app</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i class="fas fa-utensils" style="color: hsl(var(--primary));"></i>
-                                    <span>Nutrition guidance</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i class="fas fa-users" style="color: hsl(var(--primary));"></i>
-                                    <span>Community support</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <span>FitForge</span>
-                </div>
-                <p>Elite fitness training for those who demand excellence.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Training</h3>
-                <ul>
-                    <li><a href="courses.html">All Programs</a></li>
-                    <li><a href="#">Personal Training</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 FitForge. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+</body></html>

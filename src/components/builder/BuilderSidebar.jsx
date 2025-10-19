@@ -14,8 +14,8 @@ const TABS = [
 const pageGroups = [
   {
     name: 'Website Pages',
-    count: 5,
-    pages: ['Home', 'About', 'Courses', 'Course Detail', 'Contact']
+    count: 7,
+    pages: ['Home', 'About', 'Contact', 'Courses', 'Course Detail', 'Register', 'Sign In']
   }
 ];
 
@@ -187,7 +187,19 @@ const BuilderSidebar = () => {
                     >
                       <div className="space-y-1">
                         {group.pages.length > 0 ? group.pages.map(page => {
-                          const pageSlug = page.toLowerCase().replace(/\s+/g, '');
+                          // Create proper page slugs
+                          let pageSlug;
+                          switch(page) {
+                            case 'Home': pageSlug = 'home'; break;
+                            case 'About': pageSlug = 'about'; break;
+                            case 'Contact': pageSlug = 'contact'; break;
+                            case 'Courses': pageSlug = 'courses'; break;
+                            case 'Course Detail': pageSlug = 'coursedetail'; break;
+                            case 'Register': pageSlug = 'register'; break;
+                            case 'Sign In': pageSlug = 'signin'; break;
+
+                            default: pageSlug = page.toLowerCase().replace(/\s+/g, '');
+                          }
                           const isCurrentPage = currentPage === pageSlug;
                           return (
                             <button
@@ -220,37 +232,36 @@ const BuilderSidebar = () => {
                                     const templateId = currentTemplate || 'modern-minimal';
                                     console.log('Loading page:', pageSlug, 'with template:', templateId);
                                     
-                                    if (pageSlug === 'coursedetail') {
-                                      // Load course detail page
-                                      templateService.loadTemplate(templateId, 'course-detail')
-                                        .then(({ template, content }) => {
-                                          const processedContent = content
-                                            .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
-                                            .replace(/href="(?!https?:\/\/)/g, `href="${template.path}`)
-                                            .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
-                                            .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`);
-                                          
-                                          if (window.updateTemplateContent) {
-                                            window.updateTemplateContent(processedContent);
-                                          }
-                                        })
-                                        .catch(error => console.error('Error loading course detail page:', error));
-                                    } else {
-                                      // Load other pages using index template
-                                      templateService.loadTemplate(templateId)
-                                        .then(({ template, content }) => {
-                                          const processedContent = content
-                                            .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
-                                            .replace(/href="(?!https?:\/\/)/g, `href="${template.path}`)
-                                            .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
-                                            .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`);
-                                          
-                                          if (window.updateTemplateContent) {
-                                            window.updateTemplateContent(processedContent);
-                                          }
-                                        })
-                                        .catch(error => console.error('Error loading page:', error));
-                                    }
+                                    // Map page names to template page types
+                                    const pageTypeMap = {
+                                      'home': 'index',
+                                      'about': 'about',
+                                      'contact': 'contact',
+                                      'courses': 'courses',
+                                      'coursedetail': 'course-detail',
+                                      'register': 'register',
+                                      'signin': 'signin',
+                                      'payment': 'payment',
+                                      'checkout': 'checkout'
+                                    };
+                                    
+                                    console.log('Switching to page:', pageSlug, 'mapped to:', pageTypeMap[pageSlug]);
+                                    
+                                    const pageType = pageTypeMap[pageSlug] || 'index';
+                                    
+                                    templateService.loadTemplate(templateId, pageType)
+                                      .then(({ template, content }) => {
+                                        const processedContent = content
+                                          .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
+                                          .replace(/href="(?!https?:\/\/)/g, `href="${template.path}`)
+                                          .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
+                                          .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`);
+                                        
+                                        if (window.updateTemplateContent) {
+                                          window.updateTemplateContent(processedContent);
+                                        }
+                                      })
+                                      .catch(error => console.error('Error loading page:', pageSlug, error));
                                   }
                                 }, 100); // Small delay to ensure smooth transition
                               }}

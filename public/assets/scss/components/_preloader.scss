@@ -1,186 +1,144 @@
 @use '../utils' as *;
 
-/*--- realistic preloader ---*/
-
-#preloader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ffffff;
-  z-index: 999999;
-  overflow: hidden;
-}
+/*--- preloader ---*/
 
 .dark #preloader {
-  background-color: #1a1a1a;
-}
 
-.realistic-loader {
-  width: 100%;
-  height: 100vh;
-  padding: 0 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Skeleton animations */
-@keyframes skeleton-loading {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: calc(200px + 100%) 0;
-  }
-}
-
-.skeleton-base {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200px 100%;
-  animation: skeleton-loading 1.5s infinite;
-}
-
-.dark .skeleton-base {
-  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
-  background-size: 200px 100%;
-}
-
-/* Header skeleton */
-.skeleton-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 0;
-  margin-bottom: 40px;
-}
-
-.skeleton-logo {
-  @extend .skeleton-base;
-  width: 120px;
-  height: 40px;
-  border-radius: 4px;
-}
-
-.skeleton-nav {
-  display: flex;
-  gap: 30px;
-}
-
-.skeleton-nav-item {
-  @extend .skeleton-base;
-  width: 80px;
-  height: 20px;
-  border-radius: 4px;
-}
-
-/* Hero skeleton */
-.skeleton-hero {
-  text-align: center;
-  padding: 80px 0;
-  margin-bottom: 80px;
-}
-
-.skeleton-hero-content {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.skeleton-title {
-  @extend .skeleton-base;
-  height: 60px;
-  margin-bottom: 20px;
-  border-radius: 4px;
-}
-
-.skeleton-title-small {
-  @extend .skeleton-base;
-  height: 40px;
-  width: 70%;
-  margin: 0 auto 30px;
-  border-radius: 4px;
-}
-
-.skeleton-text {
-  @extend .skeleton-base;
-  height: 20px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-}
-
-.skeleton-button {
-  @extend .skeleton-base;
-  width: 150px;
-  height: 50px;
-  margin: 30px auto 0;
-  border-radius: 25px;
-}
-
-/* Cards skeleton */
-.skeleton-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  padding: 0 20px;
-}
-
-.skeleton-card {
-  border-radius: 8px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.dark .skeleton-card {
-  background: #2a2a2a;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
-.skeleton-card-image {
-  @extend .skeleton-base;
-  height: 200px;
-  width: 100%;
-}
-
-.skeleton-card-content {
-  padding: 20px;
-}
-
-.skeleton-card-title {
-  @extend .skeleton-base;
-  height: 24px;
-  margin-bottom: 15px;
-  border-radius: 4px;
-}
-
-.skeleton-card-text {
-  @extend .skeleton-base;
-  height: 16px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-}
-
-.skeleton-card-text:last-child {
-  width: 60%;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .skeleton-nav {
-    display: none;
+    background-color: var(--tp-theme-1);
+  
   }
   
-  .skeleton-hero {
-    padding: 40px 0;
+  
+  
+  #preloader {
+  
+    position: fixed;
+  
+    top: 0;
+  
+    left: 0;
+  
+    right: 0;
+  
+    bottom: 0;
+  
+    background-color: #f7f7f7;
+  
+    z-index: 999999;
+  
   }
   
-  .skeleton-cards {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  
+  
+  .preloader {
+  
+    width: 50px;
+  
+    height: 50px;
+  
+    display: inline-block;
+  
+    padding: 0px;
+  
+    text-align: left;
+  
+    box-sizing: border-box;
+  
+    position: absolute;
+  
+    top: 50%;
+  
+    left: 50%;
+  
+    margin-left: -25px;
+  
+    margin-top: -25px;
+  
   }
-}
-
-/*--- end of realistic preloader ---*/
+  
+  
+  
+  .preloader span {
+  
+    position: absolute;
+  
+    display: inline-block;
+  
+    width: 50px;
+  
+    height: 50px;
+  
+    border-radius: 100%;
+  
+    background: var(--tp-theme-1);
+  
+    -webkit-animation: preloader 1.3s linear infinite;
+  
+    animation: preloader 1.3s linear infinite;
+  
+  }
+  
+  
+  
+  .preloader span:last-child {
+  
+    animation-delay: -0.9s;
+  
+    -webkit-animation-delay: -0.9s;
+  
+  }
+  
+  
+  
+  @keyframes preloader {
+  
+    0% {
+  
+      transform: scale(0, 0);
+  
+      opacity: 0.5;
+  
+    }
+  
+  
+  
+    100% {
+  
+      transform: scale(1, 1);
+  
+      opacity: 0;
+  
+    }
+  
+  }
+  
+  
+  
+  @-webkit-keyframes preloader {
+  
+    0% {
+  
+      -webkit-transform: scale(0, 0);
+  
+      opacity: 0.5;
+  
+    }
+  
+  
+  
+    100% {
+  
+      -webkit-transform: scale(1, 1);
+  
+      opacity: 0;
+  
+    }
+  
+  }
+  
+  
+  
+  /*--- end of preloader ---*/
 
 
   .scroll-top {

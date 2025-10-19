@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useBuilder } from '../../contexts/BuilderContext';
 import { useWebsite } from '../../contexts/WebsiteContext';
 
-
-
 const BuilderCanvas = () => {
   const {
     pageData,
@@ -13,33 +11,68 @@ const BuilderCanvas = () => {
     updateElement,
     isPreviewMode,
     activeMode,
-
     templateContent: builderTemplateContent,
     isLoadingTemplate
   } = useBuilder();
   const { sites } = useWebsite();
+
   const [loading, setLoading] = useState(true);
   const [templateContent, setTemplateContent] = useState(null);
   const [iframeLoaded, setIframeLoaded] = useState(false);
-  const [editableElements, setEditableElements] = useState([]);
   const [elementPosition, setElementPosition] = useState({ x: 200, y: 100 });
   const [isDragOver, setIsDragOver] = useState(false);
+
   const iframeRef = useRef(null);
-  const canvasRef = useRef(null);
   const containerRef = useRef(null);
+
+  // Simplified drag system
+  let draggedElement = null;
+  let dragOverlay = null;
+  let dragSuccessful = false;
+  let originalParent = null;
+  let originalNextSibling = null;
 
   // Expose color extraction trigger
   useEffect(() => {
     window.triggerColorExtraction = () => {
-      if (window.extractColors) {
-        window.extractColors();
-      }
+      if (window.extractColors) window.extractColors();
     };
-
-    return () => {
-      delete window.triggerColorExtraction;
-    };
+    return () => { delete window.triggerColorExtraction; };
   }, []);
+
+  // Use template content from BuilderContext
+  useEffect(() => {
+    if (builderTemplateContent && !isLoadingTemplate) {
+      setTemplateContent(builderTemplateContent);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [builderTemplateContent, isLoadingTemplate]);
+
+  const createDragOverlay = (element, doc) => {
+    const overlay = element.cloneNode(true);
+    const rect = element.getBoundingClientRect();
+    
+    overlay.style.cssText = `
+      position: fixed;
+      left: ${rect.left}px;
+      top: ${rect.top}px;
+      width: ${rect.width}px;
+      height: ${rect.height}px;
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 10000;
+      border: 2px solid #3b82f6;
+      background: rgba(59, 130, 246, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    `;
+    overlay.classList.add('drag-overlay');
+    overlay.removeAttribute('draggable');
+    
+    doc.body.appendChild(overlay);
+    return overlay;
+  };
 
   // Handle iframe load and setup interaction
   const handleIframeLoad = () => {
@@ -62,17 +95,10 @@ const BuilderCanvas = () => {
               outline: 2px solid #3b82f6 !important;
               outline-offset: 2px !important;
             }
-            .dragging {
-              opacity: 0.6 !important;
-              z-index: 1000 !important;
-            }
-            .drop-indicator {
-              height: 3px !important;
-              background: #3b82f6 !important;
-              margin: 2px 0 !important;
-              border-radius: 2px !important;
-              border: none !important;
-              box-shadow: 0 0 4px rgba(59, 130, 246, 0.5) !important;
+            .drag-overlay {
+              position: fixed !important;
+              pointer-events: none !important;
+              z-index: 10000 !important;
             }
             .builder-editable {
               min-height: 20px;
@@ -81,14 +107,6 @@ const BuilderCanvas = () => {
               content: 'Click to edit...';
               color: #9ca3af;
               font-style: italic;
-            }
-            .preview-mode * {
-              border: none !important;
-            }
-            .preview-mode .builder-selected,
-            .preview-mode .builder-hover {
-              border: none !important;
-              background: none !important;
             }
           `;
           iframeDoc.head.appendChild(style);
@@ -100,15 +118,9 @@ const BuilderCanvas = () => {
               return;
             }
 
-            // Make element draggable
-            element.draggable = true;
-            element.style.cursor = 'grab';
-
             element.addEventListener('click', (e) => {
               e.preventDefault();
               e.stopPropagation();
-
-              console.log('Element clicked:', element.tagName, element.className);
 
               // Remove previous selections
               iframeDoc.querySelectorAll('.builder-selected').forEach(el => {
@@ -120,17 +132,16 @@ const BuilderCanvas = () => {
               element.classList.add('builder-selected');
               element.setAttribute('data-element-type', element.tagName.toLowerCase());
 
-              // Calculate element position for toolbar - position just above element in viewport
+              // Calculate element position for toolbar
               const rect = element.getBoundingClientRect();
               const iframeRect = iframeRef.current.getBoundingClientRect();
               
               const elementX = iframeRect.left + rect.left + rect.width / 2;
               const elementY = iframeRect.top + rect.top - 60;
 
-              console.log('Setting element position:', { elementX, elementY, rect, iframeRect });
               setElementPosition({ x: elementX, y: elementY });
 
-              // Create comprehensive element data
+              // Create element data
               const elementData = {
                 id: element.id || `element-${Date.now()}`,
                 type: element.tagName.toLowerCase(),
@@ -157,15 +168,44 @@ const BuilderCanvas = () => {
                 });
               }
 
-              console.log('Element selected:', elementData);
               setSelectedElement(elementData);
-              
-
             });
 
             // Make element draggable
             element.draggable = true;
             element.style.cursor = 'grab';
+            
+            element.addEventListener('dragstart', (e) => {
+              e.stopImmediatePropagation();
+              
+              draggedElement = element;
+              originalParent = element.parentNode;
+              originalNextSibling = element.nextSibling;
+              dragSuccessful = false;
+              
+              setTimeout(() => {
+                dragOverlay = createDragOverlay(element, iframeDoc);
+                element.style.opacity = '0.3';
+              }, 0);
+              
+              e.dataTransfer.effectAllowed = 'move';
+              e.dataTransfer.setData('text/html', element.outerHTML);
+            });
+            
+            element.addEventListener('dragend', (e) => {
+              if (!dragSuccessful) {
+                element.style.opacity = '';
+              }
+              
+              if (dragOverlay) {
+                dragOverlay.remove();
+              }
+              
+              draggedElement = null;
+              dragOverlay = null;
+              originalParent = null;
+              originalNextSibling = null;
+            });
 
             // Add hover effects
             element.addEventListener('mouseenter', (e) => {
@@ -183,7 +223,6 @@ const BuilderCanvas = () => {
               element.addEventListener('dblclick', (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Double-click detected, enabling inline editing');
                 enableInlineEditing(element);
               });
             }
@@ -193,169 +232,54 @@ const BuilderCanvas = () => {
           const allElements = iframeDoc.body.querySelectorAll('*');
           allElements.forEach(addInteractivity);
           
-          // Initialize drag and drop for element repositioning
-          let draggedElement = null;
-          let dropIndicator = null;
-          
-          const createDropIndicator = () => {
-            const indicator = iframeDoc.createElement('div');
-            indicator.style.cssText = `
-              height: 2px;
-              background: #3b82f6;
-              margin: 4px 0;
-              border-radius: 1px;
-              opacity: 0;
-              transition: opacity 0.2s;
-              pointer-events: none;
-            `;
-            indicator.className = 'drop-indicator';
-            return indicator;
-          };
-          
-          const showDropIndicator = (targetElement, position) => {
-            if (dropIndicator) {
-              dropIndicator.remove();
-            }
-            dropIndicator = createDropIndicator();
-            
-            if (position === 'before') {
-              targetElement.parentNode.insertBefore(dropIndicator, targetElement);
-            } else {
-              targetElement.parentNode.insertBefore(dropIndicator, targetElement.nextSibling);
-            }
-          };
-          
-          const hideDropIndicator = () => {
-            if (dropIndicator) {
-              dropIndicator.remove();
-              dropIndicator = null;
-            }
-          };
-          
-
-          
-          // Make all elements draggable with performance optimizations
-          const draggableEls = iframeDoc.querySelectorAll('*');
-          let dragTimeout;
-          
-          draggableEls.forEach(el => {
-            if (['script', 'style', 'meta', 'link', 'title', 'html', 'head', 'body'].includes(el.tagName.toLowerCase())) {
-              return;
-            }
-            
-            el.draggable = true;
-            el.style.cursor = 'grab';
-            
-            el.addEventListener('dragstart', (e) => {
-              draggedElement = el;
-              el.style.opacity = '0.7';
-              el.classList.add('dragging');
-              e.dataTransfer.effectAllowed = 'move';
-              e.dataTransfer.setData('text/plain', 'element');
-              e.stopPropagation();
-            });
-            
-            el.addEventListener('dragend', (e) => {
-              el.style.opacity = '';
-              el.classList.remove('dragging');
-              hideDropIndicator();
-              draggedElement = null;
-              clearTimeout(dragTimeout);
-            });
-          });
-          
-          // Throttled dragover handler
-          let lastDragOver = 0;
-          const throttleDelay = 50;
-          
           iframeDoc.addEventListener('dragover', (e) => {
             if (!draggedElement) return;
             
             e.preventDefault();
-            e.stopPropagation();
+            e.stopImmediatePropagation();
             e.dataTransfer.dropEffect = 'move';
             
-            const now = Date.now();
-            if (now - lastDragOver < throttleDelay) return;
-            lastDragOver = now;
-            
-            const target = e.target;
-            if (!target || target === draggedElement || target.contains(draggedElement) || draggedElement.contains(target)) {
-              return;
+            if (dragOverlay) {
+              dragOverlay.style.left = `${e.clientX - dragOverlay.offsetWidth / 2}px`;
+              dragOverlay.style.top = `${e.clientY - dragOverlay.offsetHeight / 2}px`;
             }
-            
-            const rect = target.getBoundingClientRect();
-            const middle = rect.top + rect.height / 2;
-            const position = e.clientY < middle ? 'before' : 'after';
-            
-            clearTimeout(dragTimeout);
-            dragTimeout = setTimeout(() => {
-              showDropIndicator(target, position);
-            }, 10);
           });
           
           iframeDoc.addEventListener('drop', (e) => {
             if (!draggedElement) return;
             
             e.preventDefault();
-            e.stopPropagation();
-            hideDropIndicator();
+            e.stopImmediatePropagation();
             
             const target = e.target;
-            if (!target || target === draggedElement || target.contains(draggedElement) || draggedElement.contains(target)) {
+            if (!target || target === draggedElement || target.classList.contains('drag-overlay')) {
+              dragSuccessful = false;
               return;
             }
             
             const rect = target.getBoundingClientRect();
-            const dragRect = draggedElement.getBoundingClientRect();
-            
-            // Smart drag behavior: replace if similar size/type, otherwise insert
-            const shouldReplace = (
-              Math.abs(rect.width - dragRect.width) < 50 &&
-              Math.abs(rect.height - dragRect.height) < 50 &&
-              target.tagName === draggedElement.tagName
-            ) || (
-              rect.width < 100 && rect.height < 50 // Small elements get replaced
-            );
+            const insertBefore = e.clientY < rect.top + rect.height / 2;
             
             try {
-              if (shouldReplace) {
-                // Replace the target element
-                const parent = target.parentNode;
-                parent.replaceChild(draggedElement, target);
-                if (window.showToast) {
-                  window.showToast('Element replaced!', 'success');
-                }
+              if (insertBefore) {
+                target.parentNode.insertBefore(draggedElement, target);
               } else {
-                // Insert before/after based on position
-                const middle = rect.top + rect.height / 2;
-                const position = e.clientY < middle ? 'before' : 'after';
-                const parent = target.parentNode;
-                
-                if (position === 'before') {
-                  parent.insertBefore(draggedElement, target);
-                } else {
-                  parent.insertBefore(draggedElement, target.nextSibling);
-                }
-                
-                if (window.showToast) {
-                  window.showToast('Element moved!', 'success');
-                }
+                target.parentNode.insertBefore(draggedElement, target.nextSibling);
               }
+              
+              draggedElement.style.opacity = '';
+              dragSuccessful = true;
+              
             } catch (error) {
-              console.error('Error moving element:', error);
+              dragSuccessful = false;
             }
           });
-
-
 
           // Clear any existing selections
           iframeDoc.querySelectorAll('.builder-selected, .builder-hover').forEach(el => {
             el.classList.remove('builder-selected', 'builder-hover');
             el.removeAttribute('data-element-type');
           });
-          
-          console.log('Interactive editor initialized with', allElements.length, 'elements');
           
           // Trigger color extraction after a short delay
           setTimeout(() => {
@@ -391,32 +315,6 @@ const BuilderCanvas = () => {
     element.addEventListener('blur', finishEditing);
   };
 
-
-
-  // Use template content from BuilderContext
-  useEffect(() => {
-    if (builderTemplateContent) {
-      setTemplateContent(builderTemplateContent);
-      setLoading(false);
-    } else {
-      setLoading(isLoadingTemplate);
-    }
-  }, [builderTemplateContent, isLoadingTemplate]);
-
-  const handleSelectElement = (e) => {
-    e.stopPropagation(); // Prevent background click from firing
-    setSelectedElement({
-      id: 'hero-section-1',
-      type: 'Hero Section',
-      settings: {
-        overlay: true,
-        opacity: 50,
-        caption: false,
-        popup: false,
-      }
-    });
-  };
-
   const handleCanvasClick = (e) => {
     // Only clear selection if clicking directly on the canvas background div
     if (e.target.classList.contains('canvas-background')) {
@@ -439,10 +337,8 @@ const BuilderCanvas = () => {
     }
   };
 
-
-
-  // Always render template content
-  if (templateContent || !loading) {
+  // Only render when template content is loaded and not loading
+  if (templateContent && !loading && !isLoadingTemplate) {
     return (
       <div className="flex-1 bg-gray-100 h-full">
         <div
@@ -463,19 +359,20 @@ const BuilderCanvas = () => {
           {isDragOver && (
             <div className="absolute inset-0 bg-primary-500 bg-opacity-5 border-2 border-dashed border-primary-400 z-30" />
           )}
-
-
-
-
-
-
         </div>
       </div>
     );
   }
 
-  // Fallback - should not reach here
-  return null;
+  // Show loading screen while template loads
+  return (
+    <div className="flex-1 bg-gray-100 h-full flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading template...</p>
+      </div>
+    </div>
+  );
 };
 
 export default BuilderCanvas;

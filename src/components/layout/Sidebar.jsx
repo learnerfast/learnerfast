@@ -2,6 +2,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { 
   Home, 
   BookOpen, 
@@ -41,12 +42,9 @@ const Sidebar = () => {
     <div className="w-64 bg-card border-r border-border flex flex-col">
       {/* Logo */}
       <div className="p-6 border-b border-border">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-lg">C</span>
-          </div>
-          <span className="font-semibold text-lg text-foreground">CourseBuilder</span>
-        </div>
+        <Link href="/dashboard" className="flex items-center">
+          <Image src="/learnerfast-logo.png" alt="LearnerFast" width={150} height={40} style={{height: 'auto'}} />
+        </Link>
       </div>
 
       {/* Navigation */}

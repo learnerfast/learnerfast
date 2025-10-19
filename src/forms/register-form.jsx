@@ -5,9 +5,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"; 
 import Link from "next/link";
-import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "@/lib/firebase";
-import { useRouter } from "next/navigation";
 
 
 const schema = yup
@@ -29,37 +26,9 @@ const RegisterForm = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleGoogleSignIn = async () => {
-    setGoogleLoading(true);
-    setError("");
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      window.location.href = "/dashboard/";
-    } catch (error) {
-      setError(error.message);
-    }
-    setGoogleLoading(false);
-  };
-
-  const onSubmit = async (data) => {
-    setLoading(true);
-    setError("");
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-      await updateProfile(userCredential.user, {
-        displayName: data.fullname
-      });
-      window.location.href = "/dashboard/";
-    } catch (error) {
-      setError(error.message);
-    }
-    setLoading(false);
+  const onSubmit = (data) =>{ 
+    console.log(data)
+    reset()
   };
 
   // password show & hide
@@ -152,13 +121,9 @@ const RegisterForm = () => {
             </div>
           </div>
         </div>
-        {error && <div className="alert alert-danger mb-20">{error}</div>}
         <div className="signin-banner-from-btn mb-20">
-          <button type="submit" className="signin-btn" disabled={loading}>
-            {loading ? "Creating Account..." : "Register"}
-          </button>
+          <button type="submit" className="signin-btn ">Register</button>
         </div>
-
       </form>
     </>
   );

@@ -1,6 +1,6 @@
 import useTitleAnimation from '@/hooks/useTitleAnimation';
 import service_data from '@/data/service-data';
-import RightArrow from '@/svg/right-arrow';
+//import RightArrow from '@/svg/right-arrow';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useRef } from 'react';
@@ -8,13 +8,13 @@ import React, { useRef } from 'react';
 import img from "@/assets/img/service/sv-dashbord.png" 
 
 const service_content = {
-    title: "Build Your Video Learning Academy",
-    sub_title: <>Trusted by educators worldwide to create engaging online learning experiences</>,
+    title: "Explore Our Features",
+    sub_title: <>More than 15,000 companies trust and choose Itech</>,
 
     bg_img: "/assets/img/service/sv-bg.jpg",
-    title_2: <>Secure Video <br /> Delivery Platform</>,
-    des: <>DRM protection, watermarking <br /> and analytics included</>,
-    btn_text: "Get Started",
+    title_2: <>Data Analysis <br /> Tools & Methods</>,
+    des: <>Lorem Ipsum is simply dummy text <br /> of the printing</>,
+    btn_text: "Work with Us",
 
     
 
@@ -27,7 +27,7 @@ const ServicesArea = () => {
    useTitleAnimation(titleRef)
     return (
         <>
-            <div className="tp-service__area p-relative fix">
+            <div className="tp-service__area p-relative fix pt-165 pb-170 p-relative">
                <div className="tp-service__grey-shape grey-bg"></div>
                <div className="container">
                   <div className="row justify-content-center">
@@ -40,7 +40,7 @@ const ServicesArea = () => {
                   </div>
                   <div className="row">
 
-                    {service_data.slice(0,5).map((item, i)  => 
+                    {service_data.slice(0,9).map((item, i)  => 
                         <div key={i} className="col-xl-4 col-lg-4 col-md-6 wow tpfadeUp" data-wow-duration=".9s" data-wow-delay={item.delay}>
                             <div className="tp-service__item mb-30">
                                 <div className="tp-service__icon">
@@ -50,16 +50,16 @@ const ServicesArea = () => {
                                     <h3 className="tp-service__title-sm tp-yellow-color"><Link href="/service-details">{item.title}</Link></h3>
                                     <p>{item.description}</p>
                                 </div>
-                                <div className="tp-service__link">
+                                {/* <div className="tp-service__link">
                                     <Link href="/service-details">
                                         <RightArrow /> 
                                     </Link>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     )}
 
-                     <div className="col-xl-4 col-lg-4 col-md-6 wow tpfadeUp" data-wow-duration=".9s" data-wow-delay="1s">
+                     {/* <div className="col-xl-4 col-lg-4 col-md-6 wow tpfadeUp" data-wow-duration=".9s" data-wow-delay="1s">
                         <div className="tp-service__dashboard" 
                         style={{backgroundImage: `url(${bg_img})`}} >
                            <div className="tp-service__top-content">
@@ -75,7 +75,7 @@ const ServicesArea = () => {
                               src={img} alt="theme-pure" />
                            </div>
                         </div>
-                     </div>
+                     </div> */}
 
                   </div>
                </div>

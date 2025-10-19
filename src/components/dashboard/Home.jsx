@@ -31,9 +31,13 @@ const Home = () => {
           .select('id')
           .eq('user_id', user.id);
 
-        // Load websites count from localStorage
-        const websites = JSON.parse(localStorage.getItem('user-sites') || '[]')
-          .filter(site => site.userId === user.id);
+        // Load websites count from database
+        const { data: sites, error: sitesError } = await supabase
+          .from('sites')
+          .select('id')
+          .eq('user_id', user.id);
+        
+        const websites = sites || [];
 
         // Update stats
         setStats([

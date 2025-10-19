@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { templateService } from '../components/builder/templateService';
+import { supabase } from '../lib/supabase';
+import { useAuth } from './AuthContext';
 
 const BuilderContext = createContext();
 
@@ -12,6 +14,7 @@ export const useBuilder = () => {
 };
 
 export const BuilderProvider = ({ children, siteId }) => {
+  const { user } = useAuth();
   const [selectedElement, setSelectedElement] = useState(null);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [activeMode, setActiveMode] = useState('pages'); // pages, edit, design, site, add, help
@@ -28,6 +31,11 @@ export const BuilderProvider = ({ children, siteId }) => {
   const [pageContents, setPageContents] = useState({});
   const [currentTemplate, setCurrentTemplate] = useState(null);
   const [sidebarToggleTimeout, setSidebarToggleTimeout] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isUndoRedoing, setIsUndoRedoing] = useState(false);
+  const [lastSavedContent, setLastSavedContent] = useState('');
+  const [saveTimeout, setSaveTimeout] = useState(null);
 
   const loadPage = useCallback(async (page) => {
     if (pageContents[page]) {
@@ -76,8 +84,56 @@ export const BuilderProvider = ({ children, siteId }) => {
 
 
 
+  const saveToHistory = useCallback((content) => {
+    if (isUndoRedoing || content === lastSavedContent) return;
+    const newHistory = history.slice(0, historyIndex + 1);
+    newHistory.push(content);
+    setHistory(newHistory);
+    setHistoryIndex(newHistory.length - 1);
+    setLastSavedContent(content);
+  }, [history, historyIndex, isUndoRedoing, lastSavedContent]);
+
+  const undo = useCallback(() => {
+    if (historyIndex > 0 && !isUndoRedoing) {
+      setIsUndoRedoing(true);
+      const prevContent = history[historyIndex - 1];
+      const iframe = document.querySelector('iframe[srcdoc]');
+      
+      if (iframe && prevContent) {
+        iframe.contentDocument.open();
+        iframe.contentDocument.write(prevContent);
+        iframe.contentDocument.close();
+        setHistoryIndex(historyIndex - 1);
+        setLastSavedContent(prevContent);
+      }
+      
+      setTimeout(() => setIsUndoRedoing(false), 50);
+    }
+  }, [history, historyIndex, isUndoRedoing]);
+
+  const redo = useCallback(() => {
+    if (historyIndex < history.length - 1 && !isUndoRedoing) {
+      setIsUndoRedoing(true);
+      const nextContent = history[historyIndex + 1];
+      const iframe = document.querySelector('iframe[srcdoc]');
+      
+      if (iframe && nextContent) {
+        iframe.contentDocument.open();
+        iframe.contentDocument.write(nextContent);
+        iframe.contentDocument.close();
+        setHistoryIndex(historyIndex + 1);
+        setLastSavedContent(nextContent);
+      }
+      
+      setTimeout(() => setIsUndoRedoing(false), 50);
+    }
+  }, [history, historyIndex, isUndoRedoing]);
+
   const updateElement = (elementId, updates) => {
     console.log('Updating element:', encodeURIComponent(elementId), 'updates applied');
+    
+    // Save current state to history before making changes
+    saveToHistory(templateContent);
     
     // Update page data
     setPageData(prev => ({
@@ -115,7 +171,31 @@ export const BuilderProvider = ({ children, siteId }) => {
         });
       }
       
-      // DOM element updated successfully
+      // Update template content and auto-save for live preview
+      setTimeout(async () => {
+        const iframe = document.querySelector('iframe[srcdoc]');
+        if (iframe?.contentDocument) {
+          const newHTML = iframe.contentDocument.documentElement.outerHTML;
+          setTemplateContent(newHTML);
+          
+          // Auto-save for live preview
+          if (user?.id && siteId) {
+            try {
+              await supabase
+                .from('website_builder_saves')
+                .upsert({
+                  site_id: siteId,
+                  user_id: user.id,
+                  page_contents: { home: newHTML },
+                  page_data: pageData,
+                  template_id: currentTemplate
+                }, { onConflict: 'site_id,user_id' });
+            } catch (error) {
+              console.warn('Auto-save failed:', error);
+            }
+          }
+        }
+      }, 100);
     }
   };
 
@@ -157,7 +237,7 @@ export const BuilderProvider = ({ children, siteId }) => {
 
   const switchPage = useCallback((pageName) => {
     // Save current page content before switching
-    const iframe = document.querySelector('iframe');
+    const iframe = document.querySelector('iframe[srcdoc]');
     if (iframe && iframe.contentDocument) {
       const currentHTML = iframe.contentDocument.documentElement.outerHTML;
       setPageContents(prev => ({ ...prev, [currentPage]: currentHTML }));
@@ -185,31 +265,53 @@ export const BuilderProvider = ({ children, siteId }) => {
     setIsSaving(true);
     try {
       // Get current iframe content
-      const iframe = document.querySelector('iframe');
+      const iframe = document.querySelector('iframe[srcdoc]');
       if (!iframe || !iframe.contentDocument) {
-        throw new Error('No iframe content available');
+        console.warn('No iframe content available for saving');
+        return true;
       }
 
       const iframeDoc = iframe.contentDocument;
       const currentHTML = iframeDoc.documentElement.outerHTML;
       
-      // Save current page content
-      const updatedPageContents = {
-        ...pageContents,
-        [currentPage]: currentHTML
-      };
+      // Load all template pages if not already loaded
+      const allPages = ['home', 'about', 'courses', 'contact', 'signin', 'register', 'course-detail'];
+      const updatedPageContents = { ...pageContents, [currentPage]: currentHTML };
+      
+      for (const page of allPages) {
+        if (!updatedPageContents[page] && currentTemplate) {
+          try {
+            const { template, content } = await templateService.loadTemplate(currentTemplate, page);
+            const processedContent = content
+              .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
+              .replace(/href="(?!https?:\/\/|#)/g, `href="${template.path}`)
+              .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
+              .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`);
+            updatedPageContents[page] = processedContent;
+          } catch (error) {
+            console.warn(`Could not load ${page} page:`, error);
+          }
+        }
+      }
+      
       setPageContents(updatedPageContents);
       
-      // Save to localStorage for persistence
-      const saveData = {
-        pageContents: updatedPageContents,
-        pageData: pageData,
-        templateId: currentTemplate,
-        timestamp: new Date().toISOString(),
-        siteId: siteId
-      };
-      
-      localStorage.setItem(`builder-save-${siteId}`, JSON.stringify(saveData));
+      // Save to database
+      if (user?.id) {
+        try {
+          await supabase
+            .from('website_builder_saves')
+            .upsert({
+              site_id: siteId,
+              user_id: user.id,
+              page_contents: updatedPageContents,
+              page_data: pageData,
+              template_id: currentTemplate
+            }, { onConflict: 'site_id,user_id' });
+        } catch (error) {
+          console.warn('Failed to save to database:', error);
+        }
+      }
       
       // Update site status in WebsiteContext
       if (typeof window !== 'undefined' && window.updateSiteStatus) {
@@ -218,8 +320,6 @@ export const BuilderProvider = ({ children, siteId }) => {
           lastEdited: new Date().toISOString().split('T')[0]
         });
       }
-      
-      // Project saved successfully
       
       // Show success notification
       if (typeof window !== 'undefined' && window.showToast) {
@@ -236,78 +336,178 @@ export const BuilderProvider = ({ children, siteId }) => {
     } finally {
       setIsSaving(false);
     }
-  }, [pageData, siteId, currentPage, pageContents]);
+  }, [pageData, siteId, currentPage, pageContents, currentTemplate]);
 
   const loadSavedProject = useCallback(async () => {
+    if (!user?.id) return false;
+    
     try {
-      const savedData = localStorage.getItem(`builder-save-${siteId}`);
-      if (savedData) {
-        const { html, pageData: savedPageData } = JSON.parse(savedData);
-        setTemplateContent(html);
-        setPageData(savedPageData);
+      const { data, error } = await supabase
+        .from('website_builder_saves')
+        .select('*')
+        .eq('site_id', siteId)
+        .eq('user_id', user.id)
+        .single();
+      
+      if (error && error.code !== 'PGRST116') throw error;
+      if (data) {
+        setPageContents(data.page_contents || {});
+        setPageData(data.page_data || {});
+        setCurrentTemplate(data.template_id);
         return true;
       }
     } catch (error) {
       console.error('Error loading saved project:', error);
     }
     return false;
-  }, [siteId]);
+  }, [siteId, user]);
+
+  // Initialize history and track changes
+  useEffect(() => {
+    if (templateContent && history.length === 0) {
+      setHistory([templateContent]);
+      setHistoryIndex(0);
+    }
+
+    // Track iframe changes immediately
+    const trackChanges = () => {
+      const iframe = document.querySelector('iframe[srcdoc]');
+      if (iframe?.contentDocument && !isUndoRedoing) {
+        const doc = iframe.contentDocument;
+        
+        const handleChange = () => {
+          if (isUndoRedoing) return;
+          
+          if (saveTimeout) clearTimeout(saveTimeout);
+          
+          const timeout = setTimeout(() => {
+            const newContent = doc.documentElement.outerHTML;
+            saveToHistory(newContent);
+          }, 200);
+          
+          setSaveTimeout(timeout);
+        };
+
+        doc.addEventListener('input', handleChange, true);
+        doc.addEventListener('keydown', handleChange, true);
+        doc.addEventListener('dragend', handleChange, true);
+        doc.addEventListener('drop', handleChange, true);
+        doc.addEventListener('mouseup', handleChange, true);
+        
+        // Observer for DOM mutations (position, style changes)
+        const observer = new MutationObserver(() => {
+          if (!isUndoRedoing) {
+            handleChange();
+          }
+        });
+        
+        if (doc.body) {
+          observer.observe(doc.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['style', 'class', 'data-x', 'data-y']
+          });
+        }
+        
+        return () => {
+          doc.removeEventListener('input', handleChange, true);
+          doc.removeEventListener('keydown', handleChange, true);
+          doc.removeEventListener('dragend', handleChange, true);
+          doc.removeEventListener('drop', handleChange, true);
+          doc.removeEventListener('mouseup', handleChange, true);
+          if (observer) observer.disconnect();
+        };
+      }
+    };
+
+    const timer = setTimeout(trackChanges, 100);
+    return () => {
+      clearTimeout(timer);
+      if (saveTimeout) clearTimeout(saveTimeout);
+    };
+  }, [templateContent, history.length, isUndoRedoing, saveToHistory]);
 
   // Load template on initialization
   useEffect(() => {
     const loadTemplate = async () => {
       setIsLoadingTemplate(true);
       try {
-        // Get site info to determine template
-        let templateId = 'modern-minimal'; // default fallback
+        let templateId = null;
+        
+        // First, try to get template from database via site lookup
+        if (user?.id && siteId) {
+          try {
+            const { data: siteData } = await supabase
+              .from('sites')
+              .select('template_id')
+              .eq('id', siteId)
+              .eq('user_id', user.id)
+              .single();
+            
+            if (siteData?.template_id) {
+              templateId = siteData.template_id;
+              console.log('Found template from database:', templateId);
+            }
+          } catch (error) {
+            console.warn('Could not load site template from database:', error);
+          }
+        }
+        
+        // Try to get template from WebsiteContext as fallback
+        if (!templateId && typeof window !== 'undefined' && window.getSiteTemplate) {
+          templateId = window.getSiteTemplate(siteId);
+          console.log('Found template from WebsiteContext:', templateId);
+        }
         
         // Extract template from siteId if it contains template info
-        if (siteId && siteId.includes('-')) {
-          const parts = siteId.split('-');
-          // Look for known template IDs in the siteId
+        if (!templateId && siteId) {
           const knownTemplates = ['modern-minimal', 'creative-pro', 'academic-pro', 'fitness-gym', 'fitness-personal', 'fitness-yoga', 'ngo-charity', 'ngo-healthcare', 'ngo-environment', 'finance-investment', 'finance-banking', 'finance-crypto'];
           for (const template of knownTemplates) {
             if (siteId.includes(template)) {
               templateId = template;
+              console.log('Found template from siteId:', templateId);
               break;
             }
           }
         }
         
-        // Try to get template from WebsiteContext
-        if (typeof window !== 'undefined' && window.getSiteTemplate) {
-          const siteTemplate = window.getSiteTemplate(siteId);
-          if (siteTemplate && siteTemplate !== 'modern-minimal') {
-            templateId = siteTemplate;
-          }
+        // Default fallback
+        if (!templateId) {
+          templateId = 'modern-minimal';
+          console.log('Using default template:', templateId);
         }
         
-        console.log('Using template:', templateId, 'for site:', siteId);
+        console.log('Final template selection:', templateId, 'for site:', siteId);
         
         // Check for saved project first
-        const savedData = localStorage.getItem(`builder-save-${siteId}`);
-        if (savedData) {
+        if (user?.id) {
           try {
-            const { pageContents: savedPageContents, pageData: savedPageData, templateId: savedTemplateId } = JSON.parse(savedData);
-            if (savedTemplateId) {
-              templateId = savedTemplateId;
-            }
-            if (savedPageContents) {
-              setPageContents(savedPageContents);
-              // Load current page content if available
-              const currentPageContent = savedPageContents[currentPage] || savedPageContents['home'];
-              if (currentPageContent) {
-                setTemplateContent(currentPageContent);
-                setCurrentTemplate(templateId);
-                console.log(`Loaded existing project for site: ${siteId}`);
-                return;
+            const { data } = await supabase
+              .from('website_builder_saves')
+              .select('*')
+              .eq('site_id', siteId)
+              .eq('user_id', user.id)
+              .single();
+            
+            if (data) {
+              if (data.template_id) templateId = data.template_id;
+              if (data.page_contents) {
+                setPageContents(data.page_contents);
+                const currentPageContent = data.page_contents[currentPage] || data.page_contents['home'];
+                if (currentPageContent) {
+                  setTemplateContent(currentPageContent);
+                  setCurrentTemplate(templateId);
+                  console.log(`Loaded existing project for site: ${siteId}`);
+                  return;
+                }
+              }
+              if (data.page_data) {
+                setPageData(data.page_data);
               }
             }
-            if (savedPageData) {
-              setPageData(savedPageData);
-            }
           } catch (error) {
-            console.error('Failed to parse saved project data:', error);
+            console.warn('Failed to load saved project:', error);
           }
         }
         
@@ -330,7 +530,7 @@ export const BuilderProvider = ({ children, siteId }) => {
     };
     
     loadTemplate();
-  }, [siteId, currentPage]);
+  }, [siteId, currentPage, user]);
 
   const value = {
     siteId,
@@ -371,7 +571,11 @@ export const BuilderProvider = ({ children, siteId }) => {
     setPageContents,
     currentTemplate,
     setCurrentTemplate,
-    loadPage
+    loadPage,
+    undo,
+    redo,
+    canUndo: historyIndex > 0,
+    canRedo: historyIndex < history.length - 1
   };
 
   return (

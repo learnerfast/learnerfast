@@ -62,7 +62,7 @@ const ServiceArea = () => {
                         <div key={i} className="col-xl-4 col-lg-6 col-md-6 wow tpfadeUp" data-wow-duration=".9s" data-wow-delay=".5s">
                         <div className="tp-service-sm-item mb-30 d-flex flex-column justify-content-between">
                            <div className="tp-service-sm-icon">
-                               <Image src={item.icon} alt={item.title} />
+                               {typeof item.icon === 'object' && item.icon.src ? <Image src={item.icon} alt={item.title} /> : item.icon}
                            </div>
                            <div className="tp-service-sm-content">
                               <span>{item.title}</span>

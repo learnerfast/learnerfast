@@ -22,12 +22,15 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useBuilder } from '../../contexts/BuilderContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
+import { templateService } from './templateService';
 import FontSelector from './FontSelector';
 import ColorSelector from './ColorSelector';
 import TypographyPage from './TypographyPage';
 
 const BuilderToolbar = () => {
-
+  const { user } = useAuth();
   const [showDesignMenu, setShowDesignMenu] = useState(false);
   const [showThemeExplorer, setShowThemeExplorer] = useState(false);
   const [activeThemeSection, setActiveThemeSection] = useState('theme-explorer');
@@ -135,27 +138,117 @@ const BuilderToolbar = () => {
   
 
 
-  const applyThemeToIframe = (iframe, changes = themeChanges) => {
+  const applyColorToIframe = (iframe, colorType, color) => {
     if (!iframe?.contentDocument) return;
+    const doc = iframe.contentDocument;
     
-    // Apply all colors immediately
-    Object.entries(customColors).forEach(([colorType, color]) => {
-      applyColorToIframe(iframe, colorType, color);
-    });
-  };
-
-  const saveThemeChanges = () => {
-    const mainIframe = document.querySelector('iframe[srcdoc]');
-    if (mainIframe) {
-      applyThemeToIframe(mainIframe);
-      
-      // Apply all color changes directly to elements
-      Object.entries(customColors).forEach(([colorType, color]) => {
-        applyColorToIframe(mainIframe, colorType, color);
-      });
+    let style = doc.getElementById('theme-colors-style');
+    if (!style) {
+      style = doc.createElement('style');
+      style.id = 'theme-colors-style';
+      doc.head.appendChild(style);
     }
     
-    localStorage.setItem(`theme-${currentPage}`, JSON.stringify({ ...themeChanges, colors: customColors }));
+    const colors = { ...customColors, [colorType]: color };
+    style.textContent = `
+      button, .btn, .btn-primary { background-color: ${colors.primary} !important; }
+      .accent { background-color: ${colors.accent1} !important; }
+      h1, h2, h3, h4, h5, h6, p { color: ${colors.darkText} !important; }
+      a { color: ${colors.linkText} !important; }
+      .dark-bg { background-color: ${colors.darkBg} !important; }
+      .light-bg { background-color: ${colors.lightBg} !important; }
+      body { background-color: ${colors.bodyBg} !important; }
+    `;
+  };
+
+  const applyThemeToIframe = (iframe, changes = themeChanges) => {
+    if (!iframe?.contentDocument) return;
+    const doc = iframe.contentDocument;
+    
+    let style = doc.getElementById('theme-colors-style');
+    if (!style) {
+      style = doc.createElement('style');
+      style.id = 'theme-colors-style';
+      doc.head.appendChild(style);
+    }
+    
+    style.textContent = `
+      button, .btn, .btn-primary { background-color: ${customColors.primary} !important; }
+      .accent { background-color: ${customColors.accent1} !important; }
+      h1, h2, h3, h4, h5, h6, p { color: ${customColors.darkText} !important; }
+      a { color: ${customColors.linkText} !important; }
+      .dark-bg { background-color: ${customColors.darkBg} !important; }
+      .light-bg { background-color: ${customColors.lightBg} !important; }
+      body { background-color: ${customColors.bodyBg} !important; }
+    `;
+    
+    if (changes.fonts) {
+      let fontStyle = doc.getElementById('theme-fonts-style');
+      if (!fontStyle) {
+        fontStyle = doc.createElement('style');
+        fontStyle.id = 'theme-fonts-style';
+        doc.head.appendChild(fontStyle);
+      }
+      fontStyle.textContent = `
+        h1, h2, h3, h4, h5, h6 { font-family: ${changes.fonts.heading} !important; }
+        body, p, span, div { font-family: ${changes.fonts.body} !important; }
+      `;
+    }
+  };
+
+  const saveThemeChanges = async () => {
+    const mainIframe = document.querySelector('iframe[srcdoc]');
+    if (mainIframe?.contentDocument) {
+      const doc = mainIframe.contentDocument;
+      
+      let style = doc.getElementById('theme-colors-style');
+      if (!style) {
+        style = doc.createElement('style');
+        style.id = 'theme-colors-style';
+        doc.head.appendChild(style);
+      }
+      
+      style.textContent = `
+        button, .btn, .btn-primary { background-color: ${customColors.primary} !important; }
+        .accent { background-color: ${customColors.accent1} !important; }
+        h1, h2, h3, h4, h5, h6, p { color: ${customColors.darkText} !important; }
+        a { color: ${customColors.linkText} !important; }
+        .dark-bg { background-color: ${customColors.darkBg} !important; }
+        .light-bg { background-color: ${customColors.lightBg} !important; }
+        body { background-color: ${customColors.bodyBg} !important; }
+      `;
+      
+      if (themeChanges.fonts) {
+        let fontStyle = doc.getElementById('theme-fonts-style');
+        if (!fontStyle) {
+          fontStyle = doc.createElement('style');
+          fontStyle.id = 'theme-fonts-style';
+          doc.head.appendChild(fontStyle);
+        }
+        fontStyle.textContent = `
+          h1, h2, h3, h4, h5, h6 { font-family: ${themeChanges.fonts.heading} !important; }
+          body, p, span, div { font-family: ${themeChanges.fonts.body} !important; }
+        `;
+        
+        if (themeChanges.fonts.sizes) {
+          let sizeStyle = doc.getElementById('theme-font-sizes-style');
+          if (!sizeStyle) {
+            sizeStyle = doc.createElement('style');
+            sizeStyle.id = 'theme-font-sizes-style';
+            doc.head.appendChild(sizeStyle);
+          }
+          const sizes = themeChanges.fonts.sizes;
+          sizeStyle.textContent = `
+            h1 { font-size: ${sizes.h1}px !important; }
+            h2 { font-size: ${sizes.h2}px !important; }
+            h3 { font-size: ${sizes.h3}px !important; }
+            .text-large { font-size: ${sizes.large}px !important; }
+            body, p { font-size: ${sizes.normal}px !important; }
+            .text-small, small { font-size: ${sizes.small}px !important; }
+          `;
+        }
+      }
+    }
     
     if (window.showToast) {
       window.showToast('Theme changes saved!', 'success');
@@ -170,7 +263,13 @@ const BuilderToolbar = () => {
     currentPage,
     saveProject,
     isSaving,
-    pageContents
+    pageContents,
+    currentTemplate,
+    siteId,
+    undo,
+    redo,
+    canUndo,
+    canRedo
   } = useBuilder();
 
 
@@ -426,13 +525,27 @@ const BuilderToolbar = () => {
       <div className="flex items-center space-x-4">
         <div className="flex items-center space-x-1 p-1 bg-gray-100 rounded-md">
           <button
-            className="p-1.5 rounded-md hover:bg-gray-200 transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (!canUndo) return;
+              undo();
+            }}
+            disabled={!canUndo}
+            className="p-1.5 rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             title="Undo"
           >
             <Undo className="h-4 w-4" />
           </button>
           <button
-            className="p-1.5 rounded-md hover:bg-gray-200 transition-colors"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              if (!canRedo) return;
+              redo();
+            }}
+            disabled={!canRedo}
+            className="p-1.5 rounded-md hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             title="Redo"
           >
             <Redo className="h-4 w-4" />
@@ -448,72 +561,8 @@ const BuilderToolbar = () => {
       {/* Right section */}
       <div className="flex items-center space-x-3">
         <button
-          onClick={async () => {
-            const iframe = document.querySelector('iframe');
-            if (iframe && iframe.contentDocument) {
-              // Clear all builder classes and attributes before preview
-              const iframeDoc = iframe.contentDocument;
-              iframeDoc.querySelectorAll('*').forEach(el => {
-                el.classList.remove('builder-selected', 'builder-hover', 'sortable-ghost', 'sortable-chosen', 'sortable-drag');
-                el.removeAttribute('data-element-type');
-                el.removeAttribute('data-dragging');
-                el.removeAttribute('data-builder-element');
-                el.style.outline = '';
-                el.style.borderTop = '';
-                el.style.opacity = '';
-                el.draggable = false;
-              });
-              
-              // Get clean HTML
-              const currentHTML = iframe.contentDocument.documentElement.outerHTML;
-              const allPageContents = {
-                ...pageContents,
-                [currentPage]: currentHTML
-              };
-              
-              // Create a complete website with all pages
-              const pageMap = {
-                'home': 'index.html',
-                'about': 'about.html', 
-                'courses': 'courses.html',
-                'contact': 'contact.html'
-              };
-              
-              // Get current page HTML with proper navigation
-              let html = allPageContents[currentPage] || currentHTML;
-              
-              // Create blob URLs for each page and update navigation
-              const pageUrls = {};
-              Object.entries(pageMap).forEach(([page, file]) => {
-                if (allPageContents[page]) {
-                  let pageHtml = allPageContents[page]
-                    .replace(/src="(?!\/|https?:\/\/)/g, 'src="/templates/modern-minimal/')
-                    .replace(/href="(?!\/|https?:\/\/)/g, 'href="/templates/modern-minimal/')
-                    .replace(/src="\/templates/g, `src="${window.location.origin}/templates`)
-                    .replace(/href="\/templates/g, `href="${window.location.origin}/templates`);
-                  
-                  const pageBlob = new Blob([pageHtml], { type: 'text/html' });
-                  pageUrls[file] = URL.createObjectURL(pageBlob);
-                }
-              });
-              
-              // Update navigation links to use blob URLs
-              Object.entries(pageUrls).forEach(([file, url]) => {
-                html = html.replace(new RegExp(`href="${file}"`, 'g'), `href="${url}"`);
-                html = html.replace(new RegExp(`href="\./${file}"`, 'g'), `href="${url}"`);
-              });
-              
-              // Fix asset URLs
-              html = html
-                .replace(/src="(?!\/|https?:\/\/)/g, 'src="/templates/modern-minimal/')
-                .replace(/href="(?!\/|https?:\/\/)/g, 'href="/templates/modern-minimal/')
-                .replace(/src="\/templates/g, `src="${window.location.origin}/templates`)
-                .replace(/href="\/templates/g, `href="${window.location.origin}/templates`);
-              
-              const blob = new Blob([html], { type: 'text/html' });
-              const url = URL.createObjectURL(blob);
-              window.open(url, '_blank');
-            }
+          onClick={() => {
+            window.open(`/api/preview/${siteId}`, '_blank');
           }}
           className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
         >
@@ -530,7 +579,16 @@ const BuilderToolbar = () => {
         </button>
 
         <button
-          className="p-2 rounded-md text-gray-500 hover:bg-gray-100 transition-colors"
+          onClick={() => {
+            if (activeMode === 'settings') {
+              switchMode(null);
+            } else {
+              switchMode('settings');
+            }
+          }}
+          className={`p-2 rounded-md transition-colors ${
+            activeMode === 'settings' ? 'bg-gray-200 text-gray-800' : 'text-gray-500 hover:bg-gray-100'
+          }`}
           title="Settings"
         >
           <Settings className="h-4 w-4" />
@@ -961,7 +1019,29 @@ const BuilderToolbar = () => {
                       </div>
                     </div>
                     
-                    <button className="text-teal-500 text-sm font-medium hover:text-teal-600 border border-teal-500 px-3 py-1 rounded">
+                    <button 
+                      onClick={() => {
+                        const defaultColors = {
+                          primary: '#FBAC00',
+                          accent1: '#2196F3', 
+                          accent2: '#FBAC00',
+                          darkBg: '#2A2F34',
+                          lightBg: '#F5F5F5',
+                          bodyBg: '#FFFFFF',
+                          darkText: '#2A2F34',
+                          lightText: '#FFFFFF',
+                          linkText: '#0064D1'
+                        };
+                        setCustomColors(defaultColors);
+                        const mainIframe = document.querySelector('iframe[srcdoc]');
+                        if (mainIframe) {
+                          Object.entries(defaultColors).forEach(([colorType, color]) => {
+                            applyColorToIframe(mainIframe, colorType, color);
+                          });
+                        }
+                      }}
+                      className="text-teal-500 text-sm font-medium hover:text-teal-600 border border-teal-500 px-3 py-1 rounded"
+                    >
                       Reset colors
                     </button>
                   </div>
@@ -1078,31 +1158,27 @@ const BuilderToolbar = () => {
         onColorSelect={(color) => {
           const colorType = showColorSelector.colorType;
           if (colorType) {
-            // Update state immediately
             const newColors = { ...customColors, [colorType]: color };
             setCustomColors(newColors);
             
-            // Apply to iframe
-            const mainIframe = document.querySelector('iframe[srcdoc]');
-            if (mainIframe?.contentDocument) {
-              const doc = mainIframe.contentDocument;
-              const allElements = doc.querySelectorAll('*');
-              
-              allElements.forEach(el => {
-                if (colorType === 'primary' && (el.tagName === 'BUTTON' || el.classList.contains('btn'))) {
-                  el.style.setProperty('background-color', color, 'important');
-                }
-                if (colorType === 'darkText' && ['H1','H2','H3','H4','H5','H6','P'].includes(el.tagName)) {
-                  el.style.setProperty('color', color, 'important');
-                }
-                if (colorType === 'linkText' && el.tagName === 'A') {
-                  el.style.setProperty('color', color, 'important');
-                }
-              });
-              
-              if (colorType === 'bodyBg' && doc.body) {
-                doc.body.style.setProperty('background-color', color, 'important');
+            const previewIframe = document.querySelector('#theme-preview-iframe');
+            if (previewIframe?.contentDocument) {
+              const doc = previewIframe.contentDocument;
+              let style = doc.getElementById('theme-colors-style');
+              if (!style) {
+                style = doc.createElement('style');
+                style.id = 'theme-colors-style';
+                doc.head.appendChild(style);
               }
+              style.textContent = `
+                button, .btn, .btn-primary { background-color: ${newColors.primary} !important; }
+                .accent { background-color: ${newColors.accent1} !important; }
+                h1, h2, h3, h4, h5, h6, p { color: ${newColors.darkText} !important; }
+                a { color: ${newColors.linkText} !important; }
+                .dark-bg { background-color: ${newColors.darkBg} !important; }
+                .light-bg { background-color: ${newColors.lightBg} !important; }
+                body { background-color: ${newColors.bodyBg} !important; }
+              `;
             }
           }
           setShowColorSelector(false);

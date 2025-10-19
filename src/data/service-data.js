@@ -1,11 +1,28 @@
-
+import ServiceIconOne from "../svg/service/service-icon-1"
+import ServiceIconTwo from "../svg/service/service-icon-2"
+import ServiceIconThree from "../svg/service/service-icon-3"
+import ServiceIconFoure from "../svg/service/service-icon-4"
+import ServiceIconFive from "../svg/service/service-icon-5"
+import ServiceIconsix from "../svg/service/service-icon-6"
+import ServiceIconSeven from "../svg/service/service-icon-7"
 
 // images import  
-import img_1 from "../../public/assets/img/service/sv-icon-1.png";
-import img_2 from "../../public/assets/img/service/sv-icon-2.png";
-import img_3 from "../../public/assets/img/service/sv-icon-3.png";
-import img_4 from "../../public/assets/img/service/sv-icon-4.png";
+//import img_1 from "../../public/assets/img/service/sv-icon-1.png";
+//import img_2 from "../../public/assets/img/service/sv-icon-2.png";
+//import img_3 from "../../public/assets/img/service/sv-icon-3.png";
+//import img_4 from "../../public/assets/img/service/sv-icon-4.png";
 import img_5 from "../../public/assets/img/service/sv-icon-5.png";
+import img_11 from "../../public/assets/img/feature/course-management.png"
+import img_12 from "../../public/assets/img/feature/video-content.png";
+import img_13 from "../../public/assets/img/service/typography.png";
+import img_14 from "../../public/assets/img/feature/realtime.png";
+import img_15 from "../../public/assets/img/feature/coursecreation.png";
+import img_16 from "../../public/assets/img/feature/online-section.png";
+import img_17 from "../../public/assets/img/feature/open-enrollment.png";
+import img_18 from "../../public/assets/img/feature/admin-panel.png";
+
+
+
 // for home 04
 import icon_1 from "../../public/assets/img/service/sv-icon-4-1.png"
 import icon_2 from "../../public/assets/img/service/sv-icon-4-2.png"
@@ -32,76 +49,133 @@ const  service_data = [
     // for home 01 
     {
         id: 1,
-        icon: img_1,
-        img: img_1,
-        title: "Drag & Drop Builder",
-        description: <>Create professional websites <br /> without coding skills</>,
+        icon: img_14,
+        img: img_14,
+        title: "Real-time Preview",
+        description: <>
+Preview course changes instantly as you build, ensuring flawless lesson layouts, accurate content updates, and efficient course development without delays or repeated publishing.</>,
         delay: ".4s",
     },
     {
         id: 2,
-        icon: img_2,
-        img: img_2,
-        title: "Secure Video Embedding",
-        description: <>DRM protection and watermarking <br /> for your content</>,
+        icon: img_13,
+        img: img_13,
+        title: "Typography Management & Customization",
+        description: <>
+Customize fonts, colors, and styles to maintain brand consistency, improve readability, and create visually appealing, professional course materials that engage learners effectively.</>,
         delay: ".6s",
     },
     {
         id: 3,
-        icon: img_3,
-        img: img_3,
-        title: "Custom Domains",
-        description: <>Brand your learning platform <br /> with your own domain</>,
+        icon: img_11,
+        img: img_11,
+        title: "Course Management",
+        description: <>
+Effortlessly organize, schedule, and monitor courses from a centralized dashboard, track learner progress, assign instructors, and ensure a structured, seamless learning experience.</>,
         delay: ".7s",
     },
     {
         id: 4,
-        icon: img_4,
-        img: img_4,
-        title: "Analytics Dashboard",
-        description: <>Track student engagement <br /> and video performance</>,
+        icon: img_15,
+        img: img_15,
+        title: "Course Creation & Organization",
+        description: <>
+Build and structure courses with intuitive tools, arranging lessons, modules, and topics logically for a smooth, guided learning journey that enhances comprehension.</>,
         delay: ".8s",
     },
     {
         id: 5,
-        icon: img_5,
-        img: img_5,
-        title: "White-Label Solution",
-        description: <>Complete branding control <br /> for your academy</>,
+        icon: img_12,
+        img: img_12,
+        title: "Video Content Management",
+        description: <>
+Upload, categorize, and secure video lessons with privacy settings, captions, and playback options, offering a rich multimedia experience that boosts learner engagement.</>,
         delay: ".9s",
     },
+
+       {
+        id: 6,
+        icon: img_16,
+        img: img_16,
+       title: "Course Sections & Activities",
+        description: <>
+Break courses into modules with lessons, quizzes, and interactive exercises, helping learners apply knowledge, practice skills, and track their progress effectively.</>,
+        delay: ".9s",
+    }, 
+       {
+        id: 7,
+        icon: img_17,
+        img: img_17,
+       title: "Student Enrollment Tracking",
+        description: <>
+Break courses into modules with lessons, quizzes, and interactive exercises, helping learners apply knowledge, practice skills, and track their progress effectively.</>,
+        delay: ".9s",
+    }, 
+
+       {
+        id: 8,
+        icon: img_18,
+        img: img_18,
+       title: "Student/User Administration",
+        description: <>
+Manage accounts, profiles, and learner roles easily, ensuring smooth administration, personalized support, and an organized learning environment for students and instructors.</>,
+        delay: ".9s",
+    }, 
+
+       {
+        id: 9,
+        icon: img_5,
+        img: img_5,
+         title: "Access Control & Permissions",
+        description: <>
+Set role-based permissions to control who can view, edit, or manage course content, keeping your learning platform secure and organized.</>,
+        delay: ".9s",
+    }, 
+       {
+        id: 8,
+        icon: img_5,
+        img: img_5,
+         title: "Access Control & Permissions",
+        description: <>
+Set role-based permissions to control who can view, edit, or manage course content, keeping your learning platform secure and organized.</>,
+        delay: ".9s",
+    }, 
 
     // for home 03
     {
         id: 6,
-        icon: img_1,
-        img: img_1,
-        title: "Project management jamil",
-        description: <>Automate Workflows <br /> and Monitor your Sales.</>,
+        icon: img_16,
+        img: img_16,
+        title: "Course Sections & Activities",
+        description: <>
+Track student registrations, monitor participation, analyze completion rates, and gain actionable insights to optimize course delivery and improve learning outcomes.</>,
         delay: ".9s",
     },
     {
         id: 7,
-        icon: img_2,
-        img: img_2,
-        title: "Sales analytics",
-        description: <>Track your Marketing to see the best Results.</>,
+        icon: <ServiceIconTwo />,
+        img: <ServiceIconTwo />,
+        title: "Student Enrollment Tracking",
+        description: <>
+Track student registrations, monitor participation, analyze completion rates, and gain actionable insights to optimize course delivery and improve learning outcomes.</>,
         delay: ".9s",
     },
     {
         id: 8,
-        icon: img_3,
-        img: img_3,
-        title: "Easy Invoicing",
-        description: <>Automate recurring invoices and save time.</>,
+        icon: <ServiceIconThree />,
+        img: <ServiceIconThree />,
+        title: "Student/User Administration",
+        description: <>
+Manage accounts, profiles, and learner roles easily, ensuring smooth administration, personalized support, and an organized learning environment for students and instructors.</>,
         delay: ".9s",
     },
     {
         id: 9,
-        icon: img_4,
-        img: img_4,
-        title: "Complete Visibility",
-        description: <>Get real-time visibility into every expense.</>,
+        icon: <ServiceIconFoure/>,
+        img: <ServiceIconFoure />,
+        title: "Access Control & Permissions",
+        description: <>
+Set role-based permissions to control who can view, edit, or manage course content, keeping your learning platform secure and organized.</>,
         delay: ".9s",
     },
     
@@ -110,10 +184,10 @@ const  service_data = [
         id: 10,
         icon: icon_1,
         img: icon_1,
-        title: "Cyber Security Solustions jamil",
+        title: "Communication Tools",
         sub_title: "Cloud Backup",
         cls: "1",
-        description: <>Lorem Ipsum is simply dummy text <br /> of the printing</>,
+        description: <>Engage learners with messaging, announcements, and discussion boards, fostering collaboration, timely feedback, and interactive learning for better knowledge retention.</>,
         delay: ".9s",
     },
     {
@@ -192,61 +266,61 @@ const  service_data = [
     // service page
     {
         id: 18,
-        icon: img_1,
-        img: img_1,
-        title: "Website Builder",
-        description: <>Drag-and-drop interface <br /> for creating learning sites</>,
+        icon: <ServiceIconOne />,
+        img: <ServiceIconOne />,
+        title: "Project management jamil",
+        description: <>Automate Workflows <br /> and Monitor your Sales.</>,
         delay: ".9s",
     },
     {
         id: 19,
-        icon: img_2,
-        img: img_2,
-        title: "Video Integration",
-        description: <>Embed videos from Vimeo, <br /> VdoCipher, and more</>,
+        icon: <ServiceIconTwo />,
+        img: <ServiceIconTwo />,
+        title: "Sales analytics",
+        description: <>Track your Marketing to see the best Results.</>,
         delay: ".9s",
     },
     {
         id: 20,
-        icon: img_3,
-        img: img_3,
-        title: "Student Management",
-        description: <>Track learner progress <br /> and engagement</>,
+        icon: <ServiceIconThree />,
+        img: <ServiceIconThree />,
+        title: "Easy Invoicing",
+        description: <>Automate recurring invoices and save time.</>,
         delay: ".9s",
     },
     {
         id: 21,
-        icon: img_4,
-        img: img_4,
-        title: "Content Protection",
-        description: <>DRM and watermarking <br /> for secure delivery</>,
+        icon: <ServiceIconFoure/>,
+        img: <ServiceIconFoure />,
+        title: "Complete Visibility",
+        description: <>Get real-time visibility into every expense.</>,
         delay: ".9s",
     },
     
     {
         id: 22,
-        icon: img_5,
-        img: img_5,
-        title: "Monetization Tools",
-        description: <>Payment integration <br /> for course sales</>,
+        icon: <ServiceIconFive/>,
+        img: <ServiceIconFive />,
+        title: "FIELDS OPTION",
+        description: <>Quick & Easy Repeater Fields Option</>,
         delay: ".9s",
     },
     
     {
         id: 23,
-        icon: img_1,
-        img: img_1,
-        title: "Custom Branding",
-        description: <>White-label solution <br /> with your brand</>,
+        icon: <ServiceIconsix/>,
+        img: <ServiceIconsix />,
+        title: "Safe Online Services",
+        description: <>Online services to view company level.</>,
         delay: ".9s",
     },
     
     {
         id: 24,
-        icon: img_2,
-        img: img_2,
-        title: "Analytics & Reports",
-        description: <>Detailed insights on <br /> student performance</>,
+        icon: <ServiceIconSeven/>,
+        img: <ServiceIconSeven />,
+        title: "Online marketing",
+        description: <>Get real-time visibility into every expense.</>,
         delay: ".9s",
     },
 

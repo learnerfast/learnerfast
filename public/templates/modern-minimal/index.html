@@ -1,350 +1,230 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduFlow - Premium Learning Platform</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i data-lucide="zap" style="width: 24px; height: 24px; color: white;"></i>
-                </div>
-                EduFlow
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div style="display: flex; gap: 1rem;">
-                <a href="signin.html" class="btn" style="background: transparent; color: hsl(var(--muted-foreground)); border: 1px solid hsl(var(--border));">Sign In</a>
-                <a href="register.html" class="btn btn-primary">Register</a>
-            </div>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content" data-aos="fade-right">
-                <h1>The Future of Learning is Here</h1>
-                <p style="font-size: 1.25rem; color: hsl(var(--muted-foreground)); margin-bottom: 3rem;">Experience next-generation education with AI-powered personalization, immersive content, and world-class instructors.</p>
-                <div style="display: flex; gap: 1.5rem; margin-bottom: 3rem;">
-                    <a href="courses.html" class="btn btn-primary" style="padding: 1rem 2.5rem;">
-                        <i data-lucide="play-circle" style="width: 20px; height: 20px;"></i>
-                        Start Learning
-                    </a>
-                    <a href="about.html" class="btn" style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); border: 1px solid rgba(139, 92, 246, 0.3); padding: 1rem 2.5rem;">
-                        <i data-lucide="info" style="width: 20px; height: 20px;"></i>
-                        Learn More
-                    </a>
-                </div>
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; font-weight: 900; color: hsl(var(--primary));">1M+</div>
-                        <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Active Learners</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; font-weight: 900; color: hsl(var(--primary));">500+</div>
-                        <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Expert Courses</div>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; font-weight: 900; color: hsl(var(--primary));">98%</div>
-                        <div style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">Success Rate</div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual" data-aos="fade-left">
-                <div class="floating-cards">
-                    <div class="floating-card">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; color: hsl(var(--primary));">
-                            <i data-lucide="brain-circuit" style="width: 16px; height: 16px;"></i>
-                            <span style="font-size: 0.875rem; font-weight: 600;">AI-Powered</span>
-                        </div>
-                    </div>
-                    <div class="floating-card">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; color: hsl(var(--primary));">
-                            <i data-lucide="users" style="width: 16px; height: 16px;"></i>
-                            <span style="font-size: 0.875rem; font-weight: 600;">Live Sessions</span>
-                        </div>
-                    </div>
-                    <div class="floating-card">
-                        <div style="display: flex; align-items: center; gap: 0.5rem; color: hsl(var(--primary));">
-                            <i data-lucide="award" style="width: 16px; height: 16px;"></i>
-                            <span style="font-size: 0.875rem; font-weight: 600;">Certified</span>
-                        </div>
-                    </div>
-                </div>
-                <div style="font-size: 6rem; color: rgba(139, 92, 246, 0.3);">🚀</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="courses-section">
-        <div class="container">
-            <h2 class="section-title" data-aos="fade-up">Premium Courses</h2>
-            <div class="courses-grid">
-                <div class="course-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="course-header">
-                        <div class="course-icon">🤖</div>
-                    </div>
-                    <div class="course-content">
-                        <h3 class="course-title">AI & Machine Learning Mastery</h3>
-                        <p class="course-description">Master artificial intelligence and machine learning with hands-on projects, real-world applications, and cutting-edge techniques used by industry leaders.</p>
-                        <div class="course-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">120</span>
-                                <span class="stat-label">Hours</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">50+</span>
-                                <span class="stat-label">Projects</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">4.9</span>
-                                <span class="stat-label">Rating</span>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
-                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Python</span>
-                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">TensorFlow</span>
-                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Neural Networks</span>
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">$299</div>
-                        <div style="display: flex; gap: 1rem;">
-                            <a href="course-detail.html" class="btn" style="background: hsl(var(--secondary)); color: hsl(var(--foreground)); flex: 1;">Details</a>
-                            <a href="register.html" class="btn btn-primary" style="flex: 2;">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="course-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="course-header">
-                        <div class="course-icon">💻</div>
-                    </div>
-                    <div class="course-content">
-                        <h3 class="course-title">Full Stack Development Pro</h3>
-                        <p class="course-description">Build modern web applications from frontend to backend with React, Node.js, and cloud deployment. Industry-ready skills guaranteed.</p>
-                        <div class="course-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">150</span>
-                                <span class="stat-label">Hours</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">30+</span>
-                                <span class="stat-label">Projects</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">4.8</span>
-                                <span class="stat-label">Rating</span>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
-                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">React</span>
-                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Node.js</span>
-                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">AWS</span>
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">$249</div>
-                        <div style="display: flex; gap: 1rem;">
-                            <a href="course-detail.html" class="btn" style="background: hsl(var(--secondary)); color: hsl(var(--foreground)); flex: 1;">Details</a>
-                            <a href="register.html" class="btn btn-primary" style="flex: 2;">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="course-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="course-header">
-                        <div class="course-icon">🎨</div>
-                    </div>
-                    <div class="course-content">
-                        <h3 class="course-title">UX/UI Design Excellence</h3>
-                        <p class="course-description">Create stunning user experiences with advanced design principles, prototyping, and user research methodologies used by top companies.</p>
-                        <div class="course-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">100</span>
-                                <span class="stat-label">Hours</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">25+</span>
-                                <span class="stat-label">Projects</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">4.9</span>
-                                <span class="stat-label">Rating</span>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;">
-                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Figma</span>
-                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">Prototyping</span>
-                            <span style="background: rgba(139, 92, 246, 0.1); color: hsl(var(--primary)); padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600;">User Research</span>
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">$199</div>
-                        <div style="display: flex; gap: 1rem;">
-                            <a href="course-detail.html" class="btn" style="background: hsl(var(--secondary)); color: hsl(var(--foreground)); flex: 1;">Details</a>
-                            <a href="register.html" class="btn btn-primary" style="flex: 2;">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>EduFlow</h3>
-                <p style="color: hsl(var(--muted-foreground)); margin-top: 0.5rem;">Transforming education through cutting-edge technology and world-class instruction.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Platform</h3>
-                <ul>
-                    <li><a href="courses.html">All Courses</a></li>
-                    <li><a href="#">Learning Paths</a></li>
-                    <li><a href="#">Certifications</a></li>
-                    <li><a href="#">Enterprise</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Community</h3>
-                <ul>
-                    <li><a href="#">Discord</a></li>
-                    <li><a href="#">Forums</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Blog</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Terms</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 EduFlow. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Interactive Elements -->
-    <div class="progress-bar" id="progressBar"></div>
-    
-
-    
-    <button class="floating-cta" onclick="openModal()">
-        <i data-lucide="zap" style="width: 20px; height: 20px; margin-right: 0.5rem;"></i>
-        Start Free Trial
-    </button>
-    
-    <div class="chat-widget" onclick="openChat()">
-        <i data-lucide="message-circle" style="width: 24px; height: 24px;"></i>
-    </div>
-    
-    <div class="modal-overlay" id="modal">
-        <div class="modal-content">
-            <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">Ready to Transform Your Career?</h3>
-            <p style="color: hsl(var(--muted-foreground)); margin-bottom: 2rem;">Join over 1 million learners who have advanced their careers with EduFlow.</p>
-            <div style="display: flex; gap: 1rem; justify-content: center;">
-                <a href="courses.html" class="btn btn-primary">Start Learning</a>
-                <button class="btn" style="background: hsl(var(--secondary)); color: hsl(var(--foreground));" onclick="closeModal()">Maybe Later</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="interactive-bg" id="interactiveBg"></div>
-
-    <script>
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
-        lucide.createIcons();
-        
-        // Progress bar
-        window.addEventListener('scroll', () => {
-            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
-        });
-        
-
-        
-
-        
-        function openModal() {
-            document.getElementById('modal').style.display = 'flex';
-            setTimeout(() => {
-                document.getElementById('modal').classList.add('show');
-            }, 10);
-        }
-        
-        function closeModal() {
-            document.getElementById('modal').classList.remove('show');
-            setTimeout(() => {
-                document.getElementById('modal').style.display = 'none';
-            }, 300);
-        }
-        
-        function openChat() {
-            alert('Chat feature coming soon! Contact us at hello@eduflow.com');
-        }
-        
-        // Interactive background particles
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'bg-particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
-            document.getElementById('interactiveBg').appendChild(particle);
-            
-            setTimeout(() => {
-                particle.remove();
-            }, 6000);
-        }
-        
-        setInterval(createParticle, 500);
-        
-        // Mouse follow effect
-        document.addEventListener('mousemove', (e) => {
-            const cursor = document.createElement('div');
-            cursor.style.position = 'fixed';
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            cursor.style.width = '6px';
-            cursor.style.height = '6px';
-            cursor.style.background = 'rgba(139, 92, 246, 0.5)';
-            cursor.style.borderRadius = '50%';
-            cursor.style.pointerEvents = 'none';
-            cursor.style.zIndex = '9999';
-            cursor.style.animation = 'fadeOut 1s forwards';
-            document.body.appendChild(cursor);
-            
-            setTimeout(() => cursor.remove(), 1000);
-        });
-        
-        // Add fadeOut animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeOut {
-                0% { opacity: 1; transform: scale(1); }
-                100% { opacity: 0; transform: scale(0); }
-            }
-        `;
-        document.head.appendChild(style);
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope:wght@400;500;700;800&amp;family=Noto+Sans:wght@400;500;700;900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1183d4',
+                        'background-light': '#f6f7f8',
+                        'background-dark': '#101a22',
+                    },
+                    fontFamily: {
+                        display: ['Manrope'],
+                    },
+                    borderRadius: {
+                        DEFAULT: '0.25rem',
+                        lg: '0.5rem',
+                        xl: '0.75rem',
+                        full: '9999px',
+                    },
+                },
+            },
+        };
     </script>
-</body>
-</html>
+<title>EduHub - Your Gateway to Knowledge</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex min-h-screen flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">EduFlow</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<section class="py-20 sm:py-28">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="text-center lg:text-left">
+<span class="text-primary font-semibold uppercase tracking-wider">Start Learning</span>
+<h1 class="mt-4 text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
+                                Acquire New Skills &amp; Elevate Your Career
+                            </h1>
+<p class="mt-6 max-w-xl mx-auto lg:mx-0 text-lg text-gray-600 dark:text-gray-300">
+                                With our project-based courses, you'll learn by doing and build a portfolio that showcases your new abilities to potential employers.
+                            </p>
+<div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+<a class="inline-block rounded-lg bg-primary px-8 py-4 text-lg font-bold text-white shadow-lg transition-transform hover:scale-105" href="#">Explore Courses</a>
+<a class="inline-block rounded-lg bg-gray-200 dark:bg-gray-700 px-8 py-4 text-lg font-bold text-gray-800 dark:text-white shadow-lg transition-transform hover:scale-105" href="#">Learn More</a>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -top-8 -left-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+<div class="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+<img alt="A student smiling while learning online" class="rounded-xl shadow-2xl relative z-10 w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBCC3ZvONzEavmzAuu-OU-8YXwQc6vk4qNYn6bvQ8SKjn8AexWwPimto0Cri7oe4hRboJgHJ1pEhudN5Wd_Mix_z_PI_236_D65cOqyx0Efbgz60hR1VgbXwtSWeY1WegCr2lIYwz7ZnE1OB2etbj5jjf4zAY1CjJ-dtEcTZplJZupdqWpYbx_OKgZBDpY7l7oTyBCSo_i9LfP-f9w_VGVGi9Hclo3YY6H5m_oRlEKDuZJJXoSN4KOIkIUc1VbceNMSY429SnL3xYs"/>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 sm:py-20 lg:py-24 bg-background-light dark:bg-background-dark/50">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center">
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Featured Courses</h2>
+<p class="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Handpicked courses to help you get started on your learning journey.</p>
+</div>
+<div class="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+<div class="group transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-background-dark dark:shadow-primary/10">
+<img alt="Web Development Course Thumbnail" class="h-56 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIroC-bLEGoeYourVQ8KaFIcwvtqZQD8Xh8hibus_snn8GT22ubojirrLS3B_h9qWkHpmMdLkxcNXh1x7UT6kT8RlLmQRP5nc2OzeWneGnKz3OQC3k_I6gd0cINsIoeSMyEwJIXJMj-1XqWGLbbLNdV0mFU1YIA8Lrr-Dbuo0qUf0LQRv8SZwDeQ_U6_Gf2x3jQjbYWnd1uLvjTlVNoSYblnb7P2ZXaD7o_YAr2CZo7n8RA94xrYsuJ6tCcKOS3J4vuELdTVOTj6KA"/>
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Full-Stack Web Development</h3>
+<p class="mt-2 text-gray-600 dark:text-gray-400">Become a complete web developer by learning both front-end and back-end technologies.</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-primary font-bold text-lg">$499</span>
+<a class="text-primary font-semibold hover:underline" href="#">Learn More →</a>
+</div>
+</div>
+</div>
+<div class="group transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-background-dark dark:shadow-primary/10">
+<img alt="UX/UI Design Course Thumbnail" class="h-56 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBozS8YO2tAfsfQ1bcWyrHFwBWcuHQkgPM8Xd3A2wawXqDcj6o_wn4I19VcDqG-WR12oOynUObInyLtTo0WkOa_2xsM2StXSUEcOmB1uVQecUfTsLKkEKVxQAkF9kdUr70i4r8_hFjoqo5rdx4_CWwJLNwFA85S7sNnUG0XNa2wActp56lVmky-8rtB9zqmqp4b3nx03zBpd94ewSfvqwQ_8hrzUq9eowsn9TBIibumXbKJ0qiQlXOhyK_nD2tQ8MlP0vauUSmZ-owS"/>
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Advanced UX/UI Design</h3>
+<p class="mt-2 text-gray-600 dark:text-gray-400">Master user experience and user interface design to create intuitive and beautiful products.</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-primary font-bold text-lg">$399</span>
+<a class="text-primary font-semibold hover:underline" href="#">Learn More →</a>
+</div>
+</div>
+</div>
+<div class="group transform overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:bg-background-dark dark:shadow-primary/10">
+<img alt="Data Science Course Thumbnail" class="h-56 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARtiQgQbZol9mxFGm0BK66bqesxNA3f_pEal1P9luQtzEG0nun5Q1jSUzutfJts3AVcfe-y1MiKy_HaIFe1EF4JA_rYHPEVfqTYd-v6ZTf3Hc1adSIBebqXqvHoW4EQD_Lpf8_jzIypC1LO5uqJz_feDAt2QNBIPy3NezCJ4zDmuYXQ_oKtqu-BePx4AUkF59e3KnhLIDHYMiU4zC0PyMzRt736EZsL2QD4EUipa26Uk4HnwZ23VG5zapPZQJRFJHvDTsJ4XJzeRXZ"/>
+<div class="p-6">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Data Science with Python</h3>
+<p class="mt-2 text-gray-600 dark:text-gray-400">Unlock insights from data and build powerful machine learning models using Python.</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-primary font-bold text-lg">$549</span>
+<a class="text-primary font-semibold hover:underline" href="#">Learn More →</a>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 text-center">
+<a class="rounded-lg bg-primary/10 px-8 py-3 text-lg font-bold text-primary transition-colors hover:bg-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30" href="#">View All Courses</a>
+</div>
+</div>
+</section>
+<section class="py-16 sm:py-20 lg:py-24">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center">
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">Success Stories from Our Students</h2>
+<p class="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">See how EduHub has helped learners achieve their career goals and aspirations.</p>
+</div>
+<div class="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-3">
+<div class="bg-white dark:bg-background-dark rounded-xl p-8 shadow-lg">
+<div class="flex items-start gap-4">
+<img alt="Jessica Miller" class="h-14 w-14 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_NE1yWeaP45gFSBo2xt-8dc61hC0e9aywe1wQGUrhXGrWVCuH6usruwQvVfnsgAVV_IaUxXGkcM6CD3hPJzRQqKBZDKoyRgT4_QAuAb8avhP0bJ3lWzPnc9C48WRDC1XMWtJ6K0SrtzQC65wZIUiVVCPlvkV422I2TNEpHWEgdSX2q6T8gpHSuJCtcP_WDTm1nNLnkAsIju5HBSlwj2wKmpph3CYzZmgUT-5fgQ4PAwn67L_E0IZmmFNRf2e_PjBLXfCy7PoRWzpg"/>
+<div>
+<p class="text-lg font-semibold text-gray-900 dark:text-white">Jessica Miller</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Software Engineer at TechCorp</p>
+</div>
+</div>
+<p class="mt-6 text-gray-600 dark:text-gray-300">
+                                "The Full-Stack Web Development course was a game-changer for me. The hands-on projects gave me the confidence to apply for senior roles, and I landed a great job just a month after completion!"
+                            </p>
+</div>
+<div class="bg-white dark:bg-background-dark rounded-xl p-8 shadow-lg">
+<div class="flex items-start gap-4">
+<img alt="Michael Chen" class="h-14 w-14 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXM0zDo1g2Diy6rkg7u-LiDK6VP2DEoa4tFLbeeT-77zw6yStVFnd9vP11tPO0iOo_3spYzTiZnmtYFL2DRTyqiLnhKX3mk-4pRN6xz2apc-nyuW2SDBovdv6YMCplXtiNniKOvG_3fKyN6qfnI1H24qXev454Q8HDkd5mGY9tHLMPj0xGCA25Dx31sQLlUS8R0AE4QTbjLnUD_WA0FmZ_CIwqVCiw48g0vENQuKt1LIkRv0bmxbCoShxZ_Jg65RlVTqZUN3gc-3jo"/>
+<div>
+<p class="text-lg font-semibold text-gray-900 dark:text-white">Michael Chen</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">UX Designer at Innovate Ltd.</p>
+</div>
+</div>
+<p class="mt-6 text-gray-600 dark:text-gray-300">
+                                "I was looking to transition into UX design, and the Advanced UX/UI course provided the perfect foundation. The instructors were amazing, and the community was incredibly supportive."
+                            </p>
+</div>
+<div class="bg-white dark:bg-background-dark rounded-xl p-8 shadow-lg">
+<div class="flex items-start gap-4">
+<img alt="Sarah Davis" class="h-14 w-14 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPrrHWGK92rFBOPb8Na-8xvO4PLR6mPCG-ubCcNSyqUFElaUEH8NXdo9hVdAoD86f2ullP3lsHI7fTG-Am3IkPe3eFRVWdxAT4F7DDqHx0jjf1cX_5jpunH7efso2gy6Z2KLl81ZkRYas4EU80LFOvrm0Y5bNpi8SPLg2omtvQHriEu63R3snvF1eNXVEDT41Qy5uliFuLr_uer2s6A40vZU0HiXdwe8DbCUIgFg0wr-GwPDWBxQZlFaaqgqHKADKAjegVLFDrqbj9"/>
+<div>
+<p class="text-lg font-semibold text-gray-900 dark:text-white">Sarah Davis</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Data Analyst at Data Insights</p>
+</div>
+</div>
+<p class="mt-6 text-gray-600 dark:text-gray-300">
+                                "EduHub's Data Science course is top-notch. I learned so much and was able to apply my new skills to real-world problems. It definitely helped me secure my current role as a data analyst."
+                            </p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-white dark:bg-background-dark/50">
+<div class="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 gap-8 md:grid-cols-4">
+<div class="md:col-span-1">
+<div class="flex items-center gap-3">
+<svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4H17.3334V17.3334H30.6666V30.6666H44V44H4V4Z" fill="currentColor"></path>
+</svg>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white">EduHub</h2>
+</div>
+<p class="mt-4 text-sm text-gray-500 dark:text-gray-400">Your gateway to knowledge and skill development. Join us to unlock your potential.</p>
+</div>
+<div>
+<h3 class="text-sm font-semibold uppercase tracking-wider text-gray-900 dark:text-white">Quick Links</h3>
+<nav class="mt-4 space-y-2">
+<a class="block text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">Home</a>
+<a class="block text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">Courses</a>
+<a class="block text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">About Us</a>
+<a class="block text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">Contact</a>
+</nav>
+</div>
+<div>
+<h3 class="text-sm font-semibold uppercase tracking-wider text-gray-900 dark:text-white">Legal</h3>
+<nav class="mt-4 space-y-2">
+<a class="block text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">Terms of Service</a>
+<a class="block text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">Privacy Policy</a>
+<a class="block text-sm text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#">Cookie Policy</a>
+</nav>
+</div>
+<div>
+<h3 class="text-sm font-semibold uppercase tracking-wider text-gray-900 dark:text-white">Follow Us</h3>
+<div class="mt-4 flex gap-4">
+<a class="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#"><svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+<path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path>
+</svg></a>
+<a class="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#"><svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+<path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+</svg></a>
+<a class="text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-primary" href="#"><svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+<path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.807 2.013 10.16 2 12.315 2zM8.423 15.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zm10.518-9.45a1.125 1.125 0 11-2.25 0 1.125 1.125 0 012.25 0z" fill-rule="evenodd"></path>
+</svg></a>
+</div>
+</div>
+</div>
+<div class="mt-8 border-t border-gray-200 pt-8 text-center text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
+<p>© 2024 EduHub. All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+
+</body></html>

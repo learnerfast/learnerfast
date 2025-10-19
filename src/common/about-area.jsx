@@ -40,17 +40,17 @@ const about_data =[
 
 // about content
 const about_content = {
-    title: "TRUSTED BY EDUCATORS",
-    sub_title: "Empowering Online Learning with Secure Video Delivery", 
-    des: <>Build professional learning websites with drag-and-drop simplicity. <br />
-    Embed videos securely and engage your students effectively!</>,
+    title: "OVER 150K+ CLIENT",
+    sub_title: "We Offer Real Time Data Solutions   asdfasdf", 
+    des: <>Excepteur sint occaecat cupidatat officia non proident <br />
+    sunt in culpa qui deserunt.!</>,
 
     about_list: [
-        <>No-code website builder.</>,
-        <>Secure video embedding with DRM protection.</>,
-        <>Custom branding and white-label solution.</>,
+        <>Various analysis options.</>,
+        <>Page Load (time, size, number of requests).</>,
+        <> Big data analysis.</>,
     ],
-    btn_text: "Learn More",
+    btn_text: "About Us",
 
 }
 const {title, sub_title, des, about_list, btn_text}  = about_content

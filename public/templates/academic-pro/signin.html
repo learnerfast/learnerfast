@@ -1,120 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - AcademyPro</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign In - CodeMaster</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1173d4",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .form-input.error {
+            border-color: #ef4444;}
+        .form-input.success {
+            border-color: #22c55e;}
+    </style>
+<script src="/js/template-auth.js"></script>
+<script src="/js/template-init.js"></script>
 </head>
-<body>
-    <header class="top-header">
-        <div class="top-header-container">
-            <div class="top-header-left">
-                <span><i class="bi bi-telephone"></i> +1 (555) 123-4567</span>
-                <span><i class="bi bi-envelope"></i> admissions@academypro.edu</span>
-            </div>
-            <div class="top-header-right">
-                <a href="#">Student Portal</a>
-                <a href="#">Faculty Directory</a>
-                <a href="#">Alumni Network</a>
-            </div>
-        </div>
-    </header>
-
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-crest">
-                    <i class="bi bi-mortarboard-fill"></i>
-                </div>
-                AcademyPro
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="courses.html">Programs</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Admissions</a></li>
-            </ul>
-            <div style="display: flex; gap: 1rem;">
-                <a href="signin.html" class="btn btn-outline">Sign In</a>
-                <a href="register.html" class="btn btn-primary">
-                    <i class="bi bi-mortarboard"></i>
-                    Apply Now
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <section style="min-height: 100vh; display: flex; align-items: center; background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), hsl(var(--muted)));">
-        <div style="max-width: 500px; margin: 0 auto; padding: 0 2rem; width: 100%;">
-            <div style="background: hsl(var(--card)); border: 2px solid hsl(var(--primary)); border-radius: var(--radius); padding: 3rem; text-align: center; box-shadow: var(--shadow-elegant);">
-                <div style="margin-bottom: 2rem;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--navy))); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; margin: 0 auto 1rem; border: 3px solid hsl(var(--gold)); box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);">
-                        <i class="bi bi-mortarboard-fill" style="font-size: 2rem;"></i>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="flex flex-col lg:flex-row min-h-screen">
+<div class="w-full lg:w-1/2 flex flex-col justify-center items-center p-8 lg:p-16 order-2 lg:order-1">
+<div class="w-full max-w-md">
+<div class="text-center lg:text-left mb-10">
+<a class="inline-flex items-center gap-3 mb-6" href="#">
+<svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z" fill="currentColor"></path>
+</svg>
+<h1 class="text-2xl font-bold text-gray-900 dark:text-white">CodeMaster</h1>
+</a>
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white">Welcome Back</h2>
+<p class="text-gray-600 dark:text-gray-400 mt-2">Sign in to continue your learning journey.</p>
+</div>
+<form class="space-y-6" id="signInForm">
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="email">Email Address</label>
+<div class="mt-1">
+<input autocomplete="email" class="form-input w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500" id="email" name="email" placeholder="you@example.com" required="" type="email"/>
+</div>
+<p class="hidden mt-2 text-sm text-red-600 dark:text-red-400" id="emailError">Please enter a valid email address.</p>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 dark:text-gray-300" for="password">Password</label>
+<div class="mt-1">
+<input autocomplete="current-password" class="form-input w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-primary focus:border-primary text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+<p class="hidden mt-2 text-sm text-red-600 dark:text-red-400" id="passwordError">Password must be at least 8 characters.</p>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center">
+<input class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-primary focus:ring-primary bg-gray-100 dark:bg-gray-700" id="remember-me" name="remember-me" type="checkbox"/>
+<label class="ml-2 block text-sm text-gray-900 dark:text-gray-300" for="remember-me">Remember me</label>
+</div>
+<div class="text-sm">
+<a class="font-medium text-primary hover:text-primary/80" href="#">Forgot your password?</a>
+</div>
+</div>
+<div class="hidden p-4 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300" id="formSuccess">
+<span class="font-medium">Success!</span> You have been signed in. Redirecting...
                     </div>
-                    <h1 style="font-size: 2.5rem; font-weight: 900; margin-bottom: 0.5rem; background: linear-gradient(135deg, hsl(var(--foreground)), hsl(var(--primary))); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-family: 'Playfair Display', serif;">Welcome Back</h1>
-                    <p style="color: hsl(var(--muted-foreground)); font-size: 1.125rem;">Access your AcademyPro account</p>
-                </div>
-
-                <form id="signinForm" style="display: flex; flex-direction: column; gap: 1.5rem; text-align: left;">
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: hsl(var(--foreground)); text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.875rem;">Email Address</label>
-                        <input type="email" id="email" required style="width: 100%; padding: 0.875rem; border: 2px solid hsl(var(--border)); border-radius: var(--radius); background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 1rem;">
-                    </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: hsl(var(--foreground)); text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.875rem;">Password</label>
-                        <input type="password" id="password" required style="width: 100%; padding: 0.875rem; border: 2px solid hsl(var(--border)); border-radius: var(--radius); background: hsl(var(--background)); color: hsl(var(--foreground)); font-size: 1rem;">
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem;">
-                        <label style="display: flex; align-items: center; gap: 0.5rem; color: hsl(var(--muted-foreground)); font-weight: 500;">
-                            <input type="checkbox" style="margin: 0;">
-                            Remember me
-                        </label>
-                        <a href="#" style="color: hsl(var(--primary)); text-decoration: none; font-weight: 600;">Forgot password?</a>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem; font-size: 1rem;">
-                        <i class="bi bi-box-arrow-in-right"></i>
-                        Sign In
-                    </button>
-                </form>
-
-                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid hsl(var(--border)); text-align: center;">
-                    <p style="color: hsl(var(--muted-foreground)); font-size: 0.875rem;">
-                        New to AcademyPro? 
-                        <a href="register.html" style="color: hsl(var(--primary)); text-decoration: none; font-weight: 700;">Create an account</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <script>
-        document.getElementById('signinForm').addEventListener('submit', async (e) => {
+<div>
+<button class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark transition-colors" type="submit">
+                            Sign in
+                        </button>
+</div>
+<div class="relative my-6">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-gray-300 dark:border-gray-700"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-2 bg-white dark:bg-background-dark text-gray-500">Or</span>
+</div>
+</div>
+<button type="button" class="w-full flex items-center justify-center gap-3 bg-white dark:bg-background-dark border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-medium py-3 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+<svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+Continue with Google
+</button>
+</form>
+<p class="mt-8 text-center text-sm text-gray-600 dark:text-gray-400">
+                    Don't have an account?
+                    <a class="font-medium text-primary hover:text-primary/80" href="#">
+                        Sign up
+                    </a>
+</p>
+</div>
+</div>
+<div class="w-full lg:w-1/2 order-1 lg:order-2">
+<img alt="A developer focused on their code on a large monitor in a modern office." class="w-full h-64 lg:h-screen object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaTLXjA8gbqUpb82hR7pnsJOCihJ0oSpxDzj3Zy_Ch6VmtXtwqE05TardCTI0W9vT0ghTHrtxjv6yMAt_490nBDrQ3TOiuEGjCF9J--595cU16fRnexGmRwcvrsR7wOFGbPSshhkXibvmdSzLZk6n1OHwqGHX9IBLW2CcbfvJ50uaRTR2Idzx6EULSX29-GfwVtn6LdG7Siy-D6XG3JdOx7r1HFb-K3AqFi7wpaX5MOex9R352nfhqi414KKMJMZTn7HYirAul3Hcq"/>
+</div>
+</div>
+<script>
+        const form = document.getElementById('signInForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const formSuccess = document.getElementById('formSuccess');
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        email, 
-                        password, 
-                        website_name: 'AcademyPro',
-                        template_login: true 
-                    })
-                });
-                
-                if (response.ok) {
-                    window.location.href = '/dashboard';
-                } else {
-                    alert('Invalid credentials');
-                }
-            } catch (error) {
-                alert('Login failed');
+            let isValid = true;
+            // Reset states
+            emailInput.classList.remove('error', 'success');
+            passwordInput.classList.remove('error', 'success');
+            emailError.classList.add('hidden');
+            passwordError.classList.add('hidden');
+            formSuccess.classList.add('hidden');
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                emailInput.classList.add('error');
+                emailError.classList.remove('hidden');
+                isValid = false;
+            } else {
+                 emailInput.classList.add('success');
+            }
+            // Password validation
+            if (passwordInput.value.length < 8) {
+                passwordInput.classList.add('error');
+                passwordError.classList.remove('hidden');
+                isValid = false;
+            } else {
+                 passwordInput.classList.add('success');
+            }
+            if(isValid) {
+                // On successful validation
+                console.log('Form submitted successfully!');
+                formSuccess.classList.remove('hidden');
+                 // You can add logic here to actually submit the form
+                 // For demo purposes, we'll just show the success message.
             }
         });
     </script>
-</body>
-</html>
+
+</body></html>

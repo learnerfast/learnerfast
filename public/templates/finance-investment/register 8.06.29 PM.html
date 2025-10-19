@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - WealthMaster</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>WealthMaster</h2>
+                <h1>Start Investing</h1>
+                <p>Create your account and begin building wealth</p>
+            </div>
+            <form id="registerForm" class="auth-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" required id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" required id="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" required id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+            </form>
+            <div class="auth-footer">
+                <p>Already have an account? <a href="signin.html">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="/js/template-auth.js"></script>
+    <script>
+        const auth = new TemplateAuth('FinanceInvestment');
+        
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const email = formData.get('email') || document.getElementById('email').value;
+            const name = formData.get('name') || 'User';
+            
+            const result = await auth.register({
+                email,
+                name,
+                program_interest: formData.get('program') || 'General'
+            });
+            
+            if (result.success) {
+                alert('Registration successful! You can now sign in.');
+                window.location.href = 'signin.html';
+            } else {
+                alert(result.error || 'Registration failed');
+            }
+        });
+    </script>
+</body>
+</html>

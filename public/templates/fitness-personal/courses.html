@@ -1,69 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services - FitCoach</title>
-    <link rel="stylesheet" href="css/style.css">
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitLife Courses</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1193d4",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101c22",
+            },
+            fontFamily: {
+              display: ["Lexend"],
+            },
+            borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+          },
+        },
+      };
+    </script>
+<style>
+      body {
+        font-family: "Lexend", sans-serif;
+      }
+    </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">🏋️ FitCoach</a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="courses.html" class="active">Services</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+<div class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">FitCoach Pro</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
+<div class="mx-auto max-w-4xl">
+<div class="mb-12 text-center">
+<h2 class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white sm:text-5xl">Our Courses</h2>
+<p class="mt-4 text-lg text-slate-600 dark:text-slate-400">Explore our range of fitness courses designed to help you achieve your health goals.</p>
+</div>
+<div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+<div class="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg transition hover:shadow-2xl dark:bg-background-dark/50">
+<div class="aspect-video w-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDBcAA3lo0c21gut6GZvU3dpvyyb73o_XMG_S9v9i2kDqZXTmj56foLqbGuIcZxXmodaMy5w-OhwFPkJG7XyMqdPwpQ7GBjGdOat9D2pzPsVKNsgQAE1atz2b53z747tJ-JQyME9A3Irwy33bVa3Tnq6x1OHdpjhnO0zdH4KpFqDTS3d9V_2bBm03pdhvhaBOUkf2RyQqwGv8rBI8cxVmKb6URW0bkv6vAg-SBR4oHR_Efe0tgLgjRhXVVUAX_afbSibd0B24vIhw")'></div>
+<div class="flex flex-1 flex-col p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Yoga for Beginners</h3>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400">A gentle introduction to yoga, focusing on basic poses and breathing techniques.</p>
+<div class="mt-auto pt-4 text-lg font-bold text-primary">$49</div>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg transition hover:shadow-2xl dark:bg-background-dark/50">
+<div class="aspect-video w-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCO-AncVcWL1zXM-vHucIUGlwW6whL2B4OxnxgGlFvebUWAyVg2oMiOAg-F2nNkUJNmhdDkeQcdiZ0anKwHgA9-NrJX1PDjxiyxXbGWU6wTc5dzXDQGcTnh1l3vFbNQrzrpSUU1vLSp5-NkUdtr_l9QGsL_uKeyIxAIc49LIDNVZDYnomhT_RoijaYI7cjcC4TObN48KSexTfYqekptVOdGDZ-xyi5PPQoIcfbkmiK5Q_uA_SjG3VFUP2rv65o2U1x4BiPqR7lhEQ")'></div>
+<div class="flex flex-1 flex-col p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Advanced Strength Training</h3>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Intensive strength training program for experienced athletes.</p>
+<div class="mt-auto pt-4 text-lg font-bold text-primary">$99</div>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg transition hover:shadow-2xl dark:bg-background-dark/50">
+<div class="aspect-video w-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB2ASRVBQloURH_YQ3mGRIi9euJrk3ltUR4Lt4ZqpJHrDmXhJnMZPtPkuu2uiazsgb2VDaECTxykhfbmogKWq3vJLqs4P9oKhvNwrFhHY4gV6lpO6S-6_42ciDjRHyyvL1wD38hEo7WiltALdq8abAAP1Xp-N40K7FZKKW8M-SDVJ0sbvU1McGIw0WzfgfkGComihYuCMnd7a7dqAQ84UEOpBIpzKtEt0GWbvY0eJjxZd5gL_uZV58OKmvrQjRYgKo4V8fE6Vr6RQ")'></div>
+<div class="flex flex-1 flex-col p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Pilates Core Power</h3>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Pilates routines to strengthen your core and improve posture.</p>
+<div class="mt-auto pt-4 text-lg font-bold text-primary">$69</div>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg transition hover:shadow-2xl dark:bg-background-dark/50">
+<div class="aspect-video w-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuApIvSIvuq1iK9hDWezivSydHX5-It_fnnty-4Sww1v1Mv-EgB8Qw5gwAIo2993tiycYsIiC7NxIjHyJQjMmPX_9WPnSpX37MqOckOJmXKW7fxUXmghEnP1CZ83b9BAq98CIKageeur1qR5ztxRtbr64WXE4LH3qRqNreXy364cFPg6UVPhbQLi7L6371P9zvsQazkj6VebBlqMoY47oebcAU3Wdf8aD0SJCauiK8coqRUsTJ5Ps9IzCrPrLNr8DQvVf5cprcUV9Q")'></div>
+<div class="flex flex-1 flex-col p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Cardio Blast</h3>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400">High-intensity cardio workouts to boost your endurance.</p>
+<div class="mt-auto pt-4 text-lg font-bold text-primary">$59</div>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg transition hover:shadow-2xl dark:bg-background-dark/50">
+<div class="aspect-video w-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBYPj0x9Aa_6SdD1KDTcxlCuZwmnjpYhSie6y2ypLFeA6sRr8v0LeR2BEhH9qUXKfyR45QTe8qNqUc4NDIWluHjOUmZ4ENzIwy8_kSQUo3YKV9htCXJ8S9ZHT8XwFKkOgHRvuj5LUaoswwuGhkKUxaesVh2UFL1O7-mwa33xjNZGxWK3kIbLS-tjbYaJuc1ZbPG4yWlJO8xqxfV9C4UQUdsrDebkz4TG4cZso-YopDKhXgKPSE4gs80a1EFNx4_ESig5EsQ-2zVwg")'></div>
+<div class="flex flex-1 flex-col p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Nutrition for Fitness</h3>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Learn the fundamentals of healthy eating to support your fitness journey.</p>
+<div class="mt-auto pt-4 text-lg font-bold text-primary">$79</div>
+</div>
+</div>
+<div class="flex flex-col overflow-hidden rounded-xl bg-white shadow-lg transition hover:shadow-2xl dark:bg-background-dark/50">
+<div class="aspect-video w-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBfxmDbwvjJwAKKYHwwNdMDgdBAwDqfcVAFaJCcArTAwLY4gJYG1KFFeNBs3yiBuKGCy0qgRCiAl6KhY1_oWaXtTurXqjlZEldl2H4RsxpwjQWWKPw2WLKGCHomfl-80iuuYDl9w8IBsnYMHiJcQb9e72yL9AXk5fSqX1yO4HYLkSoBce2EUgppIPZ5-3X1ntgKXNoU2_chYy8E_Pt5eqDFplhdsmTc2mNnMKNidPJIO__WmRtg_1mAv4VE2dw11GsnNdSAnYMwlg")'></div>
+<div class="flex flex-1 flex-col p-6">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Mindfulness &amp; Meditation</h3>
+<p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Techniques to reduce stress and enhance mental well-being.</p>
+<div class="mt-auto pt-4 text-lg font-bold text-primary">$39</div>
+</div>
+</div>
+</div>
+<nav aria-label="Pagination" class="mt-12 flex items-center justify-center gap-2">
+<a class="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-600 hover:bg-background-light dark:text-slate-400 dark:hover:bg-background-dark/50" href="#">
+<span class="sr-only">Previous</span>
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+</svg>
+</a>
+<a aria-current="page" class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary text-sm font-bold text-white" href="#">1</a>
+<a class="inline-flex h-10 w-10 items-center justify-center rounded-full text-sm text-slate-600 hover:bg-background-light dark:text-slate-400 dark:hover:bg-background-dark/50" href="#">2</a>
+<a class="inline-flex h-10 w-10 items-center justify-center rounded-full text-sm text-slate-600 hover:bg-background-light dark:text-slate-400 dark:hover:bg-background-dark/50" href="#">3</a>
+<a class="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-600 hover:bg-background-light dark:text-slate-400 dark:hover:bg-background-dark/50" href="#">
+<span class="sr-only">Next</span>
+<svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+</svg>
+</a>
+</nav>
+</div>
+</main>
+</div>
 
-    <section class="page-header">
-        <div class="container">
-            <h1>Training Services</h1>
-            <p>Personalized fitness solutions for your goals</p>
-        </div>
-    </section>
-
-    <section class="services">
-        <div class="container">
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">💪</div>
-                    <h3>Personal Training</h3>
-                    <p>One-on-one training sessions tailored to your specific goals and fitness level</p>
-                    <div class="price">$75/session</div>
-                    <a href="course-detail.html" class="btn btn-primary">Learn More</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🥗</div>
-                    <h3>Nutrition Coaching</h3>
-                    <p>Personalized meal plans and nutrition guidance to fuel your fitness journey</p>
-                    <div class="price">$100/month</div>
-                    <a href="course-detail.html" class="btn btn-primary">Learn More</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">📱</div>
-                    <h3>Online Coaching</h3>
-                    <p>Remote training and support through our mobile app and video calls</p>
-                    <div class="price">$150/month</div>
-                    <a href="course-detail.html" class="btn btn-primary">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>FitCoach</h3>
-                <p>Your dedicated partner in achieving optimal health and fitness</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 FitCoach. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+</body></html>

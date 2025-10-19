@@ -82,41 +82,6 @@ export const WebsiteProvider = ({ children }) => {
       if (user) {
         await loadSites();
       } else {
-        // Load saved projects for demo - only if sites array is empty
-        if (sites.length === 0) {
-          const savedSites = [...initialSites];
-          const seenIds = new Set();
-          
-          const userPrefix = `user-${user?.id || 'guest'}-`;
-          for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith(`builder-save-${userPrefix}`)) {
-              const siteId = key.replace('builder-save-', '');
-              
-              // Skip if we've already seen this ID
-              if (seenIds.has(siteId)) {
-                continue;
-              }
-              
-              try {
-                const savedData = JSON.parse(localStorage.getItem(key));
-                const siteName = savedData.siteName || `Site ${siteId.substring(0, 8)}`;
-                savedSites.push({
-                  id: siteId,
-                  name: siteName,
-                  url: `${siteName.toLowerCase().replace(/\s+/g, '-')}.videmy.com`,
-                  status: 'draft',
-                  lastEdited: new Date(savedData.timestamp).toISOString().split('T')[0],
-                  has_saved_changes: true
-                });
-                seenIds.add(siteId);
-              } catch (e) {
-                console.warn(`Failed to parse saved data for ${siteId}:`, e);
-              }
-            }
-          }
-          setSites(savedSites);
-        }
         setLoading(false);
       }
     };
@@ -125,6 +90,11 @@ export const WebsiteProvider = ({ children }) => {
   }, [user]);
 
   const loadSites = async () => {
+    if (!user?.id) {
+      setLoading(false);
+      return;
+    }
+    
     try {
       const { data, error } = await supabase
         .from('sites')
@@ -134,143 +104,75 @@ export const WebsiteProvider = ({ children }) => {
       
       if (error) throw error;
       
-      // Add saved projects from localStorage
-      const allSites = [...(data || []), ...initialSites];
-      const seenIds = new Set(allSites.map(site => site.id));
-      
-      const userPrefix = `user-${user.id}-`;
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key && key.startsWith(`builder-save-${userPrefix}`)) {
-          const siteId = key.replace('builder-save-', '');
-          
-          // Skip if we've already seen this ID
-          if (seenIds.has(siteId)) {
-            const existingSite = allSites.find(site => site.id === siteId);
-            if (existingSite) {
-              try {
-                const savedData = JSON.parse(localStorage.getItem(key));
-                existingSite.lastEdited = new Date(savedData.timestamp).toISOString().split('T')[0];
-                existingSite.has_saved_changes = true;
-                if (savedData.siteName && savedData.siteName !== existingSite.name) {
-                  existingSite.name = savedData.siteName;
-                }
-              } catch (e) {
-                console.warn(`Failed to parse saved data for ${siteId}:`, e);
-              }
-            }
-            continue;
-          }
-          
-          try {
-            const savedData = JSON.parse(localStorage.getItem(key));
-            const siteName = savedData.siteName || `Site ${siteId.substring(0, 8)}`;
-            allSites.push({
-              id: siteId,
-              name: siteName,
-              url: `${siteName.toLowerCase().replace(/\s+/g, '-')}.videmy.com`,
-              status: 'draft',
-              lastEdited: new Date(savedData.timestamp).toISOString().split('T')[0],
-              has_saved_changes: true
-            });
-            seenIds.add(siteId);
-          } catch (e) {
-            console.warn(`Failed to parse saved data for ${siteId}:`, e);
-          }
-        }
-      }
-      setSites(allSites);
+      setSites(data || []);
     } catch (error) {
-      console.warn('Error loading sites:', error?.message || 'Unknown error');
-      setSites(initialSites);
+      console.error('Error loading sites:', error?.message || 'Unknown error');
+      setSites([]);
     } finally {
       setLoading(false);
     }
   };
 
   const addSite = async (siteName, template) => {
-    // Generate truly unique ID with user prefix
-    const timestamp = Date.now();
-    const randomSuffix = Math.random().toString(36).substr(2, 9);
-    const userPrefix = `user-${user?.id || 'guest'}-`;
-    const uniqueId = `${userPrefix}site-${timestamp}-${randomSuffix}`;
-    
-    const newSite = {
-      id: uniqueId,
-      name: siteName,
-      url: `${siteName.toLowerCase().replace(/\s+/g, '-')}.videmy.com`,
-      status: 'draft',
-      lastEdited: new Date().toISOString().split('T')[0],
-      template: template.name,
-      templatePath: template.path,
-      templateId: template.id
-    };
-    
-    if (!user) {
-      // For non-authenticated users, just add to local state
-      setSites(prevSites => [newSite, ...prevSites]);
-      return newSite;
+    if (!user?.id) {
+      throw new Error('User must be authenticated to create sites');
     }
+    
+    console.log('Creating site with template:', template);
     
     const supabaseSite = {
       user_id: user.id,
       name: siteName,
-      url: `${siteName.toLowerCase().replace(/\s+/g, '-')}.videmy.com`,
+      url: `${siteName.toLowerCase().replace(/\s+/g, '-')}.learnfast.com`,
       status: 'draft',
       last_edited: new Date().toISOString().split('T')[0],
       template_id: template.id,
       template_path: template.path,
     };
     
+    console.log('Inserting to DB:', supabaseSite);
+    
     try {
-      const { data, error } = await supabase
+      // Insert site into database
+      const { data: siteData, error: siteError } = await supabase
         .from('sites')
         .insert([supabaseSite])
         .select()
         .single();
       
-      if (error) {
-        // If Supabase fails, still add to local state
-        setSites(prevSites => [newSite, ...prevSites]);
-        return newSite;
-      }
+      console.log('DB insert result:', { siteData, siteError });
       
-      setSites(prevSites => [data, ...prevSites]);
-      return data;
+      if (siteError) throw siteError;
+      
+
+      
+      // Add to local state
+      setSites(prevSites => [siteData, ...prevSites]);
+      return siteData;
     } catch (error) {
-      // Site creation failed - error details omitted for security
+      console.error('Failed to create site:', error);
       throw error;
     }
   };
 
   const deleteSite = async (id) => {
+    if (!user?.id) return;
+    
     try {
-      // Always remove from local state first
+      // Delete site (CASCADE will handle website_builder_saves)
+      const { error } = await supabase
+        .from('sites')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', user.id);
+      
+      if (error) throw error;
+      
+      // Remove from local state
       setSites(prevSites => prevSites.filter(site => site.id !== id));
-      
-      // Remove from localStorage if it exists (user-specific)
-      localStorage.removeItem(`builder-save-${id}`);
-      
-      // Also clean up any old non-prefixed entries
-      if (user && !id.startsWith(`user-${user.id}-`)) {
-        localStorage.removeItem(`builder-save-user-${user.id}-${id}`);
-      }
-      
-      // Only try to delete from Supabase if user is authenticated
-      if (user) {
-        const { error } = await supabase
-          .from('sites')
-          .delete()
-          .eq('id', id);
-        
-        if (error) {
-          // Don't throw error for Supabase failures, local deletion already succeeded
-        }
-      }
     } catch (error) {
-      console.error('Error deleting site:', error);
-      // Re-add the site if deletion failed
-      loadSites();
+      console.error('Failed to delete site:', error);
+      throw error;
     }
   };
 

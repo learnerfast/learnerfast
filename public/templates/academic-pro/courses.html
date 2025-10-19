@@ -1,690 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses - AcademyPro | Professional Course Platform</title>
-    <meta name="description" content="Explore our comprehensive catalog of professional courses taught by industry experts. Advance your career with practical skills in technology, business, and more.">
-    <meta name="keywords" content="online courses, professional development, technology training, business skills, certification courses">
-    
-    <link rel="canonical" href="https://academypro.com/courses">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <!-- Structured Data for Course Listings -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "AcademyPro Courses",
-      "description": "Professional courses for career advancement",
-      "itemListElement": [
-        {
-          "@type": "Course",
-          "name": "Data Science Fundamentals",
-          "description": "Master Python, statistics, and machine learning to extract insights from data and drive business decisions.",
-          "provider": {
-            "@type": "Organization",
-            "name": "AcademyPro"
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#1173d4",
+            "background-light": "#f6f7f8",
+            "background-dark": "#101922",
           },
-          "courseCode": "DS101",
-          "educationalLevel": "Intermediate",
-          "timeRequired": "P12W",
-          "offers": {
-            "@type": "Offer",
-            "price": "299",
-            "priceCurrency": "USD"
-          }
+          fontFamily: {
+            "display": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
         },
-        {
-          "@type": "Course",
-          "name": "Digital Marketing Strategy",
-          "description": "Learn to create effective digital marketing campaigns across social media, email, and search platforms.",
-          "provider": {
-            "@type": "Organization",
-            "name": "AcademyPro"
-          },
-          "courseCode": "DM101",
-          "educationalLevel": "Beginner",
-          "timeRequired": "P8W",
-          "offers": {
-            "@type": "Offer",
-            "price": "199",
-            "priceCurrency": "USD"
-          }
-        }
-      ]
+      },
     }
-    </script>
+  </script>
 </head>
-<body>
-    <header class="header" role="banner">
-        <nav class="navbar" role="navigation" aria-label="Main navigation">
-            <div class="nav-container">
-                <a href="index.html" class="logo" aria-label="AcademyPro Home">
-                    <span class="logo-text">AcademyPro</span>
-                </a>
-                
-                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                
-                <ul class="nav-links" role="menubar">
-                    <li role="none"><a href="index.html" role="menuitem">Home</a></li>
-                    <li role="none"><a href="about.html" role="menuitem">About</a></li>
-                    <li role="none"><a href="courses.html" role="menuitem" aria-current="page">Courses</a></li>
-                    <li role="none"><a href="contact.html" role="menuitem">Contact</a></li>
-                </ul>
-                
-                <div class="nav-actions">
-                    <a href="signin.html" class="btn btn-outline">Sign In</a>
-                    <a href="register.html" class="btn btn-primary">Get Started</a>
-                </div>
-            </div>
-        </nav>
-    </header>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<div class="flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Academic Pro</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex flex-1 justify-center px-4 py-10 sm:px-6 lg:px-8">
+<div class="w-full max-w-7xl">
+<div class="mb-8 text-center">
+<h2 class="text-4xl font-extrabold tracking-tight text-black dark:text-white sm:text-5xl">Course Catalog</h2>
+<p class="mt-4 max-w-2xl mx-auto text-lg text-black/60 dark:text-white/60">Explore our extensive library of programming courses, designed to help you master new skills and advance your career.</p>
+</div>
+<div class="mb-6 flex flex-wrap items-center justify-center gap-4">
+<button class="flex h-10 items-center gap-2 rounded-lg bg-black/5 dark:bg-white/5 px-4 text-sm font-medium text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+              Sort by
+              <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
+</button>
+<button class="flex h-10 items-center gap-2 rounded-lg bg-black/5 dark:bg-white/5 px-4 text-sm font-medium text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+              Category
+              <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
+</button>
+<button class="flex h-10 items-center gap-2 rounded-lg bg-black/5 dark:bg-white/5 px-4 text-sm font-medium text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+              Difficulty
+              <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
+</button>
+<button class="flex h-10 items-center gap-2 rounded-lg bg-black/5 dark:bg-white/5 px-4 text-sm font-medium text-black dark:text-white hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
+              Price
+              <svg fill="currentColor" height="20" viewBox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
+</button>
+</div>
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl"><div class="aspect-video overflow-hidden"><img alt="Python course thumbnail" class="h-full w-full object-cover transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMgPGNY6NfzagJ9eqvq5Y9Ax0ByOta2eDiYA3-pjhhFMfQycA_cgGKVXt5sUGyEEULiWetBkb3mq3N99H4C3HWmXbt3p1IJwdN0HdQOrvO3M1DfhixyIL9-4OLG59UXKZUDULFN0y8T8vjolbFKMAOCMo3UZmKVtoI9nB3BkTKedZmt9VdQuG2F35KWew5qFB1_79No67nPlvxHf-pgZOH7MrERDo7t_b_s9f3b29TC11CTjXACuX8WOsuZMKx3hhXhldrpLE0O2EM"/></div><div class="flex flex-1 flex-col p-4"><h3 class="font-bold text-black dark:text-white">Python for Beginners</h3><p class="text-sm text-black/60 dark:text-white/60">Dr. Anya Sharma</p><p class="mt-2 text-sm text-black/80 dark:text-white/80 flex-grow">Start your coding journey with the fundamentals of Python.</p><div class="mt-4 flex items-center justify-between"><span class="text-lg font-bold text-primary">$49.99</span><button class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">Enroll Now</button></div></div></div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl"><div class="aspect-video overflow-hidden"><img alt="JavaScript course thumbnail" class="h-full w-full object-cover transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMGe35kIaNp73VOqya0a1H97hYmlbQVy3RRGE_HcwTKKZZI0ee7GjNvOH5FXYWmYibzviTByhRmWL2MbgeNLGbq_zDuHJ52K1YzCzGuKqCR8scT7HI7NoJLTHR-kzAWEzAC-WyAmBJA6u1bBbHmFxcwRhvgfPbkDuoxQhXiYlI7rdz11BbJeeimPTqGyhcMbvZTwOqUhxvhfV4Ti9s4F7kiXZOLNEmYiqJJr9o-dx18tJhqNd9dqIud-hbkPdoQixBJI9ufEz1lEBh"/></div><div class="flex flex-1 flex-col p-4"><h3 class="font-bold text-black dark:text-white">Advanced JavaScript</h3><p class="text-sm text-black/60 dark:text-white/60">Mr. Ethan Carter</p><p class="mt-2 text-sm text-black/80 dark:text-white/80 flex-grow">Deep dive into advanced JavaScript concepts and frameworks.</p><div class="mt-4 flex items-center justify-between"><span class="text-lg font-bold text-primary">$79.99</span><button class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">Enroll Now</button></div></div></div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl"><div class="aspect-video overflow-hidden"><img alt="Data Science course thumbnail" class="h-full w-full object-cover transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpuem_pB1tV-Uru-_DT5Ta_GY2hdXwdiOz_883-55FzvLcazeuptsICUpgaPilJQ4nDllaKaS37q9vB8XEy6JZ5am2nowuuA-V_uxdNz3Ioo2vMwYI62dGFz4o6BQEf34oAlQWtz5z-mo8l2IV1KRz1QZub_Je0PxjNoeSP96huiyY7ugnFAm2i14ZNclk0IDqbTCvNUHM2K8J-t_ifcUhORnuRE_3IBR8XpiTbR0cxppshFndn_MOVNxqVlIyLeL686i87CCymJZf"/></div><div class="flex flex-1 flex-col p-4"><h3 class="font-bold text-black dark:text-white">Data Science with R</h3><p class="text-sm text-black/60 dark:text-white/60">Dr. Olivia Bennett</p><p class="mt-2 text-sm text-black/80 dark:text-white/80 flex-grow">Unlock insights from data using the R programming language.</p><div class="mt-4 flex items-center justify-between"><span class="text-lg font-bold text-primary">$99.99</span><button class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">Enroll Now</button></div></div></div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl"><div class="aspect-video overflow-hidden"><img alt="Swift course thumbnail" class="h-full w-full object-cover transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD00KUKxmbFrsNc-OcHkukSq4CfSlG_1XSnlab4GFZAH0OYOv2qlul2XFo4_LT-qcLbWEgsya1Gbt9pHyc0V2kywGwhR1kSo6zHxaHxr-CqoedhU25KV-QU-5t5gjKzP7syX9dsiApZzswr-R4LVueaM-fWerHI_8t7-8cpB6yAJzfx8I2OIBQc2Vk9_-efjA-u0OOvemZGQSE9GttXWWavbkcXDbASZBhZDN577ySK88Gutif801KXIZUAaz0AUhWKWjmaK3h_iokN"/></div><div class="flex flex-1 flex-col p-4"><h3 class="font-bold text-black dark:text-white">Mobile App Development with Swift</h3><p class="text-sm text-black/60 dark:text-white/60">Mr. Noah Thompson</p><p class="mt-2 text-sm text-black/80 dark:text-white/80 flex-grow">Build beautiful and performant iOS applications with Swift.</p><div class="mt-4 flex items-center justify-between"><span class="text-lg font-bold text-primary">$89.99</span><button class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">Enroll Now</button></div></div></div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl"><div class="aspect-video overflow-hidden"><img alt="Machine Learning course thumbnail" class="h-full w-full object-cover transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB8fVYdnhX670TPVXV5wjftvsZLOH4R1jqDpYf9koFKPH97zvG82b6xnlEX9H1GumIe8H5FcEPgIX0_ZISlN0i8-CiZg_dYW4yS-Eo4EY1D1XxBGKdRi21rgbkOVbWct3lawm1NlQsWfliJefLFZ8L0ELl0-n0bp7JaahSiCN9g-Zc3bt3pbLuVLm4kR30qXnqCp8laxKJx-BoG07h9XHwdorHiAtwg38-OFpjeKEeMRxMIIF2Eo6SCWRnXgzsAUQByMgn3Zk1WJ6L"/></div><div class="flex flex-1 flex-col p-4"><h3 class="font-bold text-black dark:text-white">Machine Learning Fundamentals</h3><p class="text-sm text-black/60 dark:text-white/60">Dr. Isabella Rossi</p><p class="mt-2 text-sm text-black/80 dark:text-white/80 flex-grow">Grasp the core concepts of machine learning and AI.</p><div class="mt-4 flex items-center justify-between"><span class="text-lg font-bold text-primary">$129.99</span><button class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">Enroll Now</button></div></div></div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl"><div class="aspect-video overflow-hidden"><img alt="React course thumbnail" class="h-full w-full object-cover transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChsgYCh3s1fcd7YVD5VbWEK4qWdEy49W2eUCF4wAxSAMG_azKqqp0HjQclYfTfhKRtuPP06g1hc8FjkL1MTQG__KC5W2Hb51pHu8UiRAHRCYwR-pZbdz_XmqBz7KBaPvNWEOT3-ikl1acdxNatNNWAYNPeuoPGs5sN-QB0yOS-DSp4de1OT5Sm_R9631awmSBlo6-9crpEnvUwn-Gb7JZwg8BlRunDsDDOCF9K_fSYR9bBRBXrhWvuYT_3uPD4sHsXypTpOrbL_hZp"/></div><div class="flex flex-1 flex-col p-4"><h3 class="font-bold text-black dark:text-white">Web Development with React</h3><p class="text-sm text-black/60 dark:text-white/60">Mr. Liam Harper</p><p class="mt-2 text-sm text-black/80 dark:text-white/80 flex-grow">Create modern, dynamic web applications with React.</p><div class="mt-4 flex items-center justify-between"><span class="text-lg font-bold text-primary">$79.99</span><button class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">Enroll Now</button></div></div></div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl"><div class="aspect-video overflow-hidden"><img alt="Database course thumbnail" class="h-full w-full object-cover transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUfXIxl-2_bJnyP2EUb9jFiJkKUfTNdl0Nr_e63WiLP8ZzZZPNZcC18A3TuW1uAtUPTszmLQ92-9d2TeoZ7SEjOMXTgcn_kH8nHCbpcGu86Zzg5MJeBKzVAUN9rwIfp5GPhM-4YkrmccTyTU3A4K21kcyVs7sY5_tzc1l_g3AVo5nhOu-Fs0BnB2gQZMfZL8CeLo2HrqEde9Rc_sUzPbuJr6DUAfIUWsSKB131WcJve1vSuvbNg3NVlCgz5_BzKMhj7DXzBsAk7RXe"/></div><div class="flex flex-1 flex-col p-4"><h3 class="font-bold text-black dark:text-white">Database Design and Management</h3><p class="text-sm text-black/60 dark:text-white/60">Dr. Sophia Clark</p><p class="mt-2 text-sm text-black/80 dark:text-white/80 flex-grow">Learn to design and manage efficient database systems.</p><div class="mt-4 flex items-center justify-between"><span class="text-lg font-bold text-primary">$69.99</span><button class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">Enroll Now</button></div></div></div>
+<div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl"><div class="aspect-video overflow-hidden"><img alt="Cybersecurity course thumbnail" class="h-full w-full object-cover transition-transform group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoMw_wWU7WTLnPH-qh96JqclJtn1DSMASoq4szZsKD8WOPs3dpzbzpOa4jRVGVnnom3A00uaj70_2ahYQFuYGR_IVnNyk52j_Avt9rPldKWAw_-tTmjl-2ViFTMG765LsFMgur6n6fMhnEbgy72Xoy124jiff14IAlmsPePEwK1V50kV3OYjFwN0YAozmkydXUDPY8dfwkx91Q4aR3ENIJa3aR5Ka1A46PtPiBiLAGrhT02BwJWQ73cSVaSwF_gW1Vgu3wDmyrRHCG"/></div><div class="flex flex-1 flex-col p-4"><h3 class="font-bold text-black dark:text-white">Cybersecurity Essentials</h3><p class="text-sm text-black/60 dark:text-white/60">Mr. Owen Mitchell</p><p class="mt-2 text-sm text-black/80 dark:text-white/80 flex-grow">Protect systems and data with essential cybersecurity skills.</p><div class="mt-4 flex items-center justify-between"><span class="text-lg font-bold text-primary">$109.99</span><button class="rounded-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-primary/90">Enroll Now</button></div></div></div>
+</div>
+</div>
+</main>
+<footer class="border-t border-black/10 dark:border-white/10">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col items-center justify-between gap-4 md:flex-row">
+<nav class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+<a class="text-sm text-black/60 dark:text-white/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">About</a>
+<a class="text-sm text-black/60 dark:text-white/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">Contact</a>
+<a class="text-sm text-black/60 dark:text-white/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-black/60 dark:text-white/60 hover:text-primary dark:hover:text-primary transition-colors" href="#">Terms of Service</a>
+</nav>
+<p class="text-sm text-black/60 dark:text-white/60">© 2024 CodeCraft Academy. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+</div>
 
-    <main role="main">
-        <section class="page-hero" aria-labelledby="courses-title">
-            <div class="container">
-                <div class="page-hero-content">
-                    <h1 id="courses-title" class="page-title">Professional Courses</h1>
-                    <p class="page-subtitle">
-                        Advance your career with expert-led courses designed for working professionals. 
-                        Learn practical skills you can apply immediately.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section class="filters-section" aria-label="Course filters">
-            <div class="container">
-                <div class="filters-container">
-                    <div class="filter-group">
-                        <label for="category-filter" class="filter-label">Category:</label>
-                        <select id="category-filter" class="filter-select" aria-label="Filter by category">
-                            <option value="all">All Categories</option>
-                            <option value="technology">Technology</option>
-                            <option value="business">Business</option>
-                            <option value="design">Design</option>
-                            <option value="marketing">Marketing</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="level-filter" class="filter-label">Level:</label>
-                        <select id="level-filter" class="filter-select" aria-label="Filter by difficulty level">
-                            <option value="all">All Levels</option>
-                            <option value="beginner">Beginner</option>
-                            <option value="intermediate">Intermediate</option>
-                            <option value="advanced">Advanced</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="duration-filter" class="filter-label">Duration:</label>
-                        <select id="duration-filter" class="filter-select" aria-label="Filter by course duration">
-                            <option value="all">Any Duration</option>
-                            <option value="short">1-4 weeks</option>
-                            <option value="medium">5-12 weeks</option>
-                            <option value="long">13+ weeks</option>
-                        </select>
-                    </div>
-                    
-                    <div class="search-group">
-                        <label for="search-input" class="sr-only">Search courses</label>
-                        <input type="search" id="search-input" class="search-input" placeholder="Search courses..." aria-label="Search courses">
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="courses-catalog" aria-labelledby="catalog-title">
-            <div class="container">
-                <h2 id="catalog-title" class="sr-only">Course Catalog</h2>
-                
-                <div class="courses-grid" id="courses-grid">
-                    <article class="course-card" data-category="technology" data-level="intermediate" data-duration="medium">
-                        <div class="course-image">
-                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
-                                 alt="Data Science course materials and laptop" loading="lazy">
-                            <div class="course-level">Intermediate</div>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-category">Technology</div>
-                            <h3 class="course-title">Data Science Fundamentals</h3>
-                            <p class="course-description">
-                                Master Python, statistics, and machine learning to extract insights from data and drive business decisions.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration">12 weeks</span>
-                                <span class="course-students">2,847 students</span>
-                                <div class="course-rating">
-                                    <span class="rating-stars">★★★★★</span>
-                                    <span class="rating-score">4.8</span>
-                                </div>
-                            </div>
-                            <div class="course-footer">
-                                <div class="course-price">$299</div>
-                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </article>
-                    
-                    <article class="course-card" data-category="marketing" data-level="beginner" data-duration="medium">
-                        <div class="course-image">
-                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
-                                 alt="Digital marketing dashboard and analytics" loading="lazy">
-                            <div class="course-level">Beginner</div>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-category">Marketing</div>
-                            <h3 class="course-title">Digital Marketing Strategy</h3>
-                            <p class="course-description">
-                                Learn to create effective digital marketing campaigns across social media, email, and search platforms.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration">8 weeks</span>
-                                <span class="course-students">4,123 students</span>
-                                <div class="course-rating">
-                                    <span class="rating-stars">★★★★★</span>
-                                    <span class="rating-score">4.7</span>
-                                </div>
-                            </div>
-                            <div class="course-footer">
-                                <div class="course-price">$199</div>
-                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </article>
-                    
-                    <article class="course-card" data-category="business" data-level="advanced" data-duration="medium">
-                        <div class="course-image">
-                            <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
-                                 alt="Project management meeting with team" loading="lazy">
-                            <div class="course-level">Advanced</div>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-category">Business</div>
-                            <h3 class="course-title">Agile Project Management</h3>
-                            <p class="course-description">
-                                Master agile methodologies and lead high-performing teams to deliver projects on time and within budget.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration">10 weeks</span>
-                                <span class="course-students">1,956 students</span>
-                                <div class="course-rating">
-                                    <span class="rating-stars">★★★★★</span>
-                                    <span class="rating-score">4.9</span>
-                                </div>
-                            </div>
-                            <div class="course-footer">
-                                <div class="course-price">$399</div>
-                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </article>
-                    
-                    <article class="course-card" data-category="design" data-level="intermediate" data-duration="medium">
-                        <div class="course-image">
-                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
-                                 alt="UX design wireframes and prototypes" loading="lazy">
-                            <div class="course-level">Intermediate</div>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-category">Design</div>
-                            <h3 class="course-title">UX/UI Design Mastery</h3>
-                            <p class="course-description">
-                                Create user-centered designs that drive engagement and conversion through proven UX/UI principles.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration">14 weeks</span>
-                                <span class="course-students">3,241 students</span>
-                                <div class="course-rating">
-                                    <span class="rating-stars">★★★★★</span>
-                                    <span class="rating-score">4.8</span>
-                                </div>
-                            </div>
-                            <div class="course-footer">
-                                <div class="course-price">$349</div>
-                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </article>
-                    
-                    <article class="course-card" data-category="technology" data-level="beginner" data-duration="short">
-                        <div class="course-image">
-                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
-                                 alt="Web development code on computer screen" loading="lazy">
-                            <div class="course-level">Beginner</div>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-category">Technology</div>
-                            <h3 class="course-title">Web Development Basics</h3>
-                            <p class="course-description">
-                                Learn HTML, CSS, and JavaScript fundamentals to build responsive websites from scratch.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration">6 weeks</span>
-                                <span class="course-students">5,672 students</span>
-                                <div class="course-rating">
-                                    <span class="rating-stars">★★★★☆</span>
-                                    <span class="rating-score">4.6</span>
-                                </div>
-                            </div>
-                            <div class="course-footer">
-                                <div class="course-price">$149</div>
-                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </article>
-                    
-                    <article class="course-card" data-category="business" data-level="intermediate" data-duration="short">
-                        <div class="course-image">
-                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=250" 
-                                 alt="Financial analysis charts and graphs" loading="lazy">
-                            <div class="course-level">Intermediate</div>
-                        </div>
-                        <div class="course-content">
-                            <div class="course-category">Business</div>
-                            <h3 class="course-title">Financial Analysis</h3>
-                            <p class="course-description">
-                                Master financial modeling, valuation techniques, and investment analysis for better business decisions.
-                            </p>
-                            <div class="course-meta">
-                                <span class="course-duration">8 weeks</span>
-                                <span class="course-students">2,134 students</span>
-                                <div class="course-rating">
-                                    <span class="rating-stars">★★★★★</span>
-                                    <span class="rating-score">4.7</span>
-                                </div>
-                            </div>
-                            <div class="course-footer">
-                                <div class="course-price">$279</div>
-                                <a href="course-detail.html" class="btn btn-primary">Enroll Now</a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                
-                <div class="pagination" role="navigation" aria-label="Course pagination">
-                    <button class="pagination-btn" aria-label="Previous page" disabled>Previous</button>
-                    <button class="pagination-btn active" aria-current="page">1</button>
-                    <button class="pagination-btn">2</button>
-                    <button class="pagination-btn">3</button>
-                    <button class="pagination-btn" aria-label="Next page">Next</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="newsletter-section">
-            <div class="container">
-                <div class="newsletter-content">
-                    <h2 class="newsletter-title">Stay Updated</h2>
-                    <p class="newsletter-description">
-                        Get notified about new courses, special offers, and learning resources.
-                    </p>
-                    <form class="newsletter-form" aria-label="Newsletter signup">
-                        <label for="email-input" class="sr-only">Email address</label>
-                        <input type="email" id="email-input" class="newsletter-input" placeholder="Enter your email" required aria-describedby="email-help">
-                        <button type="submit" class="btn btn-primary">Subscribe</button>
-                        <div id="email-help" class="sr-only">We'll send you updates about new courses and offers</div>
-                    </form>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer" role="contentinfo">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3 class="footer-title">AcademyPro</h3>
-                <p class="footer-description">
-                    Empowering professionals worldwide with expert-led courses and practical skills for career advancement.
-                </p>
-                <div class="social-links">
-                    <a href="#" aria-label="Follow us on LinkedIn">LinkedIn</a>
-                    <a href="#" aria-label="Follow us on Twitter">Twitter</a>
-                    <a href="#" aria-label="Follow us on YouTube">YouTube</a>
-                </div>
-            </div>
-            
-            <div class="footer-section">
-                <h4 class="footer-heading">Courses</h4>
-                <ul class="footer-links">
-                    <li><a href="courses.html">All Courses</a></li>
-                    <li><a href="#">Technology</a></li>
-                    <li><a href="#">Business</a></li>
-                    <li><a href="#">Design</a></li>
-                    <li><a href="#">Marketing</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4 class="footer-heading">Company</h4>
-                <ul class="footer-links">
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Press</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4 class="footer-heading">Support</h4>
-                <ul class="footer-links">
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Accessibility</a></li>
-                    <li><a href="#">Sitemap</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 AcademyPro. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Mobile menu toggle
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        
-        mobileMenuToggle.addEventListener('click', () => {
-            const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
-            mobileMenuToggle.setAttribute('aria-expanded', !isExpanded);
-            navLinks.classList.toggle('active');
-        });
-        
-        // Course filtering functionality
-        const categoryFilter = document.getElementById('category-filter');
-        const levelFilter = document.getElementById('level-filter');
-        const durationFilter = document.getElementById('duration-filter');
-        const searchInput = document.getElementById('search-input');
-        const coursesGrid = document.getElementById('courses-grid');
-        const courseCards = document.querySelectorAll('.course-card');
-        
-        function filterCourses() {
-            const categoryValue = categoryFilter.value;
-            const levelValue = levelFilter.value;
-            const durationValue = durationFilter.value;
-            const searchValue = searchInput.value.toLowerCase();
-            
-            courseCards.forEach(card => {
-                const category = card.dataset.category;
-                const level = card.dataset.level;
-                const duration = card.dataset.duration;
-                const title = card.querySelector('.course-title').textContent.toLowerCase();
-                const description = card.querySelector('.course-description').textContent.toLowerCase();
-                
-                const categoryMatch = categoryValue === 'all' || category === categoryValue;
-                const levelMatch = levelValue === 'all' || level === levelValue;
-                const durationMatch = durationValue === 'all' || duration === durationValue;
-                const searchMatch = searchValue === '' || title.includes(searchValue) || description.includes(searchValue);
-                
-                if (categoryMatch && levelMatch && durationMatch && searchMatch) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-        
-        categoryFilter.addEventListener('change', filterCourses);
-        levelFilter.addEventListener('change', filterCourses);
-        durationFilter.addEventListener('change', filterCourses);
-        searchInput.addEventListener('input', filterCourses);
-        
-        // Newsletter form submission
-        const newsletterForm = document.querySelector('.newsletter-form');
-        newsletterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = document.getElementById('email-input').value;
-            alert('Thank you for subscribing! We\'ll keep you updated with our latest courses.');
-            document.getElementById('email-input').value = '';
-        });
-        
-        // Focus management for accessibility
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                if (navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                    mobileMenuToggle.focus();
-                }
-            }
-        });
-    </script>
-
-    <style>
-        /* Additional styles for Courses page */
-        .page-hero {
-            background: linear-gradient(135deg, var(--background-secondary) 0%, var(--background-accent) 100%);
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .page-title {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .page-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .filters-section {
-            background: var(--background-primary);
-            padding: 2rem 0;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        .filters-container {
-            display: flex;
-            gap: 2rem;
-            align-items: end;
-            flex-wrap: wrap;
-        }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .filter-label {
-            font-weight: 500;
-            color: var(--text-primary);
-            font-size: 0.875rem;
-        }
-
-        .filter-select {
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius);
-            background: var(--background-primary);
-            color: var(--text-primary);
-            font-size: 0.875rem;
-            min-width: 150px;
-        }
-
-        .filter-select:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .search-group {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border-color);
-            border-radius: var(--border-radius);
-            background: var(--background-primary);
-            color: var(--text-primary);
-            font-size: 0.875rem;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        .courses-catalog {
-            padding: 4rem 0;
-            background: var(--background-secondary);
-        }
-
-        .course-category {
-            font-size: 0.75rem;
-            color: var(--accent-color);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-        }
-
-        .course-rating {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .rating-stars {
-            color: #fbbf24;
-            font-size: 0.875rem;
-        }
-
-        .rating-score {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.875rem;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 3rem;
-        }
-
-        .pagination-btn {
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--border-color);
-            background: var(--background-primary);
-            color: var(--text-primary);
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .pagination-btn:hover:not(:disabled) {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-        }
-
-        .pagination-btn.active {
-            background: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
-
-        .pagination-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .newsletter-section {
-            background: var(--primary-color);
-            color: white;
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .newsletter-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: white;
-        }
-
-        .newsletter-description {
-            font-size: 1.125rem;
-            margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .newsletter-form {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .newsletter-input {
-            flex: 1;
-            min-width: 250px;
-            padding: 0.75rem 1rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: var(--border-radius);
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            font-size: 0.875rem;
-        }
-
-        .newsletter-input::placeholder {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .newsletter-input:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .filters-container {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .filter-group {
-                width: 100%;
-            }
-
-            .filter-select {
-                min-width: auto;
-            }
-
-            .newsletter-form {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .newsletter-input {
-                min-width: auto;
-            }
-        }
-    </style>
-</body>
-</html>
+</body></html>

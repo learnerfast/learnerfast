@@ -1,78 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classes - ZenFlow</title>
-    <link rel="stylesheet" href="css/style.css">
+
+<html class="" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitLife - Fitness Courses</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=container-queries"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#c92b28", "background-light": "#f8f6f6", "background-dark": "#201212"}, fontFamily: {display: "Lexend"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">🧘♀️ ZenFlow</a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="courses.html" class="active">Classes</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="page-header">
-        <div class="container">
-            <h1>Our Classes</h1>
-            <p>Find the perfect class for your wellness journey</p>
-        </div>
-    </section>
-
-    <section class="classes">
-        <div class="container">
-            <div class="classes-grid">
-                <div class="class-card">
-                    <img src="https://images.unsplash.com/photo-1506629905607-d405b7a30db9?w=400&h=250&fit=crop" alt="Hatha Yoga">
-                    <h3>Hatha Yoga</h3>
-                    <p>Gentle yoga focusing on basic postures and breathing techniques</p>
-                    <div class="class-info">
-                        <span class="duration">60 min</span>
-                        <span class="level">Beginner</span>
-                    </div>
-                    <a href="course-detail.html" class="btn btn-primary">Learn More</a>
-                </div>
-                <div class="class-card">
-                    <img src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=400&h=250&fit=crop" alt="Vinyasa Flow">
-                    <h3>Vinyasa Flow</h3>
-                    <p>Dynamic sequences linking breath with movement</p>
-                    <div class="class-info">
-                        <span class="duration">75 min</span>
-                        <span class="level">Intermediate</span>
-                    </div>
-                    <a href="course-detail.html" class="btn btn-primary">Learn More</a>
-                </div>
-                <div class="class-card">
-                    <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&h=250&fit=crop" alt="Meditation">
-                    <h3>Meditation</h3>
-                    <p>Guided meditation sessions for inner peace and clarity</p>
-                    <div class="class-info">
-                        <span class="duration">30 min</span>
-                        <span class="level">All Levels</span>
-                    </div>
-                    <a href="course-detail.html" class="btn btn-primary">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>ZenFlow</h3>
-                <p>Your journey to wellness and inner peace starts here</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 ZenFlow. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Mindful Movement</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+<div class="text-center mb-12">
+<h2 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl">Explore Our Fitness Courses</h2>
+<p class="mt-4 text-lg text-gray-600 dark:text-gray-400">Choose from a variety of courses designed to help you achieve your fitness goals.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="flex flex-col bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+<div class="relative w-full aspect-video overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBIXvYFrJmn_BiKRBTCV2_C2Hg4KKVWRsPpjF2U1_OgB0ch41xLDHdl32HS2z3IuvQpHqih3SZtTDKhik530E5wkcGN6BcfCHce9__h8GrfCTsOxHy3Mfom2pYhJCUUpLXL4xCiqpXDmMkXXFDN8tjyMnWbH5g1Xjdrceg_ORQ8Mh7_ruqHzXPYlgdaqSf3O72--Do8w9zOIMvSKVrjpmsJD_kBU-jIx6Pefj36NBK3fVMnOBF_mN1lTNpGQfRCN2LchfSZa_K_MRYN");'></div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Yoga for Beginners</h3>
+<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Learn the fundamentals of yoga with this beginner-friendly course.</p>
+</div>
+<button class="mt-6 w-full flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary/90 transition-colors">
+                View Course
+              </button>
+</div>
+</div>
+<div class="flex flex-col bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+<div class="relative w-full aspect-video overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCaTSOPAtsj0AO-ceTAoikN_ktdlbGN3YfHWaYLLaMa75IDgyJmn70yfm5JxAdxDXuzni_r9mrqzAbDpo_ovsVn9rBkP90mTcueYcZWHyS8YG9N4WOdmJsM5P6SLC-R5KgRKXYfzjkZksnxGSrMDXfwYFScBUbMOZ2vKl4CA7Q15m3jOQ0Qi0yP-WmYWStc72A1m5DKcDuabi-OeOnicnVSkWSczu3LwdgcAKgHvNRfUh4Xhca682ZvQexzaF3Zk_GWKE9IvxQS5OZD");'></div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Strength Training Basics</h3>
+<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Build strength and muscle with our comprehensive strength training program.</p>
+</div>
+<button class="mt-6 w-full flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary/90 transition-colors">
+                View Course
+              </button>
+</div>
+</div>
+<div class="flex flex-col bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+<div class="relative w-full aspect-video overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD0BeYIdkKZ97a5VFRPoqYZQYsYbCEAY68EYPwU1rZl34acbeq7l9q2exQ_sCQnQKyJy48tiXYpV4FDeO998QmtjZ78QuZqof96oNe7CICLq-ohvmVcV3Jcr1PqmUFESapJHrbpazLkdfUhBAf2v-pydW1Vjb_Ud8Kk3B2caAUsUk9H-_6NnQjvnKwtz9o55Ni0tYfsMQDyDyY1zuDvdSgwFYMocKemXLWK0VEP-rlnKulmMIRRGXNEHk35ZspAe4Jalj3Y3v2U5l6G");'></div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Cardio Blast</h3>
+<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Get your heart pumping with our high-energy cardio workouts.</p>
+</div>
+<button class="mt-6 w-full flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary/90 transition-colors">
+                View Course
+              </button>
+</div>
+</div>
+<div class="flex flex-col bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+<div class="relative w-full aspect-video overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCixmf3dvP4wkme365FXYkg0dFcC2izuFqQEq4lRuMbByd5CDwSi_eNzi7AAx1M9lfl5g_uHtWREZffJjOjG0VdgMFen94eL3aNeWNTUPVoT-dDqFsTKDtgKDYCsTWkAr2swsE8-iHLuVvIL_-BdDS1QFDp9T0_BuuucM-3Ku9-tIBciP8XU0H0a39zAn9UDZODvgp0Zglc_R49hpnsVtR4FVz5ZGgruIhbwIZbcc2L_HRLB7Y4yqrrnwlhtLRRYEv-Z6v6YyveEIox");'></div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Pilates Core</h3>
+<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Strengthen your core and improve flexibility with our Pilates course.</p>
+</div>
+<button class="mt-6 w-full flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary/90 transition-colors">
+                View Course
+              </button>
+</div>
+</div>
+<div class="flex flex-col bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+<div class="relative w-full aspect-video overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDmHMuaGDivbmqXoI0i4C-sLQgEWZmRxdrRvb8eHGM8Ofx42p5tufixC8OhuucAhB3f_jpHw71SUbf3MWYOLSlKguQcm9sW0hz9wvFE1rNTdfk-FVp2jRTQZAwi5KUtqSFdRbZnhAR2FXtK4NsHvDo0fulnIVJam-mzxjpdZsuTEWz3LcjTSn6qpPRSfWX9anbAd25WGeD0Vo5WpwHUwO46KZ0cfcAJso-BHnWkWvlU2azIPtx-APDu6DuYsQ0ixGDZWr2iSNPa-iZF");'></div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Advanced Yoga</h3>
+<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Take your yoga practice to the next level with advanced poses and sequences.</p>
+</div>
+<button class="mt-6 w-full flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary/90 transition-colors">
+                View Course
+              </button>
+</div>
+</div>
+<div class="flex flex-col bg-background-light dark:bg-background-dark border border-primary/20 rounded-xl overflow-hidden shadow-lg hover:shadow-primary/20 transition-all duration-300 group">
+<div class="relative w-full aspect-video overflow-hidden">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-300 group-hover:scale-105" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBeBzmh1SEq8v8PmVCjqwKYbxKIhkAk-YpL5T_r83RzmiffiSy5pGo0p89RpYWV9toYaGunxlVZfeiAlW56HpiNAm6zFOFo302KcsCrevZCuGSCLIKEKQqGHiHxs8XEG9vc5gh-r4TptkjB66IjVRBNm7Dkf_II-Hls5UCzSFLV8HeiYtMyialuUhbM-YYqdhkvnbrcnG8IgTyThPCoirPbWcWHMLilDd09Zzt6iC4TPf6avmYl37qcXkJHRz8pjNAazvRLOHELZBNP");'></div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">HIIT Challenge</h3>
+<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Push your limits with our high-intensity interval training challenge.</p>
+</div>
+<button class="mt-6 w-full flex items-center justify-center rounded-lg h-10 px-4 bg-primary text-white text-sm font-bold shadow-sm hover:bg-primary/90 transition-colors">
+                View Course
+              </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

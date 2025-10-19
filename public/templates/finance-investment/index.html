@@ -1,342 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WealthMaster - Investment Education Platform</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FinEd - Geometric Modernist Landing Page</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#607AFB", "primary-dark": "#0d7ab5", "background-light": "#f5f6f8", "background-dark": "#0f1323", "card-dark": "#1a2831"}, fontFamily: {display: "Manrope"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+<style>
+        .hexagon {
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+        .diagonal-bg {
+            position: relative;
+        }
+        .diagonal-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #1193d4;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            z-index: 0;
+            opacity: 0.1;
+        }
+        .testimonial-card::before {
+            content: '“';
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 8rem;
+            color: #1193d4;
+            opacity: 0.1;
+            z-index: 0;
+            line-height: 1;
+        }
+    </style>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                WealthMaster
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="signin.html" class="btn btn-outline">Sign In</a>
-                <a href="register.html" class="btn btn-primary">Start Learning</a>
-            </div>
-        </div>
-    </nav>
-
-    <section class="hero">
-        <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&h=800&fit=crop');"></div>
-        <div class="hero-overlay"></div>
-        <div class="hero-container">
-            <div class="hero-content" data-aos="fade-up">
-                <div class="hero-badge">
-                    <i class="fas fa-trophy"></i>
-                    <span>#1 Investment Education</span>
-                </div>
-                <h1>Master the Art of <span class="gradient-text">Wealth Building</span></h1>
-                <p>Learn from Wall Street professionals and build a portfolio that generates consistent returns. Our proven strategies have helped thousands achieve financial freedom.</p>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">$2.5B+</span>
-                        <span class="stat-label">Student Portfolio Value</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">25.8%</span>
-                        <span class="stat-label">Avg Annual Returns</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number">50K+</span>
-                        <span class="stat-label">Successful Investors</span>
-                    </div>
-                </div>
-                <div class="hero-actions">
-                    <a href="courses.html" class="btn btn-primary btn-lg">
-                        <i class="fas fa-rocket"></i>
-                        Start Investing
-                    </a>
-                    <a href="register.html" class="btn btn-outline btn-lg">
-                        <i class="fas fa-play"></i>
-                        Free Masterclass
-                    </a>
-                </div>
-            </div>
-            <div class="hero-visual" data-aos="fade-left">
-                <div class="trading-card">
-                    <div class="card-header">
-                        <i class="fas fa-chart-area"></i>
-                        <span>Live Portfolio</span>
-                    </div>
-                    <div class="portfolio-value">
-                        <div class="value">$847,392</div>
-                        <div class="change positive">+$12,847 (+1.54%)</div>
-                    </div>
-                    <canvas id="portfolioChart" width="300" height="150"></canvas>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="courses-section">
-        <div class="container">
-            <div class="section-header" data-aos="fade-up">
-                <h2 class="section-title">Investment Mastery Courses</h2>
-                <p class="section-subtitle">Comprehensive training programs designed by Wall Street veterans to accelerate your wealth-building journey.</p>
-            </div>
-            <div class="courses-grid">
-                <div class="course-card premium" data-aos="fade-up" data-aos-delay="100">
-                    <div class="course-badge">Bestseller</div>
-                    <div class="course-header">
-                        <div class="course-icon">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                        <h3 class="course-title">Stock Market Mastery</h3>
-                        <p class="course-subtitle">Complete Stock Analysis & Trading</p>
-                    </div>
-                    <div class="course-content">
-                        <div class="course-features">
-                            <div class="feature">
-                                <i class="fas fa-video"></i>
-                                <span>40+ HD Video Lessons</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-chart-bar"></i>
-                                <span>Live Trading Sessions</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-tools"></i>
-                                <span>Professional Tools Access</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-users"></i>
-                                <span>Private Community</span>
-                            </div>
-                        </div>
-                        <div class="course-results">
-                            <div class="result-item">
-                                <span class="result-value">92%</span>
-                                <span class="result-label">Success Rate</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-value">$50K+</span>
-                                <span class="result-label">Avg Profit/Year</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">
-                            <span class="price-amount">$497</span>
-                            <span class="price-original">$997</span>
-                        </div>
-                        <div class="course-buttons">
-                            <a href="course-detail.html" class="btn btn-outline">Details</a>
-                            <a href="register.html" class="btn btn-primary">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="course-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="course-header">
-                        <div class="course-icon crypto">
-                            <i class="fab fa-bitcoin"></i>
-                        </div>
-                        <h3 class="course-title">Cryptocurrency Investing</h3>
-                        <p class="course-subtitle">Digital Assets & DeFi Strategies</p>
-                    </div>
-                    <div class="course-content">
-                        <div class="course-features">
-                            <div class="feature">
-                                <i class="fas fa-coins"></i>
-                                <span>Crypto Fundamentals</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-robot"></i>
-                                <span>DeFi & NFT Strategies</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-shield-alt"></i>
-                                <span>Security Best Practices</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-mobile-alt"></i>
-                                <span>Mobile Trading Apps</span>
-                            </div>
-                        </div>
-                        <div class="course-results">
-                            <div class="result-item">
-                                <span class="result-value">340%</span>
-                                <span class="result-label">Avg Returns</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-value">24/7</span>
-                                <span class="result-label">Market Access</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">
-                            <span class="price-amount">$397</span>
-                            <span class="price-original">$697</span>
-                        </div>
-                        <div class="course-buttons">
-                            <a href="course-detail.html" class="btn btn-outline">Details</a>
-                            <a href="register.html" class="btn btn-primary">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="course-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="course-header">
-                        <div class="course-icon real-estate">
-                            <i class="fas fa-building"></i>
-                        </div>
-                        <h3 class="course-title">Real Estate Investing</h3>
-                        <p class="course-subtitle">Property Investment & REITs</p>
-                    </div>
-                    <div class="course-content">
-                        <div class="course-features">
-                            <div class="feature">
-                                <i class="fas fa-home"></i>
-                                <span>Property Analysis</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-calculator"></i>
-                                <span>Cash Flow Modeling</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-handshake"></i>
-                                <span>Deal Negotiation</span>
-                            </div>
-                            <div class="feature">
-                                <i class="fas fa-chart-pie"></i>
-                                <span>REIT Strategies</span>
-                            </div>
-                        </div>
-                        <div class="course-results">
-                            <div class="result-item">
-                                <span class="result-value">15%</span>
-                                <span class="result-label">Annual ROI</span>
-                            </div>
-                            <div class="result-item">
-                                <span class="result-value">$5K+</span>
-                                <span class="result-label">Monthly Income</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="course-footer">
-                        <div class="course-price">
-                            <span class="price-amount">$597</span>
-                            <span class="price-original">$997</span>
-                        </div>
-                        <div class="course-buttons">
-                            <a href="course-detail.html" class="btn btn-outline">Details</a>
-                            <a href="register.html" class="btn btn-primary">Enroll Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="cta-section">
-        <div class="container">
-            <div class="cta-content" data-aos="fade-up">
-                <h2>Start Building Wealth Today</h2>
-                <p>Join thousands of successful investors who have transformed their financial future with our proven strategies.</p>
-                <div class="cta-actions">
-                    <a href="register.html" class="btn btn-primary btn-xl">
-                        <i class="fas fa-chart-line"></i>
-                        Start Investing Now
-                    </a>
-                    <div class="cta-guarantee">
-                        <i class="fas fa-money-back"></i>
-                        <span>30-day money-back guarantee</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <span>WealthMaster</span>
-                </div>
-                <p>Empowering individuals to achieve financial freedom through professional investment education.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Courses</h3>
-                <ul>
-                    <li><a href="courses.html">All Courses</a></li>
-                    <li><a href="#">Stock Market</a></li>
-                    <li><a href="#">Cryptocurrency</a></li>
-                    <li><a href="#">Real Estate</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Resources</h3>
-                <ul>
-                    <li><a href="#">Market Analysis</a></li>
-                    <li><a href="#">Trading Tools</a></li>
-                    <li><a href="#">Investment Calculator</a></li>
-                    <li><a href="#">Community Forum</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 WealthMaster. All rights reserved. | Investment education for informational purposes only.</p>
-        </div>
-    </footer>
-
-    <script>
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
-
-        // Portfolio Chart
-        const ctx = document.getElementById('portfolioChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    data: [650000, 720000, 680000, 780000, 820000, 847392],
-                    borderColor: '#10b981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { display: false },
-                    y: { display: false }
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative min-h-screen w-full overflow-x-hidden">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">WealthMaster</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<section class="relative pt-32 pb-24 overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-full bg-background-light dark:bg-background-dark -z-10">
+<div class="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 bg-primary/5 rounded-full"></div>
+<div class="absolute -bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-primary/10" style="clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);"></div>
+<div class="absolute top-1/2 left-1/2 w-96 h-96 bg-primary/5 opacity-50 -translate-x-1/2 -translate-y-1/2" style="clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%, 25% 0%);"></div>
+</div>
+<div class="container mx-auto px-6 relative z-10">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="text-center lg:text-left">
+<h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 dark:text-white !leading-tight tracking-tighter">
+                            Unlock Your <span class="text-primary">Financial</span> Potential
+                        </h1>
+<p class="mt-6 text-lg text-gray-600 dark:text-gray-400 max-w-xl mx-auto lg:mx-0">
+                            Our unique geometric learning model simplifies complex financial concepts, helping you build a stronger financial future with confidence and clarity.
+                        </p>
+<div class="mt-8 flex justify-center lg:justify-start gap-4">
+<button class="px-8 py-3 rounded-full font-bold bg-primary text-white text-lg hover:bg-opacity-90 transition-transform transform hover:scale-105">Start Learning</button>
+<button class="px-8 py-3 rounded-full font-bold text-gray-800 dark:text-white bg-transparent border-2 border-primary/30 hover:bg-primary/10 dark:hover:bg-primary/20 transition-all transform hover:scale-105">View Catalog</button>
+</div>
+</div>
+<div class="relative h-[450px] flex items-center justify-center">
+<div class="absolute w-64 h-64 bg-cover bg-center hexagon shadow-2xl z-10" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCEtcXRhCnwWtuHeZ3xysWaXmhXA--8-nKBD7tvU8kSMHex1QYKmg3hoCHV2jFamqaKaGYLZclpW2JMKdMye6-Gyy75cezfpoQlWUdUqqQ07MXiUobr5cS1Nfq22MhNSr42RM5oQOJ1Cle44Z8yldKn3980TlwbapSEm7H3r9St6UVNKeCslJTUtZIMHJWeFHkq0dfy487gFjzN6KY7JG8RRQCyxCOixUn5LujZysXJRvVnY0slZGd8Iusx-k7Wf7Z4eh1ccSK5yWM");'></div>
+<div class="absolute w-48 h-48 bg-cover bg-center hexagon shadow-xl -translate-x-40 translate-y-24" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2tkTqTDVpxWW7VH37_uoEUGE0f9hYvxlbv81z68Ejk8jW-pqmo1VUdrV9bkXK9ZYAP2pfAehLDTImTFccsmJhm0xKFxVNQeQrKjUSBwGPZ92srrUTwVoeId-Gx7vipJacjTY_Qczkpof-6x8pL26pRDJUCoB8bFVdJ-PAvWq2yhyEb9bETvBjLoqLoGiLFcBrOGY7B-xaIBLYMGtBG_jB6SBsKPl3Cg4d-51lAbmT236seA83eSIpET6Um3HNjOoDczVxqkWXqWs");'></div>
+<div class="absolute w-56 h-56 bg-cover bg-center hexagon shadow-lg translate-x-40 -translate-y-20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD2tkTqTDVpxWW7VH37_uoEUGE0f9hYvxlbv81z68Ejk8jW-pqmo1VUdrV9bkXK9ZYAP2pfAehLDTImTFccsmJhm0xKFxVNQeQrKjUSBwGPZ92srrUTwVoeId-Gx7vipJacjTY_Qczkpof-6x8pL26pRDJUCoB8bFVdJ-PAvWq2yhyEb9bETvBjLoqLoGiLFcBrOGY7B-xaIBLYMGtBG_jB6SBsKPl3Cg4d-51lAbmT236seA83eSIpET6Um3HNjOoDczVxqkWXqWs");'></div>
+<div class="absolute w-20 h-20 bg-primary/20 top-8 right-8" style="clip-path: polygon(50% 0%, 100% 100%, 0% 100%);"></div>
+<div class="absolute w-24 h-24 border-4 border-primary/30 bottom-4 left-4" style="clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0 50%);"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-background-light dark:bg-card-dark diagonal-bg">
+<div class="container mx-auto px-6 relative z-10">
+<div class="text-center mb-16 max-w-2xl mx-auto">
+<h2 class="text-4xl font-bold text-gray-900 dark:text-white">Explore Our Core Curriculum</h2>
+<p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Built on a foundation of geometric learning principles to maximize retention and understanding.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+<div class="group text-center">
+<div class="relative w-48 h-56 mx-auto mb-6">
+<div class="hexagon w-full h-full bg-white dark:bg-background-dark shadow-lg transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<img alt="Investing Icon" class="h-24 w-24 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAM43e5l9jGfxG7QFbgpuhh-0th-E0akWcfUICY9uObnNa7tIQ1LRtB3pFX3PW6Cb95RyRJZKKesCXikjq0WIw5c1VIhHoAS6zqAt1fE0Chd1WG3XUQqWfR4wzf62FuLJ-Vr10mcP6dn3Cze_GociGKIZgoQfLwjfTQZRRK7vHcFqniwQtVfnQMzl7YD9VQ-VZIwVpoXqQzTeUS8oSsNXJd_Wx_o2DsgRmnzLPlJQzWpSNDRryV6PkfeXbKJ4LMOw_E-7fhZ7EyxiI"/>
+</div>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Investing for Beginners</h3>
+<p class="text-gray-600 dark:text-gray-400 mt-2">Learn the basics of investing and grow your wealth.</p>
+<a class="inline-block mt-4 font-semibold text-primary hover:text-primary-dark" href="#">Get Started →</a>
+</div>
+<div class="group text-center">
+<div class="relative w-48 h-56 mx-auto mb-6">
+<div class="hexagon w-full h-full bg-white dark:bg-background-dark shadow-lg transition-transform duration-300 group-hover:scale-105 group-hover:rotate-3"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<img alt="Trading Icon" class="h-24 w-24 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNqEU-nn9w24T2iU6T1CgJG31xIfb3eYWiM3o-OSyznMhSc2VUhlTPC9SHtT74ER_gK22yeC7N9J7TRNgkFXjZ9PTmpN3RtD9tnuOZrEPUtBYDKAZ7HyTcuTk4teKaF-MKGPc0TSRt5yqyJJ1Lbu9UAl_SFO77tt5OqkI906QYgYncoGbRNGgwPCNI-sTDxNEAh-bUMs7NVYK_aiMKTfVEMVhTVxr07aR9iV2qSjicP1LGBTrsUOevY_56xITe5b-_hqe8r9ITu3o"/>
+</div>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Advanced Trading Strategies</h3>
+<p class="text-gray-600 dark:text-gray-400 mt-2">Master advanced trading techniques for higher returns.</p>
+<a class="inline-block mt-4 font-semibold text-primary hover:text-primary-dark" href="#">Dive In →</a>
+</div>
+<div class="group text-center">
+<div class="relative w-48 h-56 mx-auto mb-6">
+<div class="hexagon w-full h-full bg-white dark:bg-background-dark shadow-lg transition-transform duration-300 group-hover:scale-105 group-hover:-rotate-3"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<img alt="Retirement Icon" class="h-24 w-24 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2tkTqTDVpxWW7VH37_uoEUGE0f9hYvxlbv81z68Ejk8jW-pqmo1VUdrV9bkXK9ZYAP2pfAehLDTImTFccsmJhm0xKFxVNQeQrKjUSBwGPZ92srrUTwVoeId-Gx7vipJacjTY_Qczkpof-6x8pL26pRDJUCoB8bFVdJ-PAvWq2yhyEb9bETvBjLoqLoGiLFcBrOGY7B-xaIBLYMGtBG_jB6SBsKPl3Cg4d-51lAbmT236seA83eSIpET6Um3HNjOoDczVxqkWXqWs"/>
+</div>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Retirement Planning</h3>
+<p class="text-gray-600 dark:text-gray-400 mt-2">Plan for a secure and comfortable retirement.</p>
+<a class="inline-block mt-4 font-semibold text-primary hover:text-primary-dark" href="#">Plan Now →</a>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-background-light dark:bg-background-dark">
+<div class="container mx-auto px-6">
+<div class="text-center mb-16 max-w-2xl mx-auto">
+<h2 class="text-4xl font-bold text-gray-900 dark:text-white">Success Stories Shaped by FinEd</h2>
+<p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Our students are building better financial futures. Here's what they have to say.</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="testimonial-card relative bg-white dark:bg-card-dark p-8 rounded-xl shadow-lg border-t-4 border-primary overflow-hidden">
+<div class="relative z-10">
+<p class="text-gray-600 dark:text-gray-300 italic">"FinEd's courses transformed my financial life. I now have a clear plan for my future. The geometric approach made complex topics easy to grasp."</p>
+<div class="mt-6 flex items-center gap-4">
+<img class="w-12 h-12 rounded-full bg-cover bg-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAW9Lc6n38gqX3PlDL6A20eVGxLa4h-3hwevBjsULzwxv5LByW2bXrognBw6iANzoTSNm2xeTs2ldKrVK5teCLtyKICpM2C24_ApDP64tQl6rHcUp6r8HI_D621Effe8NGHDZSNUKvAt7nl6pY45BTlTREKfObnxCz2__inTsNAxv6S-pqf4S7WWNfkoFTWkjBCItrg2BySoFDff4uIlW_WHuk8u5iSsmJHx3A_Vg_392USqO29T7L7YPsrbKzASP10BNGIs0UzDww"/>
+<div>
+<h4 class="font-bold text-lg text-gray-900 dark:text-white">Sarah M.</h4>
+<p class="text-sm text-primary">Investor</p>
+</div>
+</div>
+</div>
+</div>
+<div class="testimonial-card relative bg-white dark:bg-card-dark p-8 rounded-xl shadow-lg border-t-4 border-primary overflow-hidden mt-0 md:mt-8">
+<div class="relative z-10">
+<p class="text-gray-600 dark:text-gray-300 italic">"The instructors are knowledgeable and engaging. I've learned so much about investing and feel much more confident in my decisions."</p>
+<div class="mt-6 flex items-center gap-4">
+<img class="w-12 h-12 rounded-full bg-cover bg-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf6rD9oBd1NPsiVGukeKYG72jQ2cHqG5dUqMwo1t6HY5eIFVnUOjBZ-S8VQdu-zBr3VfgFmWEKvubtFnQmyKyr8azIBffUgFm2ZZ1BJsKQPvYjUVtdXghlUXFYcxQ6zCopoBxdmMD0bo2pxJfAB89_GfOvHaqAFbs4fSTGXAT2gUk9-F5c5uV66xhJ1xWRu8gc9MlaaGU7fK3oDa0-1WE8zjvAlTG0rd36QvBXTMckF49oI0_tZ925MzDRQ2jojYsQ7y5y1vQpe_s"/>
+<div>
+<h4 class="font-bold text-lg text-gray-900 dark:text-white">David L.</h4>
+<p class="text-sm text-primary">Trader</p>
+</div>
+</div>
+</div>
+</div>
+<div class="testimonial-card relative bg-white dark:bg-card-dark p-8 rounded-xl shadow-lg border-t-4 border-primary overflow-hidden mt-0 lg:mt-0">
+<div class="relative z-10">
+<p class="text-gray-600 dark:text-gray-300 italic">"I highly recommend FinEd to anyone looking to improve their financial literacy. It’s a game-changer for long-term planning and wealth management."</p>
+<div class="mt-6 flex items-center gap-4">
+<img class="w-12 h-12 rounded-full bg-cover bg-center" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0dw4FlT-DtE-b8cxauuAngQEn1jHKmQBRc9PZyjxU7m-0OkScTwyUUgAHjMIY_B0wAwEMZRaaQQHoKLSWbSNvvPN2BjhswtuAMr7WOM7aUblnyk_dJ6hJ-vhMlyd6fD8jhfBD_kMxcC5q980TBTPb2IX4iwLtKoR_dKStT9SAHvcLG-YizAmXKqPts7sVXTTzvlVorkl2WwpXWky2HtXzZB3la7dSCKBHCeNkOxeyDi7jluXG5sZ0KWKNvQgRFMc71qBpgGYgT4A"/>
+<div>
+<h4 class="font-bold text-lg text-gray-900 dark:text-white">Emily R.</h4>
+<p class="text-sm text-primary">Planner</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 bg-background-light dark:bg-background-dark">
+<div class="container mx-auto px-6">
+<h3 class="text-center text-xl font-semibold text-gray-500 dark:text-gray-400 mb-8">Trusted by Thousands at Top Companies</h3>
+<div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6">
+<img alt="Company logo 1" class="h-8 opacity-60 dark:opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNoSbPBpIt_bXuT4l7Ck1jV15ppvGTyTIxUwR9ZasWpyAKeNuYKpZGvFq0gPVpBaVMUDg_AElGjE2Hbrg9iW3QQxqI-BCBGYjr-prlyk4dOe7JVvz_enKzAqC_3yj_7gC-3dGbmnxqa-1hiHWieJl04MUJi7ipug1R4Xj2Soi-0i8Il0UC7Ii-3ydEycq1ibicuIfTmzrsIHQWAL9hxNAITH15VP2koe58MOjWjgRI4eZk4qN-ST8ciy53mm4W35AzIMSDCogkO3Q"/>
+<img alt="Company logo 2" class="h-8 opacity-60 dark:opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiEvzpRK80gr0gDeazirl8dJihZ68iqkNNYS46IH60RmvvkJN4yMvugi3gwBr2hAUzHkFf4SvM4PBAenxkbal4ujS5swH_UL3mZyHIt8ggcTGk2_HjglEH13hc6B--fV3tyC5duWCVZVb5eSAsPpBP1teaLTwqsgJvBgvCdm7NF9ecAXaN8UP6PeNO-HDbf5kjq5YBhh4mNOCAzlKwYn7v58vlkX0BApHxfiMf9B_NAu_z6m4n85fa8sSptZ2Wpn6kGjurqenG4D4"/>
+<img alt="Company logo 3" class="h-8 opacity-60 dark:opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZPPPjPLZMBAI_neZlTbupXv1slxKZnMTb7yCkwKC2klgSBTrlkvULfR0o2Io4RM6slTb5r3J3CdhV3pnntZqRlpq_uVD1cYy8ObPsbzNgBPMpva0EPlTTtrwtYlG1-pMwZyOcT3fdBDsgrBIWzdnlqYIyYR3f_OrhsyRTuQVEygpwWF8AaO24EtVdRNf9uFa02jawe9jWNL17ydfBaBPX5cL-zaaECscffQlxbGK_VP4M26JcbREwXY9VtCYXmHr0kQFwxyCDs74"/>
+<img alt="Company logo 4" class="h-8 opacity-60 dark:opacity-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALuR-6zzpouTBZqUIHoUZhwJLKXRdOf9Va2tK-gDEsi1oFzwdcvT7f7xCskk3uXEzm1ddveiHUDEkXjViXK2QcfdrDlDTV3P-ZLuCh9pad48MIuYsKPPkKT07dU4ONMAAmHzHm5fkHgQFTdlf3eiGQ64KkBJqzQQH2nE2fUaq5JNBoTsJtpX-Cl4OdBnY-GSncZddpkEjUzjf-95SL2IPNpkibPXSwSxvyylC65NI7R6Jibl8kKjA81PSdJzEKKUmKT6V9F2u_f2Y"/>
+</div>
+</div>
+</section>
+<footer class="bg-background-dark text-gray-400 pt-16">
+<div class="container mx-auto px-6 pb-8">
+<div class="grid md:grid-cols-12 gap-8">
+<div class="md:col-span-4">
+<a class="flex items-center gap-3" href="#">
+<svg class="w-8 h-8 text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 4.4L44.9 16.9V41.9L24 54.4L3.1 41.9V16.9L24 4.4Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<path d="M3.1001 16.8999L24.0001 29.3999L44.9001 16.8999" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<path d="M24 54.4V29.4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+</svg>
+<span class="text-2xl font-bold text-white">FinEd</span>
+</a>
+<p class="mt-4 text-sm max-w-xs">Empowering financial literacy through modern, engaging education.</p>
+<div class="flex gap-4 mt-4">
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+<path d="M22.46,6.52,19.38,6.13a.5.5,0,0,1-.58-.45,11.53,11.53,0,0,0-1.74-4.85.5.5,0,0,0-.7-.29L14,2.23a.5.5,0,0,0-.31.83,11.23,11.23,0,0,1-1.3,4.42.5.5,0,0,1-.6.31L7.5,6.07a.5.5,0,0,0-.56.59,12.7,12.7,0,0,0,3.64,8.15.5.5,0,0,0,.71.09l4.52-2.71a.5.5,0,0,1,.63.14,9.6,9.6,0,0,1,2.5,5.18.5.5,0,0,0,.57.44l3.1-.39a.5.5,0,0,0,.44-.57,11.45,11.45,0,0,0-4.32-9.45.5.5,0,0,1,0-.86A11.45,11.45,0,0,0,22,7.09.5.5,0,0,0,22.46,6.52Z"></path>
+</svg></a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm3.5,8H14V7a1.5,1.5,0,0,0-3,0v3H9.5a.5.5,0,0,0,0,1H11v4.5a.5.5,0,0,0,1,0V11h1.5a.5.5,0,0,0,0-1Z"></path>
+</svg></a>
+<a class="text-gray-400 hover:text-primary transition-colors" href="#"><svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm4.7,6.3a.8.8,0,0,1,.8.8V14.9a.8.8,0,0,1-.8.8H7.3a.8.8,0,0,1-.8-.8V9.1a.8.8,0,0,1,.8-.8H16.7ZM14.9,9.1H9.1v5.8h5.8V9.1Z"></path>
+</svg></a>
+</div>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-bold text-white">Courses</h4>
+<ul class="mt-4 space-y-2">
+<li><a class="hover:text-primary transition-colors" href="#">Investing</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Trading</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Retirement</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Real Estate</a></li>
+</ul>
+</div>
+<div class="md:col-span-2">
+<h4 class="font-bold text-white">Company</h4>
+<ul class="mt-4 space-y-2">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Community</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+</ul>
+</div>
+<div class="md:col-span-4">
+<h4 class="font-bold text-white">Join our Newsletter</h4>
+<p class="mt-2 text-sm">Get the latest financial insights delivered to your inbox.</p>
+<form class="mt-4 flex">
+<input class="w-full px-4 py-2 rounded-l-md bg-gray-700/50 border-gray-600 focus:border-primary focus:ring-primary text-white" placeholder="Enter your email" type="email"/>
+<button class="px-4 py-2 rounded-r-md bg-primary text-white font-bold hover:bg-primary-dark">Subscribe</button>
+</form>
+</div>
+</div>
+<div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
+<p>© 2024 FinEd. All rights reserved. A new angle on financial education.</p>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

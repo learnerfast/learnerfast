@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign Up - Fitness Landing Page B</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1193d4",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101c22",
+                        "foreground-light": "#111827",
+                        "foreground-dark": "#f9fafb",
+                        "muted-light": "#6b7280",
+                        "muted-dark": "#9ca3af",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#374151"
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .form-input {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-foreground-light dark:text-foreground-dark">
+<div class="flex flex-col min-h-screen">
+<header class="w-full">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20 border-b border-border-light dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="p-2 bg-primary rounded-full text-white">
+<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-12h2v4h-2zm0 6h2v2h-2z"></path>
+</svg>
+</div>
+<h1 class="text-xl font-bold">FitFlex</h1>
+</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Courses</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">About</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+<div class="flex items-center">
+<a class="hidden md:inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-lg text-foreground-light dark:text-foreground-dark bg-background-light dark:bg-background-dark border border-border-light dark:border-border-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#">
+                            Log In
+                        </a>
+<button class="md:hidden ml-4 p-2 rounded-lg hover:bg-primary/10 dark:hover:bg-primary/20">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<div class="w-full max-w-md space-y-8 p-8 sm:p-10 bg-background-light dark:bg-background-dark/50 border border-border-light dark:border-border-dark rounded-xl shadow-lg">
+<div>
+<h2 class="mt-6 text-center text-3xl font-bold tracking-tight">Create your account</h2>
+<p class="mt-2 text-center text-sm text-muted-light dark:text-muted-dark">
+                        Already have an account?
+                        <a class="font-medium text-primary hover:underline" href="#">Log in</a>
+</p>
+</div>
+<form action="#" class="mt-8 space-y-6" method="POST">
+<div class="rounded-lg -space-y-px">
+<div>
+<label class="sr-only" for="name">Name</label>
+<input class="form-input relative block w-full px-3 py-3 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark placeholder-muted-light dark:placeholder-muted-dark focus:outline-none focus:ring-primary focus:border-primary focus:z-10 rounded-t-lg sm:text-sm" id="name" name="name" placeholder="Name" required="" type="text"/>
+</div>
+<div>
+<label class="sr-only" for="email-address">Email address</label>
+<input autocomplete="email" class="form-input relative block w-full px-3 py-3 border-y-0 border-x border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark placeholder-muted-light dark:placeholder-muted-dark focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm" id="email-address" name="email" placeholder="Email address" required="" type="email"/>
+</div>
+<div>
+<label class="sr-only" for="password">Password</label>
+<input autocomplete="current-password" class="form-input relative block w-full px-3 py-3 border border-border-light dark:border-border-dark bg-background-light dark:bg-background-dark placeholder-muted-light dark:placeholder-muted-dark focus:outline-none focus:ring-primary focus:border-primary focus:z-10 rounded-b-lg sm:text-sm" id="password" name="password" placeholder="Password" required="" type="password"/>
+</div>
+</div>
+<div>
+<button class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background-light dark:focus:ring-offset-background-dark" type="submit">
+                            Sign Up
+                        </button>
+</div>
+</form>
+<div class="relative">
+<div class="absolute inset-0 flex items-center">
+<div class="w-full border-t border-border-light dark:border-border-dark"></div>
+</div>
+<div class="relative flex justify-center text-sm">
+<span class="px-2 bg-background-light dark:bg-background-dark/50 text-muted-light dark:text-muted-dark">Or continue with</span>
+</div>
+</div>
+<div>
+<div class="grid grid-cols-2 gap-3">
+<a class="w-full inline-flex justify-center py-3 px-4 border border-border-light dark:border-border-dark rounded-lg text-sm font-medium bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#">
+<svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M12.0001 4.75012C12.383 4.75012 12.7554 4.79377 13.1119 4.88043L13.2982 4.9272L13.3323 4.93922C15.9329 5.89063 17.818 8.44196 17.989 11.2335C18.006 11.5123 18.0009 11.7779 17.9768 12.0306L17.9545 12.2536L17.9424 12.2877C17.7551 14.9376 15.8284 17.3788 13.167 18.3054C12.7951 18.4354 12.4016 18.5 12.0001 18.5C9.4589 18.5 7.22749 17.202 5.95213 15.1432L5.86737 15.0064L5.85535 14.9723C5.10549 13.4328 4.75 11.7583 4.75 10.024C4.75 7.07812 6.89732 4.75012 9.7502 4.75012L12.0001 4.75012ZM12.0001 3.25012H9.7502C5.97822 3.25012 3.2502 6.30402 3.2502 10.024C3.2502 11.9682 3.65682 13.8055 4.45022 15.3981L4.54225 15.5786L4.55726 15.6198C5.99965 18.0266 8.79028 19.5833 12.0001 19.5833C12.4931 19.5833 12.969 19.5165 13.4243 19.3878L13.5932 19.3382L13.6272 19.3262C16.8219 18.2323 19.2562 15.352 19.4795 12.0526C19.508 11.7645 19.513 11.4925 19.4939 11.2057L19.4716 10.9827L19.4596 10.9486C19.2279 8.16333 17.1583 5.612 14.3725 4.39339L14.2415 4.33808L14.2326 4.33407C13.5613 4.02534 12.831 3.83333 12.0831 3.83333L12.0001 3.83333V3.25012Z" fill-rule="evenodd"></path></svg>
+                            Google
+                        </a>
+<a class="w-full inline-flex justify-center py-3 px-4 border border-border-light dark:border-border-dark rounded-lg text-sm font-medium bg-background-light dark:bg-background-dark hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors" href="#">
+<svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
+                            Facebook
+                        </a>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>

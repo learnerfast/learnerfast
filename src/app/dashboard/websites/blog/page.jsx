@@ -1,4 +1,5 @@
 'use client';
+import { usePathname } from 'next/navigation';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { WebsiteProvider } from '@/contexts/WebsiteContext';
@@ -8,7 +9,8 @@ import { Toaster } from 'react-hot-toast';
 import '@/dashboard.css';
 
 function PageContent() {
-  const pageName = window.location.pathname.split('/').pop();
+  const pathname = usePathname();
+  const pageName = pathname.split('/').pop();
   const title = pageName.charAt(0).toUpperCase() + pageName.slice(1);
   
   return (

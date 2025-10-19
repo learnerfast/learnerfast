@@ -1,304 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Investment Banking Fundamentals - BankPro Academy</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Space+Grotesk%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#7f13ec",
+            "background-light": "#f7f6f8",
+            "background-dark": "#191022",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon"><i class="fas fa-university"></i></div>
-                BankPro Academy
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="signin.html" class="btn btn-outline">Sign In</a>
-                <a href="register.html" class="btn btn-primary">Enroll Today</a>
-            </div>
-        </div>
-    </nav>
+<body class="font-display">
+<div class="relative flex h-auto min-h-screen w-full flex-col bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Retro Finance</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<div class="px-40 flex flex-1 justify-center py-5">
+<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+<div class="@container">
+<div class="@[480px]:p-0">
+<div class="relative bg-cover bg-center flex flex-col justify-end overflow-hidden rounded-xl min-h-80" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 40%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBUIx2Y8UY09D5S18j0acp8HOgBR-s4DHcjsZtL3qEVVExv3U0ZqaGatbS5fnb9lswwzQYV2XeDYKzHS2dcVDM6JAIVhnRUxDHxrlTY8HkZ-NUbGoZtkeJwA1_jmlm7bFcHzzMikpoYzHJ_S-crrZBYYXzxvvAhJ1oyM-DbFQ1DZ7GUaBPn8t1nfsVP6I73sVC0L7NHpzTRiTvQ2rAoyAdygdet9Ozi8ooU-Sozpfyz32MILqndfg8_mniIwfOitmQUMZ-Dwo7s1v0");'>
+<div class="flex flex-col gap-4 p-6">
+<p class="text-white tracking-light text-3xl font-bold leading-tight">Mastering the Markets: A Comprehensive Guide to Financial Success</p>
+<button class="flex min-w-[84px] max-w-[200px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-lg font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity shadow-[0_0_15px_rgba(236,72,153,0.8)]">
+<span class="truncate">Enroll Now</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<p class="text-black/80 dark:text-white/80 text-base font-normal leading-normal pb-3 pt-8 px-4">
+            Embark on a transformative journey to financial mastery with our comprehensive course. Designed for both beginners and seasoned investors, this program equips you with the knowledge and skills to navigate the complexities of the financial world. From understanding market dynamics to crafting personalized investment strategies, you'll gain the confidence to achieve your financial goals.
+          </p>
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-4 pt-8">Course Curriculum</h2>
+<div class="border-b border-primary/20 dark:border-primary/30">
+<div class="flex items-center gap-4 bg-transparent px-4 min-h-[72px] py-3">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-12">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.36L57.75,219a8,8,0,0,0,12.5,10l29.59-37h56.32l29.59,37a8,8,0,1,0,12.5-10l-21.61-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM216,176H40V56H216V176Z"></path>
+</svg>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-black dark:text-white text-base font-medium leading-normal line-clamp-1">Module 1: Foundations of Finance</p>
+<p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal line-clamp-2">Introduction to Financial Markets</p>
+</div>
+</div>
+</div>
+<div class="border-b border-primary/20 dark:border-primary/30">
+<div class="flex items-center gap-4 bg-transparent px-4 min-h-[72px] py-3">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-12">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.36L57.75,219a8,8,0,0,0,12.5,10l29.59-37h56.32l29.59,37a8,8,0,1,0,12.5-10l-21.61-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM216,176H40V56H216V176Z"></path>
+</svg>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-black dark:text-white text-base font-medium leading-normal line-clamp-1">Module 2: Advanced Investment Techniques</p>
+<p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal line-clamp-2">Investment Strategies and Portfolio Management</p>
+</div>
+</div>
+</div>
+<div class="border-b border-primary/20 dark:border-primary/30">
+<div class="flex items-center gap-4 bg-transparent px-4 min-h-[72px] py-3">
+<div class="text-primary flex items-center justify-center rounded-lg bg-primary/10 shrink-0 size-12">
+<svg fill="currentColor" height="24px" viewBox="0 0 256 256" width="24px" xmlns="http://www.w3.org/2000/svg">
+<path d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.36L57.75,219a8,8,0,0,0,12.5,10l29.59-37h56.32l29.59,37a8,8,0,1,0,12.5-10l-21.61-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM216,176H40V56H216V176Z"></path>
+</svg>
+</div>
+<div class="flex flex-col justify-center">
+<p class="text-black dark:text-white text-base font-medium leading-normal line-clamp-1">Module 3: Risk Management and Planning</p>
+<p class="text-black/60 dark:text-white/60 text-sm font-normal leading-normal line-clamp-2">Risk Assessment and Financial Planning</p>
+</div>
+</div>
+</div>
+<h2 class="text-black dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-4 pt-8">Learning Outcomes</h2>
+<div class="flex items-start gap-3 bg-transparent px-4 py-3">
+<div class="text-primary mt-1.5 size-4">
+<svg fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM11.1381 6.13807C11.431 5.84518 11.431 5.36982 11.1381 5.07692C10.8452 4.78403 10.3698 4.78403 10.0769 5.07692L7.5 7.65385L5.92308 6.07692C5.63018 5.78403 5.15482 5.78403 4.86193 6.07692C4.56903 6.36982 4.56903 6.84518 4.86193 7.13807L7 9.27614L7.46154 9.73769L7.92308 9.27614L11.1381 6.13807Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<p class="text-black/80 dark:text-white/80 text-base font-normal leading-normal flex-1">Understand the fundamentals of financial markets and investment instruments.</p>
+</div>
+<div class="flex items-start gap-3 bg-transparent px-4 py-3">
+<div class="text-primary mt-1.5 size-4">
+<svg fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM11.1381 6.13807C11.431 5.84518 11.431 5.36982 11.1381 5.07692C10.8452 4.78403 10.3698 4.78403 10.0769 5.07692L7.5 7.65385L5.92308 6.07692C5.63018 5.78403 5.15482 5.78403 4.86193 6.07692C4.56903 6.36982 4.56903 6.84518 4.86193 7.13807L7 9.27614L7.46154 9.73769L7.92308 9.27614L11.1381 6.13807Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<p class="text-black/80 dark:text-white/80 text-base font-normal leading-normal flex-1">Develop personalized investment strategies tailored to your financial goals.</p>
+</div>
+<div class="flex items-start gap-3 bg-transparent px-4 py-3">
+<div class="text-primary mt-1.5 size-4">
+<svg fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM11.1381 6.13807C11.431 5.84518 11.431 5.36982 11.1381 5.07692C10.8452 4.78403 10.3698 4.78403 10.0769 5.07692L7.5 7.65385L5.92308 6.07692C5.63018 5.78403 5.15482 5.78403 4.86193 6.07692C4.56903 6.36982 4.56903 6.84518 4.86193 7.13807L7 9.27614L7.46154 9.73769L7.92308 9.27614L11.1381 6.13807Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<p class="text-black/80 dark:text-white/80 text-base font-normal leading-normal flex-1">Assess and manage financial risks effectively.</p>
+</div>
+<div class="flex items-start gap-3 bg-transparent px-4 py-3">
+<div class="text-primary mt-1.5 size-4">
+<svg fill="currentColor" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM11.1381 6.13807C11.431 5.84518 11.431 5.36982 11.1381 5.07692C10.8452 4.78403 10.3698 4.78403 10.0769 5.07692L7.5 7.65385L5.92308 6.07692C5.63018 5.78403 5.15482 5.78403 4.86193 6.07692C4.56903 6.36982 4.56903 6.84518 4.86193 7.13807L7 9.27614L7.46154 9.73769L7.92308 9.27614L11.1381 6.13807Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<p class="text-black/80 dark:text-white/80 text-base font-normal leading-normal flex-1">Gain the confidence to make informed financial decisions.</p>
+</div>
+</div>
+</div>
+<footer class="bg-background-light dark:bg-background-dark border-t border-primary/20 dark:border-primary/30 mt-auto relative overflow-hidden py-16">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 via-pink-400/10 to-transparent opacity-30 dark:opacity-20"></div>
+<div class="absolute inset-0 grid-pattern opacity-50 dark:opacity-30"></div>
+</div>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="text-primary size-8">
+<svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-wider text-background-dark dark:text-background-light">Retro Finance</h2>
+</div>
+<p class="text-sm text-background-dark/70 dark:text-background-light/70">Master your money with a futuristic twist on classic financial wisdom.</p>
+</div>
+<div class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-primary">Quick Links</h3>
+<ul class="space-y-2">
+<li><a class="text-sm text-background-dark/70 dark:text-background-light/70 hover:text-primary transition-colors" href="#">Courses</a></li>
+<li><a class="text-sm text-background-dark/70 dark:text-background-light/70 hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="text-sm text-background-dark/70 dark:text-background-light/70 hover:text-primary transition-colors" href="#">Contact</a></li>
+<li><a class="text-sm text-background-dark/70 dark:text-background-light/70 hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-primary">Socials</h3>
+<ul class="space-y-2">
+<li><a class="flex items-center gap-2 text-sm text-background-dark/70 dark:text-background-light/70 hover:text-primary transition-colors" href="#">Twitter</a></li>
+<li><a class="flex items-center gap-2 text-sm text-background-dark/70 dark:text-background-light/70 hover:text-primary transition-colors" href="#">Instagram</a></li>
+<li><a class="flex items-center gap-2 text-sm text-background-dark/70 dark:text-background-light/70 hover:text-primary transition-colors" href="#">Facebook</a></li>
+<li><a class="flex items-center gap-2 text-sm text-background-dark/70 dark:text-background-light/70 hover:text-primary transition-colors" href="#">LinkedIn</a></li>
+</ul>
+</div>
+<div class="space-y-4">
+<h3 class="text-sm font-bold uppercase tracking-wider text-primary">Newsletter</h3>
+<p class="text-sm text-background-dark/70 dark:text-background-light/70">Get the latest financial tips and course updates.</p>
+<form class="flex">
+<input class="flex-grow bg-background-light/50 dark:bg-background-dark/50 border border-primary/20 focus:ring-primary/50 focus:border-primary/50 block w-full rounded-l-md sm:text-sm text-background-dark dark:text-background-light placeholder:text-background-dark/50 dark:placeholder:text-background-light/50" placeholder="your.email@example.com" type="email"/>
+<button class="px-4 py-2 bg-primary text-white font-semibold text-sm rounded-r-md hover:bg-primary/90 transition-colors" type="submit">Go</button>
+</form>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-primary/20 dark:border-primary/30 text-center text-sm text-background-dark/60 dark:text-background-light/60">
+<p>© 2024 Retro Finance. All rights reserved. Your future is our business.</p>
+</div>
+</div>
+</footer>
+</div>
+</div>
 
-    <section class="course-hero">
-        <div class="container">
-            <div class="course-hero-content">
-                <div class="course-info">
-                    <div class="course-breadcrumb">
-                        <a href="index.html">Home</a> > <a href="courses.html">Courses</a> > Investment Banking
-                    </div>
-                    <div class="course-category">Wall Street Ready</div>
-                    <h1>Investment Banking Fundamentals</h1>
-                    <p class="course-subtitle">Master M&A analysis, financial modeling, and deal structuring with industry professionals</p>
-                    <div class="course-stats">
-                        <div class="stat-item">
-                            <i class="fas fa-users"></i>
-                            <span>3,240 students</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-star"></i>
-                            <span>4.9 rating</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-clock"></i>
-                            <span>12 weeks</span>
-                        </div>
-                        <div class="stat-item">
-                            <i class="fas fa-certificate"></i>
-                            <span>Professional Certificate</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="course-enrollment">
-                    <div class="enrollment-card">
-                        <div class="course-preview">
-                            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=500&h=300&fit=crop" alt="Course Preview">
-                            <div class="play-button">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                        <div class="course-price">
-                            <span class="price-amount">$1,997</span>
-                            <span class="price-period">one-time payment</span>
-                        </div>
-                        <div class="enrollment-buttons">
-                            <a href="register.html" class="btn btn-primary btn-lg btn-full">
-                                <i class="fas fa-shopping-cart"></i>
-                                Enroll Now
-                            </a>
-                            <a href="signin.html" class="btn btn-outline btn-lg btn-full">
-                                <i class="fas fa-heart"></i>
-                                Add to Wishlist
-                            </a>
-                        </div>
-                        <div class="course-includes">
-                            <h4>This course includes:</h4>
-                            <ul>
-                                <li><i class="fas fa-video"></i> 40 hours of video content</li>
-                                <li><i class="fas fa-file-excel"></i> Excel modeling templates</li>
-                                <li><i class="fas fa-briefcase"></i> Real deal case studies</li>
-                                <li><i class="fas fa-users"></i> Industry networking events</li>
-                                <li><i class="fas fa-certificate"></i> Professional certification</li>
-                                <li><i class="fas fa-handshake"></i> Job placement assistance</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="course-content">
-        <div class="container">
-            <div class="course-tabs">
-                <div class="tab-buttons">
-                    <button class="tab-btn active" data-tab="overview">Overview</button>
-                    <button class="tab-btn" data-tab="curriculum">Curriculum</button>
-                    <button class="tab-btn" data-tab="instructor">Instructor</button>
-                    <button class="tab-btn" data-tab="reviews">Reviews</button>
-                </div>
-
-                <div class="tab-content active" id="overview">
-                    <div class="overview-content">
-                        <h3>Course Description</h3>
-                        <p>This comprehensive Investment Banking Fundamentals course prepares you for a successful career on Wall Street. Learn from former Goldman Sachs and Morgan Stanley professionals who will teach you the essential skills needed to excel in investment banking.</p>
-                        
-                        <h3>What You'll Master</h3>
-                        <div class="learning-objectives">
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Advanced financial modeling and valuation techniques</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>M&A analysis and deal structuring strategies</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Pitch book creation and client presentations</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>DCF, LBO, and comparable company analysis</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Industry research and market analysis</span>
-                            </div>
-                            <div class="objective-item">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Interview preparation and networking strategies</span>
-                            </div>
-                        </div>
-
-                        <h3>Career Outcomes</h3>
-                        <p>95% of our graduates receive job offers within 6 months, with average starting salaries of $150,000+. Our alumni work at top-tier investment banks including Goldman Sachs, Morgan Stanley, JP Morgan, and Barclays.</p>
-                    </div>
-                </div>
-
-                <div class="tab-content" id="curriculum">
-                    <div class="curriculum-content">
-                        <div class="module">
-                            <div class="module-header">
-                                <h4>Module 1: Investment Banking Foundations</h4>
-                                <span class="module-duration">3 weeks • 12 hours</span>
-                            </div>
-                            <div class="module-lessons">
-                                <div class="lesson-item">
-                                    <i class="fas fa-play-circle"></i>
-                                    <span>Introduction to Investment Banking</span>
-                                    <span class="lesson-duration">60 min</span>
-                                </div>
-                                <div class="lesson-item">
-                                    <i class="fas fa-chart-line"></i>
-                                    <span>Financial Markets Overview</span>
-                                    <span class="lesson-duration">75 min</span>
-                                </div>
-                                <div class="lesson-item">
-                                    <i class="fas fa-building"></i>
-                                    <span>Industry Structure & Key Players</span>
-                                    <span class="lesson-duration">45 min</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="module">
-                            <div class="module-header">
-                                <h4>Module 2: Financial Modeling Mastery</h4>
-                                <span class="module-duration">4 weeks • 16 hours</span>
-                            </div>
-                            <div class="module-lessons">
-                                <div class="lesson-item">
-                                    <i class="fas fa-file-excel"></i>
-                                    <span>Advanced Excel Techniques</span>
-                                    <span class="lesson-duration">90 min</span>
-                                </div>
-                                <div class="lesson-item">
-                                    <i class="fas fa-calculator"></i>
-                                    <span>DCF Modeling Workshop</span>
-                                    <span class="lesson-duration">120 min</span>
-                                </div>
-                                <div class="lesson-item">
-                                    <i class="fas fa-chart-bar"></i>
-                                    <span>Comparable Company Analysis</span>
-                                    <span class="lesson-duration">90 min</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="enroll-cta">
-                            <p>Ready to launch your Wall Street career?</p>
-                            <a href="register.html" class="btn btn-primary btn-lg">Enroll Now - $1,997</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-content" id="instructor">
-                    <div class="instructor-content">
-                        <div class="instructor-profile">
-                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&h=150&fit=crop&crop=face" alt="Instructor">
-                            <div class="instructor-info">
-                                <h3>James Mitchell</h3>
-                                <p class="instructor-title">Former Goldman Sachs VP</p>
-                                <div class="instructor-stats">
-                                    <span><i class="fas fa-star"></i> 4.9 rating</span>
-                                    <span><i class="fas fa-users"></i> 15,000+ students</span>
-                                    <span><i class="fas fa-briefcase"></i> 12 years Wall Street</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="instructor-bio">
-                            <p>James Mitchell is a former Vice President at Goldman Sachs with over 12 years of experience in investment banking. He has worked on over $50 billion in M&A transactions and has helped hundreds of students break into top-tier investment banks.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="tab-content" id="reviews">
-                    <div class="reviews-content">
-                        <div class="reviews-summary">
-                            <div class="rating-overview">
-                                <span class="rating-score">4.9</span>
-                                <div class="rating-stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <span class="rating-count">(3,240 reviews)</span>
-                            </div>
-                        </div>
-                        <div class="review-item">
-                            <div class="reviewer-info">
-                                <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=50&h=50&fit=crop&crop=face" alt="Reviewer">
-                                <div>
-                                    <h4>Alex Chen</h4>
-                                    <div class="review-rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <p>"This course completely transformed my career. I went from having no finance background to landing an analyst position at JP Morgan. James's teaching is exceptional and the job placement support is incredible."</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-logo">
-                    <div class="logo-icon"><i class="fas fa-university"></i></div>
-                    <span>BankPro Academy</span>
-                </div>
-                <p>Leading provider of professional banking and finance education.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="courses.html">Courses</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Account</h3>
-                <ul>
-                    <li><a href="signin.html">Sign In</a></li>
-                    <li><a href="register.html">Enroll Today</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 BankPro Academy. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        // Tab functionality
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                document.getElementById(btn.dataset.tab).classList.add('active');
-            });
-        });
-    </script>
-</body>
-</html>
+</body></html>

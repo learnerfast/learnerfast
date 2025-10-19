@@ -124,7 +124,7 @@ export const CourseBuilderProvider = ({ children }) => {
 };
 
 const Courses = React.memo(() => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [videoCount, setVideoCount] = useState({});
@@ -141,80 +141,136 @@ const Courses = React.memo(() => {
 
   const loadCourses = async () => {
     if (user) {
-      const { data, error } = await supabase
-        .from('courses')
-        .select(`
-          *,
-          course_settings(course_image)
-        `)
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-      
-      if (!error && data) {
-        console.log('Loaded courses with settings:', data);
-        setCourses(data);
-      } else {
-        console.error('Error loading courses:', error);
+      try {
+        const { data, error } = await supabase
+          .from('courses')
+          .select(`
+            *,
+            course_settings(course_image)
+          `)
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+        
+        if (!error && data) {
+          console.log('Loaded courses with settings:', data);
+          setCourses(data);
+        } else if (error) {
+          console.error('Error loading courses:', {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code
+          });
+          
+          // If tables don't exist, initialize with empty array
+          if (error.code === 'PGRST116' || error.message?.includes('relation') || error.message?.includes('does not exist')) {
+            console.log('Database tables not found, using empty courses array');
+            setCourses([]);
+          } else {
+            toast.error('Failed to load courses. Please check your database connection.');
+          }
+        }
+      } catch (err) {
+        console.error('Unexpected error loading courses:', err);
+        setCourses([]);
+        toast.error('An unexpected error occurred while loading courses.');
       }
     }
   };
 
   useEffect(() => {
-    loadCourses();
-  }, [user]);
+    if (!loading && user) {
+      loadCourses();
+    }
+  }, [user, loading]);
 
   useEffect(() => {
-    // Update video counts on client side (user-specific)
-    const counts = {};
-    const userPrefix = user?.id || 'guest';
-    courses.forEach(course => {
-      if (typeof window !== 'undefined') {
-        counts[course.id] = JSON.parse(localStorage.getItem(`user-${userPrefix}-course-${course.id}-videos`) || '[]').length;
+    // Update video counts from database
+    const loadVideoCounts = async () => {
+      if (!user?.id) return;
+      
+      const counts = {};
+      for (const course of courses) {
+        try {
+          const { data, error } = await supabase
+            .from('course_videos')
+            .select('id')
+            .eq('course_id', course.id)
+            .eq('user_id', user.id);
+          
+          if (!error && data) {
+            counts[course.id] = data.length;
+          }
+        } catch (error) {
+          console.warn('Failed to load video count for course:', course.id);
+        }
       }
-    });
-    setVideoCount(counts);
+      setVideoCount(counts);
+    };
+    
+    loadVideoCounts();
   }, [courses, user]);
 
   const [createdCourse, setCreatedCourse] = useState(null);
 
   const handleAddCourse = useCallback(async (newCourseData) => {
     if (user) {
-      const { data, error } = await supabase
-        .from('courses')
-        .insert([{
-          user_id: user.id,
-          title: newCourseData.title,
-          description: newCourseData.description,
-          status: newCourseData.status || 'draft'
-        }])
-        .select()
-        .single();
-      
-      if (!error && data) {
-        // Save course image if provided
-        if (newCourseData.coverImage) {
-          const reader = new FileReader();
-          const imageData = await new Promise((resolve) => {
-            reader.onload = (e) => resolve(e.target.result);
-            reader.readAsDataURL(newCourseData.coverImage);
+      try {
+        const { data, error } = await supabase
+          .from('courses')
+          .insert([{
+            user_id: user.id,
+            title: newCourseData.title,
+            description: newCourseData.description,
+            status: newCourseData.status || 'draft'
+          }])
+          .select()
+          .single();
+        
+        if (!error && data) {
+          // Save course image if provided
+          if (newCourseData.coverImage) {
+            try {
+              const reader = new FileReader();
+              const imageData = await new Promise((resolve) => {
+                reader.onload = (e) => resolve(e.target.result);
+                reader.readAsDataURL(newCourseData.coverImage);
+              });
+              
+              await supabase
+                .from('course_settings')
+                .insert({
+                  course_id: data.id,
+                  course_image: imageData
+                });
+            } catch (imageError) {
+              console.warn('Failed to save course image:', imageError);
+              // Continue without image
+            }
+          }
+          
+          setCourses(prev => [data, ...prev]);
+          loadCourses(); // Reload to get updated data with images
+          setCreatedCourse(data);
+          toast.success('Course created successfully!');
+          return data;
+        } else if (error) {
+          console.error('Course creation error:', {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code
           });
           
-          await supabase
-            .from('course_settings')
-            .insert({
-              course_id: data.id,
-              course_image: imageData
-            });
+          if (error.code === 'PGRST116' || error.message?.includes('relation') || error.message?.includes('does not exist')) {
+            toast.error('Database tables not found. Please set up your database first.');
+          } else {
+            toast.error(`Failed to create course: ${error.message || 'Unknown error'}`);
+          }
         }
-        
-        setCourses(prev => [data, ...prev]);
-        loadCourses(); // Reload to get updated data with images
-        setCreatedCourse(data);
-        toast.success('Course created successfully!');
-        return data;
-      } else {
-        console.error('Course creation error:', error);
-        toast.error('Failed to create course');
+      } catch (err) {
+        console.error('Unexpected error creating course:', err);
+        toast.error('An unexpected error occurred while creating the course.');
       }
     }
     setIsModalOpen(false);
@@ -285,9 +341,7 @@ const Courses = React.memo(() => {
       return;
     }
 
-    const userPrefix = user?.id || 'guest';
-    const storageKey = `user-${userPrefix}-course-${videoModal.courseId}-videos`;
-    const existingVideos = JSON.parse(localStorage.getItem(storageKey) || '[]');
+    // No longer using localStorage for video storage
     
     let newVideo = {
       id: Date.now(),
@@ -341,9 +395,7 @@ const Courses = React.memo(() => {
         }]);
       
       if (!error) {
-        existingVideos.push(newVideo);
-        localStorage.setItem(storageKey, JSON.stringify(existingVideos));
-        setVideoCount(prev => ({ ...prev, [videoModal.courseId]: existingVideos.length }));
+        setVideoCount(prev => ({ ...prev, [videoModal.courseId]: (prev[videoModal.courseId] || 0) + 1 }));
         toast.success('Video added successfully!');
       } else {
         toast.error('Failed to add video');
@@ -450,16 +502,6 @@ const Courses = React.memo(() => {
                   >
                     <Edit className="h-3 w-3" />
                     <span>Edit</span>
-                  </button>
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleUploadVideo(course.id);
-                    }}
-                    className="flex items-center space-x-1 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
-                  >
-                    <Upload className="h-3 w-3" />
-                    <span>Upload</span>
                   </button>
                   <button 
                     onClick={(e) => handleDeleteCourse(course, e)}

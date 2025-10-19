@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Filter, Mail, MoreHorizontal, UserPlus, Shield, Crown } from 'lucide-react';
+import { Plus, Search, Filter, Mail, MoreHorizontal, UserPlus, Shield, Crown, TrendingUp, Activity } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
-// Remove mock data - using real data only
-const faker = {
-  // Removed - using real data only
-};
 
 const Users = () => {
   const [activeTab, setActiveTab] = useState('students');
   const [searchQuery, setSearchQuery] = useState('');
   const [realUsers, setRealUsers] = useState({ students: [], instructors: [], admins: [] });
+  const [analytics, setAnalytics] = useState({ totalEvents: 0, recentRegistrations: 0, activeUsers: 0 });
   const { user } = useAuth();
 
   useEffect(() => {
@@ -22,11 +19,33 @@ const Users = () => {
         const { data: websiteUsers } = await supabase
           .from('website_users')
           .select('*')
-          .eq('owner_id', user.id)
+          .order('created_at', { ascending: false });
+        
+        // Load analytics data
+        const { data: analyticsData } = await supabase
+          .from('user_analytics')
+          .select('*')
           .order('created_at', { ascending: false });
         
         const students = websiteUsers?.filter(u => u.role === 'student') || [];
         const instructors = websiteUsers?.filter(u => u.role === 'instructor') || [];
+        
+        // Calculate analytics
+        const recentRegistrations = analyticsData?.filter(a => 
+          a.event_type === 'registration' && 
+          new Date(a.created_at) > new Date(Date.now() - 30*24*60*60*1000)
+        ).length || 0;
+        
+        const activeUsers = analyticsData?.filter(a => 
+          a.event_type === 'login' && 
+          new Date(a.created_at) > new Date(Date.now() - 7*24*60*60*1000)
+        ).length || 0;
+        
+        setAnalytics({
+          totalEvents: analyticsData?.length || 0,
+          recentRegistrations,
+          activeUsers
+        });
         
         setRealUsers({
           students: students.map(student => ({
@@ -78,8 +97,8 @@ const Users = () => {
   const stats = [
     { name: 'Total Students', value: students.length.toString(), icon: UserPlus, change: '+12%', changeType: 'positive' },
     { name: 'Active Instructors', value: instructors.length.toString(), icon: Shield, change: '+3', changeType: 'positive' },
-    { name: 'New Registrations', value: students.filter(s => new Date(s.joinDate) > new Date(Date.now() - 30*24*60*60*1000)).length.toString(), icon: Crown, change: '+15%', changeType: 'positive' },
-    { name: 'Active Users', value: students.filter(s => s.status === 'active').length.toString(), icon: UserPlus, change: '+5%', changeType: 'positive' }
+    { name: 'New Registrations', value: analytics.recentRegistrations.toString(), icon: Crown, change: '+15%', changeType: 'positive' },
+    { name: 'Active Users', value: analytics.activeUsers.toString(), icon: Activity, change: '+5%', changeType: 'positive' }
   ];
 
   const getStatusColor = (status) => {

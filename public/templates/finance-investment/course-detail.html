@@ -1,188 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Investment Strategies - WealthMaster</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Manrope:wght@400;500;700;800" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<title>FinEd - Course Details</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#607AFB", "background-light": "#f5f6f8", "background-dark": "#0f1323"}, fontFamily: {display: "Manrope"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <div class="logo-icon">
-                    <i data-lucide="trending-up" style="width: 24px; height: 24px; color: white;"></i>
-                </div>
-                WealthMaster
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#courses">Courses</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div style="display: flex; gap: 1rem;">
-                <a href="signin.html" class="btn">Sign In</a>
-                <a href="register.html" class="btn btn-primary">Register</a>
-            </div>
-        </div>
-    </nav>
-
-    <section style="padding: 8rem 0 4rem; background: linear-gradient(135deg, #0f172a, #1e293b);">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 4rem; align-items: start;">
-                <div>
-                    <div style="margin-bottom: 2rem;">
-                        <span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.75rem 1.5rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600;">💰 Investment Mastery</span>
-                    </div>
-                    <h1 style="font-size: 3.5rem; margin-bottom: 1rem; font-weight: 700; color: white;">Advanced Investment Strategies</h1>
-                    <p style="font-size: 1.25rem; color: #94a3b8; margin-bottom: 2rem;">Master sophisticated investment techniques, portfolio management, and wealth building strategies used by professional fund managers and high-net-worth individuals.</p>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 3rem;">
-                        <div style="text-align: center; background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.1);">
-                            <div style="font-size: 2.5rem; font-weight: 900; color: #f59e0b; margin-bottom: 0.5rem;">80</div>
-                            <div style="font-size: 0.875rem; color: #94a3b8;">Hours</div>
-                        </div>
-                        <div style="text-align: center; background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.1);">
-                            <div style="font-size: 2.5rem; font-weight: 900; color: #f59e0b; margin-bottom: 0.5rem;">25+</div>
-                            <div style="font-size: 0.875rem; color: #94a3b8;">Strategies</div>
-                        </div>
-                        <div style="text-align: center; background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.1);">
-                            <div style="font-size: 2.5rem; font-weight: 900; color: #f59e0b; margin-bottom: 0.5rem;">4.8</div>
-                            <div style="font-size: 0.875rem; color: #94a3b8;">Rating</div>
-                        </div>
-                    </div>
-
-                    <div style="background: rgba(255, 255, 255, 0.05); padding: 2.5rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 3rem;">
-                        <h3 style="margin-bottom: 2rem; font-size: 1.5rem; color: white;">Investment Mastery Includes</h3>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <i data-lucide="bar-chart-3" style="width: 20px; height: 20px; color: white;"></i>
-                                </div>
-                                <span style="color: white;">Portfolio Optimization</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <i data-lucide="dollar-sign" style="width: 20px; height: 20px; color: white;"></i>
-                                </div>
-                                <span style="color: white;">Risk Management</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <i data-lucide="globe" style="width: 20px; height: 20px; color: white;"></i>
-                                </div>
-                                <span style="color: white;">Global Markets</span>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 1rem;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                    <i data-lucide="target" style="width: 20px; height: 20px; color: white;"></i>
-                                </div>
-                                <span style="color: white;">Alternative Investments</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="background: rgba(248, 250, 252, 0.05); padding: 2.5rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.1);">
-                        <h3 style="margin-bottom: 1.5rem; color: white;">Course Modules</h3>
-                        <div style="display: flex; flex-direction: column; gap: 1rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">
-                                <span style="font-weight: 600; color: white;">Investment Fundamentals</span>
-                                <span style="color: #94a3b8; font-size: 0.875rem;">6 lessons</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">
-                                <span style="font-weight: 600; color: white;">Advanced Portfolio Theory</span>
-                                <span style="color: #94a3b8; font-size: 0.875rem;">10 lessons</span>
-                            </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 0.5rem;">
-                                <span style="font-weight: 600; color: white;">Derivatives & Options</span>
-                                <span style="color: #94a3b8; font-size: 0.875rem;">12 lessons</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="position: sticky; top: 120px;">
-                    <div style="background: rgba(255, 255, 255, 0.05); padding: 2.5rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);">
-                        <div style="text-align: center; margin-bottom: 2rem;">
-                            <div style="font-size: 3rem; font-weight: 900; color: #f59e0b; margin-bottom: 0.5rem;">$499</div>
-                            <div style="color: #94a3b8; font-size: 0.875rem;">Professional Investment Course</div>
-                        </div>
-                        
-                        <div style="margin-bottom: 2rem;">
-                            <div style="background: rgba(245, 158, 11, 0.1); padding: 1.5rem; border-radius: 0.5rem; text-align: center; margin-bottom: 1.5rem; border: 1px solid rgba(245, 158, 11, 0.2);">
-                                <div style="font-weight: 700; color: #f59e0b; margin-bottom: 0.5rem;">🚀 Premium Access</div>
-                                <div style="font-size: 0.875rem; color: #94a3b8;">Includes 1-on-1 mentoring</div>
-                            </div>
-                        </div>
-
-                        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
-                            <a href="register.html" class="btn btn-primary" style="width: 100%; padding: 1.25rem; font-size: 1.125rem; background: linear-gradient(135deg, #f59e0b, #d97706);">
-                                <i data-lucide="trending-up" style="width: 20px; height: 20px;"></i>
-                                Enroll Now
-                            </a>
-                            <button class="btn" style="width: 100%; background: rgba(255, 255, 255, 0.1); color: white; border: 1px solid rgba(255, 255, 255, 0.2);">
-                                <i data-lucide="bookmark" style="width: 20px; height: 20px;"></i>
-                                Save for Later
-                            </button>
-                        </div>
-
-                        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 1.5rem;">
-                            <h4 style="margin-bottom: 1rem; font-size: 1rem; color: white;">Course Benefits:</h4>
-                            <div style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.875rem;">
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i data-lucide="infinity" style="width: 16px; height: 16px; color: #f59e0b;"></i>
-                                    <span style="color: #94a3b8;">Lifetime access</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i data-lucide="users" style="width: 16px; height: 16px; color: #f59e0b;"></i>
-                                    <span style="color: #94a3b8;">Expert mentoring</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i data-lucide="award" style="width: 16px; height: 16px; color: #f59e0b;"></i>
-                                    <span style="color: #94a3b8;">Professional certificate</span>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                                    <i data-lucide="briefcase" style="width: 16px; height: 16px; color: #f59e0b;"></i>
-                                    <span style="color: #94a3b8;">Portfolio templates</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer" style="background: #0f172a; color: white;">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>WealthMaster</h3>
-                <p>Professional investment education for wealth building.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Courses</h3>
-                <ul>
-                    <li><a href="#" style="color: #94a3b8;">Investment Basics</a></li>
-                    <li><a href="#" style="color: #94a3b8;">Advanced Strategies</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#" style="color: #94a3b8;">Help Center</a></li>
-                    <li><a href="#" style="color: #94a3b8;">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 WealthMaster. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        lucide.createIcons();
-    </script>
-</body>
-</html>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<div class="relative flex min-h-screen w-full flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">WealthMaster</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<div class="relative pt-16 pb-24">
+<div class="absolute top-0 left-0 w-full h-[450px] bg-gray-900" style="clip-path: polygon(0 0, 100% 0, 100% 75%, 0% 100%)">
+<div class="absolute inset-0 bg-cover bg-center" style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 50%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuBCHvGcbUXR4_Yj65T3LkcMJmLQj8DbtcUjTbluMUGCOrMfCzr0eaOKISdiWBMtwLLIXv5vF58CyzZd5Mc8IhLmJ8t5Ynptl_iny9EWUf9j7Wcu-ucBetCarYTvM8gClG8gTAu8UOthqnuR8g-omsaacivHaw_zeeQh9_kwXVzAaLm0eshCgj5gmJATOMftx-B9F-dzq3u1JSn34tZMf-ob2QOmYzH2kavWrP1epdowdivo7zbDMV16DB8rOT5gJL42COEa4r1BsJ8");'></div>
+</div>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+<div class="lg:col-span-2">
+<div class="bg-transparent text-white p-6 rounded-lg-xl -mt-8">
+<h1 class="text-4xl font-extrabold tracking-tight">Mastering Financial Modeling</h1>
+</div>
+<div class="mt-8 space-y-12">
+<section>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Course Overview</h2>
+<p class="text-gray-600 dark:text-gray-300">This comprehensive course will equip you with the skills to build sophisticated financial models for investment analysis, corporate finance, and valuation. Learn from industry experts and gain hands-on experience through real-world case studies.</p>
+</section>
+<section>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Key Learning Outcomes</h2>
+<ul class="space-y-3">
+<li class="flex items-center gap-3" v-for="outcome in outcomes">
+<span class="material-symbols-outlined text-primary"> check_circle </span>
+<span class="text-gray-700 dark:text-gray-300">Build complex financial models from scratch</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary"> check_circle </span>
+<span class="text-gray-700 dark:text-gray-300">Master advanced Excel functions for financial analysis</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary"> check_circle </span>
+<span class="text-gray-700 dark:text-gray-300">Perform sensitivity analysis and scenario planning</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary"> check_circle </span>
+<span class="text-gray-700 dark:text-gray-300">Understand valuation techniques and financial forecasting</span>
+</li>
+</ul>
+</section>
+<section>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Course Syllabus</h2>
+<div class="divide-y divide-gray-200 dark:divide-gray-700/60 border border-gray-200 dark:border-gray-700/60 rounded-lg-xl overflow-hidden">
+<div class="p-4 flex items-center gap-4 bg-background-light dark:bg-background-dark">
+<div class="bg-primary/10 dark:bg-primary/20 text-primary rounded-lg-lg p-3 font-bold">01</div>
+<div>
+<p class="font-semibold text-gray-800 dark:text-gray-100">Introduction to Financial Modeling</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Module 1</p>
+</div>
+</div>
+<div class="p-4 flex items-center gap-4 bg-background-light dark:bg-background-dark">
+<div class="bg-primary/10 dark:bg-primary/20 text-primary rounded-lg-lg p-3 font-bold">02</div>
+<div>
+<p class="font-semibold text-gray-800 dark:text-gray-100">Advanced Excel Techniques</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Module 2</p>
+</div>
+</div>
+<div class="p-4 flex items-center gap-4 bg-background-light dark:bg-background-dark">
+<div class="bg-primary/10 dark:bg-primary/20 text-primary rounded-lg-lg p-3 font-bold">03</div>
+<div>
+<p class="font-semibold text-gray-800 dark:text-gray-100">Building a Financial Model</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Module 3</p>
+</div>
+</div>
+<div class="p-4 flex items-center gap-4 bg-background-light dark:bg-background-dark">
+<div class="bg-primary/10 dark:bg-primary/20 text-primary rounded-lg-lg p-3 font-bold">04</div>
+<div>
+<p class="font-semibold text-gray-800 dark:text-gray-100">Valuation and Forecasting</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Module 4</p>
+</div>
+</div>
+<div class="p-4 flex items-center gap-4 bg-background-light dark:bg-background-dark">
+<div class="bg-primary/10 dark:bg-primary/20 text-primary rounded-lg-lg p-3 font-bold">05</div>
+<div>
+<p class="font-semibold text-gray-800 dark:text-gray-100">Case Studies and Applications</p>
+<p class="text-sm text-gray-500 dark:text-gray-400">Module 5</p>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Instructor</h2>
+<div class="bg-background-light dark:bg-background-dark p-6 rounded-lg-xl border border-gray-200 dark:border-gray-700/60">
+<div class="flex flex-col sm:flex-row items-start gap-6">
+<img alt="Dr. Ethan Carter" class="h-24 w-24 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeKxKmR_GxFlaP1OvpAzgdIhfkecXKsEr6b89g3WsiWnltKwwWCnLG_QB2YhohGBZ4XeVpKILBKMEoYjvtaXmRsWKphhYXTR9qy2ekquy8YuiQQ9iftxuPSOaIRu068w9-f93IGLtdUEx3DzNjDf2eOTE4V5hNjCB4RHkdYPu2wrvNnQ7sQNqVA9EwYjLsX-A8pD7oHMIwIhxAgYcAgdmyDBz3SfIvU3JK1AhUHqeHwh6HAu8erfXTZXZ8fl8DVNK-dG0GIdZ_XyI"/>
+<div class="flex-1">
+<h3 class="text-xl font-bold text-gray-900 dark:text-white">Dr. Ethan Carter</h3>
+<p class="text-primary font-medium">Financial Analyst &amp; Educator</p>
+<p class="mt-2 text-gray-600 dark:text-gray-300">Dr. Carter is a seasoned financial analyst with over 10 years of experience in investment banking and corporate finance. He holds a PhD in Finance and has taught financial modeling at top universities.</p>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Student Reviews</h2>
+<div class="space-y-6">
+<div class="bg-background-light dark:bg-background-dark p-5 rounded-lg-xl border border-gray-200 dark:border-gray-700/60">
+<div class="flex items-start gap-4">
+<img alt="Sophia Bennett" class="h-10 w-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQmoNbpKqW7uxRaiAmd1Z8bYt2EVPm2pJJdT4PW6o51mrCdjKOZBArQscOHZSG3DLkm4iNa6JNxSRilwFWPqF5VS-XDpZ4x_BsTq9JVfYG-UKg2ixlcgpRT8pRlw2jqN97gkc_2i2s0jUx_g55ww0z4qJ2RCxjM3bmECUwBAPNOZ5gKe08AA2T5qB1UYeQ2Oft29IvU3ZEKsydpUHPpiZ458EnSrIpWzzmDBEORMuE-qqO-70Px4NctOR_fg82QMdX3kEEqJ5wODo"/>
+<div class="flex-1">
+<div class="flex items-baseline justify-between">
+<div>
+<p class="font-semibold text-gray-800 dark:text-gray-100">Sophia Bennett</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">2 months ago</p>
+</div>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined text-primary !text-base">star</span>
+<span class="material-symbols-outlined text-primary !text-base">star</span>
+<span class="material-symbols-outlined text-primary !text-base">star</span>
+<span class="material-symbols-outlined text-primary !text-base">star</span>
+<span class="material-symbols-outlined text-primary !text-base">star</span>
+</div>
+</div>
+<p class="mt-2 text-gray-600 dark:text-gray-300">This course exceeded my expectations! The content was well-structured, and Dr. Carter's explanations were clear and concise. I now feel confident in my ability to build complex financial models.</p>
+</div>
+</div>
+</div>
+<div class="bg-background-light dark:bg-background-dark p-5 rounded-lg-xl border border-gray-200 dark:border-gray-700/60">
+<div class="flex items-start gap-4">
+<img alt="Liam Harper" class="h-10 w-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA37rHK_FbxvAT_Mr2sMtdu1jIzV5e8CevjsGWjLZ8jm_ULitBezBKxxxYwkkT1pDsfnB8XS3Ejg7btS2BxgEKrC-M1_g-oFk_YoFa2iwwYoda2HzuuKgfV-Pu3EsN0xRfibhLLhrwQ4quyi7Gq8MuTmPvNnqNQpyL6B_NQEjcFI89s33ISfjdEmqJF2MF12wcNuTcLdDZDtZP5TRGMTF5EgiPMjZzQLdEFlkI5cQe0P1SbJ4ojHICWlhXXQWpYb68K4Q4GZ42f9mA"/>
+<div class="flex-1">
+<div class="flex items-baseline justify-between">
+<div>
+<p class="font-semibold text-gray-800 dark:text-gray-100">Liam Harper</p>
+<p class="text-xs text-gray-500 dark:text-gray-400">3 months ago</p>
+</div>
+<div class="flex items-center gap-0.5">
+<span class="material-symbols-outlined text-primary !text-base">star</span>
+<span class="material-symbols-outlined text-primary !text-base">star</span>
+<span class="material-symbols-outlined text-primary !text-base">star</span>
+<span class="material-symbols-outlined text-primary !text-base">star</span>
+<span class="material-symbols-outlined text-gray-300 dark:text-gray-600 !text-base">star</span>
+</div>
+</div>
+<p class="mt-2 text-gray-600 dark:text-gray-300">The course provided a solid foundation in financial modeling. While some sections were challenging, the instructor's support and the practical exercises helped me grasp the concepts.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<div class="lg:col-span-1">
+<div class="sticky top-24">
+<div class="bg-background-light dark:bg-background-dark rounded-lg-xl shadow-lg border border-gray-200 dark:border-gray-700/60 overflow-hidden">
+<div class="p-6">
+<p class="text-4xl font-extrabold text-gray-900 dark:text-white">$199</p>
+<p class="mt-1 text-sm text-gray-500 dark:text-gray-400">One-time payment, lifetime access</p>
+</div>
+<div class="p-6 border-t border-gray-200 dark:border-gray-700/60">
+<button class="w-full inline-flex items-center justify-center rounded-lg-lg h-12 px-6 bg-primary text-white text-base font-bold transition-transform hover:scale-105 shadow-md">Enroll Now</button>
+<p class="text-xs text-center mt-3 text-gray-500 dark:text-gray-400">30-Day Money-Back Guarantee</p>
+</div>
+<div class="p-6 border-t border-gray-200 dark:border-gray-700/60">
+<h3 class="font-semibold text-gray-900 dark:text-white mb-3">This course includes:</h3>
+<ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 !text-xl">ondemand_video</span>
+<span>12 hours on-demand video</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 !text-xl">article</span>
+<span>25 articles &amp; resources</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 !text-xl">cloud_download</span>
+<span>Downloadable resources</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 !text-xl">workspace_premium</span>
+<span>Certificate of completion</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-gray-100 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-700/60">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="col-span-2 md:col-span-1">
+<a class="flex items-center gap-2 text-gray-900 dark:text-white" href="#">
+<svg class="h-8 w-8 text-primary" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<span class="text-xl font-bold">FinEd</span>
+</a>
+<p class="mt-4 text-sm text-gray-500 dark:text-gray-400">Empowering your financial future.</p>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">Navigate</h3>
+<ul class="mt-4 space-y-4">
+<li><a class="text-base text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">About</a></li>
+<li><a class="text-base text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">Contact</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">Legal</h3>
+<ul class="mt-4 space-y-4">
+<li><a class="text-base text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">Privacy Policy</a></li>
+<li><a class="text-base text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-gray-900 dark:text-white tracking-wider uppercase">Connect</h3>
+<div class="flex mt-4 space-x-6">
+<a class="text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary" href="#"><svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.71v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg></a>
+<a class="text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary" href="#"><svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg></a>
+<a class="text-gray-400 dark:text-gray-500 hover:text-primary dark:hover:text-primary" href="#"><svg aria-hidden="true" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.024.06 1.378.06 3.808s-.012 2.784-.06 3.808c-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.024.048-1.378.06-3.808.06s-2.784-.013-3.808-.06c-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 016.345 2.525c.636-.247 1.363-.416 2.427-.465C9.795 2.013 10.148 2 12.315 2zm-1.163 1.802h2.326c-.006.014-.01.028-.015.043v.001c-2.423.053-4.38 2.004-4.38 4.43s1.957 4.377 4.38 4.43c.005.015.009.029.015.043h-2.326c-2.43 0-2.784-.013-3.808-.06s-1.791-.218-2.427-.465a2.897 2.897 0 01-1.06-1.06c-.247-.636-.416-1.363-.465-2.427-.048-1.024-.06-1.378-.06-3.808s.012-2.784.06-3.808c.049-1.064.218-1.791.465-2.427a2.897 2.897 0 011.06-1.06c.636-.247 1.363-.416 2.427-.465 1.024-.048 1.378-.06 3.808-.06zM12 6.865a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27zm0 1.802a3.333 3.333 0 110 6.666 3.333 3.333 0 010-6.666zm5.338-3.205a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z" fill-rule="evenodd"></path></svg></a>
+</div>
+</div>
+</div>
+<div class="mt-8 border-t border-gray-200 dark:border-gray-700/60 pt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+<p>© 2024 FinEd. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

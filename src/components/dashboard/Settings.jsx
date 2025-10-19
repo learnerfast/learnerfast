@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Upload, Globe, Shield, Bell, CreditCard, Users, Database } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 const Settings = () => {
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('general');
   const [formData, setFormData] = useState({
     siteName: 'Course Builder',
@@ -23,19 +26,51 @@ const Settings = () => {
     }));
   };
 
-  const handleSave = () => {
-    // Save to localStorage for now
-    localStorage.setItem('dashboard-settings', JSON.stringify(formData));
-    toast.success('Settings saved successfully!');
+  const handleSave = async () => {
+    if (!user?.id) {
+      toast.error('Please log in to save settings');
+      return;
+    }
+    
+    try {
+      const { error } = await supabase
+        .from('user_settings')
+        .upsert({
+          user_id: user.id,
+          settings_data: formData
+        }, { onConflict: 'user_id' });
+      
+      if (error) throw error;
+      toast.success('Settings saved successfully!');
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+      toast.error('Failed to save settings');
+    }
   };
 
   // Load settings on component mount
   useEffect(() => {
-    const savedSettings = localStorage.getItem('dashboard-settings');
-    if (savedSettings) {
-      setFormData(JSON.parse(savedSettings));
-    }
-  }, []);
+    const loadSettings = async () => {
+      if (!user?.id) return;
+      
+      try {
+        const { data, error } = await supabase
+          .from('user_settings')
+          .select('settings_data')
+          .eq('user_id', user.id)
+          .single();
+        
+        if (error && error.code !== 'PGRST116') throw error;
+        if (data?.settings_data) {
+          setFormData(data.settings_data);
+        }
+      } catch (error) {
+        console.warn('Failed to load settings:', error);
+      }
+    };
+    
+    loadSettings();
+  }, [user]);
 
   return (
     <div className="space-y-6">

@@ -2,7 +2,7 @@ import Wrapper from "@/layouts/wrapper";
 import About from "@/components/about";
 
 export const metadata = {
-  title: "About Page - Softec"
+  title: "About Page - LearnerFast"
 };
 
 const AboutPage = () => {

@@ -1,177 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us - Elite Fitness Academy</title>
-    <meta name="description" content="Learn about our expert team of certified fitness professionals and our commitment to helping you achieve your strength training goals.">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitLife - About Us</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#ee4b2b",
+        "background-light": "#f8f6f6",
+        "background-dark": "#221310",
+      },
+      fontFamily: {
+        display: ["Lexend"],
+      },
+      borderRadius: { DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px" },
+    },
+  },
+};
+</script>
 </head>
-<body>
-    <nav class="navbar" role="navigation" aria-label="Main navigation">
-        <div class="nav-container">
-            <a href="index.html" class="logo" aria-label="Elite Fitness Academy Home">
-                <span class="logo-text">Elite Fitness</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html" aria-current="page">About</a></li>
-                <li><a href="courses.html">Courses</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="contact.html" class="btn btn-primary">Get Started</a>
-            </div>
-        </div>
-    </nav>
+<body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
+<div class="flex items-center gap-3 text-primary">
+<svg class="h-8 w-8" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+<h2 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Elite Fitness</h2>
+</div>
+<div class="flex flex-1 justify-end gap-6">
+<nav class="flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="courses.html">Courses</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="about.html">About</a>
+<a class="text-sm font-medium hover:text-primary dark:hover:text-primary transition-colors" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-3">
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-transparent border border-primary text-primary text-sm font-bold hover:bg-primary/10 transition-all duration-300">
+<span class="truncate">Sign In</span>
+</button>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all duration-300">
+<span class="truncate">Sign Up</span>
+</button>
+</div>
+</div>
+</header>
 
-    <main>
+<main class="py-16">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">About FitLife</h1>
+<p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">Transforming lives through fitness education and expert-led training programs.</p>
+</div>
 
-        <section class="hero" aria-labelledby="hero-title">
-            <div class="hero-container">
-                <div class="hero-content">
-                    <h1 id="hero-title">About <span class="accent-text">Elite Fitness Academy</span></h1>
-                    <p class="hero-subtitle">We are dedicated to providing professional strength training and fitness education through evidence-based methodologies and expert instruction.</p>
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <span class="stat-number">15+</span>
-                            <span class="stat-label">Expert Trainers</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">500+</span>
-                            <span class="stat-label">Success Stories</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">10+</span>
-                            <span class="stat-label">Years Experience</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&crop=center" alt="Professional fitness training environment" loading="eager">
-                </div>
-            </div>
-        </section>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+<div>
+<h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Our Mission</h2>
+<p class="text-gray-600 dark:text-gray-300 mb-4">At FitLife, we believe fitness should be accessible, enjoyable, and sustainable for everyone. Our mission is to provide world-class fitness education through expert-led courses that empower individuals to achieve their health and wellness goals.</p>
+<p class="text-gray-600 dark:text-gray-300">Whether you're a beginner starting your fitness journey or an advanced athlete looking to push your limits, we have the right program for you.</p>
+</div>
+<div class="aspect-video rounded-xl overflow-hidden">
+<img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop" alt="Fitness training" class="w-full h-full object-cover"/>
+</div>
+</div>
 
-        <section class="team-section" aria-labelledby="team-title">
-            <div class="container">
-                <div class="section-header">
-                    <h2 id="team-title">Our Expert Team</h2>
-                    <p class="section-subtitle">Meet our certified professionals who bring years of experience and proven expertise to your fitness journey.</p>
-                </div>
-                <div class="team-grid">
-                    <article class="team-card">
-                        <div class="team-image">
-                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=500&fit=crop&crop=face" alt="Dr. James Mitchell, Lead Fitness Instructor" loading="lazy">
-                        </div>
-                        <div class="team-info">
-                            <h3>Dr. James Mitchell</h3>
-                            <p class="team-title">Lead Strength Coach</p>
-                            <p class="team-credentials">PhD Exercise Science, CSCS, 15+ Years</p>
-                            <p class="team-bio">Specializes in strength and conditioning with extensive experience working with professional athletes and fitness enthusiasts.</p>
-                        </div>
-                    </article>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+<div class="text-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="text-2xl text-primary">🏆</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Expert Instructors</h3>
+<p class="text-gray-600 dark:text-gray-300">Learn from certified professionals with years of experience in fitness and wellness.</p>
+</div>
+<div class="text-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="text-2xl text-primary">📚</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Comprehensive Courses</h3>
+<p class="text-gray-600 dark:text-gray-300">From beginner to advanced levels, covering all aspects of fitness and nutrition.</p>
+</div>
+<div class="text-center">
+<div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="text-2xl text-primary">🤝</span>
+</div>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Community Support</h3>
+<p class="text-gray-600 dark:text-gray-300">Join a supportive community of like-minded individuals on their fitness journey.</p>
+</div>
+</div>
+</div>
+</main>
 
-                    <article class="team-card">
-                        <div class="team-image">
-                            <img src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400&h=500&fit=crop&crop=face" alt="Sarah Johnson, Fitness Specialist" loading="lazy">
-                        </div>
-                        <div class="team-info">
-                            <h3>Sarah Johnson</h3>
-                            <p class="team-title">Fitness Specialist</p>
-                            <p class="team-credentials">NASM-CPT, ACSM, 8+ Years</p>
-                            <p class="team-bio">Expert in functional movement and injury prevention with a focus on sustainable fitness practices.</p>
-                        </div>
-                    </article>
-
-                    <article class="team-card">
-                        <div class="team-image">
-                            <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=400&h=500&fit=crop&crop=face" alt="Michael Chen, Performance Coach" loading="lazy">
-                        </div>
-                        <div class="team-info">
-                            <h3>Michael Chen</h3>
-                            <p class="team-title">Performance Coach</p>
-                            <p class="team-credentials">CSCS, FMS, 10+ Years</p>
-                            <p class="team-bio">Focuses on athletic performance enhancement and movement quality optimization for all fitness levels.</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <section class="values-section" aria-labelledby="values-title">
-            <div class="container">
-                <div class="section-header">
-                    <h2 id="values-title">Our Approach</h2>
-                    <p class="section-subtitle">The principles that guide our professional fitness education and training methodologies.</p>
-                </div>
-                <div class="values-grid">
-                    <div class="value-card">
-                        <h3>Evidence-Based Training</h3>
-                        <p>All our programs are built on current exercise science research and proven training methodologies for optimal results.</p>
-                    </div>
-                    <div class="value-card">
-                        <h3>Professional Excellence</h3>
-                        <p>Our certified trainers maintain the highest standards of professional development and continuing education.</p>
-                    </div>
-                    <div class="value-card">
-                        <h3>Individual Focus</h3>
-                        <p>Every program is tailored to individual goals, fitness levels, and personal circumstances for maximum effectiveness.</p>
-                    </div>
-                    <div class="value-card">
-                        <h3>Safety First</h3>
-                        <p>Proper form, injury prevention, and progressive overload principles are fundamental to all our training approaches.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer" role="contentinfo">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Elite Fitness Academy</h3>
-                <p>Professional strength training and fitness education for lasting results.</p>
-                <div class="contact-info">
-                    <p>123 Fitness Street, New York, NY 10001</p>
-                    <p>Phone: (555) 123-4567</p>
-                    <p>Email: info@elitefitness.com</p>
-                </div>
-            </div>
-            <div class="footer-section">
-                <h4>Programs</h4>
-                <ul>
-                    <li><a href="courses.html">Strength Foundations</a></li>
-                    <li><a href="courses.html">Advanced Strength</a></li>
-                    <li><a href="courses.html">Athletic Performance</a></li>
-                    <li><a href="courses.html">Personal Training</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="about.html">About Us</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="#">Careers</a></li>
-                    <li><a href="#">Blog</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Support</h4>
-                <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Accessibility</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Elite Fitness Academy. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
+<footer class="bg-background-dark/90 text-background-light/80">
+<div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 gap-12 lg:grid-cols-4 lg:gap-8">
+<div class="lg:col-span-1">
+<div class="flex items-center gap-3">
+<svg class="h-10 w-10 text-primary" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M42.1739 20.1739L27.8261 5.82609C29.1366 7.13663 28.3989 10.1876 26.2002 13.7654C24.8538 15.9564 22.9595 18.3449 20.6522 20.6522C18.3449 22.9595 15.9564 24.8538 13.7654 26.2002C10.1876 28.3989 7.13663 29.1366 5.82609 27.8261L20.1739 42.1739C21.4845 43.4845 24.5355 42.7467 28.1133 40.548C30.3042 39.2016 32.6927 37.3073 35 35C37.3073 32.6927 39.2016 30.3042 40.548 28.1133C42.7467 24.5355 43.4845 21.4845 42.1739 20.1739Z" fill="currentColor"></path>
+</svg>
+<h2 class="text-2xl font-bold">FitLife</h2>
+</div>
+<p class="mt-4 text-base">Join thousands of members on their journey to a healthier lifestyle.</p>
+</div>
+</div>
+<div class="mt-12 border-t border-background-light/20 pt-8 text-center">
+<p class="text-sm text-background-light/60">© 2024 FitLife. All rights reserved.</p>
+</div>
+</div>
+</footer>
+</body></html>

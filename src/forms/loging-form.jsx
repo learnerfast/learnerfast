@@ -5,13 +5,12 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Link from "next/link";
-import { supabase } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
 
 const schema = yup
   .object({
     email: yup.string().required().email().label("Email"),
     password: yup.string().required().min(6).label("Password"),
+
   })
   .required();
 
@@ -19,33 +18,24 @@ const LogingForm = () => {
   const {
     register,
     handleSubmit, 
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const onSubmit = async (data) => {
-    setLoading(true);
-    setError("");
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
-      });
-      if (error) throw error;
-      window.location.href = "/dashboard/";
-    } catch (error) {
-      setError("Invalid email or password");
-    }
-    setLoading(false);
+  const onSubmit = (data) =>{ 
+    console.log(data)
+    reset()
   };
 
+  // password show & hide
   const [passwordType, setPasswordType] = useState("password");
   const togglePassword = () => {
-    setPasswordType(passwordType === "password" ? "text" : "password");
+    if (passwordType === "password") {
+      setPasswordType("text");
+    } else {
+      setPasswordType("password");
+    }
   };
 
   return (
@@ -91,6 +81,7 @@ const LogingForm = () => {
           </div>
         </div>
 
+
         <div className="signin-banner-form-remember">
           <div className="row">
             <div className="col-6">
@@ -118,15 +109,13 @@ const LogingForm = () => {
             </div>
           </div>
         </div>
-        {error && <div className="alert alert-danger mb-20">{error}</div>}
         <div className="signin-banner-from-btn mb-20">
-          <button type="submit" className="signin-btn" disabled={loading}>
-            {loading ? "Signing In..." : "Sign In"}
+          <button type="submit" className="signin-btn ">
+            Sign In
           </button>
         </div>
-
         <div className="signin-banner-from-register">
-          <Link href="/register">
+          <Link href="/sign-in">
             Don't have account ? <span>Register</span>
           </Link>
         </div>

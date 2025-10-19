@@ -5,28 +5,31 @@ import AboutArea from "../../../common/about-area";
 import FeatureArea from "./feature-area";
 import HeroSlider from "./hero-slider";
 import PriceArea from "./price-area";
-import Preloader from "../../../common/preloader";
-
+import ProjectArea from "./project-area";
 import RankArea from "./rank-area";
 import ServicesArea from "./services-area";
 import TestimonialArea from "./testimonial-area";
 import Footer from "@/layout/footers/footer";
+import CustomerReview from "@/components/customer-review/customer-review";
+import CtaAreaOther from "./cta-area-other";
 
 const HomeOne = () => {
 	return (
 		<>
-			<Preloader />
 			<Header />
 			<div id="smooth-wrapper">
 				<div id="smooth-content">
 					<main className="fix">
 						<HeroSlider />
-						<FeatureArea />
-						<AboutArea />
+						<CustomerReview />
 						<ServicesArea />
-
-						<TestimonialArea />
-						<RankArea />
+						
+						<ProjectArea />
+						
+						
+					
+						<CtaAreaOther/>
+					
 						<PriceArea />
 					</main>
 					<Footer />
