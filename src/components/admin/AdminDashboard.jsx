@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Users, Globe, BookOpen, BarChart3, LogOut, Bell, Search, User } from 'lucide-react';
+import { Users, Globe, BookOpen, BarChart3, Settings, LogOut, Bell, Search, User, Home, MessageSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import AllUsers from './AllUsers';
@@ -13,17 +13,18 @@ const AdminDashboard = () => {
   const router = useRouter();
 
   const tabs = [
-    { id: 'users', name: 'All Users', icon: Users },
-    { id: 'websites', name: 'All Websites', icon: Globe },
-    { id: 'courses', name: 'All Courses', icon: BookOpen },
+    { id: 'users', name: 'Users', icon: Users },
+    { id: 'websites', name: 'Websites', icon: Globe },
+    { id: 'courses', name: 'Courses', icon: BookOpen },
     { id: 'analytics', name: 'Analytics', icon: BarChart3 },
+    { id: 'communication', name: 'Communication', icon: MessageSquare },
   ];
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className="flex h-screen bg-[#f8f9fb]">
       {/* Sidebar */}
-      <div className="w-64 bg-card border-r border-border flex flex-col">
-        <div className="p-6 border-b border-border">
+      <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
+        <div className="p-6 border-b border-gray-200">
           <Image src="/learnerfast-logo.png" alt="LearnerFast" width={150} height={40} style={{height: 'auto'}} />
         </div>
 
@@ -32,26 +33,26 @@ const AdminDashboard = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors relative w-full ${
+              className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors relative w-full ${
                 activeTab === tab.id
-                  ? 'bg-primary/10 text-primary'
-                  : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                  ? 'bg-blue-50 text-blue-600'
+                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
               }`}
             >
-              {activeTab === tab.id && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 bg-primary rounded-r-full"></div>}
-              <tab.icon className={`mr-3 h-5 w-5 ${activeTab === tab.id ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'}`} />
+              {activeTab === tab.id && <div className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-1 bg-blue-600 rounded-r-full"></div>}
+              <tab.icon className={`mr-3 h-5 w-5 ${activeTab === tab.id ? 'text-blue-600' : 'text-gray-500 group-hover:text-gray-700'}`} />
               {tab.name}
             </button>
           ))}
         </nav>
 
-        <div className="p-4 border-t border-border">
+        <div className="p-4 border-t border-gray-200">
           <button
             onClick={() => router.push('/')}
-            className="group flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors w-full text-muted-foreground hover:bg-accent hover:text-foreground"
+            className="group flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors w-full text-gray-600 hover:bg-gray-50 hover:text-gray-900"
           >
-            <LogOut className="mr-3 h-5 w-5 text-muted-foreground group-hover:text-foreground" />
-            Sign Out
+            <Settings className="mr-3 h-5 w-5 text-gray-500 group-hover:text-gray-700" />
+            Settings
           </button>
         </div>
       </div>
@@ -59,31 +60,30 @@ const AdminDashboard = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-card border-b border-border">
+        <header className="bg-white border-b border-gray-200">
           <div className="px-6 h-20 flex items-center justify-between">
             <div className="relative">
-              <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search anything..."
-                className="pl-10 pr-4 py-2.5 w-64 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
+                className="pl-10 pr-4 py-2.5 w-80 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm text-gray-700 placeholder-gray-400"
               />
             </div>
-            <div className="flex items-center space-x-6">
-              <button className="p-2 text-muted-foreground hover:text-foreground transition-colors relative rounded-full hover:bg-accent">
+            <div className="flex items-center space-x-4">
+              <button className="p-2 text-gray-500 hover:text-gray-700 transition-colors relative rounded-full hover:bg-gray-100">
                 <Bell className="h-5 w-5" />
-                <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-card"></span>
+                <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
               </button>
-              <div className="h-8 w-px bg-border"></div>
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-md">
-                <User className="h-4 w-4 text-white" />
+              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                <User className="h-5 w-5 text-white" />
               </div>
             </div>
           </div>
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-[#f8f9fb]">
           <div className="container mx-auto px-6 py-8">
             {activeTab === 'users' && <AllUsers />}
             {activeTab === 'websites' && <AllWebsites />}
