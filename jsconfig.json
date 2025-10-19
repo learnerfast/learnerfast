@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": [],
     "paths": {
       "@/*": ["./src/*"],
       "@/assets/*": ["./public/assets/*"],

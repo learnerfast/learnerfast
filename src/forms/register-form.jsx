@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup"; 
 import Link from "next/link";
+import { supabase } from "../lib/supabase";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 
 const schema = yup
@@ -26,9 +29,34 @@ const RegisterForm = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) =>{ 
-    console.log(data)
-    reset()
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          data: {
+            full_name: data.fullname
+          }
+        }
+      });
+      
+      if (error) throw error;
+      
+      toast.success('Registration successful! Please check your email inbox (and spam folder) to verify your account before signing in.', {
+        duration: 6000
+      });
+      reset();
+      setTimeout(() => router.push('/sign-in'), 2000);
+    } catch (error) {
+      toast.error(error.message || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   // password show & hide
@@ -122,7 +150,9 @@ const RegisterForm = () => {
           </div>
         </div>
         <div className="signin-banner-from-btn mb-20">
-          <button type="submit" className="signin-btn ">Register</button>
+          <button type="submit" className="signin-btn" disabled={loading}>
+            {loading ? 'Registering...' : 'Register'}
+          </button>
         </div>
       </form>
     </>

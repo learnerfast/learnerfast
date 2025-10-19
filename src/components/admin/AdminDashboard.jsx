@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { Users, Globe, BookOpen, BarChart3, Settings, LogOut } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import AllUsers from './AllUsers';
 import AllWebsites from './AllWebsites';
@@ -10,11 +9,9 @@ import Analytics from './Analytics';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('users');
-  const { signOut } = useAuth();
   const router = useRouter();
 
-  const handleSignOut = async () => {
-    await signOut();
+  const handleSignOut = () => {
     router.push('/');
   };
 

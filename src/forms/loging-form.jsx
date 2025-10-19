@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Link from "next/link";
+import { supabase } from "../lib/supabase";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 const schema = yup
   .object({
@@ -23,9 +26,27 @@ const LogingForm = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const onSubmit = (data) =>{ 
-    console.log(data)
-    reset()
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  
+  const onSubmit = async (data) => {
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: data.email,
+        password: data.password
+      });
+      
+      if (error) throw error;
+      
+      toast.success('Signed in successfully!');
+      reset();
+      router.push('/dashboard');
+    } catch (error) {
+      toast.error(error.message || 'Sign in failed');
+    } finally {
+      setLoading(false);
+    }
   };
 
   // password show & hide
@@ -110,8 +131,8 @@ const LogingForm = () => {
           </div>
         </div>
         <div className="signin-banner-from-btn mb-20">
-          <button type="submit" className="signin-btn ">
-            Sign In
+          <button type="submit" className="signin-btn" disabled={loading}>
+            {loading ? 'Signing in...' : 'Sign In'}
           </button>
         </div>
         <div className="signin-banner-from-register">

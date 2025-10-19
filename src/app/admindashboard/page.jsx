@@ -1,34 +1,61 @@
 'use client';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '../../contexts/AuthContext';
+import { useState } from 'react';
 import AdminDashboard from '../../components/admin/AdminDashboard';
 
-export const dynamic = 'force-dynamic';
-
 export default function AdminDashboardPage() {
-  const { user, loading } = useAuth();
-  const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/sign-in');
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (email === 'support@learnerfast.com' && password === 'kashyap@4241') {
+      setIsAuthenticated(true);
+      setError('');
+    } else {
+      setError('Invalid credentials');
     }
-    // Check if user is admin (replace with your admin email)
-    if (!loading && user && user.email !== 'chayankkashyap@gmail.com') {
-      router.push('/dashboard');
-    }
-  }, [user, loading, router]);
+  };
 
-  if (loading) {
+  if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Admin Login</h2>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                required
+              />
+            </div>
+            {error && <p className="text-red-600 text-sm">{error}</p>}
+            <button
+              type="submit"
+              className="w-full bg-primary text-white py-2 rounded-lg hover:bg-primary/90 transition-colors"
+            >
+              Login
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
-
-  if (!user) return null;
 
   return <AdminDashboard />;
 }
