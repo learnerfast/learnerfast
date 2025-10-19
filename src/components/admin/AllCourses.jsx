@@ -14,13 +14,21 @@ const AllCourses = () => {
 
   const loadCourses = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: coursesData, error: coursesError } = await supabase
         .from('courses')
-        .select('*, profiles(email, name)')
+        .select('*')
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
-      setCourses(data || []);
+      if (coursesError) throw coursesError;
+
+      const { data: usersData } = await supabase.from('profiles').select('id, email, name');
+      
+      const coursesWithUsers = (coursesData || []).map(course => ({
+        ...course,
+        owner: usersData?.find(u => u.id === course.user_id)
+      }));
+
+      setCourses(coursesWithUsers);
     } catch (error) {
       console.error('Error loading courses:', error);
     } finally {
@@ -75,7 +83,7 @@ const AllCourses = () => {
                     }`}>
                       {course.status}
                     </span>
-                    <span className="text-xs text-gray-500">{course.profiles?.name || 'Unknown'}</span>
+                    <span className="text-xs text-gray-500">{course.owner?.name || 'Unknown'}</span>
                   </div>
                 </div>
               </div>

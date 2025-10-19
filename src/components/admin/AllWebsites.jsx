@@ -14,13 +14,21 @@ const AllWebsites = () => {
 
   const loadSites = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: sitesData, error: sitesError } = await supabase
         .from('sites')
-        .select('*, profiles(email, name)')
+        .select('*')
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
-      setSites(data || []);
+      if (sitesError) throw sitesError;
+
+      const { data: usersData } = await supabase.from('profiles').select('id, email, name');
+      
+      const sitesWithUsers = (sitesData || []).map(site => ({
+        ...site,
+        owner: usersData?.find(u => u.id === site.user_id)
+      }));
+
+      setSites(sitesWithUsers);
     } catch (error) {
       console.error('Error loading sites:', error);
     } finally {
@@ -85,7 +93,7 @@ const AllWebsites = () => {
                       <span>{site.url}</span>
                     </a>
                   </td>
-                  <td className="py-3 px-4">{site.profiles?.email || 'N/A'}</td>
+                  <td className="py-3 px-4">{site.owner?.email || 'N/A'}</td>
                   <td className="py-3 px-4">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       site.status === 'published' 

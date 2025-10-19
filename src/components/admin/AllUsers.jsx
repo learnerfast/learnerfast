@@ -14,13 +14,23 @@ const AllUsers = () => {
 
   const loadUsers = async () => {
     try {
-      const { data, error } = await supabase
+      const { data: usersData, error: usersError } = await supabase
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
-      setUsers(data || []);
+      if (usersError) throw usersError;
+
+      const { data: sitesData } = await supabase.from('sites').select('user_id');
+      const { data: coursesData } = await supabase.from('courses').select('user_id');
+
+      const usersWithStats = (usersData || []).map(user => ({
+        ...user,
+        websitesCount: sitesData?.filter(s => s.user_id === user.id).length || 0,
+        coursesCount: coursesData?.filter(c => c.user_id === user.id).length || 0
+      }));
+
+      setUsers(usersWithStats);
     } catch (error) {
       console.error('Error loading users:', error);
     } finally {
@@ -64,7 +74,8 @@ const AllUsers = () => {
               <tr className="border-b border-gray-200">
                 <th className="text-left py-3 px-4 font-semibold text-gray-700">Name</th>
                 <th className="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-700">Role</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Websites</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Courses</th>
                 <th className="text-left py-3 px-4 font-semibold text-gray-700">Joined</th>
               </tr>
             </thead>
@@ -72,18 +83,27 @@ const AllUsers = () => {
               {filteredUsers.map((user) => (
                 <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="py-3 px-4">{user.name || 'N/A'}</td>
-                  <td className="py-3 px-4 flex items-center space-x-2">
-                    <Mail className="h-4 w-4 text-gray-400" />
-                    <span>{user.email}</span>
+                  <td className="py-3 px-4">
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-4 w-4 text-gray-400" />
+                      <span>{user.email}</span>
+                    </div>
                   </td>
                   <td className="py-3 px-4">
                     <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                      {user.role || 'instructor'}
+                      {user.websitesCount}
                     </span>
                   </td>
-                  <td className="py-3 px-4 flex items-center space-x-2">
-                    <Calendar className="h-4 w-4 text-gray-400" />
-                    <span>{new Date(user.created_at).toLocaleDateString()}</span>
+                  <td className="py-3 px-4">
+                    <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                      {user.coursesCount}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="h-4 w-4 text-gray-400" />
+                      <span>{new Date(user.created_at).toLocaleDateString()}</span>
+                    </div>
                   </td>
                 </tr>
               ))}
