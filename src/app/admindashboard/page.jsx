@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 import AdminDashboard from '../../components/admin/AdminDashboard';
 
+export const dynamic = 'force-dynamic';
+
 export default function AdminDashboardPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
