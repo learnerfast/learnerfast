@@ -561,8 +561,10 @@ const BuilderToolbar = () => {
       {/* Right section */}
       <div className="flex items-center space-x-3">
         <button
-          onClick={() => {
-            window.open(`/api/preview/${siteId}`, '_blank');
+          onClick={async () => {
+            const { data } = await supabase.from('sites').select('url').eq('id', siteId).single();
+            const subdomain = data?.url || 'demo';
+            window.open(`https://${subdomain}.learnerfast.com`, '_blank');
           }}
           className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
         >

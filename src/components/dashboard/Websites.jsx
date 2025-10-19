@@ -404,7 +404,8 @@ const WebsitesList = () => {
                 
                 <button 
                   onClick={() => {
-                    window.open(`/api/preview/${site.id}`, '_blank');
+                    const subdomain = site.url || site.name.toLowerCase().replace(/\s+/g, '-');
+                    window.open(`https://${subdomain}.learnerfast.com`, '_blank');
                   }}
                   className="flex items-center space-x-1.5 px-3 py-1.5 text-sm bg-accent text-accent-foreground rounded-md hover:bg-muted transition-colors"
                 >
