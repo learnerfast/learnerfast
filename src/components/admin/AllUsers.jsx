@@ -14,15 +14,12 @@ const AllUsers = () => {
 
   const loadUsers = async () => {
     try {
-      const { data: authUsers } = await supabase.auth.admin.listUsers();
+      const { data: profilesData } = await supabase.from('profiles').select('*');
       const { data: sitesData } = await supabase.from('sites').select('user_id');
       const { data: coursesData } = await supabase.from('courses').select('user_id');
 
-      const usersWithStats = (authUsers?.users || []).map(user => ({
-        id: user.id,
-        email: user.email,
-        name: user.user_metadata?.name || user.user_metadata?.full_name || 'N/A',
-        created_at: user.created_at,
+      const usersWithStats = (profilesData || []).map(user => ({
+        ...user,
         websitesCount: sitesData?.filter(s => s.user_id === user.id).length || 0,
         coursesCount: coursesData?.filter(c => c.user_id === user.id).length || 0
       }));
