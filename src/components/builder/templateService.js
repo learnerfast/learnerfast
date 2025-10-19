@@ -166,7 +166,11 @@ export const templateService = {
     const fileName = pageFileMap[pageType] || template.indexFile;
     
     try {
-      const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
+      const baseUrl = typeof window !== 'undefined' 
+        ? window.location.origin 
+        : process.env.VERCEL_URL 
+          ? `https://${process.env.VERCEL_URL}` 
+          : 'http://localhost:3000';
       const response = await fetch(`${baseUrl}${template.path}${fileName}`);
       if (!response.ok) {
         if (fileName !== template.indexFile) {
