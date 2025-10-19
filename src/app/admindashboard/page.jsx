@@ -3,6 +3,7 @@ import { useState } from 'react';
 import AdminDashboard from '../../components/admin/AdminDashboard';
 import Image from 'next/image';
 import { Lock, Mail, Shield } from 'lucide-react';
+import '@/dashboard.css';
 
 export default function AdminDashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -22,10 +23,10 @@ export default function AdminDashboardPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 p-4">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="relative bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-2xl w-full max-w-md border border-gray-100">
-          <div className="flex flex-col items-center mb-8">
+        <div className="relative bg-white/80 backdrop-blur-sm p-10 rounded-2xl shadow-2xl w-full max-w-md border border-gray-100 mx-auto">
+          <div className="flex flex-col items-center mb-8 text-center">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
               <Shield className="h-8 w-8 text-white" />
             </div>
@@ -71,7 +72,7 @@ export default function AdminDashboardPage() {
               type="submit"
               className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3.5 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             >
-              Access Dashboard
+              Sign In
             </button>
           </form>
         </div>
