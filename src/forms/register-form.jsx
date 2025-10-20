@@ -67,7 +67,22 @@ const RegisterForm = () => {
       reset();
       setTimeout(() => router.push('/sign-in'), 5000);
     } catch (error) {
-      toast.error(error.message || 'Registration failed');
+      const errorMessage = error.message.includes('already registered') || error.message.includes('User already registered')
+        ? 'This email is already registered. Please sign in instead.'
+        : error.message || 'Registration failed';
+      toast.error(errorMessage, {
+        duration: 5000,
+        style: {
+          background: '#ef4444',
+          color: '#ffffff',
+          padding: '16px 24px',
+          borderRadius: '0.75rem',
+          fontSize: '15px',
+          fontWeight: '500',
+          maxWidth: '500px',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)'
+        }
+      });
     } finally {
       setLoading(false);
     }
