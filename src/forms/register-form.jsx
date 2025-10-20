@@ -188,6 +188,11 @@ const RegisterForm = () => {
             {loading ? 'Registering...' : 'Register'}
           </button>
         </div>
+        <div className="signin-banner-from-register">
+          <Link href="/sign-in">
+            Already have an account ? <span>Sign In</span>
+          </Link>
+        </div>
       </form>
     </>
   );
