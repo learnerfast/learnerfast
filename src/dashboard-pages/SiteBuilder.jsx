@@ -41,7 +41,7 @@ const BuilderLayout = () => {
       <div className="flex-1 relative overflow-hidden">
         <BuilderCanvas />
         {activeMode === 'pages' && <BuilderSidebar />}
-        {selectedElement && activeMode !== 'add' && <BuilderInspector />}
+        {selectedElement && activeMode !== 'add' && activeMode !== 'design' && activeMode !== 'site' && <BuilderInspector />}
         <DebugPanel />
       </div>
       <ToastContainer toasts={toasts} onRemoveToast={removeToast} />

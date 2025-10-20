@@ -13,14 +13,34 @@ import { supabase } from '../../lib/supabase';
 
 const siteTemplates = templateService.getTemplates();
 
-const TemplatePreview = ({ template }) => {
+const TemplatePreview = ({ template, siteId }) => {
   const [templateHtml, setTemplateHtml] = React.useState('');
+  const { user } = useAuth();
   
   React.useEffect(() => {
     const loadTemplate = async () => {
       try {
-        const response = await fetch(`${template.path}index.html`);
-        let html = await response.text();
+        let html = '';
+        
+        // Try to load saved content first
+        if (siteId && user?.id) {
+          const { data } = await supabase
+            .from('website_builder_saves')
+            .select('page_contents')
+            .eq('site_id', siteId)
+            .eq('user_id', user.id)
+            .single();
+          
+          if (data?.page_contents?.home) {
+            html = data.page_contents.home;
+          }
+        }
+        
+        // Fallback to original template
+        if (!html) {
+          const response = await fetch(`${template.path}index.html`);
+          html = await response.text();
+        }
         
         // Fix relative paths and force desktop viewport
         html = html
@@ -50,7 +70,7 @@ const TemplatePreview = ({ template }) => {
     };
     
     loadTemplate();
-  }, [template]);
+  }, [template, siteId, user]);
   
   if (!templateHtml) {
     return (
@@ -364,7 +384,7 @@ const WebsitesList = () => {
               {(() => {
                 const template = siteTemplates.find(t => t.id === site.template_id);
                 return template ? (
-                  <TemplatePreview template={template} />
+                  <TemplatePreview template={template} siteId={site.id} />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Globe className="h-12 w-12 text-muted-foreground/50" />

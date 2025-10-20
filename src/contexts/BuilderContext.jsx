@@ -299,17 +299,38 @@ export const BuilderProvider = ({ children, siteId }) => {
       // Save to database
       if (user?.id) {
         try {
-          await supabase
+          const { data: existing } = await supabase
             .from('website_builder_saves')
-            .upsert({
-              site_id: siteId,
-              user_id: user.id,
-              page_contents: updatedPageContents,
-              page_data: pageData,
-              template_id: currentTemplate
-            }, { onConflict: 'site_id,user_id' });
+            .select('id')
+            .eq('site_id', siteId)
+            .eq('user_id', user.id)
+            .single();
+
+          if (existing) {
+            await supabase
+              .from('website_builder_saves')
+              .update({
+                page_contents: updatedPageContents,
+                page_data: pageData,
+                template_id: currentTemplate,
+                updated_at: new Date().toISOString()
+              })
+              .eq('site_id', siteId)
+              .eq('user_id', user.id);
+          } else {
+            await supabase
+              .from('website_builder_saves')
+              .insert({
+                site_id: siteId,
+                user_id: user.id,
+                page_contents: updatedPageContents,
+                page_data: pageData,
+                template_id: currentTemplate
+              });
+          }
         } catch (error) {
-          console.warn('Failed to save to database:', error);
+          console.error('Failed to save to database:', error);
+          throw error;
         }
       }
       
@@ -430,9 +451,10 @@ export const BuilderProvider = ({ children, siteId }) => {
 
   // Load template on initialization
   useEffect(() => {
-    if (templateContent && currentTemplate) return;
-
+    let mounted = true;
+    
     const loadTemplate = async () => {
+      if (!mounted) return;
       setIsLoadingTemplate(true);
       try {
         let templateId = null;
@@ -499,8 +521,9 @@ export const BuilderProvider = ({ children, siteId }) => {
                 setPageContents(data.page_contents);
                 const currentPageContent = data.page_contents[currentPage] || data.page_contents['home'];
                 if (currentPageContent) {
-                  setTemplateContent(currentPageContent);
                   setCurrentTemplate(templateId);
+                  setTemplateContent(currentPageContent);
+                  setIsLoadingTemplate(false);
                   console.log(`Loaded existing project for site: ${siteId}`);
                   return;
                 }
@@ -536,6 +559,10 @@ export const BuilderProvider = ({ children, siteId }) => {
     };
     
     loadTemplate();
+    
+    return () => {
+      mounted = false;
+    };
   }, [siteId, user]);
 
   const value = {
