@@ -159,7 +159,14 @@ export const WebsiteProvider = ({ children }) => {
     if (!user?.id) return;
     
     try {
-      // Delete site (CASCADE will handle website_builder_saves)
+      // First delete related website_builder_saves
+      await supabase
+        .from('website_builder_saves')
+        .delete()
+        .eq('site_id', id)
+        .eq('user_id', user.id);
+      
+      // Then delete the site
       const { error } = await supabase
         .from('sites')
         .delete()
@@ -171,7 +178,7 @@ export const WebsiteProvider = ({ children }) => {
       // Remove from local state
       setSites(prevSites => prevSites.filter(site => site.id !== id));
     } catch (error) {
-      console.error('Failed to delete site:', error);
+      console.error('Failed to delete site:', error?.message || error);
       throw error;
     }
   };

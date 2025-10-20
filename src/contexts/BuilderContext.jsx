@@ -430,6 +430,8 @@ export const BuilderProvider = ({ children, siteId }) => {
 
   // Load template on initialization
   useEffect(() => {
+    if (templateContent && currentTemplate) return;
+
     const loadTemplate = async () => {
       setIsLoadingTemplate(true);
       try {
@@ -472,10 +474,11 @@ export const BuilderProvider = ({ children, siteId }) => {
           }
         }
         
-        // Default fallback
+        // Skip if no valid templateId found
         if (!templateId) {
-          templateId = 'modern-minimal';
-          console.log('Using default template:', templateId);
+          console.warn('No template ID found for site:', siteId);
+          setIsLoadingTemplate(false);
+          return;
         }
         
         console.log('Final template selection:', templateId, 'for site:', siteId);
@@ -511,7 +514,9 @@ export const BuilderProvider = ({ children, siteId }) => {
           }
         }
         
-        // Load template
+        // Load template only if templateId exists
+        if (!templateId) return;
+        
         const { template, content } = await templateService.loadTemplate(templateId);
         const processedContent = content
           .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
@@ -519,8 +524,9 @@ export const BuilderProvider = ({ children, siteId }) => {
           .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
           .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`);
         
-        setTemplateContent(processedContent);
+        // Set template content and template ID together to prevent flash
         setCurrentTemplate(templateId);
+        setTemplateContent(processedContent);
         
       } catch (error) {
         console.error('Failed to load project:', error);
@@ -530,7 +536,7 @@ export const BuilderProvider = ({ children, siteId }) => {
     };
     
     loadTemplate();
-  }, [siteId, currentPage, user]);
+  }, [siteId, user]);
 
   const value = {
     siteId,

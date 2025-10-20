@@ -30,7 +30,7 @@ export default function AdminDashboardPage() {
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
               <Shield className="h-8 w-8 text-white" />
             </div>
-            <Image src="/learnerfast-logo.png" alt="LearnerFast" width={180} height={48} style={{height: 'auto'}} className="mb-2" />
+            <Image src="/learnerfast-logo.png" alt="LearnerFast" width={180} height={48} style={{width: 'auto', height: 'auto'}} className="mb-2" />
             <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Admin Portal</h2>
             <p className="text-sm text-gray-500 mt-1">Secure access to admin dashboard</p>
           </div>

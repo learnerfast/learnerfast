@@ -440,16 +440,25 @@ const WebsitesList = () => {
 
       {/* Loading Screen */}
       {showLoadingScreen && createPortal(
-        <div className="fixed inset-0 bg-gradient-to-br from-slate-100 via-gray-50 to-blue-50 flex flex-col items-center justify-center z-[9999] overflow-hidden">
+        <div className="fixed inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex flex-col items-center justify-center z-[9999] overflow-hidden">
+          {/* Animated background shimmer */}
+          <motion.div
+            className="absolute inset-0 opacity-30"
+            style={{
+              background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)'
+            }}
+            animate={{ x: ['-100%', '200%'] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+          />
           {/* Title */}
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-8 text-center"
+            className="mb-12 text-center"
           >
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">Building Your Website</h1>
-            <p className="text-gray-600">{siteName}</p>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-3 drop-shadow-sm">Building Your Website</h1>
+            <p className="text-xl text-gray-800 font-semibold drop-shadow-sm">{siteName}</p>
           </motion.div>
 
           {/* Webpage Construction */}
@@ -457,76 +466,98 @@ const WebsitesList = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.3 }}
-            className="relative w-96 h-64 mb-8"
+            className="relative w-[500px] h-80 mb-12"
           >
             {/* Webpage Frame */}
             <motion.div
-              className="absolute inset-0 bg-white shadow-2xl overflow-hidden border-4 border-gray-400 rounded-lg"
+              className="absolute inset-0 bg-white overflow-hidden border border-gray-300 rounded-xl"
               initial={{ opacity: 0.3, rotateY: -5 }}
               animate={{ opacity: 1, rotateY: 0 }}
               transition={{ duration: 2, delay: 1 }}
               style={{
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 20px -5px rgba(0, 0, 0, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)',
                 transformStyle: 'preserve-3d',
                 perspective: '1000px'
               }}
             >
               {/* Browser Bar */}
               <motion.div
-                className="h-10 bg-gradient-to-b from-gray-100 to-gray-200 border-b border-gray-400 flex items-center px-4 relative shadow-sm"
+                className="h-12 bg-gradient-to-b from-gray-100 via-gray-50 to-white border-b border-gray-200 flex items-center px-5 relative"
+                style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ duration: 1, delay: 1.5 }}
               >
                 <div className="flex space-x-2">
                   <motion.div 
-                    className="w-4 h-4 bg-red-500 rounded-full shadow-inner border border-red-600 relative"
+                    className="w-3 h-3 bg-red-500 rounded-full relative"
+                    style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 2px rgba(255,0,0,0.3)' }}
                     animate={{ 
-                      rotate: [0, 0, 360, 360, 360, 360]
+                      opacity: [1, 0.7, 1],
+                      boxShadow: ['inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 2px rgba(255,0,0,0.3)', 'inset 0 1px 2px rgba(0,0,0,0.3), 0 2px 4px rgba(255,0,0,0.5)', 'inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 2px rgba(255,0,0,0.3)']
                     }}
-                    transition={{ duration: 6, repeat: Infinity, delay: 2, ease: "linear", times: [0, 0.33, 0.33, 0.66, 0.66, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                   ></motion.div>
                   <motion.div 
-                    className="w-4 h-4 bg-yellow-500 rounded-full shadow-inner border border-yellow-600 relative"
+                    className="w-3 h-3 bg-yellow-500 rounded-full relative"
+                    style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 2px rgba(255,200,0,0.3)' }}
                     animate={{ 
-                      rotate: [0, 0, 0, 0, 360, 360]
+                      opacity: [1, 0.7, 1],
+                      boxShadow: ['inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 2px rgba(255,200,0,0.3)', 'inset 0 1px 2px rgba(0,0,0,0.3), 0 2px 4px rgba(255,200,0,0.5)', 'inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 2px rgba(255,200,0,0.3)']
                     }}
-                    transition={{ duration: 6, repeat: Infinity, delay: 2, ease: "linear", times: [0, 0.33, 0.33, 0.66, 0.66, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
                   ></motion.div>
                   <motion.div 
-                    className="w-4 h-4 bg-green-500 rounded-full shadow-inner border border-green-600 relative"
+                    className="w-3 h-3 bg-green-500 rounded-full relative"
+                    style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,255,0,0.3)' }}
                     animate={{ 
-                      rotate: [0, 0, 0, 0, 0, 360]
+                      opacity: [1, 0.7, 1],
+                      boxShadow: ['inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,255,0,0.3)', 'inset 0 1px 2px rgba(0,0,0,0.3), 0 2px 4px rgba(0,255,0,0.5)', 'inset 0 1px 2px rgba(0,0,0,0.3), 0 1px 2px rgba(0,255,0,0.3)']
                     }}
-                    transition={{ duration: 6, repeat: Infinity, delay: 2, ease: "linear", times: [0, 0.33, 0.33, 0.66, 0.66, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
                   ></motion.div>
                 </div>
-                <div className="ml-6 flex-1 h-6 bg-white rounded border border-gray-300 shadow-inner"></div>
+                <div className="ml-8 flex-1 h-7 bg-white rounded-md border border-gray-200 px-3 flex items-center text-xs text-gray-500" style={{ boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.08)' }}>https://{siteName.toLowerCase().replace(/\s+/g, '-')}.learnerfast.com</div>
               </motion.div>
               
               {/* Video Hero Section */}
               <motion.div
-                className="h-32 bg-gradient-to-br from-slate-900 via-gray-900 to-black relative overflow-hidden"
+                className="h-40 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 relative overflow-hidden"
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 128, opacity: 1 }}
+                animate={{ height: 160, opacity: 1 }}
                 transition={{ duration: 1.2, delay: 1.8 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                {/* Animated shimmer overlay */}
+                <motion.div
+                  className="absolute inset-0"
+                  style={{
+                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)'
+                  }}
+                  animate={{ x: ['-100%', '200%'] }}
+                  transition={{ duration: 2.5, repeat: Infinity, ease: 'linear', delay: 2 }}
+                />
                 <motion.div
                   className="absolute inset-0 flex items-center justify-center"
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 2.5, duration: 0.8 }}
                 >
-                  <div className="w-20 h-16 bg-black/70 rounded-xl border-2 border-white/80 flex items-center justify-center backdrop-blur-sm shadow-2xl">
-                    <div className="w-0 h-0 border-l-8 border-l-white border-t-6 border-b-6 border-t-transparent border-b-transparent ml-2"></div>
-                  </div>
+                  <motion.div
+                    className="w-24 h-20 bg-black/80 rounded-2xl border-2 border-white/90 flex items-center justify-center backdrop-blur-md"
+                    style={{ boxShadow: '0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2)' }}
+                    animate={{ scale: [1, 1.05, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <div className="w-0 h-0 border-l-[12px] border-l-white border-t-[8px] border-b-[8px] border-t-transparent border-b-transparent ml-2 drop-shadow-lg"></div>
+                  </motion.div>
                 </motion.div>
-                <div className="absolute bottom-3 left-4 text-white text-sm font-medium opacity-90">Featured Content</div>
-                <div className="absolute top-3 right-4 text-white/70 text-xs">HD</div>
+                <div className="absolute bottom-4 left-5 text-white text-base font-semibold drop-shadow-lg">Featured Content</div>
+                <div className="absolute top-4 right-5 px-2 py-1 bg-white/20 backdrop-blur-sm rounded text-white text-xs font-bold">4K</div>
               </motion.div>
               
               {/* Professional Content Layout */}
-              <div className="p-4 space-y-4 bg-gradient-to-b from-white to-gray-50">
+              <div className="p-6 space-y-5 bg-gradient-to-b from-white via-gray-50 to-gray-100">
                 {/* Navigation Pills */}
                 <motion.div
                   className="flex space-x-4 mb-6"
@@ -534,10 +565,15 @@ const WebsitesList = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 3, duration: 0.6 }}
                 >
-                  <div className="px-4 py-2 bg-blue-600 text-white rounded-full text-xs font-semibold shadow-md">Home</div>
-                  <div className="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-xs font-medium">About</div>
-                  <div className="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-xs font-medium">Services</div>
-                  <div className="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-xs font-medium">Contact</div>
+                  <motion.div 
+                    className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full text-xs font-semibold"
+                    style={{ boxShadow: '0 4px 12px rgba(59, 130, 246, 0.4)' }}
+                    animate={{ boxShadow: ['0 4px 12px rgba(59, 130, 246, 0.4)', '0 6px 16px rgba(59, 130, 246, 0.5)', '0 4px 12px rgba(59, 130, 246, 0.4)'] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >Home</motion.div>
+                  <div className="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-xs font-medium" style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.08)' }}>About</div>
+                  <div className="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-xs font-medium" style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.08)' }}>Services</div>
+                  <div className="px-4 py-2 bg-gray-200 text-gray-600 rounded-full text-xs font-medium" style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.08)' }}>Contact</div>
                 </motion.div>
                 
                 {/* Hero Text */}
@@ -547,9 +583,9 @@ const WebsitesList = () => {
                   animate={{ opacity: 1 }}
                   transition={{ delay: 3.2, duration: 0.8 }}
                 >
-                  <div className="h-8 bg-gradient-to-r from-gray-800 to-gray-700 rounded shadow-sm"></div>
-                  <div className="h-4 bg-gray-400 rounded w-3/4"></div>
-                  <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                  <div className="h-8 bg-gradient-to-r from-gray-800 to-gray-700 rounded" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}></div>
+                  <div className="h-4 bg-gray-400 rounded w-3/4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}></div>
+                  <div className="h-4 bg-gray-300 rounded w-1/2" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}></div>
                 </motion.div>
                 
                 {/* Feature Cards */}
@@ -560,7 +596,7 @@ const WebsitesList = () => {
                   transition={{ delay: 3.5, duration: 0.8 }}
                 >
                   {[...Array(6)].map((_, i) => (
-                    <div key={i} className="h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg shadow-sm border border-gray-300"></div>
+                    <div key={i} className="h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg border border-gray-300" style={{ boxShadow: '0 2px 6px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5)' }}></div>
                   ))}
                 </motion.div>
                 
@@ -571,7 +607,15 @@ const WebsitesList = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 4, duration: 0.6 }}
                 >
-                  <div className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-lg text-sm font-semibold">Get Started</div>
+                  <motion.div 
+                    className="px-8 py-3 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white rounded-full text-sm font-semibold"
+                    style={{ boxShadow: '0 8px 20px rgba(99, 102, 241, 0.4)' }}
+                    animate={{ 
+                      boxShadow: ['0 8px 20px rgba(99, 102, 241, 0.4)', '0 12px 28px rgba(99, 102, 241, 0.5)', '0 8px 20px rgba(99, 102, 241, 0.4)'],
+                      scale: [1, 1.02, 1]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  >Get Started</motion.div>
                 </motion.div>
               </div>
             </motion.div>
@@ -736,20 +780,7 @@ const WebsitesList = () => {
 Engineering your digital masterpiece...
             </motion.p>
             
-            {/* Progress Bar */}
-            <motion.div
-              className="w-80 h-2 bg-gray-200 rounded-full overflow-hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-            >
-              <motion.div
-                className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 4, ease: "easeInOut", delay: 1 }}
-              />
-            </motion.div>
+
           </motion.div>
         </div>,
         document.body
