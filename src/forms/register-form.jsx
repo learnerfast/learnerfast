@@ -48,10 +48,24 @@ const RegisterForm = () => {
       if (error) throw error;
       
       toast.success('Registration successful! Please check your email inbox (and spam folder) to verify your account before signing in.', {
-        duration: 6000
+        duration: 5000,
+        style: {
+          background: '#4f46e5',
+          color: '#ffffff',
+          padding: '16px 24px',
+          borderRadius: '0.75rem',
+          fontSize: '15px',
+          fontWeight: '500',
+          maxWidth: '500px',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)'
+        },
+        iconTheme: {
+          primary: '#ffffff',
+          secondary: '#4f46e5'
+        }
       });
       reset();
-      setTimeout(() => router.push('/sign-in'), 2000);
+      setTimeout(() => router.push('/sign-in'), 5000);
     } catch (error) {
       toast.error(error.message || 'Registration failed');
     } finally {
