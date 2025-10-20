@@ -35,7 +35,7 @@ const RegisterForm = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data: signUpData, error } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
         options: {
@@ -46,6 +46,11 @@ const RegisterForm = () => {
       });
       
       if (error) throw error;
+      
+      // Check if user already exists and is confirmed
+      if (signUpData?.user && signUpData?.user?.identities?.length === 0) {
+        throw new Error('This email is already registered. Please sign in instead.');
+      }
       
       toast.success('Registration successful! Please check your email inbox (and spam folder) to verify your account before signing in.', {
         duration: 5000,
