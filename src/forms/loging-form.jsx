@@ -82,6 +82,7 @@ const LogingForm = () => {
                 className="inputText password"
                 type={passwordType}
                 name="password"
+                autoComplete="current-password"
                 {...register("password")}
               />
               <span className="floating-label">Password</span>

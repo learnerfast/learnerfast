@@ -45,9 +45,13 @@ const RegisterForm = () => {
         }
       });
       
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes('429') || error.status === 429) {
+          throw new Error('Too many requests. Please wait a few minutes and try again.');
+        }
+        throw error;
+      }
       
-      // Check if user already exists and is confirmed
       if (signUpData?.user && signUpData?.user?.identities?.length === 0) {
         throw new Error('This email is already registered. Please sign in instead.');
       }
@@ -72,9 +76,14 @@ const RegisterForm = () => {
       reset();
       setTimeout(() => router.push('/sign-in'), 5000);
     } catch (error) {
-      const errorMessage = error.message.includes('already registered') || error.message.includes('User already registered')
-        ? 'This email is already registered. Please sign in instead.'
-        : error.message || 'Registration failed';
+      let errorMessage = 'Registration failed';
+      if (error.message.includes('already registered') || error.message.includes('User already registered')) {
+        errorMessage = 'This email is already registered. Please sign in instead.';
+      } else if (error.message.includes('Too many requests')) {
+        errorMessage = error.message;
+      } else {
+        errorMessage = error.message || 'Registration failed';
+      }
       toast.error(errorMessage, {
         duration: 5000,
         style: {
@@ -136,6 +145,7 @@ const RegisterForm = () => {
                 className="inputText password"
                 type={passwordType}
                 name="password"
+                autoComplete="new-password"
                 {...register("password")}
               />
               <span className="floating-label">Password</span>
