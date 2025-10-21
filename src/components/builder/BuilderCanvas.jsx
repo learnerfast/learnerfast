@@ -289,7 +289,6 @@ const BuilderCanvas = () => {
           }, 500);
         }
       } catch (error) {
-        console.error('Error setting up iframe interaction:', error);
       }
     }
   };
@@ -331,7 +330,6 @@ const BuilderCanvas = () => {
             });
           }
         } catch (error) {
-          console.error('Error clearing iframe selection:', error);
         }
       }
     }

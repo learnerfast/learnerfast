@@ -72,7 +72,6 @@ const Communication = () => {
       setNewMessage({ recipient: '', subject: '', content: '' });
       setShowNewMessageModal(false);
     } catch (error) {
-      console.error('Failed to send message:', error);
       toast.error('Failed to send message');
     }
   };

@@ -30,7 +30,6 @@ const AllWebsites = () => {
 
       setSites(sitesWithUsers);
     } catch (error) {
-      console.error('Error loading sites:', error);
     } finally {
       setLoading(false);
     }

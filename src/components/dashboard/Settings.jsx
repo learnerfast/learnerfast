@@ -43,7 +43,6 @@ const Settings = () => {
       if (error) throw error;
       toast.success('Settings saved successfully!');
     } catch (error) {
-      console.error('Failed to save settings:', error);
       toast.error('Failed to save settings');
     }
   };
@@ -65,7 +64,6 @@ const Settings = () => {
           setFormData(data.settings_data);
         }
       } catch (error) {
-        console.warn('Failed to load settings:', error);
       }
     };
     

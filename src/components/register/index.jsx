@@ -1,5 +1,6 @@
 'use client';
-import HeaderSix from "@/layout/headers/header-6"; 
+import FooterFive from "@/layout/footers/footer-5";
+import HeaderSix from "@/layout/headers/header-6";
 import RegisterArea from "./register-area";
 import { Toaster } from "react-hot-toast";
 
@@ -7,8 +8,9 @@ const Register = () => {
   return (
     <>
       <Toaster position="top-center" />
-      <HeaderSix />
+      <HeaderSix hideNav={true} />
       <RegisterArea />
+      <FooterFive style_contact={true} style_team={true} />
     </>
   );
 };

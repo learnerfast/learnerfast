@@ -35,11 +35,9 @@ const RegisterArea = () => {
                 }
             });
             if (error) {
-                console.error('Google OAuth error:', error);
                 throw error;
             }
         } catch (error) {
-            console.error('Sign in error:', error);
             setError(error.message || 'Failed to sign in with Google');
         }
     };
@@ -49,7 +47,7 @@ const RegisterArea = () => {
             <div id="smooth-wrapper">
             <div id="smooth-content">
                <main>
-               <div className="signin-banner-area signin-banner-main-wrap d-flex align-items-center" style={{marginTop: '-80px'}}>
+               <div className="signin-banner-area signin-banner-main-wrap d-flex align-items-center">
                   <div className="signin-banner-left-box signin-banner-bg p-relative" 
                         style={{backgroundImage: `url(${bg_img})`}}>
                      <div className="signin-banner-bottom-shape">
@@ -57,7 +55,7 @@ const RegisterArea = () => {
                      </div>
                      <div className="signin-banner-left-wrap">
                         <div className="signin-banner-title-box mb-100">
-                           <h4 className="signin-banner-title tp-char-animation">{banner_title}</h4>
+                           <h4 className="signin-banner-title tp-char-animation">Welcome To LearnerFast</h4>
                         </div>
                         <div className="signin-banner-img-box position-relative">
                            <div className="signin-banner-img signin-img-1 d-none d-md-block z-index-3">
@@ -75,10 +73,10 @@ const RegisterArea = () => {
                         </div>
                      </div>
                   </div>
-                  <div className="signin-banner-from d-flex justify-content-center align-items-center" style={{paddingTop: '40px'}}>
+                  <div className="signin-banner-from d-flex justify-content-center align-items-center" style={{animation: 'fadeSlideIn 0.5s ease-in-out'}}>
                      <div className="signin-banner-from-wrap">
                         <div className="signin-banner-title-box">
-                           <h4 className="signin-banner-from-title">Register Account</h4>
+                           <h4 className="signin-banner-from-title">Create Your Account</h4>
                         </div>
                         <div className="signin-banner-login-browser" style={{width: '100%'}}>
                            <a href="#" onClick={(e) => {e.preventDefault(); handleGoogleSignIn();}} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 

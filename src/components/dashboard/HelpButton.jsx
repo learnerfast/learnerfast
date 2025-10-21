@@ -11,7 +11,6 @@ const HelpButton = () => {
       description: 'Get instant help from our support team',
       action: () => {
         // Implement live chat functionality
-        console.log('Opening live chat...');
       }
     },
     {

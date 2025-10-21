@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useCallback, useEffect } fr
 import { templateService } from '../components/builder/templateService';
 import { supabase } from '../lib/supabase';
 import { useAuth } from './AuthContext';
+import { logError, logWarning } from '../lib/errorLogger';
 
 const BuilderContext = createContext();
 
@@ -57,7 +58,7 @@ export const BuilderProvider = ({ children, siteId }) => {
       setPageContents(prev => ({ ...prev, [page]: processedContent }));
       setCurrentPage(page);
     } catch (error) {
-      console.error(`Error loading page ${page}:`, error);
+      logError(error, { context: 'loadPage', page });
     } finally {
       setIsLoadingTemplate(false);
     }
@@ -130,7 +131,7 @@ export const BuilderProvider = ({ children, siteId }) => {
   }, [history, historyIndex, isUndoRedoing]);
 
   const updateElement = (elementId, updates) => {
-    console.log('Updating element:', encodeURIComponent(elementId), 'updates applied');
+
     
     // Save current state to history before making changes
     saveToHistory(templateContent);
@@ -191,7 +192,7 @@ export const BuilderProvider = ({ children, siteId }) => {
                   template_id: currentTemplate
                 }, { onConflict: 'site_id,user_id' });
             } catch (error) {
-              console.warn('Auto-save failed:', error);
+              logWarning('Auto-save failed', { error, siteId });
             }
           }
         }
@@ -200,7 +201,7 @@ export const BuilderProvider = ({ children, siteId }) => {
   };
 
   const deleteElement = (elementId) => {
-    console.log('Deleting element:', encodeURIComponent(elementId));
+
     
     // Remove from page data
     setPageData(prev => ({
@@ -267,7 +268,6 @@ export const BuilderProvider = ({ children, siteId }) => {
       // Get current iframe content
       const iframe = document.querySelector('iframe[srcdoc]');
       if (!iframe || !iframe.contentDocument) {
-        console.warn('No iframe content available for saving');
         return true;
       }
 
@@ -289,7 +289,7 @@ export const BuilderProvider = ({ children, siteId }) => {
               .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`);
             updatedPageContents[page] = processedContent;
           } catch (error) {
-            console.warn(`Could not load ${page} page:`, error);
+            logWarning('Could not load page', { error, page });
           }
         }
       }
@@ -329,7 +329,7 @@ export const BuilderProvider = ({ children, siteId }) => {
               });
           }
         } catch (error) {
-          console.error('Failed to save to database:', error);
+          logError(error, { context: 'saveToDatabase', siteId });
           throw error;
         }
       }
@@ -349,7 +349,7 @@ export const BuilderProvider = ({ children, siteId }) => {
       
       return true;
     } catch (error) {
-      console.error('Error saving project:', error);
+      logError(error, { context: 'saveProject', siteId });
       if (typeof window !== 'undefined' && window.showToast) {
         window.showToast('Failed to save project', 'error');
       }
@@ -378,7 +378,7 @@ export const BuilderProvider = ({ children, siteId }) => {
         return true;
       }
     } catch (error) {
-      console.error('Error loading saved project:', error);
+      logError(error, { context: 'loadSavedProject', siteId });
     }
     return false;
   }, [siteId, user]);
@@ -471,17 +471,15 @@ export const BuilderProvider = ({ children, siteId }) => {
             
             if (siteData?.template_id) {
               templateId = siteData.template_id;
-              console.log('Found template from database:', templateId);
             }
           } catch (error) {
-            console.warn('Could not load site template from database:', error);
+            logWarning('Could not load site template from database', { error, siteId });
           }
         }
         
         // Try to get template from WebsiteContext as fallback
         if (!templateId && typeof window !== 'undefined' && window.getSiteTemplate) {
           templateId = window.getSiteTemplate(siteId);
-          console.log('Found template from WebsiteContext:', templateId);
         }
         
         // Extract template from siteId if it contains template info
@@ -490,7 +488,6 @@ export const BuilderProvider = ({ children, siteId }) => {
           for (const template of knownTemplates) {
             if (siteId.includes(template)) {
               templateId = template;
-              console.log('Found template from siteId:', templateId);
               break;
             }
           }
@@ -498,12 +495,10 @@ export const BuilderProvider = ({ children, siteId }) => {
         
         // Skip if no valid templateId found
         if (!templateId) {
-          console.warn('No template ID found for site:', siteId);
           setIsLoadingTemplate(false);
           return;
         }
         
-        console.log('Final template selection:', templateId, 'for site:', siteId);
         
         // Check for saved project first
         if (user?.id) {
@@ -524,7 +519,6 @@ export const BuilderProvider = ({ children, siteId }) => {
                   setCurrentTemplate(templateId);
                   setTemplateContent(currentPageContent);
                   setIsLoadingTemplate(false);
-                  console.log(`Loaded existing project for site: ${siteId}`);
                   return;
                 }
               }
@@ -533,7 +527,7 @@ export const BuilderProvider = ({ children, siteId }) => {
               }
             }
           } catch (error) {
-            console.warn('Failed to load saved project:', error);
+            logWarning('Failed to load saved project', { error, siteId });
           }
         }
         
@@ -552,7 +546,7 @@ export const BuilderProvider = ({ children, siteId }) => {
         setTemplateContent(processedContent);
         
       } catch (error) {
-        console.error('Failed to load project:', error);
+        logError(error, { context: 'loadTemplate', siteId });
       } finally {
         setIsLoadingTemplate(false);
       }

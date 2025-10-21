@@ -55,7 +55,6 @@ const Home = () => {
         setRecentActivity(activities);
 
       } catch (error) {
-        console.error('Error loading dashboard data:', error);
       }
     };
 

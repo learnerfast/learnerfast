@@ -57,7 +57,6 @@ export async function GET(request, { params }) {
       .eq('id', siteId)
       .single();
     
-    console.log('Site query:', { siteId, siteData, siteError });
     
     // Get saved content from database
     const { data: savedData } = await supabase
@@ -66,18 +65,15 @@ export async function GET(request, { params }) {
       .eq('site_id', siteId)
       .single();
     
-    console.log('Saved data template_id:', savedData?.template_id);
     
     let html = null;
     
     // Check if we have saved content for this page
     if (savedData?.page_contents?.[pageKey]) {
-      console.log('Using saved content for page:', pageKey);
       html = savedData.page_contents[pageKey];
     } else {
       // Fallback to original template using site's template_id
       const templateId = siteData?.template_id || savedData?.template_id || 'modern-minimal';
-      console.log('Loading template:', templateId, 'for page:', pageKey);
       const { template, content } = await templateService.loadTemplate(templateId, pageKey);
       
       html = content
@@ -120,14 +116,7 @@ export async function GET(request, { params }) {
     
     // Add debug to page
     const debugScript = `<script>
-      console.log('=== PREVIEW DEBUG ===');
-      console.log('Site ID: ${siteId}');
-      console.log('Page: ${pageKey}');
-      console.log('Full Site Data:', ${JSON.stringify(siteData)});
-      console.log('Template from DB: ${siteData?.template_id || 'NONE'}');
-      console.log('Saved Template: ${savedData?.template_id || 'NONE'}');
-      console.log('Has Saved Content: ${!!savedData?.page_contents?.[pageKey]}');
-      console.log('Source: ${savedData?.page_contents?.[pageKey] ? 'SAVED' : 'FRESH'}');
+
     </script>`;
     html = html.replace('</head>', debugScript + '</head>');
     
@@ -139,7 +128,6 @@ export async function GET(request, { params }) {
     });
     
   } catch (error) {
-    console.error('Preview API error for', siteId, pageKey, ':', error);
     return new Response(`Preview not available: ${error.message}`, { status: 500 });
   }
 }

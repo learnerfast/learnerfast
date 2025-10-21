@@ -63,7 +63,6 @@ const SliderInput = ({ label, value, onChange, min = 0, max = 100, unit = '%', s
 const ColorInput = ({ label, value, onChange }) => {
   const handleColorChange = (e) => {
     const newColor = e.target.value;
-    console.log('Color input changed:', label, newColor);
     
     // Apply to iframe immediately
     const iframe = document.querySelector('iframe[src*="srcdoc"], iframe[srcdoc]');
@@ -79,7 +78,6 @@ const ColorInput = ({ label, value, onChange }) => {
         } else if (label.toLowerCase().includes('border')) {
           selectedElement.style.borderColor = newColor;
         }
-        console.log('Applied color to selected element:', selectedElement.tagName, newColor);
       }
     }
     
@@ -467,7 +465,6 @@ const ScreenPanel = () => {
               onChange={(e) => {
                 if (selectedElement?.element) {
                   selectedElement.element.style.color = e.target.value;
-                  console.log('Text color updated:', e.target.value);
                 }
               }}
             />

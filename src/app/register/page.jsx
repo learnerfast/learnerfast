@@ -2,7 +2,7 @@ import Wrapper from "@/layout/wrapper";
 import Register from "@/components/register";
 
 export const metadata = {
-  title: "Register Page - Softec",
+  title: "Register Page - LearnerFast",
 };
 
 const RegisterPage = () => {

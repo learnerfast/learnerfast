@@ -79,7 +79,6 @@ export async function GET(request, { params }) {
     });
     
   } catch (error) {
-    console.error('Subdomain preview error:', error);
     return new Response(`Error: ${error.message}`, { status: 500 });
   }
 }

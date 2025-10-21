@@ -75,7 +75,6 @@ const ColorSelector = ({ isOpen, onClose, onColorSelect, position }) => {
   };
 
   const handleColorSelect = (color, closeModal = true) => {
-    console.log('Color selected:', color);
     applyColorToIframe(color);
     onColorSelect(color);
     if (closeModal) onClose();

@@ -1,6 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useRouter } from 'next/navigation';
+import { logError } from '../lib/errorLogger';
+import { rateLimiter } from '../lib/rateLimit';
+
+const limiter = rateLimiter({ interval: 60 * 1000 });
 
 const AuthContext = createContext();
 
@@ -25,7 +29,7 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       setLoading(false);
     }).catch((error) => {
-      console.error('Error getting session:', error);
+      logError(error, { context: 'getSession' });
       setLoading(false);
     });
 
@@ -35,7 +39,7 @@ export const AuthProvider = ({ children }) => {
         setUser(session?.user ?? null);
         setLoading(false);
       } catch (error) {
-        console.error('Error handling auth state change:', error.message || 'Unknown error');
+        logError(error, { context: 'authStateChange' });
         setLoading(false);
       }
     });
@@ -44,6 +48,12 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
+    try {
+      await limiter.check(5, email);
+    } catch {
+      throw new Error('Too many login attempts. Please try again later.');
+    }
+    
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,

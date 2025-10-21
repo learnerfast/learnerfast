@@ -59,25 +59,21 @@ const BuilderToolbar = () => {
     
     setTimeout(() => {
       const iframe = document.querySelector('iframe[srcdoc]');
-      console.log('Iframe found:', !!iframe);
       
       if (iframe?.contentDocument) {
         const doc = iframe.contentDocument;
         const win = iframe.contentWindow;
-        console.log('Document and window found:', !!doc, !!win);
         
         const extractedColors = {};
         
         // Extract primary color from buttons with actual background colors
         const btns = doc.querySelectorAll('button, .btn, .btn-primary, [class*="btn"]');
-        console.log('Buttons found:', btns.length);
         let primaryFound = false;
         for (let btn of btns) {
           const bgColor = win.getComputedStyle(btn).backgroundColor;
           if (bgColor && bgColor !== 'rgba(0, 0, 0, 0)' && bgColor !== 'transparent') {
             extractedColors.primary = rgbToHex(bgColor);
             primaryFound = true;
-            console.log('Primary color found:', bgColor);
             break;
           }
         }
@@ -85,11 +81,9 @@ const BuilderToolbar = () => {
         
         // Extract text colors from headings
         const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
-        console.log('Headings found:', headings.length);
         if (headings.length > 0) {
           const heading = headings[0];
           const textColor = win.getComputedStyle(heading).color;
-          console.log('Heading color:', textColor);
           extractedColors.darkText = rgbToHex(textColor);
         } else {
           extractedColors.darkText = '#333333';
@@ -98,7 +92,6 @@ const BuilderToolbar = () => {
         // Extract body background
         if (doc.body) {
           const bgColor = win.getComputedStyle(doc.body).backgroundColor;
-          console.log('Body bg color:', bgColor);
           extractedColors.bodyBg = rgbToHex(bgColor);
         } else {
           extractedColors.bodyBg = '#ffffff';
@@ -106,11 +99,9 @@ const BuilderToolbar = () => {
         
         // Extract link colors
         const links = doc.querySelectorAll('a');
-        console.log('Links found:', links.length);
         if (links.length > 0) {
           const link = links[0];
           const linkColor = win.getComputedStyle(link).color;
-          console.log('Link color:', linkColor);
           extractedColors.linkText = rgbToHex(linkColor);
         } else {
           extractedColors.linkText = '#007bff';
@@ -123,7 +114,6 @@ const BuilderToolbar = () => {
         extractedColors.lightBg = '#f8f9fa';
         extractedColors.lightText = '#ffffff';
         
-        console.log('Extracted colors:', extractedColors);
         setCustomColors(extractedColors);
       }
     }, 500);
@@ -299,7 +289,6 @@ const BuilderToolbar = () => {
                 if (activeMode === item.id) {
                   switchMode(null);
                 } else {
-                  console.log('Switching to mode:', item.id);
                   switchMode(item.id);
                 }
               }}

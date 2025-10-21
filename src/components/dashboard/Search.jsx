@@ -95,7 +95,6 @@ const Search = () => {
 
         setSearchResults(results);
       } catch (error) {
-        console.error('Search error:', error);
       } finally {
         setIsSearching(false);
       }

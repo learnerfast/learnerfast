@@ -83,7 +83,6 @@ const Users = () => {
           }]
         });
       } catch (error) {
-        console.error('Error loading users:', error);
       }
     };
     

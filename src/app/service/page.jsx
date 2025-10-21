@@ -2,7 +2,7 @@ import Wrapper from "@/layouts/wrapper";
 import Service from "@/components/service";
 
 export const metadata = {
-  title: "Service Page - Softec",
+  title: "Service Page - LearnerFast",
 };
 
 const ServicePage = () => {

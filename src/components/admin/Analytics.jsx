@@ -53,7 +53,6 @@ const Analytics = () => {
         websites: websiteAnalytics
       });
     } catch (error) {
-      console.error('Error loading analytics:', error);
     } finally {
       setLoading(false);
     }

@@ -65,7 +65,6 @@ const TemplatePreview = ({ template, siteId }) => {
         
         setTemplateHtml(html);
       } catch (error) {
-        console.error('Failed to load template:', error);
       }
     };
     
@@ -183,7 +182,6 @@ const WebsitesList = () => {
                 additionalPages[pageName] = pageContent;
               }
             } catch (pageError) {
-              console.warn(`Failed to load ${pageFile}:`, pageError);
             }
           }
           
@@ -226,13 +224,11 @@ const WebsitesList = () => {
             <script>
               // Navigation functionality for single-page app
               function showPage(pageName) {
-                console.log('Navigating to:', pageName);
               }
               
               // Handle hash navigation
               window.addEventListener('hashchange', function() {
                 const hash = window.location.hash.substring(1);
-                console.log('Hash changed to:', hash);
               });
             </script>
           `;
@@ -266,12 +262,10 @@ const WebsitesList = () => {
                     site_name: siteName
                   });
               } catch (error) {
-                console.warn('Failed to save initial builder data:', error);
               }
             }
           }
         } catch (error) {
-          console.error('Failed to load template:', error);
         }
         
         // Navigate to builder

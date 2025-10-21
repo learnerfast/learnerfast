@@ -18,13 +18,11 @@ const VideoPlayer = ({ courseId, userId }) => {
           .order('created_at', { ascending: false });
         
         if (error) {
-          console.error('Error fetching videos:', error);
           toast.error('Failed to load videos');
         } else if (data) {
           setVideos(data);
         }
       } catch (err) {
-        console.error('Unexpected error:', err);
         toast.error('Failed to load videos');
       } finally {
         setLoading(false);
@@ -37,7 +35,6 @@ const VideoPlayer = ({ courseId, userId }) => {
   }, [courseId, userId]);
 
   const handleVideoError = (video) => {
-    console.error('Video failed to load:', video);
     toast.error(`Failed to load video: ${video.title}`);
   };
 
@@ -82,7 +79,7 @@ const VideoPlayer = ({ courseId, userId }) => {
                     referrerPolicy="strict-origin-when-cross-origin"
                     title={video.title}
                     onError={() => handleVideoError(video)}
-                    onLoad={() => console.log(`Video loaded: ${video.title}`)}
+                    onLoad={() => {}}
                   />
                 )}
                 <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-all duration-200 cursor-pointer" 

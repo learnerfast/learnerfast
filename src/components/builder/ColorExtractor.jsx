@@ -17,8 +17,6 @@ const ColorExtractor = () => {
     const iframeDoc = iframe.contentDocument;
     const iframeWindow = iframe.contentWindow;
 
-    console.log('Iframe found:', !!iframe);
-    console.log('Document and window found:', !!iframeDoc, !!iframeWindow);
 
     const getComputedColor = (element, property) => {
       if (!element || !iframeWindow) return null;
@@ -92,7 +90,6 @@ const ColorExtractor = () => {
       }
     });
 
-    console.log('Extracted colors:', colors);
     setExtractedColors(colors);
     setIsExtracting(false);
 

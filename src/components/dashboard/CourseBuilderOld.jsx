@@ -248,7 +248,6 @@ const CourseBuilder = ({ course, onBack }) => {
       }
       
     } catch (error) {
-      console.error('Error loading course data:', error);
     } finally {
       setLoading(false);
     }
@@ -320,7 +319,6 @@ const CourseBuilder = ({ course, onBack }) => {
       setSectionForm({ title: '', description: '', access: 'draft' });
       setEditingSection(null);
     } catch (error) {
-      console.error('Error saving section:', error);
       alert('Error saving section. Please try again.');
     } finally {
       setLoading(false);
@@ -340,7 +338,6 @@ const CourseBuilder = ({ course, onBack }) => {
       if (error) throw error;
       alert('General settings saved successfully!');
     } catch (error) {
-      console.error('Error saving general settings:', error);
       alert('Error saving settings. Please try again.');
     } finally {
       setLoading(false);
@@ -360,7 +357,6 @@ const CourseBuilder = ({ course, onBack }) => {
       if (error) throw error;
       alert('Access settings saved successfully!');
     } catch (error) {
-      console.error('Error saving access settings:', error);
       alert('Error saving settings. Please try again.');
     } finally {
       setLoading(false);
@@ -380,7 +376,6 @@ const CourseBuilder = ({ course, onBack }) => {
       if (error) throw error;
       alert('Pricing settings saved successfully!');
     } catch (error) {
-      console.error('Error saving pricing settings:', error);
       alert('Error saving settings. Please try again.');
     } finally {
       setLoading(false);
@@ -400,7 +395,6 @@ const CourseBuilder = ({ course, onBack }) => {
       if (error) throw error;
       alert('Progress settings saved successfully!');
     } catch (error) {
-      console.error('Error saving progress settings:', error);
       alert('Error saving settings. Please try again.');
     } finally {
       setLoading(false);
@@ -420,7 +414,6 @@ const CourseBuilder = ({ course, onBack }) => {
       if (error) throw error;
       alert('Player settings saved successfully!');
     } catch (error) {
-      console.error('Error saving player settings:', error);
       alert('Error saving settings. Please try again.');
     } finally {
       setLoading(false);

@@ -106,7 +106,6 @@ export const WebsiteProvider = ({ children }) => {
       
       setSites(data || []);
     } catch (error) {
-      console.error('Error loading sites:', error?.message || 'Unknown error');
       setSites([]);
     } finally {
       setLoading(false);
@@ -118,7 +117,6 @@ export const WebsiteProvider = ({ children }) => {
       throw new Error('User must be authenticated to create sites');
     }
     
-    console.log('Creating site with template:', template);
     
     const supabaseSite = {
       user_id: user.id,
@@ -130,7 +128,6 @@ export const WebsiteProvider = ({ children }) => {
       template_path: template.path,
     };
     
-    console.log('Inserting to DB:', supabaseSite);
     
     try {
       // Insert site into database
@@ -140,7 +137,6 @@ export const WebsiteProvider = ({ children }) => {
         .select()
         .single();
       
-      console.log('DB insert result:', { siteData, siteError });
       
       if (siteError) throw siteError;
       
@@ -150,7 +146,6 @@ export const WebsiteProvider = ({ children }) => {
       setSites(prevSites => [siteData, ...prevSites]);
       return siteData;
     } catch (error) {
-      console.error('Failed to create site:', error);
       throw error;
     }
   };
@@ -178,7 +173,6 @@ export const WebsiteProvider = ({ children }) => {
       // Remove from local state
       setSites(prevSites => prevSites.filter(site => site.id !== id));
     } catch (error) {
-      console.error('Failed to delete site:', error?.message || error);
       throw error;
     }
   };

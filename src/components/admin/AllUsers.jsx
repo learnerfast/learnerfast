@@ -26,7 +26,6 @@ const AllUsers = () => {
 
       setUsers(usersWithStats);
     } catch (error) {
-      console.error('Error loading users:', error);
     } finally {
       setLoading(false);
     }

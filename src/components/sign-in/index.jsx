@@ -6,7 +6,7 @@ import SingnInArea from "./singn-in-area";
 const SignIn = () => {
   return (
     <>
-      <HeaderSix />
+      <HeaderSix hideNav={true} />
       <SingnInArea />
       <FooterFive style_contact={true} style_team={true} />
     </>

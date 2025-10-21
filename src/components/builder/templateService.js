@@ -186,7 +186,6 @@ export const templateService = {
       const content = await response.text();
       return { template, content };
     } catch (error) {
-      console.error('Error loading template:', error);
       throw error;
     }
   },

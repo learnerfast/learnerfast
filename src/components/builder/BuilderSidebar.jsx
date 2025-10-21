@@ -25,25 +25,25 @@ const AddNewMenu = ({ isOpen, onClose }) => {
       icon: File,
       title: 'New Page',
       description: 'Create a new page for your website',
-      action: () => console.log('New Page')
+      action: () => {}
     },
     {
       icon: FileText,
       title: 'New Post',
       description: 'Create a new blog post or article',
-      action: () => console.log('New Post')
+      action: () => {}
     },
     {
       icon: MessageCircle,
       title: 'New Popup',
       description: 'Create a popup or modal window',
-      action: () => console.log('New Popup')
+      action: () => {}
     },
     {
       icon: Filter,
       title: 'New Funnel',
       description: 'Create a sales or conversion funnel',
-      action: () => console.log('New Funnel')
+      action: () => {}
     }
   ];
 
@@ -230,7 +230,6 @@ const BuilderSidebar = () => {
                                   } else {
                                     // Load original template page
                                     const templateId = currentTemplate || 'modern-minimal';
-                                    console.log('Loading page:', pageSlug, 'with template:', templateId);
                                     
                                     // Map page names to template page types
                                     const pageTypeMap = {
@@ -245,7 +244,6 @@ const BuilderSidebar = () => {
                                       'checkout': 'checkout'
                                     };
                                     
-                                    console.log('Switching to page:', pageSlug, 'mapped to:', pageTypeMap[pageSlug]);
                                     
                                     const pageType = pageTypeMap[pageSlug] || 'index';
                                     
@@ -261,7 +259,7 @@ const BuilderSidebar = () => {
                                           window.updateTemplateContent(processedContent);
                                         }
                                       })
-                                      .catch(error => console.error('Error loading page:', pageSlug, error));
+                                      .catch(error => {});
                                   }
                                 }, 100); // Small delay to ensure smooth transition
                               }}

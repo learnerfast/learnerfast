@@ -38,7 +38,6 @@ const Header = () => {
             
             setSites((data || []).slice(0, 3))
          } catch (error) {
-            console.warn('Error loading sites:', error)
             setSites([])
          }
       }

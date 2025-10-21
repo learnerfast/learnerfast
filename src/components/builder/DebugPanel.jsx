@@ -9,34 +9,10 @@ const DebugPanel = () => {
 
   useEffect(() => {
     // Capture console logs
-    const originalLog = console.log;
-    const originalError = console.error;
-    const originalWarn = console.warn;
 
     const addLog = (type, message) => {
       const timestamp = new Date().toLocaleTimeString();
       setLogs(prev => [...prev.slice(-50), { type, message, timestamp }]);
-    };
-
-    console.log = (...args) => {
-      originalLog(...args);
-      addLog('log', args.join(' '));
-    };
-
-    console.error = (...args) => {
-      originalError(...args);
-      addLog('error', args.join(' '));
-    };
-
-    console.warn = (...args) => {
-      originalWarn(...args);
-      addLog('warn', args.join(' '));
-    };
-
-    return () => {
-      console.log = originalLog;
-      console.error = originalError;
-      console.warn = originalWarn;
     };
   }, []);
 
@@ -141,7 +117,6 @@ const DebugPanel = () => {
           <p className="mb-1">Quick Tests:</p>
           <div className="flex flex-wrap gap-1">
             <button
-              onClick={() => console.log('Test log message')}
               className="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded hover:bg-blue-200"
             >
               Test Log
@@ -149,9 +124,7 @@ const DebugPanel = () => {
             <button
               onClick={() => {
                 if (window.builderCanvas) {
-                  console.log('Canvas API available');
                 } else {
-                  console.error('Canvas API not available');
                 }
               }}
               className="px-2 py-1 text-xs bg-green-100 text-green-800 rounded hover:bg-green-200"
@@ -161,11 +134,8 @@ const DebugPanel = () => {
             <button
               onClick={() => {
                 const mainIframe = document.querySelector('iframe[src*="srcdoc"]');
-                console.log('Main iframe:', mainIframe);
                 if (mainIframe && mainIframe.contentDocument) {
-                  console.log('Main iframe content:', mainIframe.contentDocument.documentElement.outerHTML.substring(0, 200) + '...');
                 } else {
-                  console.error('Main iframe not found or no content');
                 }
               }}
               className="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded hover:bg-purple-200"
@@ -175,11 +145,8 @@ const DebugPanel = () => {
             <button
               onClick={() => {
                 const previewIframe = document.querySelector('#theme-preview-iframe');
-                console.log('Preview iframe:', previewIframe);
                 if (previewIframe && previewIframe.contentDocument) {
-                  console.log('Preview iframe content:', previewIframe.contentDocument.documentElement.outerHTML.substring(0, 200) + '...');
                 } else {
-                  console.error('Preview iframe not found or no content');
                 }
               }}
               className="px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded hover:bg-orange-200"

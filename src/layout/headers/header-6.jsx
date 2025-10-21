@@ -13,7 +13,7 @@ import logo_black from "@/../public/learnerfast-logo.png";
 import logo_white from "@/../public/learnerfast-logo.png";
 
 
-const HeaderSix = ({ style_2 = false }) => {
+const HeaderSix = ({ style_2 = false, hideNav = false }) => {
    const { sticky } = useSticky()
    const [sidebarOpen, setSidebarOpen] = useState(false)
    const [user, setUser] = useState(null)
@@ -35,7 +35,6 @@ const HeaderSix = ({ style_2 = false }) => {
          
          setSites((data || []).slice(0, 3))
       } catch (error) {
-         console.warn('Error loading sites:', error)
          setSites([])
       }
    }
@@ -72,11 +71,11 @@ const HeaderSix = ({ style_2 = false }) => {
    return (
       <>
          <header>
-            <div id="header-sticky" className={`header-bottom__area header-sticky-bg-2 header-bottom__transparent header-bottom__bdr z-index-5 ${style_2 ? 'inner-header-2' : ''} ${sticky ? "header-sticky" : ''}`}>
+            <div id="header-sticky" className={`header-bottom__area header-sticky-bg-2 header-bottom__transparent ${!hideNav ? 'header-bottom__bdr' : ''} z-index-5 ${style_2 ? 'inner-header-2' : ''} ${sticky ? "header-sticky" : ''}`} style={hideNav ? {paddingTop: '20px', paddingBottom: '20px'} : {}}>
                <div className="container">
                   <div className="row g-0 align-items-center">
                      <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-4 col-6">
-                        <div className="header-bottom__logo" style={{marginLeft: '-20px'}}>
+                        <div className="header-bottom__logo" style={{marginLeft: hideNav ? '-80px' : '-20px'}}>
                            {style_2 ? <Link href="/">
                               <Image src={logo_black} alt="theme-pure" style={{maxWidth: '150px', height: 'auto'}} />
                            </Link> : <><Link className="white-logo" href="/">
@@ -88,16 +87,19 @@ const HeaderSix = ({ style_2 = false }) => {
                            }
                         </div>
                      </div>
-                     <div className="col-xxl-7 col-xl-7 col-lg-7 d-none d-lg-block">
-                        <div className="header-bottom__main-menu header-bottom__main-menu-4 header-bottom__main-menu-inner">
-                           <nav id="mobile-menu">
-                              <NavMenu />
-                           </nav>
+                     {!hideNav && (
+                        <div className="col-xxl-7 col-xl-7 col-lg-7 d-none d-lg-block">
+                           <div className="header-bottom__main-menu header-bottom__main-menu-4 header-bottom__main-menu-inner">
+                              <nav id="mobile-menu">
+                                 <NavMenu />
+                              </nav>
+                           </div>
                         </div>
-                     </div>
+                     )}
+                     {hideNav && <div className="col-xxl-7 col-xl-7 col-lg-7 d-none d-lg-block"></div>}
                      <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-8 col-6">
                         <div className="header-bottom__right d-flex align-items-center justify-content-end">
-                           <div className="header-bottom__action header-bottom__action-4 d-none d-xl-block">
+                           <div className="header-bottom__action header-bottom__action-4">
                               {loading ? null : user ? (
                                  <div className="d-none d-lg-inline-block last-child position-relative"
                                       onMouseEnter={() => {
@@ -120,7 +122,7 @@ const HeaderSix = ({ style_2 = false }) => {
                                     )}
                                  </div>
                               ) : (
-                                 <Link className="d-none d-lg-inline-block header-bottom__action-2 border-none" href="/sign-in">
+                                 <Link className="d-inline-block header-bottom__action-2 border-none" href="/sign-in" style={{color: 'black', fontWeight: 'bold'}}>
                                     <UserIcon />
                                     <span>Log In</span>
                                  </Link>

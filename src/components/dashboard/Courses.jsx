@@ -152,26 +152,16 @@ const Courses = React.memo(() => {
           .order('created_at', { ascending: false });
         
         if (!error && data) {
-          console.log('Loaded courses with settings:', data);
           setCourses(data);
         } else if (error) {
-          console.error('Error loading courses:', {
-            message: error.message,
-            details: error.details,
-            hint: error.hint,
-            code: error.code
-          });
-          
           // If tables don't exist, initialize with empty array
           if (error.code === 'PGRST116' || error.message?.includes('relation') || error.message?.includes('does not exist')) {
-            console.log('Database tables not found, using empty courses array');
             setCourses([]);
           } else {
             toast.error('Failed to load courses. Please check your database connection.');
           }
         }
       } catch (err) {
-        console.error('Unexpected error loading courses:', err);
         setCourses([]);
         toast.error('An unexpected error occurred while loading courses.');
       }
@@ -202,7 +192,6 @@ const Courses = React.memo(() => {
             counts[course.id] = data.length;
           }
         } catch (error) {
-          console.warn('Failed to load video count for course:', course.id);
         }
       }
       setVideoCount(counts);
@@ -244,7 +233,6 @@ const Courses = React.memo(() => {
                   course_image: imageData
                 });
             } catch (imageError) {
-              console.warn('Failed to save course image:', imageError);
               // Continue without image
             }
           }
@@ -255,13 +243,6 @@ const Courses = React.memo(() => {
           toast.success('Course created successfully!');
           return data;
         } else if (error) {
-          console.error('Course creation error:', {
-            message: error.message,
-            details: error.details,
-            hint: error.hint,
-            code: error.code
-          });
-          
           if (error.code === 'PGRST116' || error.message?.includes('relation') || error.message?.includes('does not exist')) {
             toast.error('Database tables not found. Please set up your database first.');
           } else {
@@ -269,7 +250,6 @@ const Courses = React.memo(() => {
           }
         }
       } catch (err) {
-        console.error('Unexpected error creating course:', err);
         toast.error('An unexpected error occurred while creating the course.');
       }
     }
@@ -372,7 +352,6 @@ const Courses = React.memo(() => {
         newVideo.embedUrl = generateEmbedUrl(videoData.url, videoType);
       }
     } catch (error) {
-      console.error('Video processing error:', error);
       toast.error(error.message || 'Failed to process video URL');
       return;
     }
@@ -615,11 +594,9 @@ const Courses = React.memo(() => {
                     referrerPolicy="strict-origin-when-cross-origin"
                     title={playingVideo.title}
                     onError={(e) => {
-                      console.error('Video failed to load:', e);
                       toast.error('Failed to load video. Please check the video URL.');
                     }}
                     onLoad={() => {
-                      console.log('Video loaded successfully');
                     }}
                   />
                 )}

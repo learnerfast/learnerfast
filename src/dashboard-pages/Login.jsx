@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '../contexts/AuthContext';
 import { toast } from 'react-hot-toast';
 import { Eye, EyeOff } from 'lucide-react';
+import CenteredLogo from '@/components/layout/CenteredLogo';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -28,8 +29,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-secondary-100">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-secondary-100">
+      <CenteredLogo />
+      <div className="flex items-center justify-center px-4">
+        <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900">Course Builder</h2>
           <p className="mt-2 text-gray-600">Sign in to your account</p>
@@ -97,6 +100,7 @@ const Login = () => {
         <div className="text-center text-sm text-gray-600">
           Demo credentials: any email/password combination
         </div>
+      </div>
       </div>
     </div>
   );

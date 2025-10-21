@@ -101,7 +101,6 @@ const CourseBuilder = ({ course, onBack }) => {
       
       if (error) throw error;
       
-      console.log('Loaded sections data:', data);
       
       const loadedSections = data || [];
       setSections(loadedSections.map(section => ({
@@ -120,7 +119,6 @@ const CourseBuilder = ({ course, onBack }) => {
           }))
       })));
     } catch (error) {
-      console.warn('Failed to load course sections:', error);
     }
   };
 
@@ -179,7 +177,6 @@ const CourseBuilder = ({ course, onBack }) => {
       
       setDeleteConfirm({ show: false, activityId: null, sectionId: null, type: null });
     } catch (error) {
-      console.warn('Failed to delete:', error);
       showMessage('error', `Failed to delete ${type}`);
     }
   };
@@ -213,7 +210,6 @@ const CourseBuilder = ({ course, onBack }) => {
         setNavigationType(data.navigation_type || 'global');
       }
     } catch (error) {
-      console.log('No course access settings found yet');
     }
   };
 
@@ -233,7 +229,6 @@ const CourseBuilder = ({ course, onBack }) => {
         setCourseLabel(data.course_label || '');
       }
     } catch (error) {
-      console.log('No course settings found yet');
     }
   };
 
@@ -242,7 +237,6 @@ const CourseBuilder = ({ course, onBack }) => {
     try {
       const { supabase } = await import('../../lib/supabase');
       
-      console.log('Saving course:', course.id, courseTitle, courseDescription);
       
       // Update course basic info
       const { data: courseData, error: courseError } = await supabase
@@ -255,23 +249,19 @@ const CourseBuilder = ({ course, onBack }) => {
         .select();
       
       if (courseError) {
-        console.error('Course update error:', courseError);
         throw courseError;
       }
       
-      console.log('Course updated:', courseData);
       
       // Handle course settings (always save to ensure settings record exists)
       let imageData = loadedCourseImage; // Keep existing image if no new one
       
       if (courseImage) {
-        console.log('Processing image upload...');
         const reader = new FileReader();
         imageData = await new Promise((resolve) => {
           reader.onload = (e) => resolve(e.target.result);
           reader.readAsDataURL(courseImage);
         });
-        console.log('Image converted to base64, length:', imageData.length);
       }
       
       // Always update or insert course settings
@@ -287,11 +277,9 @@ const CourseBuilder = ({ course, onBack }) => {
         .select();
       
       if (settingsError) {
-        console.error('Settings update error:', settingsError);
         throw settingsError;
       }
       
-      console.log('Settings updated:', settingsData);
       
       // Update loaded image state
       if (imageData) {
@@ -307,13 +295,7 @@ const CourseBuilder = ({ course, onBack }) => {
       
       alert('Course settings saved successfully!');
     } catch (error) {
-      console.error('Save error details:', {
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-        code: error.code,
-        error
-      });
+      console.error('Error saving course settings:', error);
       alert(`Failed to save course settings: ${error.message || 'Unknown error'}`);
     } finally {
       setIsSaving(false);
@@ -348,7 +330,6 @@ const CourseBuilder = ({ course, onBack }) => {
       
       alert('Access settings saved successfully!');
     } catch (error) {
-      console.error('Save access error:', error);
       alert('Failed to save access settings');
     } finally {
       setIsSaving(false);
@@ -423,7 +404,6 @@ const CourseBuilder = ({ course, onBack }) => {
       setEditingSection(null);
       showMessage('success', editingSection ? 'Section updated' : 'Section added');
     } catch (error) {
-      console.warn('Failed to save section:', error);
       showMessage('error', 'Failed to save section');
     }
   };
@@ -2260,7 +2240,6 @@ const CourseBuilder = ({ course, onBack }) => {
                           ));
                         }
                       } catch (error) {
-                        console.warn('Failed to save activities:', error);
                       }
                     }
                     
@@ -2373,7 +2352,6 @@ const CourseBuilder = ({ course, onBack }) => {
                                       
                                       showMessage('success', 'Audio activity added successfully');
                                     } catch (error) {
-                                      console.error('Failed to save audio activity:', error);
                                       showMessage('error', 'Failed to save audio activity');
                                     }
                                   }
@@ -2421,7 +2399,6 @@ const CourseBuilder = ({ course, onBack }) => {
                                       
                                       showMessage('success', 'Audio activity added successfully');
                                     } catch (error) {
-                                      console.error('Failed to save audio activity:', error);
                                       showMessage('error', 'Failed to save audio activity');
                                     }
                                   })();
@@ -2480,7 +2457,6 @@ const CourseBuilder = ({ course, onBack }) => {
                                   
                                   showMessage('success', 'Activity added successfully');
                                 } catch (error) {
-                                  console.error('Failed to save activity:', error);
                                   showMessage('error', 'Failed to save activity');
                                 }
                               }
@@ -2611,9 +2587,7 @@ const CourseBuilder = ({ course, onBack }) => {
                   }
                   
                   if (videoForm.source === 'youtube' && videoForm.url) {
-                    console.log('Validating YouTube URL:', videoForm.url);
                     const isValid = validateVideoUrl('youtube', videoForm.url);
-                    console.log('YouTube URL validation result:', isValid);
                     if (!isValid) {
                       showMessage('error', 'Please enter a valid YouTube URL (e.g., https://www.youtube.com/watch?v=... or https://youtu.be/...)');
                       return;
@@ -2676,7 +2650,6 @@ const CourseBuilder = ({ course, onBack }) => {
                         ));
                       }
                     } catch (error) {
-                      console.warn('Failed to save activity:', error);
                     }
                   }
                   
