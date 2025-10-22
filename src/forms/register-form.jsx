@@ -130,6 +130,8 @@ const RegisterForm = () => {
             <div className="postbox__comment-input mb-30"> 
               <input
                 name="email"
+                type="email"
+                autoComplete="username"
                 className="inputText"
                 {...register("email")}
               />
@@ -188,7 +190,23 @@ const RegisterForm = () => {
             </div>
             <div className="col-6">
               <div className="postbox__forget text-end">
-                <Link href="#">Forgot password ?</Link>
+                <a href="#" onClick={async (e) => {
+                  e.preventDefault();
+                  const email = document.querySelector('input[name="email"]').value;
+                  if (!email) {
+                    toast.error('Please enter your email first');
+                    return;
+                  }
+                  try {
+                    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                      redirectTo: `${window.location.origin}/register`,
+                    });
+                    if (error) throw error;
+                    toast.success('Password reset link sent! Check your email.');
+                  } catch (error) {
+                    toast.error(error.message || 'Failed to send reset link');
+                  }
+                }}>Forgot password ?</a>
               </div>
             </div>
           </div>

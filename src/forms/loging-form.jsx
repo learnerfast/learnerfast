@@ -28,16 +28,26 @@ const LogingForm = () => {
   });
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
   
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data: signInData, error } = await supabase.auth.signInWithPassword({
         email: data.email,
         password: data.password
       });
       
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes('Email not confirmed')) {
+          throw new Error('Please verify your email before signing in. Check your inbox.');
+        }
+        if (error.message.includes('Invalid login credentials')) {
+          throw new Error('Invalid email or password. Please try again.');
+        }
+        throw error;
+      }
       
       toast.success('Signed in successfully!');
       reset();
@@ -59,6 +69,56 @@ const LogingForm = () => {
     }
   };
 
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    if (!resetEmail) {
+      toast.error('Please enter your email');
+      return;
+    }
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: `${window.location.origin}/sign-in`,
+      });
+      if (error) throw error;
+      toast.success('Password reset link sent! Check your email.');
+      setShowForgotPassword(false);
+      setResetEmail('');
+    } catch (error) {
+      toast.error(error.message || 'Failed to send reset link');
+    }
+  };
+
+  if (showForgotPassword) {
+    return (
+      <form onSubmit={handleForgotPassword}>
+        <div className="row">
+          <div className="col-12">
+            <div className="postbox__comment-input mb-30"> 
+              <input
+                type="email"
+                value={resetEmail}
+                onChange={(e) => setResetEmail(e.target.value)}
+                className="inputText"
+                required
+              />
+              <span className="floating-label">Your Email</span>
+            </div>
+          </div>
+        </div>
+        <div className="signin-banner-from-btn mb-20">
+          <button type="submit" className="signin-btn">
+            Send Reset Link
+          </button>
+        </div>
+        <div className="signin-banner-from-register">
+          <a href="#" onClick={(e) => { e.preventDefault(); setShowForgotPassword(false); }}>
+            Back to <span>Sign In</span>
+          </a>
+        </div>
+      </form>
+    );
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -67,6 +127,8 @@ const LogingForm = () => {
             <div className="postbox__comment-input mb-30"> 
               <input
                 name="email"
+                type="email"
+                autoComplete="username"
                 className="inputText"
                 {...register("email")}
               />
@@ -126,7 +188,7 @@ const LogingForm = () => {
             </div>
             <div className="col-6">
               <div className="postbox__forget text-end">
-                <Link href="#">Forgot password ?</Link>
+                <a href="#" onClick={(e) => { e.preventDefault(); setShowForgotPassword(true); }}>Forgot password ?</a>
               </div>
             </div>
           </div>

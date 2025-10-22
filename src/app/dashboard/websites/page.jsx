@@ -24,7 +24,7 @@ export default function WebsitesPage() {
               </main>
             </div>
           </div>
-          <Toaster position="top-right" />
+          <Toaster position="top-right" toastOptions={{ style: { zIndex: 9999 } }} />
         </WebsiteProvider>
       </ThemeProvider>
     </AuthProvider>

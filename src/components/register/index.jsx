@@ -10,7 +10,6 @@ const Register = () => {
       <Toaster position="top-center" />
       <HeaderSix hideNav={true} />
       <RegisterArea />
-      <FooterFive style_contact={true} style_team={true} />
     </>
   );
 };

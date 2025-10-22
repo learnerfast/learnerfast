@@ -41,10 +41,19 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
     setIsCheckingTitle(true);
     try {
       const { supabase } = await import('../../lib/supabase');
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        setTitleError('');
+        setIsCheckingTitle(false);
+        return;
+      }
+      
       const { data } = await supabase
         .from('courses')
         .select('id')
         .eq('title', title.trim())
+        .eq('user_id', user.id)
         .single();
       
       if (data) {
