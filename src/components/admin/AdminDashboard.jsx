@@ -7,16 +7,18 @@ import AllUsers from './AllUsers';
 import AllWebsites from './AllWebsites';
 import AllCourses from './AllCourses';
 import Analytics from './Analytics';
+import Communication from './Communication';
+import SearchPage from './SearchPage';
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState('users');
+  const [activeTab, setActiveTab] = useState('analytics');
   const router = useRouter();
 
   const tabs = [
-    { id: 'users', name: 'Users', icon: Users },
+    { id: 'analytics', name: 'Analytics', icon: BarChart3 },
     { id: 'courses', name: 'Courses', icon: BookOpen },
     { id: 'websites', name: 'Websites', icon: Globe },
-    { id: 'analytics', name: 'Analytics', icon: BarChart3 },
+    { id: 'users', name: 'Users', icon: Users },
     { id: 'communication', name: 'Communication', icon: MessageSquare },
     { id: 'search', name: 'Search', icon: Search },
   ];
@@ -90,6 +92,8 @@ const AdminDashboard = () => {
             {activeTab === 'websites' && <AllWebsites />}
             {activeTab === 'courses' && <AllCourses />}
             {activeTab === 'analytics' && <Analytics />}
+            {activeTab === 'communication' && <Communication />}
+            {activeTab === 'search' && <SearchPage />}
           </div>
         </main>
       </div>
