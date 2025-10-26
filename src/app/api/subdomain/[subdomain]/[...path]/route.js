@@ -70,6 +70,7 @@ export async function GET(request, { params }) {
     
     html = sanitizeHTML(html);
     html = rewriteLinks(html, subdomain);
+    html = html.replace(/<title>[^<]*<\/title>/i, `<title>${siteData.name}</title>`);
     
     return new Response(html, {
       headers: {

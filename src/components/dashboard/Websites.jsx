@@ -42,20 +42,24 @@ const TemplatePreview = ({ template, siteId }) => {
           html = await response.text();
         }
         
-        // Fix relative paths and force desktop viewport
+        // Sanitize builder elements
         html = html
+          .replace(/<style[^>]*>[\s\S]*?\.builder-[^}]*}[\s\S]*?<\/style>/gi, '')
+          .replace(/\s*class="[^"]*builder-[^"]*"/gi, '')
+          .replace(/\s*style="[^"]*outline:[^;"]*;?[^"]*"/gi, '')
+          .replace(/\s*data-element-type="[^"]*"/gi, '')
+          .replace(/\s*data-builder-element="[^"]*"/gi, '')
+          .replace(/\s*draggable="[^"]*"/gi, '')
           .replace(/href="css\//g, `href="${template.path}css/`)
           .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
           .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
           .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`)
           .replace(/<meta name="viewport"[^>]*>/gi, '<meta name="viewport" content="width=1366, initial-scale=1, user-scalable=no">');
         
-        // Add desktop viewport if not present
         if (!html.includes('name="viewport"')) {
           html = html.replace('<head>', '<head>\n<meta name="viewport" content="width=1366, initial-scale=1, user-scalable=no">');
         }
         
-        // Force desktop layout with CSS
         const desktopCSS = `<style>
           html, body { min-width: 1366px !important; width: 1366px !important; }
           * { box-sizing: border-box !important; }
@@ -69,7 +73,7 @@ const TemplatePreview = ({ template, siteId }) => {
     };
     
     loadTemplate();
-  }, [template, siteId, user]);
+  }, [template, siteId, user, sites]);
   
   if (!templateHtml) {
     return (
@@ -118,7 +122,7 @@ const WebsitesList = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
     setIsModalOpen(false);
-    // Reset state after closing animation
+    toast.dismiss('duplicate-site-name');
     setTimeout(() => {
       setSiteName('');
       setSelectedTemplate(null);
