@@ -16,17 +16,18 @@ const siteTemplates = templateService.getTemplates();
 const TemplatePreview = ({ template, siteId }) => {
   const [templateHtml, setTemplateHtml] = React.useState('');
   const { user } = useAuth();
+  const [refreshKey, setRefreshKey] = React.useState(0);
   
   React.useEffect(() => {
     const loadTemplate = async () => {
       try {
         let html = '';
         
-        // Try to load saved content first
+        // Try to load saved content first with cache busting
         if (siteId && user?.id) {
           const { data } = await supabase
             .from('website_builder_saves')
-            .select('page_contents')
+            .select('page_contents, updated_at')
             .eq('site_id', siteId)
             .eq('user_id', user.id)
             .single();
@@ -73,7 +74,14 @@ const TemplatePreview = ({ template, siteId }) => {
     };
     
     loadTemplate();
-  }, [template, siteId, user, sites]);
+  }, [template, siteId, user, refreshKey]);
+  
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setRefreshKey(prev => prev + 1);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
   
   if (!templateHtml) {
     return (
