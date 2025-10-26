@@ -13,11 +13,12 @@ export default function DashboardPage() {
         <WebsiteProvider>
           <Dashboard />
           <Toaster 
-            position="top-right" 
+            position="top-center" 
             toastOptions={{
               className: 'bg-card text-card-foreground shadow-lg',
               style: {
                 borderRadius: '0.5rem',
+                zIndex: 99999,
               },
             }}
           />
