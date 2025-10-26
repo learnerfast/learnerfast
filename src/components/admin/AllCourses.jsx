@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { supabaseAdmin } from '../../lib/supabase';
 import { Search, BookOpen, Download, Filter, TrendingUp, Users, CheckCircle, Clock } from 'lucide-react';
 
 const AllCourses = () => {
@@ -17,15 +16,12 @@ const AllCourses = () => {
 
   const loadCourses = async () => {
     try {
-      const { data: coursesData, error: coursesError } = await supabaseAdmin
-        .from('courses')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const response = await fetch('/api/cron/inactivity?getData=true');
+      const data = await response.json();
       
-      if (coursesError) throw coursesError;
-
-      const { data: { users: authUsers } } = await supabaseAdmin.auth.admin.listUsers();
-      const { data: lessonsData } = await supabaseAdmin.from('lessons').select('course_id');
+      const coursesData = data.courses.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      const authUsers = data.users;
+      const lessonsData = data.lessons;
       
       const coursesWithUsers = (coursesData || []).map(course => {
         const user = authUsers?.find(u => u.id === course.user_id);
@@ -42,6 +38,7 @@ const AllCourses = () => {
 
       setCourses(coursesWithUsers);
     } catch (error) {
+      console.error('Error loading courses:', error);
     } finally {
       setLoading(false);
     }

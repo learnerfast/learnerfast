@@ -58,13 +58,14 @@ const RegisterForm = () => {
       
       // Send welcome email
       try {
-        const { Resend } = await import('resend');
-        const resend = new Resend('re_UY26SPxu_AksCHZNB8kJmyGEJT8HHZ1JS');
-        await resend.emails.send({
-          from: 'LearnerFast <onboarding@resend.dev>',
-          to: data.email,
-          subject: 'Welcome to LearnerFast!',
-          html: `<div style="font-family: Arial, sans-serif; padding: 20px;"><h2>Welcome to LearnerFast!</h2><p>Dear ${data.fullname},</p><p>Welcome to LearnerFast! We're excited to have you on board.</p><p>Get started by creating your first course website.</p><br/><p style="color: #666; font-size: 12px;">Best regards,<br/>LearnerFast Team</p></div>`,
+        await fetch('/api/cron/inactivity', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            type: 'welcome',
+            email: data.email, 
+            fullname: data.fullname 
+          })
         });
       } catch (emailError) {
         console.error('Welcome email failed:', emailError);

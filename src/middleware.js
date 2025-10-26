@@ -21,10 +21,8 @@ export function middleware(request) {
   
   // If subdomain exists and is not www or main domain
   if (subdomain && subdomain !== mainDomain && subdomain !== 'www' && !hostname.includes('localhost')) {
-    // Rewrite to preview API
-    const newUrl = url.clone();
-    newUrl.pathname = `/api/subdomain/${subdomain}${url.pathname}`;
-    return NextResponse.rewrite(newUrl);
+    // Rewrite to subdomain API
+    return NextResponse.rewrite(new URL(`/api/subdomain/${subdomain}${url.pathname}`, request.url));
   }
   
   return NextResponse.next();

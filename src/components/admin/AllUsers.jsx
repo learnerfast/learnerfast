@@ -1,52 +1,68 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { supabaseAdmin } from '../../lib/supabase';
+import { useState } from 'react';
 import { Search, Mail, Calendar, Download, UserCheck, UserX, TrendingUp, Eye } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import useSWR from 'swr';
+import StatsCard from './StatsCard';
+
+const fetchUsers = async () => {
+  const response = await fetch('/api/cron/inactivity?getData=true');
+  const data = await response.json();
+  
+  const authUsers = data.users;
+  const sitesData = data.sites;
+  const coursesData = data.courses;
+  
+  const sitesMap = {};
+  const coursesMap = {};
+  
+  sitesData?.forEach(s => {
+    if (!sitesMap[s.user_id]) sitesMap[s.user_id] = { total: 0, published: 0 };
+    sitesMap[s.user_id].total++;
+    if (s.status === 'published') sitesMap[s.user_id].published++;
+  });
+  
+  coursesData?.forEach(c => {
+    coursesMap[c.user_id] = (coursesMap[c.user_id] || 0) + 1;
+  });
+
+  return (authUsers || []).map(user => {
+    const userSites = sitesMap[user.id] || { total: 0, published: 0 };
+    const userCourses = coursesMap[user.id] || 0;
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.user_metadata?.full_name || 'N/A',
+      created_at: user.created_at,
+      last_sign_in: user.last_sign_in_at,
+      email_confirmed: user.email_confirmed_at ? true : false,
+      websitesCount: userSites.total,
+      coursesCount: userCourses,
+      publishedSites: userSites.published,
+      totalActivity: userSites.total + userCourses
+    };
+  });
+};
 
 const AllUsers = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data: users, error, isLoading } = useSWR('/api/users', fetchUsers, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    refreshInterval: 60000
+  });
+  
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [sortBy, setSortBy] = useState('recent');
   const [viewUser, setViewUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  
+  if (error) {
+    toast.error('Failed to load users: ' + error.message);
+  }
 
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  const loadUsers = async () => {
-    try {
-      const { data: { users: authUsers } } = await supabaseAdmin.auth.admin.listUsers();
-      const { data: sitesData } = await supabaseAdmin.from('sites').select('user_id');
-      const { data: coursesData } = await supabaseAdmin.from('courses').select('user_id');
-
-      const usersWithStats = (authUsers || []).map(user => {
-        const userSites = sitesData?.filter(s => s.user_id === user.id) || [];
-        const userCourses = coursesData?.filter(c => c.user_id === user.id) || [];
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.user_metadata?.full_name || 'N/A',
-          created_at: user.created_at,
-          last_sign_in: user.last_sign_in_at,
-          email_confirmed: user.email_confirmed_at ? true : false,
-          websitesCount: userSites.length,
-          coursesCount: userCourses.length,
-          publishedSites: userSites.filter(s => s.status === 'published').length,
-          totalActivity: userSites.length + userCourses.length
-        };
-      });
-
-      setUsers(usersWithStats);
-    } catch (error) {
-      console.error('Error loading users:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  let filteredUsers = users.filter(user =>
+  let filteredUsers = (users || []).filter(user =>
     user.email?.toLowerCase().includes(search.toLowerCase()) ||
     user.name?.toLowerCase().includes(search.toLowerCase())
   );
@@ -70,11 +86,15 @@ const AllUsers = () => {
   }
 
   const stats = {
-    total: users.length,
-    active: users.filter(u => u.totalActivity > 0).length,
-    inactive: users.filter(u => u.totalActivity === 0).length,
-    verified: users.filter(u => u.email_confirmed).length
+    total: (users || []).length,
+    active: (users || []).filter(u => u.totalActivity > 0).length,
+    inactive: (users || []).filter(u => u.totalActivity === 0).length,
+    verified: (users || []).filter(u => u.email_confirmed).length
   };
+
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedUsers = filteredUsers.slice(startIndex, startIndex + itemsPerPage);
 
   const exportCSV = () => {
     const csv = ['Name,Email,Websites,Courses,Published Sites,Joined,Last Sign In,Verified'];
@@ -95,8 +115,26 @@ const AllUsers = () => {
 
 
 
-  if (loading) {
-    return <div className="text-center py-12">Loading users...</div>;
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 animate-pulse">
+              <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+              <div className="h-8 bg-gray-200 rounded w-1/3"></div>
+            </div>
+          ))}
+        </div>
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <div className="space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="h-12 bg-gray-200 rounded animate-pulse"></div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -112,42 +150,10 @@ const AllUsers = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Total Users</p>
-              <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
-            </div>
-            <UserCheck className="h-8 w-8 text-blue-600" />
-          </div>
-        </div>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Active Users</p>
-              <p className="text-2xl font-bold text-green-600">{stats.active}</p>
-            </div>
-            <TrendingUp className="h-8 w-8 text-green-600" />
-          </div>
-        </div>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Inactive Users</p>
-              <p className="text-2xl font-bold text-orange-600">{stats.inactive}</p>
-            </div>
-            <UserX className="h-8 w-8 text-orange-600" />
-          </div>
-        </div>
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Verified</p>
-              <p className="text-2xl font-bold text-purple-600">{stats.verified}</p>
-            </div>
-            <Mail className="h-8 w-8 text-purple-600" />
-          </div>
-        </div>
+        <StatsCard title="Total Users" value={stats.total} icon={UserCheck} color="blue" />
+        <StatsCard title="Active Users" value={stats.active} icon={TrendingUp} color="green" />
+        <StatsCard title="Inactive Users" value={stats.inactive} icon={UserX} color="orange" />
+        <StatsCard title="Verified" value={stats.verified} icon={Mail} color="purple" />
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
@@ -178,8 +184,8 @@ const AllUsers = () => {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        <div className="overflow-x-auto -mx-4 md:mx-0">
+          <table className="w-full min-w-[800px]">
             <thead>
               <tr className="border-b border-gray-200">
                 <th className="text-left py-3 px-4 font-semibold text-gray-700">Name</th>
@@ -194,7 +200,7 @@ const AllUsers = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.map((user) => (
+              {paginatedUsers.map((user) => (
                 <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="py-3 px-4">
                     <button onClick={() => setViewUser(user)} className="text-blue-600 hover:underline">{user.name || 'N/A'}</button>
@@ -252,9 +258,13 @@ const AllUsers = () => {
           </table>
         </div>
 
-        <div className="mt-4 flex justify-between items-center text-sm text-gray-600">
-          <span>Showing {filteredUsers.length} of {users.length} users</span>
-          <span>Active Rate: {users.length > 0 ? Math.round((stats.active / stats.total) * 100) : 0}%</span>
+        <div className="mt-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-sm text-gray-600">
+          <span>Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredUsers.length)} of {filteredUsers.length} users</span>
+          <div className="flex gap-2 flex-wrap">
+            <button onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1} className="px-3 py-1 border rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <span className="px-3 py-1">Page {currentPage} of {totalPages}</span>
+            <button onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages} className="px-3 py-1 border rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">Next</button>
+          </div>
         </div>
       </div>
 

@@ -418,8 +418,12 @@ const WebsitesList = () => {
                 
                 <button 
                   onClick={() => {
-                    const subdomain = site.url || site.name.toLowerCase().replace(/\s+/g, '-');
-                    window.open(`https://${subdomain}.learnerfast.com`, '_blank');
+                    const subdomain = site.url;
+                    if (subdomain) {
+                      window.open(`https://${subdomain}.learnerfast.com`, '_blank');
+                    } else {
+                      toast.error('No subdomain configured for this site');
+                    }
                   }}
                   className="flex items-center space-x-1.5 px-3 py-1.5 text-sm bg-accent text-accent-foreground rounded-md hover:bg-muted transition-colors"
                 >

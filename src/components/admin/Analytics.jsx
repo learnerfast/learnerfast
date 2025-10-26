@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { supabaseAdmin } from '../../lib/supabase';
 import { Users, Globe, BookOpen, TrendingUp, Download, Activity, Clock, Eye, BarChart3, PieChart, Calendar, Award } from 'lucide-react';
 
 const Analytics = () => {
@@ -22,17 +21,13 @@ const Analytics = () => {
 
   const loadAnalytics = async () => {
     try {
-      const { data: { users: authUsers } } = await supabaseAdmin.auth.admin.listUsers();
-      const [sitesRes, coursesRes, lessonsRes] = await Promise.all([
-        supabaseAdmin.from('sites').select('*'),
-        supabaseAdmin.from('courses').select('*'),
-        supabaseAdmin.from('lessons').select('*')
-      ]);
-
-      const users = authUsers || [];
-      const sites = sitesRes.data || [];
-      const courses = coursesRes.data || [];
-      const lessons = lessonsRes.data || [];
+      const response = await fetch('/api/cron/inactivity?getData=true');
+      const data = await response.json();
+      
+      const users = data.users || [];
+      const sites = data.sites || [];
+      const courses = data.courses || [];
+      const lessons = data.lessons || [];
 
       const now = new Date();
       const daysBack = parseInt(dateRange);
@@ -96,6 +91,7 @@ const Analytics = () => {
         }
       });
     } catch (error) {
+      console.error('Error loading analytics:', error);
     } finally {
       setLoading(false);
     }
@@ -126,7 +122,7 @@ const Analytics = () => {
     link.click();
   };
 
-  if (loading) {
+  if (loading || !analytics) {
     return <div className="text-center py-12">Loading analytics...</div>;
   }
 

@@ -13,7 +13,10 @@ export default function AdminDashboardPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (email === 'support@learnerfast.com' && password === 'kashyap@4241') {
+    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'support@learnerfast.com';
+    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'kashyap@4241';
+    
+    if (email === adminEmail && password === adminPassword) {
       setIsAuthenticated(true);
       setError('');
     } else {
@@ -44,6 +47,7 @@ export default function AdminDashboardPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@learnerfast.com"
+                  autoComplete="username"
                   className="w-full pl-11 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white/50"
                   required
                 />

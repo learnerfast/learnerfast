@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { supabaseAdmin } from '../../lib/supabase';
 import { Send, Mail, Users, MessageSquare, Download, FileText, Clock, CheckCircle } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 const Communication = () => {
   const [users, setUsers] = useState([]);
@@ -32,8 +32,9 @@ const Communication = () => {
 
   const loadUsers = async () => {
     try {
-      const { data: { users: authUsers } } = await supabaseAdmin.auth.admin.listUsers();
-      setUsers(authUsers || []);
+      const response = await fetch('/api/cron/inactivity?getData=true');
+      const data = await response.json();
+      setUsers(data.users || []);
     } catch (error) {
       console.error('Error loading users:', error);
     } finally {
@@ -56,27 +57,31 @@ const Communication = () => {
   const handleSend = async () => {
     const emails = getRecipientEmails();
     if (!subject || !message || emails.length === 0) {
-      alert('Please fill in all fields');
+      toast.error('Please fill in all fields');
       return;
     }
     
     setSending(true);
     try {
-      const { Resend } = await import('resend');
-      const resend = new Resend('re_UY26SPxu_AksCHZNB8kJmyGEJT8HHZ1JS');
-      
-      await resend.emails.send({
-        from: 'LearnerFast <onboarding@resend.dev>',
-        to: emails,
-        subject: subject,
-        html: `<div style="font-family: Arial, sans-serif; padding: 20px;"><p style="white-space: pre-wrap;">${message}</p><br/><p style="color: #666; font-size: 12px;">Best regards,<br/>LearnerFast Team</p></div>`,
+      const response = await fetch('/api/cron/inactivity', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          type: 'bulk',
+          emails,
+          subject,
+          message
+        })
       });
       
-      alert(`Email sent successfully to ${emails.length} recipients!`);
+      const result = await response.json();
+      if (!result.success) throw new Error(result.error);
+      
+      toast.success(`Email sent successfully to ${emails.length} recipients!`);
       setSubject('');
       setMessage('');
     } catch (error) {
-      alert('Failed to send email: ' + error.message);
+      toast.error('Failed to send email: ' + error.message);
     } finally {
       setSending(false);
     }

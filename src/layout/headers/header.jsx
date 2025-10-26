@@ -1,6 +1,6 @@
 import useSticky from '@/hooks/use-sticky';
 import Offcanvus from '@/common/offcanvus';
-import SearchPopup from '@/modals/search-popup';
+import SearchPopup from '@/components/modals/search-popup';
 import SearchIconTwo from '@/svg/search-icon-2';
 import UserIcon from '@/svg/user-icon';
 import {gsap} from 'gsap';

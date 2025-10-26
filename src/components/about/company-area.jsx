@@ -1,4 +1,4 @@
-import VideoPopup from '@/modals/video-popup';
+import VideoPopup from '@/components/modals/video-popup';
 import React,{useState} from 'react';
 
 const company_content ={
