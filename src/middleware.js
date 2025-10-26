@@ -21,7 +21,10 @@ export function middleware(request) {
   
   // If subdomain exists and is not www or main domain
   if (subdomain && subdomain !== mainDomain && subdomain !== 'www' && !hostname.includes('localhost')) {
-    // Rewrite to subdomain API
+    // Redirect root to /home, otherwise rewrite to subdomain API
+    if (url.pathname === '/') {
+      return NextResponse.redirect(new URL(`https://${hostname}/home`, request.url));
+    }
     return NextResponse.rewrite(new URL(`/api/subdomain/${subdomain}${url.pathname}`, request.url));
   }
   
