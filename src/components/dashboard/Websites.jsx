@@ -13,77 +13,17 @@ import { supabase } from '../../lib/supabase';
 
 const siteTemplates = templateService.getTemplates();
 
-const TemplatePreview = ({ template, siteId }) => {
-  const [templateHtml, setTemplateHtml] = React.useState('');
-  const { user } = useAuth();
-  const [refreshKey, setRefreshKey] = React.useState(0);
-  
-  React.useEffect(() => {
-    const loadTemplate = async () => {
-      try {
-        let html = '';
-        
-        // Try to load saved content first with cache busting
-        if (siteId && user?.id) {
-          const { data } = await supabase
-            .from('website_builder_saves')
-            .select('page_contents, updated_at')
-            .eq('site_id', siteId)
-            .eq('user_id', user.id)
-            .single();
-          
-          if (data?.page_contents?.home) {
-            html = data.page_contents.home;
-          }
-        }
-        
-        // Fallback to original template
-        if (!html) {
-          const response = await fetch(`${template.path}index.html`);
-          html = await response.text();
-        }
-        
-        // Sanitize builder elements
-        html = html
-          .replace(/<style[^>]*>[\s\S]*?\.builder-[^}]*}[\s\S]*?<\/style>/gi, '')
-          .replace(/\s*class="[^"]*builder-[^"]*"/gi, '')
-          .replace(/\s*style="[^"]*outline:[^;"]*;?[^"]*"/gi, '')
-          .replace(/\s*data-element-type="[^"]*"/gi, '')
-          .replace(/\s*data-builder-element="[^"]*"/gi, '')
-          .replace(/\s*draggable="[^"]*"/gi, '')
-          .replace(/href="css\//g, `href="${template.path}css/`)
-          .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
-          .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
-          .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`)
-          .replace(/<meta name="viewport"[^>]*>/gi, '<meta name="viewport" content="width=1366, initial-scale=1, user-scalable=no">');
-        
-        if (!html.includes('name="viewport"')) {
-          html = html.replace('<head>', '<head>\n<meta name="viewport" content="width=1366, initial-scale=1, user-scalable=no">');
-        }
-        
-        const desktopCSS = `<style>
-          html, body { min-width: 1366px !important; width: 1366px !important; }
-          * { box-sizing: border-box !important; }
-          @media (max-width: 1366px) { html, body { width: 1366px !important; } }
-        </style>`;
-        html = html.replace('</head>', desktopCSS + '</head>');
-        
-        setTemplateHtml(html);
-      } catch (error) {
-      }
-    };
-    
-    loadTemplate();
-  }, [template, siteId, user, refreshKey]);
+const TemplatePreview = ({ template, siteId, siteUrl }) => {
+  const [key, setKey] = React.useState(0);
   
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setRefreshKey(prev => prev + 1);
-    }, 3000);
+      setKey(prev => prev + 1);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
   
-  if (!templateHtml) {
+  if (!siteUrl) {
     return (
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -93,7 +33,8 @@ const TemplatePreview = ({ template, siteId }) => {
   
   return (
     <iframe 
-      srcDoc={templateHtml}
+      key={key}
+      src={`https://${siteUrl}.learnerfast.com/home`}
       className="w-full h-full border-0 pointer-events-none origin-top-left"
       style={{ width: '366%', height: '366%', transform: 'scale(0.273)' }}
       sandbox="allow-same-origin allow-scripts"
@@ -306,11 +247,18 @@ const WebsitesList = () => {
     setConfirmDelete(false);
   };
 
-  const handleDeleteSite = () => {
+  const handleDeleteSite = async () => {
     if (!confirmDelete) {
       toast.error('Please confirm deletion by checking the checkbox');
       return;
     }
+    
+    // Delete from database
+    if (user?.id) {
+      await supabase.from('website_builder_saves').delete().eq('site_id', deleteModal.siteId);
+      await supabase.from('sites').delete().eq('id', deleteModal.siteId);
+    }
+    
     deleteSiteFromContext(deleteModal.siteId);
     toast.success('Site deleted successfully');
     closeDeleteModal();
@@ -399,7 +347,7 @@ const WebsitesList = () => {
               {(() => {
                 const template = siteTemplates.find(t => t.id === site.template_id);
                 return template ? (
-                  <TemplatePreview template={template} siteId={site.id} />
+                  <TemplatePreview template={template} siteId={site.id} siteUrl={site.url} />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Globe className="h-12 w-12 text-muted-foreground/50" />
