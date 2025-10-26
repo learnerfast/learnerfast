@@ -31,9 +31,10 @@ const CreateSiteModal = ({
 
   const handleCreateClick = async () => {
     setIsCreating(true);
-    await onCreate();
-    // Parent component will close the modal on success.
-    setIsCreating(false);
+    const success = await onCreate();
+    if (!success) {
+      setIsCreating(false);
+    }
   };
 
   const backdropVariants = {

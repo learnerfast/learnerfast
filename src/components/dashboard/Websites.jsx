@@ -125,26 +125,35 @@ const WebsitesList = () => {
     }, 300);
   };
 
-  const handleCreateSite = () => {
+  const handleCreateSite = async () => {
+    if (!selectedTemplate || !siteName.trim()) {
+      toast.error('Please select a template and enter a site name.');
+      return false;
+    }
+    
+    // Check if site URL already exists in database (across all users)
+    const siteUrl = siteName.trim().toLowerCase().replace(/\s+/g, '-');
+    const { data: existingSite } = await supabase
+      .from('sites')
+      .select('id')
+      .eq('url', siteUrl)
+      .single();
+    
+    if (existingSite) {
+      toast.error('Website name is already taken. Please use another name.', {
+        duration: Infinity,
+        id: 'duplicate-site-name'
+      });
+      return false;
+    }
+    
+    toast.dismiss('duplicate-site-name');
+    
+    // Show loading screen
+    setShowLoadingScreen(true);
+    closeModal();
+    
     return new Promise((resolve) => {
-      if (!selectedTemplate || !siteName.trim()) {
-        toast.error('Please select a template and enter a site name.');
-        resolve();
-        return;
-      }
-      
-      // Check if site name already exists
-      const existingSite = sites.find(site => site.name.toLowerCase() === siteName.trim().toLowerCase());
-      if (existingSite) {
-        toast.error('Website with this name already exists. Please choose a different name.');
-        resolve();
-        return;
-      }
-      
-      // Show loading screen
-      setShowLoadingScreen(true);
-      closeModal();
-      
       setTimeout(async () => {
         window.currentSiteName = siteName;
         const newSite = await addSite(siteName, selectedTemplate);
@@ -270,7 +279,7 @@ const WebsitesList = () => {
         
         // Navigate to builder
         router.push(`/builder/${newSite.id}`);
-        resolve();
+        resolve(true);
       }, 5000);
     });
   };
