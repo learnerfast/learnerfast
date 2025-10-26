@@ -133,13 +133,13 @@ const WebsitesList = () => {
     
     // Check if site URL already exists in database (across all users)
     const siteUrl = siteName.trim().toLowerCase().replace(/\s+/g, '-');
-    const { data: existingSite } = await supabase
+    const { data: existingSites, error } = await supabase
       .from('sites')
       .select('id')
       .eq('url', siteUrl)
-      .single();
+      .limit(1);
     
-    if (existingSite) {
+    if (existingSites && existingSites.length > 0) {
       toast.error('Website name is already taken. Please use another name.', {
         duration: Infinity,
         id: 'duplicate-site-name'
