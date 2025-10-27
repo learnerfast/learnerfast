@@ -14,15 +14,6 @@ import { supabase } from '../../lib/supabase';
 const siteTemplates = templateService.getTemplates();
 
 const TemplatePreview = ({ template, siteId, siteUrl }) => {
-  const [key, setKey] = React.useState(0);
-  
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setKey(prev => prev + 1);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-  
   if (!siteUrl) {
     return (
       <div className="absolute inset-0 flex items-center justify-center">
@@ -33,7 +24,6 @@ const TemplatePreview = ({ template, siteId, siteUrl }) => {
   
   return (
     <iframe 
-      key={key}
       src={`https://${siteUrl}.learnerfast.com/home`}
       className="w-full h-full border-0 pointer-events-none origin-top-left"
       style={{ width: '366%', height: '366%', transform: 'scale(0.273)' }}
@@ -344,6 +334,12 @@ const WebsitesList = () => {
                 }
               }}
             >
+              <button
+                onClick={() => toast.success('Trial started!')}
+                className="absolute top-3 right-3 z-10 px-3 py-1 text-xs bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors font-medium shadow-lg"
+              >
+                Trial
+              </button>
               {(() => {
                 const template = siteTemplates.find(t => t.id === site.template_id);
                 return template ? (
