@@ -125,7 +125,8 @@ export async function GET(request, { params }) {
         'Content-Type': 'text/html',
         'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
         'Pragma': 'no-cache',
-        'Expires': '0'
+        'Expires': '0',
+        'X-Frame-Options': 'ALLOWALL'
       }
     });
     
