@@ -26,7 +26,7 @@ const TemplatePreview = ({ template, siteId, siteUrl, htmlContent }) => {
     <iframe 
       srcDoc={htmlContent}
       className="w-full h-full border-0 pointer-events-none origin-top-left"
-      style={{ width: '366%', height: '500%', transform: 'scale(0.273)' }}
+      style={{ width: '366%', height: '1000%', transform: 'scale(0.273)' }}
       sandbox="allow-same-origin allow-scripts"
     />
   );
@@ -300,8 +300,8 @@ const WebsitesList = () => {
               onMouseEnter={(e) => {
                 const iframe = e.currentTarget.querySelector('iframe');
                 if (iframe) {
-                  iframe.style.transition = 'transform 8s linear';
-                  iframe.style.transform = 'scale(0.273) translateY(-80%)';
+                  iframe.style.transition = 'transform 12s linear';
+                  iframe.style.transform = 'scale(0.273) translateY(-73%)';
                 }
               }}
               onMouseLeave={(e) => {
