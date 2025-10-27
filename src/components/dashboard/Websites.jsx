@@ -300,37 +300,50 @@ const WebsitesList = () => {
               onMouseEnter={(e) => {
                 const iframe = e.currentTarget.querySelector('iframe');
                 if (iframe && iframe.contentWindow) {
-                  iframe.scrollingDown = true;
-                  iframe.scrollingUp = false;
-                  
-                  const scrollDown = () => {
-                    if (!iframe.scrollingDown || !iframe.contentWindow || !iframe.contentWindow.document.documentElement) return;
-                    const currentScroll = iframe.contentWindow.scrollY;
-                    const maxScroll = iframe.contentWindow.document.documentElement.scrollHeight - iframe.contentWindow.innerHeight;
-                    if (currentScroll < maxScroll) {
-                      iframe.contentWindow.scrollTo(0, currentScroll + 10);
-                      requestAnimationFrame(scrollDown);
-                    }
-                  };
-                  scrollDown();
+                  try {
+                    iframe.contentWindow.document;
+                    iframe.scrollingDown = true;
+                    iframe.scrollingUp = false;
+                    
+                    const scrollDown = () => {
+                      if (!iframe.scrollingDown || !iframe.contentWindow) return;
+                      try {
+                        const currentScroll = iframe.contentWindow.scrollY;
+                        const maxScroll = iframe.contentWindow.document.documentElement.scrollHeight - iframe.contentWindow.innerHeight;
+                        if (currentScroll < maxScroll) {
+                          iframe.contentWindow.scrollTo(0, currentScroll + 10);
+                          requestAnimationFrame(scrollDown);
+                        }
+                      } catch (error) {
+                        iframe.scrollingDown = false;
+                      }
+                    };
+                    scrollDown();
+                  } catch (error) {}
                 }
               }}
               onMouseLeave={(e) => {
                 const iframe = e.currentTarget.querySelector('iframe');
                 if (iframe && iframe.contentWindow) {
-                  iframe.scrollingDown = false;
-                  iframe.scrollingUp = true;
-                  const scrollUp = () => {
-                    if (!iframe.scrollingUp || !iframe.contentWindow) return;
-                    const currentScroll = iframe.contentWindow.scrollY;
-                    if (currentScroll > 0) {
-                      iframe.contentWindow.scrollTo(0, currentScroll - 15);
-                      requestAnimationFrame(scrollUp);
-                    } else {
-                      iframe.scrollingUp = false;
-                    }
-                  };
-                  scrollUp();
+                  try {
+                    iframe.scrollingDown = false;
+                    iframe.scrollingUp = true;
+                    const scrollUp = () => {
+                      if (!iframe.scrollingUp || !iframe.contentWindow) return;
+                      try {
+                        const currentScroll = iframe.contentWindow.scrollY;
+                        if (currentScroll > 0) {
+                          iframe.contentWindow.scrollTo(0, currentScroll - 15);
+                          requestAnimationFrame(scrollUp);
+                        } else {
+                          iframe.scrollingUp = false;
+                        }
+                      } catch (error) {
+                        iframe.scrollingUp = false;
+                      }
+                    };
+                    scrollUp();
+                  } catch (error) {}
                 }
               }}
             >
@@ -359,13 +372,13 @@ const WebsitesList = () => {
               </div>
               
               <div className="flex items-center justify-between mb-4">
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-muted-foreground flex-1">
                   Last edited: {site.last_edited || site.lastEdited}
                   {site.has_saved_changes && <span className="ml-2 text-green-600">• Saved</span>}
                 </p>
                 <button
                   onClick={() => router.push('/dashboard/subscription')}
-                  className="px-3 py-1.5 text-xs bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all font-semibold shadow-md hover:shadow-lg"
+                  className="px-3 py-1.5 text-xs bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all font-semibold shadow-md hover:shadow-lg ml-4"
                 >
                   Upgrade
                 </button>

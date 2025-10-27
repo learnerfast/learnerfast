@@ -17,6 +17,12 @@ export const useBuilder = () => {
 export const BuilderProvider = ({ children, siteId }) => {
   const { user } = useAuth();
   const [selectedElement, setSelectedElement] = useState(null);
+  
+  useEffect(() => {
+    return () => {
+      setSelectedElement(null);
+    };
+  }, []);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [activeMode, setActiveMode] = useState('pages'); // pages, edit, design, site, add, help
   const [activeInspectorTab, setActiveInspectorTab] = useState('screen'); // screen, actions, layout, effects
@@ -69,6 +75,7 @@ export const BuilderProvider = ({ children, siteId }) => {
     window.updateTemplateContent = (content) => {
       setTemplateContent(content);
     };
+    setSelectedElement(null);
     return () => {
       delete window.updateTemplateContent;
     };
