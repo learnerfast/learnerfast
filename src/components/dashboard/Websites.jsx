@@ -299,51 +299,16 @@ const WebsitesList = () => {
               className="aspect-video bg-muted relative overflow-hidden"
               onMouseEnter={(e) => {
                 const iframe = e.currentTarget.querySelector('iframe');
-                if (iframe && iframe.contentWindow) {
-                  try {
-                    iframe.contentWindow.document;
-                    iframe.scrollingDown = true;
-                    iframe.scrollingUp = false;
-                    
-                    const scrollDown = () => {
-                      if (!iframe.scrollingDown || !iframe.contentWindow) return;
-                      try {
-                        const currentScroll = iframe.contentWindow.scrollY;
-                        const maxScroll = iframe.contentWindow.document.documentElement.scrollHeight - iframe.contentWindow.innerHeight;
-                        if (currentScroll < maxScroll) {
-                          iframe.contentWindow.scrollTo(0, currentScroll + 10);
-                          requestAnimationFrame(scrollDown);
-                        }
-                      } catch (error) {
-                        iframe.scrollingDown = false;
-                      }
-                    };
-                    scrollDown();
-                  } catch (error) {}
+                if (iframe) {
+                  iframe.style.transition = 'transform 8s linear';
+                  iframe.style.transform = 'scale(0.273) translateY(-266%)';
                 }
               }}
               onMouseLeave={(e) => {
                 const iframe = e.currentTarget.querySelector('iframe');
-                if (iframe && iframe.contentWindow) {
-                  try {
-                    iframe.scrollingDown = false;
-                    iframe.scrollingUp = true;
-                    const scrollUp = () => {
-                      if (!iframe.scrollingUp || !iframe.contentWindow) return;
-                      try {
-                        const currentScroll = iframe.contentWindow.scrollY;
-                        if (currentScroll > 0) {
-                          iframe.contentWindow.scrollTo(0, currentScroll - 15);
-                          requestAnimationFrame(scrollUp);
-                        } else {
-                          iframe.scrollingUp = false;
-                        }
-                      } catch (error) {
-                        iframe.scrollingUp = false;
-                      }
-                    };
-                    scrollUp();
-                  } catch (error) {}
+                if (iframe) {
+                  iframe.style.transition = 'transform 3s ease-out';
+                  iframe.style.transform = 'scale(0.273) translateY(0)';
                 }
               }}
             >

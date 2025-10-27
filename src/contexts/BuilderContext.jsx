@@ -46,7 +46,17 @@ export const BuilderProvider = ({ children, siteId }) => {
 
   const loadPage = useCallback(async (page) => {
     if (pageContents[page]) {
-      setTemplateContent(pageContents[page]);
+      const cleanedContent = pageContents[page]
+        .replace(/\sclass="([^"]*?)\bbuilder-selected\b([^"]*?)"/g, (match, before, after) => {
+          const cleaned = (before + after).trim();
+          return cleaned ? ` class="${cleaned}"` : '';
+        })
+        .replace(/\sclass="([^"]*?)\bbuilder-hover\b([^"]*?)"/g, (match, before, after) => {
+          const cleaned = (before + after).trim();
+          return cleaned ? ` class="${cleaned}"` : '';
+        })
+        .replace(/\sdata-element-type="[^"]*"/g, '');
+      setTemplateContent(cleanedContent);
       setCurrentPage(page);
       return;
     }
@@ -504,8 +514,21 @@ export const BuilderProvider = ({ children, siteId }) => {
             if (data) {
               if (data.template_id) templateId = data.template_id;
               if (data.page_contents) {
-                setPageContents(data.page_contents);
-                const currentPageContent = data.page_contents[currentPage] || data.page_contents['home'];
+                const cleanedContents = {};
+                Object.entries(data.page_contents).forEach(([page, html]) => {
+                  cleanedContents[page] = html
+                    .replace(/\sclass="([^"]*?)\bbuilder-selected\b([^"]*?)"/g, (match, before, after) => {
+                      const cleaned = (before + after).trim();
+                      return cleaned ? ` class="${cleaned}"` : '';
+                    })
+                    .replace(/\sclass="([^"]*?)\bbuilder-hover\b([^"]*?)"/g, (match, before, after) => {
+                      const cleaned = (before + after).trim();
+                      return cleaned ? ` class="${cleaned}"` : '';
+                    })
+                    .replace(/\sdata-element-type="[^"]*"/g, '');
+                });
+                setPageContents(cleanedContents);
+                const currentPageContent = cleanedContents[currentPage] || cleanedContents['home'];
                 if (currentPageContent) {
                   setCurrentTemplate(templateId);
                   setTemplateContent(currentPageContent);
