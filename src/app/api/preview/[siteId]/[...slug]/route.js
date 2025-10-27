@@ -65,15 +65,16 @@ export async function GET(request, { params }) {
       .eq('site_id', siteId)
       .single();
     
+    // Use site's template_id as the primary source
+    const templateId = siteData?.template_id || 'modern-minimal';
     
     let html = null;
     
-    // Check if we have saved content for this page
-    if (savedData?.page_contents?.[pageKey]) {
+    // Only use saved content if it matches the current template
+    if (savedData?.page_contents?.[pageKey] && savedData.template_id === templateId) {
       html = savedData.page_contents[pageKey];
     } else {
       // Fallback to original template using site's template_id
-      const templateId = siteData?.template_id || savedData?.template_id || 'modern-minimal';
       const { template, content } = await templateService.loadTemplate(templateId, pageKey);
       
       html = content
@@ -123,7 +124,9 @@ export async function GET(request, { params }) {
     return new Response(html, {
       headers: {
         'Content-Type': 'text/html',
-        'Cache-Control': 'no-cache'
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0'
       }
     });
     

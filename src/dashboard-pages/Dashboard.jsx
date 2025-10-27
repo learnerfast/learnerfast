@@ -12,6 +12,7 @@ const Courses = lazy(() => import('../components/dashboard/Courses'));
 const Websites = lazy(() => import('../components/dashboard/Websites'));
 const Users = lazy(() => import('../components/dashboard/Users'));
 const Communication = lazy(() => import('../components/dashboard/Communication'));
+const Subscription = lazy(() => import('../components/dashboard/Subscription'));
 const Search = lazy(() => import('../components/dashboard/Search'));
 const Settings = lazy(() => import('../components/dashboard/Settings'));
 
@@ -51,6 +52,8 @@ const Dashboard = () => {
         return <Users />;
       case '/dashboard/communication':
         return <Communication />;
+      case '/dashboard/subscription':
+        return <Subscription />;
       case '/dashboard/search':
         return <Search />;
       case '/dashboard/settings':

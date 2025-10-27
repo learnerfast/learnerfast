@@ -21,7 +21,8 @@ import {
   GraduationCap,
   ClipboardList,
   FileCheck,
-  ArrowLeft
+  ArrowLeft,
+  CreditCard
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCourseBuilder } from '../dashboard/Courses';
@@ -45,6 +46,7 @@ const mainNavigation = [
   },
   { name: 'Users', href: '/dashboard/users', icon: Users },
   { name: 'Communication', href: '/dashboard/communication', icon: MessageSquare },
+  { name: 'Subscription', href: '/dashboard/subscription', icon: CreditCard },
   { name: 'Search', href: '/dashboard/search', icon: SearchIcon }
 ];
 

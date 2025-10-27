@@ -10,7 +10,8 @@ import {
   Users, 
   Settings,
   MessageSquare,
-  Search as SearchIcon
+  Search as SearchIcon,
+  CreditCard
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -24,6 +25,7 @@ const navigation = [
   },
   { name: 'Users', href: '/dashboard/users', icon: Users },
   { name: 'Communication', href: '/dashboard/communication', icon: MessageSquare },
+  { name: 'Subscription', href: '/dashboard/subscription', icon: CreditCard },
   { name: 'Search', href: '/dashboard/search', icon: SearchIcon }
 ];
 

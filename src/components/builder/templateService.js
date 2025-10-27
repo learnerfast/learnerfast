@@ -171,10 +171,15 @@ export const templateService = {
         : process.env.VERCEL_URL 
           ? `https://${process.env.VERCEL_URL}` 
           : 'http://localhost:3000';
-      const response = await fetch(`${baseUrl}${template.path}${fileName}`);
+      const cacheBuster = Date.now();
+      const response = await fetch(`${baseUrl}${template.path}${fileName}?v=${cacheBuster}`, {
+        cache: 'no-store'
+      });
       if (!response.ok) {
         if (fileName !== template.indexFile) {
-          const fallbackResponse = await fetch(`${baseUrl}${template.path}${template.indexFile}`);
+          const fallbackResponse = await fetch(`${baseUrl}${template.path}${template.indexFile}?v=${cacheBuster}`, {
+            cache: 'no-store'
+          });
           if (!fallbackResponse.ok) {
             throw new Error(`Failed to load template: ${fallbackResponse.statusText}`);
           }

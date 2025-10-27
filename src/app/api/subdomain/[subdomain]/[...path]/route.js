@@ -2,14 +2,27 @@ import { supabase } from '../../../../../lib/supabase';
 import { templateService } from '../../../../../components/builder/templateService';
 
 function sanitizeHTML(html) {
-  return html
+  let cleaned = html
     .replace(/<style[^>]*>[\s\S]*?\.builder-[^}]*}[\s\S]*?<\/style>/gi, '')
-    .replace(/<style[^>]*>[\s\S]*?outline:[^;]*;[\s\S]*?<\/style>/gi, '')
-    .replace(/\s*class="[^"]*builder-[^"]*"/gi, '')
+    .replace(/\s*class="([^"]*)"/gi, (match, classes) => {
+      const filtered = classes.split(' ').filter(c => !c.includes('builder')).join(' ').trim();
+      return filtered ? ` class="${filtered}"` : '';
+    })
     .replace(/\s*data-element-type="[^"]*"/gi, '')
     .replace(/\s*data-builder-element="[^"]*"/gi, '')
     .replace(/\s*data-dragging="[^"]*"/gi, '')
-    .replace(/\s*draggable="[^"]*"/gi, '');
+    .replace(/\s*draggable="true"/gi, '');
+  
+  cleaned = cleaned.replace(/style="([^"]*)"/gi, (match, styles) => {
+    const filtered = styles.split(';')
+      .filter(s => s.trim() && !s.includes('outline') && !s.includes('cursor'))
+      .join(';').trim();
+    return filtered ? `style="${filtered}"` : '';
+  });
+  
+  cleaned = cleaned.replace(/<\/head>/i, `<style>*{outline:none!important;cursor:default!important}</style></head>`);
+  
+  return cleaned;
 }
 
 function rewriteLinks(html, subdomain) {
@@ -32,9 +45,16 @@ export async function GET(request, { params }) {
   const pageName = path ? path.join('/') : 'index';
   let pageKey = pageName === 'index' ? 'home' : pageName;
   
-  if (pageKey === 'course-detail' || pageKey === 'course_detail') {
-    pageKey = 'course-detail';
-  }
+  // Normalize page names
+  const pageMap = {
+    'course-detail': 'course detail',
+    'course_detail': 'course detail',
+    'sign-in': 'signin',
+    'sign-up': 'register',
+    'course detail': 'course detail'
+  };
+  
+  pageKey = pageMap[pageKey] || pageKey;
   
   try {
     const { data: siteData } = await supabase
@@ -53,23 +73,45 @@ export async function GET(request, { params }) {
       .eq('site_id', siteData.id)
       .single();
     
+    const templateId = siteData.template_id || 'modern-minimal';
     let html = null;
+    let debugInfo = { subdomain, siteId: siteData.id, templateId, pageKey, usedSaved: false };
     
-    if (savedData?.page_contents?.[pageKey]) {
-      html = savedData.page_contents[pageKey];
-    } else {
-      const templateId = siteData?.template_id || savedData?.template_id || 'modern-minimal';
+    // Only use saved content if it matches the current template
+    if (savedData?.page_contents && savedData.template_id === templateId) {
+      // Try exact match first
+      if (savedData.page_contents[pageKey]) {
+        html = savedData.page_contents[pageKey];
+      } else {
+        // Try case-insensitive match
+        const keys = Object.keys(savedData.page_contents);
+        const matchedKey = keys.find(k => k.toLowerCase() === pageKey.toLowerCase());
+        if (matchedKey) {
+          html = savedData.page_contents[matchedKey];
+        }
+      }
+    }
+    
+    if (!html) {
       const { template, content } = await templateService.loadTemplate(templateId, pageKey);
+      debugInfo.templatePath = template.path;
       
       html = content
         .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
         .replace(/href="(?!https?:\/\/|#|\/)([^"]+\.css)"/g, `href="${template.path}$1"`)
         .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
         .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`);
+    } else {
+      debugInfo.usedSaved = true;
+      debugInfo.savedTemplateId = savedData?.template_id;
     }
     
     html = sanitizeHTML(html);
     html = rewriteLinks(html, subdomain);
+    
+    // Add debug info
+    const debugScript = `<script>console.log('DEBUG:', ${JSON.stringify(debugInfo)});</script>`;
+    html = html.replace('</head>', debugScript + '</head>');
     
     // Replace or add title tag
     if (html.match(/<title>[^<]*<\/title>/i)) {
@@ -81,11 +123,18 @@ export async function GET(request, { params }) {
     return new Response(html, {
       headers: {
         'Content-Type': 'text/html',
-        'Cache-Control': 's-maxage=60, stale-while-revalidate'
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0'
       }
     });
     
   } catch (error) {
-    return new Response(`Error: ${error.message}`, { status: 500 });
+    return new Response(`Error: ${error.message}`, { 
+      status: 500,
+      headers: {
+        'Cache-Control': 'no-store'
+      }
+    });
   }
 }

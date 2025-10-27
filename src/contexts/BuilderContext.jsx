@@ -172,31 +172,7 @@ export const BuilderProvider = ({ children, siteId }) => {
         });
       }
       
-      // Update template content and auto-save for live preview
-      setTimeout(async () => {
-        const iframe = document.querySelector('iframe[srcdoc]');
-        if (iframe?.contentDocument) {
-          const newHTML = iframe.contentDocument.documentElement.outerHTML;
-          setTemplateContent(newHTML);
-          
-          // Auto-save for live preview
-          if (user?.id && siteId) {
-            try {
-              await supabase
-                .from('website_builder_saves')
-                .upsert({
-                  site_id: siteId,
-                  user_id: user.id,
-                  page_contents: { home: newHTML },
-                  page_data: pageData,
-                  template_id: currentTemplate
-                }, { onConflict: 'site_id,user_id' });
-            } catch (error) {
-              logWarning('Auto-save failed', { error, siteId });
-            }
-          }
-        }
-      }, 100);
+
     }
   };
 
@@ -238,14 +214,16 @@ export const BuilderProvider = ({ children, siteId }) => {
 
   const switchPage = useCallback((pageName) => {
     // Save current page content before switching
-    const iframe = document.querySelector('iframe[srcdoc]');
+    const iframe = document.querySelector('iframe');
     if (iframe && iframe.contentDocument) {
       const currentHTML = iframe.contentDocument.documentElement.outerHTML;
       setPageContents(prev => ({ ...prev, [currentPage]: currentHTML }));
     }
     
-    loadPage(pageName);
-  }, [currentPage, loadPage]);
+    if (currentTemplate) {
+      loadPage(pageName);
+    }
+  }, [currentPage, loadPage, currentTemplate]);
 
   const switchInspectorTab = useCallback((tab) => {
     setActiveInspectorTab(tab);
@@ -266,12 +244,18 @@ export const BuilderProvider = ({ children, siteId }) => {
     setIsSaving(true);
     try {
       // Get current iframe content
-      const iframe = document.querySelector('iframe[srcdoc]');
+      const iframe = document.querySelector('iframe');
       if (!iframe || !iframe.contentDocument) {
         return true;
       }
 
       const iframeDoc = iframe.contentDocument;
+      // Remove builder classes before saving
+      iframeDoc.querySelectorAll('.builder-selected, .builder-hover').forEach(el => {
+        el.classList.remove('builder-selected', 'builder-hover');
+        el.removeAttribute('data-element-type');
+      });
+      // Get the full HTML including all inline styles
       const currentHTML = iframeDoc.documentElement.outerHTML;
       
       // Load all template pages if not already loaded
@@ -357,7 +341,7 @@ export const BuilderProvider = ({ children, siteId }) => {
     } finally {
       setIsSaving(false);
     }
-  }, [pageData, siteId, currentPage, pageContents, currentTemplate]);
+  }, [pageData, siteId, currentPage, pageContents, currentTemplate, user]);
 
   const loadSavedProject = useCallback(async () => {
     if (!user?.id) return false;
@@ -454,7 +438,7 @@ export const BuilderProvider = ({ children, siteId }) => {
     let mounted = true;
     
     const loadTemplate = async () => {
-      if (!mounted) return;
+      if (!mounted || templateContent) return;
       setIsLoadingTemplate(true);
       try {
         let templateId = null;

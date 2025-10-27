@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useBuilder } from '../../contexts/BuilderContext';
 import { useWebsite } from '../../contexts/WebsiteContext';
 
@@ -17,10 +17,15 @@ const BuilderCanvas = () => {
   const { sites } = useWebsite();
 
   const [loading, setLoading] = useState(true);
-  const [templateContent, setTemplateContent] = useState(null);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [elementPosition, setElementPosition] = useState({ x: 200, y: 100 });
   const [isDragOver, setIsDragOver] = useState(false);
+
+  // Ensure no selection on mount
+  useEffect(() => {
+    console.log('[DEBUG] BuilderCanvas mounted, clearing selection');
+    setSelectedElement(null);
+  }, []);
 
   const iframeRef = useRef(null);
   const containerRef = useRef(null);
@@ -43,10 +48,7 @@ const BuilderCanvas = () => {
   // Use template content from BuilderContext
   useEffect(() => {
     if (builderTemplateContent && !isLoadingTemplate) {
-      setTemplateContent(builderTemplateContent);
       setLoading(false);
-    } else {
-      setLoading(true);
     }
   }, [builderTemplateContent, isLoadingTemplate]);
 
@@ -74,15 +76,42 @@ const BuilderCanvas = () => {
     return overlay;
   };
 
+  // Sync iframe changes back to template content
+  const syncIframeToTemplate = useCallback(() => {
+    if (iframeRef.current?.contentDocument && !isLoadingTemplate) {
+      const doc = iframeRef.current.contentDocument;
+      const selectedEls = doc.querySelectorAll('.builder-selected, .builder-hover');
+      console.log('[DEBUG] syncIframeToTemplate - removing classes from', selectedEls.length, 'elements');
+      selectedEls.forEach(el => {
+        el.classList.remove('builder-selected', 'builder-hover');
+        el.removeAttribute('data-element-type');
+      });
+      const newHTML = doc.documentElement.outerHTML;
+      console.log('[DEBUG] syncIframeToTemplate - HTML contains .builder-selected:', newHTML.includes('builder-selected'));
+      if (window.updateTemplateContent) {
+        window.updateTemplateContent(newHTML);
+      }
+    }
+  }, [isLoadingTemplate]);
+
   // Handle iframe load and setup interaction
   const handleIframeLoad = () => {
+    console.log('[DEBUG] Iframe loaded');
     setIframeLoaded(true);
-    setSelectedElement(null);
-
+    
     if (iframeRef.current) {
       try {
         const iframeDoc = iframeRef.current.contentDocument;
         if (iframeDoc) {
+          // Check for existing selected elements in loaded HTML
+          const existingSelected = iframeDoc.querySelectorAll('.builder-selected');
+          console.log('[DEBUG] Found existing .builder-selected elements:', existingSelected.length);
+          existingSelected.forEach(el => {
+            console.log('[DEBUG] Element with .builder-selected:', el.tagName, el.className);
+          });
+          
+          // Clear selection immediately
+          setSelectedElement(null);
           // Add editor styles to iframe
           const style = iframeDoc.createElement('style');
           style.textContent = `
@@ -121,6 +150,8 @@ const BuilderCanvas = () => {
             element.addEventListener('click', (e) => {
               e.preventDefault();
               e.stopPropagation();
+              
+              console.log('[DEBUG] Element clicked:', element.tagName, element.className);
 
               // Remove previous selections
               iframeDoc.querySelectorAll('.builder-selected').forEach(el => {
@@ -130,6 +161,7 @@ const BuilderCanvas = () => {
 
               // Select current element
               element.classList.add('builder-selected');
+              console.log('[DEBUG] Added .builder-selected to:', element.tagName);
               element.setAttribute('data-element-type', element.tagName.toLowerCase());
 
               // Calculate element position for toolbar
@@ -276,7 +308,10 @@ const BuilderCanvas = () => {
           });
 
           // Clear any existing selections
-          iframeDoc.querySelectorAll('.builder-selected, .builder-hover').forEach(el => {
+          const selectedElements = iframeDoc.querySelectorAll('.builder-selected, .builder-hover');
+          console.log('[DEBUG] Clearing selections, found:', selectedElements.length);
+          selectedElements.forEach(el => {
+            console.log('[DEBUG] Removing classes from:', el.tagName, el.className);
             el.classList.remove('builder-selected', 'builder-hover');
             el.removeAttribute('data-element-type');
           });
@@ -287,6 +322,33 @@ const BuilderCanvas = () => {
               window.extractColors();
             }
           }, 500);
+
+          // Setup mutation observer to track style changes
+          const observer = new MutationObserver((mutations) => {
+            // Only sync if style attribute changed
+            const hasStyleChange = mutations.some(m => 
+              m.type === 'attributes' && m.attributeName === 'style'
+            );
+            if (hasStyleChange) {
+              // Debounce the sync
+              if (iframeRef.current._syncTimeout) {
+                clearTimeout(iframeRef.current._syncTimeout);
+              }
+              iframeRef.current._syncTimeout = setTimeout(() => {
+                syncIframeToTemplate();
+              }, 300);
+            }
+          });
+
+          observer.observe(iframeDoc.body, {
+            attributes: true,
+            attributeFilter: ['style'],
+            subtree: true,
+            childList: false
+          });
+
+          // Store observer for cleanup
+          iframeRef.current._styleObserver = observer;
         }
       } catch (error) {
       }
@@ -297,21 +359,24 @@ const BuilderCanvas = () => {
   const enableInlineEditing = (element) => {
     element.setAttribute('contenteditable', 'true');
     element.style.outline = '2px solid #3b82f6';
+    element.style.cursor = 'text';
     element.focus();
 
     const finishEditing = () => {
       element.setAttribute('contenteditable', 'false');
       element.style.outline = '';
+      element.style.cursor = 'grab';
     };
 
     element.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Escape') {
         e.preventDefault();
         finishEditing();
       }
+      e.stopPropagation();
     });
 
-    element.addEventListener('blur', finishEditing);
+    element.addEventListener('blur', finishEditing, { once: true });
   };
 
   const handleCanvasClick = (e) => {
@@ -335,8 +400,22 @@ const BuilderCanvas = () => {
     }
   };
 
+  // Cleanup observer on unmount
+  useEffect(() => {
+    return () => {
+      if (iframeRef.current?._styleObserver) {
+        iframeRef.current._styleObserver.disconnect();
+      }
+      if (iframeRef.current?._syncTimeout) {
+        clearTimeout(iframeRef.current._syncTimeout);
+      }
+    };
+  }, []);
+
+
+
   // Only render when template content is loaded and not loading
-  if (templateContent && !loading && !isLoadingTemplate) {
+  if (builderTemplateContent && !loading && !isLoadingTemplate) {
     return (
       <div className="flex-1 bg-gray-100 h-full">
         <div
@@ -344,8 +423,9 @@ const BuilderCanvas = () => {
           className="w-full mx-auto transition-all duration-300 ease-in-out bg-white shadow-lg h-full"
         >
           <iframe
+            key={builderTemplateContent}
             ref={iframeRef}
-            srcDoc={templateContent}
+            srcDoc={builderTemplateContent}
             className="w-full h-full border-0"
             sandbox="allow-same-origin allow-scripts"
             title="Interactive Website Editor"

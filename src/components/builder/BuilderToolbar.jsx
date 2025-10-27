@@ -550,10 +550,11 @@ const BuilderToolbar = () => {
       {/* Right section */}
       <div className="flex items-center space-x-3">
         <button
+          type="button"
           onClick={async () => {
             const { data } = await supabase.from('sites').select('url').eq('id', siteId).single();
             const subdomain = data?.url || 'demo';
-            window.open(`https://${subdomain}.learnerfast.com`, '_blank');
+            window.open(`https://${subdomain}.learnerfast.com?v=${Date.now()}`, '_blank');
           }}
           className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
         >
@@ -561,8 +562,20 @@ const BuilderToolbar = () => {
           <span className="hidden md:inline">Preview</span>
         </button>
 
-        <button 
-          onClick={saveProject}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const iframe = document.querySelector('iframe');
+            if (iframe?.contentDocument) {
+              iframe.contentDocument.querySelectorAll('.builder-selected, .builder-hover').forEach(el => {
+                el.classList.remove('builder-selected', 'builder-hover');
+                el.removeAttribute('data-element-type');
+              });
+            }
+            saveProject();
+          }}
           disabled={isSaving}
           className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium disabled:opacity-50"
         >

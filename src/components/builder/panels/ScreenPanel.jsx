@@ -78,6 +78,14 @@ const ColorInput = ({ label, value, onChange }) => {
         } else if (label.toLowerCase().includes('border')) {
           selectedElement.style.borderColor = newColor;
         }
+        
+        // Trigger sync
+        setTimeout(() => {
+          if (window.updateTemplateContent && iframe.contentDocument) {
+            const newHTML = iframe.contentDocument.documentElement.outerHTML;
+            window.updateTemplateContent(newHTML);
+          }
+        }, 100);
       }
     }
     
@@ -499,6 +507,8 @@ const ScreenPanel = () => {
                 onChange={(e) => {
                   if (selectedElement?.element) {
                     selectedElement.element.style.fontSize = e.target.value + 'px';
+                    // Trigger mutation observer by dispatching event
+                    selectedElement.element.dispatchEvent(new Event('stylechange', { bubbles: true }));
                   }
                 }}
                 className="w-16 px-2 py-1 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
