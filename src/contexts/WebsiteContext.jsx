@@ -104,7 +104,25 @@ export const WebsiteProvider = ({ children }) => {
       
       if (error) throw error;
       
-      setSites(data || []);
+      const sitesWithContent = await Promise.all((data || []).map(async (site) => {
+        try {
+          const { data: saveData } = await supabase
+            .from('website_builder_saves')
+            .select('page_contents')
+            .eq('site_id', site.id)
+            .eq('user_id', user.id)
+            .single();
+          
+          return {
+            ...site,
+            htmlContent: saveData?.page_contents?.home || null
+          };
+        } catch {
+          return site;
+        }
+      }));
+      
+      setSites(sitesWithContent);
     } catch (error) {
       setSites([]);
     } finally {

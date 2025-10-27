@@ -13,8 +13,8 @@ import { supabase } from '../../lib/supabase';
 
 const siteTemplates = templateService.getTemplates();
 
-const TemplatePreview = ({ template, siteId, siteUrl }) => {
-  if (!siteUrl) {
+const TemplatePreview = ({ template, siteId, siteUrl, htmlContent }) => {
+  if (!htmlContent) {
     return (
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -24,7 +24,7 @@ const TemplatePreview = ({ template, siteId, siteUrl }) => {
   
   return (
     <iframe 
-      src={`https://${siteUrl}.learnerfast.com/home`}
+      srcDoc={htmlContent}
       className="w-full h-full border-0 pointer-events-none origin-top-left"
       style={{ width: '366%', height: '500%', transform: 'scale(0.273)' }}
       sandbox="allow-same-origin allow-scripts"
@@ -321,7 +321,7 @@ const WebsitesList = () => {
               {(() => {
                 const template = siteTemplates.find(t => t.id === site.template_id);
                 return template ? (
-                  <TemplatePreview template={template} siteId={site.id} siteUrl={site.url} />
+                  <TemplatePreview template={template} siteId={site.id} siteUrl={site.url} htmlContent={site.htmlContent} />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Globe className="h-12 w-12 text-muted-foreground/50" />
