@@ -357,24 +357,23 @@ const WebsitesList = () => {
             </div>
             
             <div className="p-5">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-semibold text-foreground">{site.name}</h3>
-                <span
-                  className={`px-2 py-1 text-xs font-medium rounded-full ${
-                    site.status === 'published'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}
-                >
-                  {site.status}
-                </span>
+              <div className="mb-3">
+                <h3 className="font-semibold text-foreground mb-1">{site.name}</h3>
+                <p className="text-sm text-muted-foreground">{site.url}.learnerfast.com</p>
               </div>
               
-              <p className="text-sm text-muted-foreground mb-1">{site.url}</p>
-              <p className="text-xs text-muted-foreground mb-4">
-                Last edited: {site.last_edited || site.lastEdited}
-                {site.has_saved_changes && <span className="ml-2 text-green-600">• Saved</span>}
-              </p>
+              <div className="flex items-center justify-between mb-4">
+                <p className="text-xs text-muted-foreground">
+                  Last edited: {site.last_edited || site.lastEdited}
+                  {site.has_saved_changes && <span className="ml-2 text-green-600">• Saved</span>}
+                </p>
+                <button
+                  onClick={() => router.push('/dashboard/subscription')}
+                  className="px-3 py-1.5 text-xs bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 transition-all font-semibold shadow-md hover:shadow-lg"
+                >
+                  Upgrade
+                </button>
+              </div>
               
               <div className="flex items-center space-x-2">
                 <button
