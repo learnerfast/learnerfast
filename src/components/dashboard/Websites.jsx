@@ -300,8 +300,8 @@ const WebsitesList = () => {
               onMouseEnter={(e) => {
                 const iframe = e.currentTarget.querySelector('iframe');
                 if (iframe) {
-                  iframe.style.transition = 'transform 4s linear';
-                  iframe.style.transform = 'scale(0.273) translateY(-72%)';
+                  iframe.style.transition = 'transform 6s linear';
+                  iframe.style.transform = 'scale(0.273) translateY(-200%)';
                 }
               }}
               onMouseLeave={(e) => {
