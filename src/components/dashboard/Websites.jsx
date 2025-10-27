@@ -300,14 +300,14 @@ const WebsitesList = () => {
               onMouseEnter={(e) => {
                 const iframe = e.currentTarget.querySelector('iframe');
                 if (iframe) {
-                  iframe.style.transition = 'transform 8s linear';
-                  iframe.style.transform = 'scale(0.273) translateY(-266%)';
+                  iframe.style.transition = 'transform 4s linear';
+                  iframe.style.transform = 'scale(0.273) translateY(-72%)';
                 }
               }}
               onMouseLeave={(e) => {
                 const iframe = e.currentTarget.querySelector('iframe');
                 if (iframe) {
-                  iframe.style.transition = 'transform 3s ease-out';
+                  iframe.style.transition = 'transform 1.5s ease-out';
                   iframe.style.transform = 'scale(0.273) translateY(0)';
                 }
               }}
