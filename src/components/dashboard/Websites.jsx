@@ -22,9 +22,20 @@ const TemplatePreview = ({ template, siteId, siteUrl, htmlContent }) => {
     );
   }
   
+  const cleanedHtml = htmlContent
+    .replace(/\sclass="([^"]*?)\bbuilder-selected\b([^"]*?)"/g, (match, before, after) => {
+      const cleaned = (before + after).trim();
+      return cleaned ? ` class="${cleaned}"` : '';
+    })
+    .replace(/\sclass="([^"]*?)\bbuilder-hover\b([^"]*?)"/g, (match, before, after) => {
+      const cleaned = (before + after).trim();
+      return cleaned ? ` class="${cleaned}"` : '';
+    })
+    .replace(/\sdata-element-type="[^"]*"/g, '');
+  
   return (
     <iframe 
-      srcDoc={htmlContent}
+      srcDoc={cleanedHtml}
       className="w-full h-full border-0 pointer-events-none origin-top-left"
       style={{ width: '366%', height: '1000%', transform: 'scale(0.273)' }}
       sandbox="allow-same-origin allow-scripts"
