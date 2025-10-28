@@ -1,5 +1,6 @@
 import { supabase } from '../../../../../lib/supabase';
-import { templateService } from '../../../../../components/builder/templateService';
+import fs from 'fs';
+import path from 'path';
 
 function sanitizeHTML(html) {
   return html
@@ -70,20 +71,40 @@ export async function GET(request, { params }) {
     
     let html = null;
     
-    // Only use saved content if it matches the current template
-    if (savedData?.page_contents?.[pageKey] && savedData.template_id === templateId) {
+    // Prioritize saved content (shows editor changes)
+    if (savedData?.page_contents?.[pageKey]) {
       html = savedData.page_contents[pageKey];
     } else {
-      // Fallback to original template using site's template_id
-      const { template, content } = await templateService.loadTemplate(templateId, pageKey);
+      // Load original template from filesystem
+      const pageFiles = {
+        'home': 'index.html',
+        'about': 'about.html',
+        'courses': 'courses.html',
+        'contact': 'contact.html',
+        'signin': 'signin.html',
+        'register': 'register.html',
+        'course-detail': 'course-detail.html',
+        'checkout': 'checkout.html',
+        'payment': 'payment.html'
+      };
       
-      html = content
-        .replace(/src="(?!https?:\/\/)/g, `src="${template.path}`)
-        .replace(/href="(?!https?:\/\/|#|\/api\/preview)([^"]+\.css)"/g, `href="${template.path}$1"`)
-        .replace(/url\("(?!https?:\/\/)/g, `url("${template.path}`)
-        .replace(/url\('(?!https?:\/\/)/g, `url('${template.path}`);
+      const fileName = pageFiles[pageKey] || 'index.html';
+      const filePath = path.join(process.cwd(), 'public', 'templates', templateId, fileName);
       
-      // Fix navigation links to use preview URLs
+      try {
+        html = fs.readFileSync(filePath, 'utf8');
+      } catch (err) {
+        const fallbackPath = path.join(process.cwd(), 'public', 'templates', templateId, 'index.html');
+        html = fs.readFileSync(fallbackPath, 'utf8');
+      }
+      
+      const templatePath = `/templates/${templateId}/`;
+      html = html
+        .replace(/src="(?!https?:\/\/)/g, `src="${templatePath}`)
+        .replace(/href="(?!https?:\/\/|#|\/api\/preview)([^"]+\.css)"/g, `href="${templatePath}$1"`)
+        .replace(/url\("(?!https?:\/\/)/g, `url("${templatePath}`)
+        .replace(/url\('(?!https?:\/\/)/g, `url('${templatePath}`);
+      
       html = html
         .replace(/href="index\.html"/g, `href="/api/preview/${siteId}/home"`)
         .replace(/href="about\.html"/g, `href="/api/preview/${siteId}/about"`)
@@ -91,11 +112,13 @@ export async function GET(request, { params }) {
         .replace(/href="contact\.html"/g, `href="/api/preview/${siteId}/contact"`)
         .replace(/href="course-detail\.html"/g, `href="/api/preview/${siteId}/course-detail"`)
         .replace(/href="signin\.html"/g, `href="/api/preview/${siteId}/signin"`)
-        .replace(/href="register\.html"/g, `href="/api/preview/${siteId}/register"`);
+        .replace(/href="register\.html"/g, `href="/api/preview/${siteId}/register"`)
+        .replace(/href="checkout\.html"/g, `href="/api/preview/${siteId}/checkout"`)
+        .replace(/href="payment\.html"/g, `href="/api/preview/${siteId}/payment"`);
+      
+      html = sanitizeHTML(html);
     }
     
-    // Sanitize and rewrite links
-    html = sanitizeHTML(html);
     html = rewriteLinks(html, siteId);
     
     // Fix navigation buttons that don't have proper hrefs

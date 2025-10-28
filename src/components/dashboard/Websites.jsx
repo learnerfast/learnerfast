@@ -23,21 +23,23 @@ const TemplatePreview = ({ template, siteId, siteUrl, htmlContent }) => {
   }
   
   const cleanedHtml = htmlContent
-    .replace(/\sclass="([^"]*?)\bbuilder-selected\b([^"]*?)"/g, (match, before, after) => {
+    .replace(/\sclass="([^"]*?)\b(builder-selected|builder-hover)\b([^"]*?)"/g, (match, before, after) => {
       const cleaned = (before + after).trim();
       return cleaned ? ` class="${cleaned}"` : '';
     })
-    .replace(/\sclass="([^"]*?)\bbuilder-hover\b([^"]*?)"/g, (match, before, after) => {
-      const cleaned = (before + after).trim();
-      return cleaned ? ` class="${cleaned}"` : '';
-    })
-    .replace(/\sdata-element-type="[^"]*"/g, '');
+    .replace(/\sdata-element-type="[^"]*"/g, '')
+    .replace(/\sdraggable="[^"]*"/g, '')
+    .replace(/\scontenteditable="[^"]*"/g, '')
+    .replace(/\sstyle="([^"]*?)(?:cursor:[^;"]*;?|outline:[^;"]*;?)([^"]*?)"/g, (match, before, after) => {
+      const cleaned = (before + after).replace(/;;+/g, ';').replace(/^;|;$/g, '').trim();
+      return cleaned ? ` style="${cleaned}"` : '';
+    });
   
   return (
     <iframe 
       srcDoc={cleanedHtml}
-      className="w-full h-full border-0 pointer-events-none origin-top-left"
-      style={{ width: '366%', height: '1000%', transform: 'scale(0.273)' }}
+      className="absolute border-0 pointer-events-none"
+      style={{ transform: 'scale(0.25)', transformOrigin: 'top left', width: '400%', height: '400%', top: 0, left: 0 }}
       sandbox="allow-same-origin allow-scripts"
     />
   );
@@ -312,14 +314,14 @@ const WebsitesList = () => {
                 const iframe = e.currentTarget.querySelector('iframe');
                 if (iframe) {
                   iframe.style.transition = 'transform 6s linear';
-                  iframe.style.transform = 'scale(0.273) translateY(-73%)';
+                  iframe.style.transform = 'scale(0.25) translateY(-73%)';
                 }
               }}
               onMouseLeave={(e) => {
                 const iframe = e.currentTarget.querySelector('iframe');
                 if (iframe) {
                   iframe.style.transition = 'transform 1.5s ease-out';
-                  iframe.style.transform = 'scale(0.273) translateY(0)';
+                  iframe.style.transform = 'scale(0.25) translateY(0)';
                 }
               }}
             >

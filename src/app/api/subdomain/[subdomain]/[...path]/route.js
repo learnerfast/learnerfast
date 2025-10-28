@@ -120,6 +120,9 @@ export async function GET(request, { params }) {
       html = html.replace(/<\/head>/i, `<title>${siteData.name}</title></head>`);
     }
     
+    // Inject auth script
+    html = html.replace('</body>', '<script src="/js/template-auth.js"></script></body>');
+    
     return new Response(html, {
       headers: {
         'Content-Type': 'text/html',
