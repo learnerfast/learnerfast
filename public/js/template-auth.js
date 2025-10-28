@@ -1,36 +1,25 @@
 // Template website authentication handler
 (function() {
   const currentPath = window.location.pathname;
-  const isSignin = currentPath.includes('signin') || currentPath.includes('sign-in');
-  const isRegister = currentPath.includes('register') || currentPath.includes('signup') || currentPath.includes('sign-up');
+  const isRegister = currentPath.includes('register') || currentPath.includes('signup');
   
-  // Initialize Supabase client
-  const supabaseUrl = 'https://your-project.supabase.co';
-  const supabaseKey = 'your-anon-key';
+  // Supabase config
+  const SUPABASE_URL = 'https://bplarfqdpsgadtzzlxur.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbGFyZnFkcHNnYWR0enpseHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3NzMzNjgsImV4cCI6MjA3NjM0OTM2OH0.YKUf2RYypzvMlH1FiXZCBlzM3Rn8g8ZXQ6h65ESgWtk';
   
-  // Handle Google OAuth buttons
+  // Handle Google OAuth
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('button, a');
-    if (btn) {
-      const text = btn.textContent.toLowerCase();
-      if (text.includes('google') || text.includes('continue with')) {
-        e.preventDefault();
-        fetch('/api/auth/google-init', { method: 'POST' })
-          .then(r => r.json())
-          .then(data => {
-            if (data.url) window.location.href = data.url;
-          });
-      }
+    if (btn && btn.textContent.toLowerCase().includes('google')) {
+      e.preventDefault();
+      const redirectUrl = `${window.location.origin}/index.html`;
+      window.location.href = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectUrl)}`;
     }
   });
   
   // Handle email/password forms
-  const forms = document.querySelectorAll('form');
-  forms.forEach(form => {
-    const hasEmail = form.querySelector('input[type="email"]');
-    const hasPassword = form.querySelector('input[type="password"]');
-    
-    if (hasEmail && hasPassword) {
+  document.querySelectorAll('form').forEach(form => {
+    if (form.querySelector('input[type="email"]') && form.querySelector('input[type="password"]')) {
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -44,14 +33,13 @@
           const res = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password, name }),
-            credentials: 'include'
+            body: JSON.stringify({ email, password, name })
           });
           const data = await res.json();
           
           if (data.success) {
             if (data.message) alert(data.message);
-            window.location.href = '/home';
+            else window.location.href = '/index.html';
           } else {
             alert(data.error || 'Authentication failed');
           }
