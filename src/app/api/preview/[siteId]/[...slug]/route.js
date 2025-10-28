@@ -138,11 +138,12 @@ export async function GET(request, { params }) {
       `<a href="/api/preview/${siteId}/course-detail" class="inline-flex items-center justify-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors">$2</a>`
     );
     
-    // Add debug to page
-    const debugScript = `<script>
-
+    // Add auth redirect script
+    const authScript = `<script>
+      // Override template-auth.js redirect URLs for preview
+      window.TEMPLATE_AUTH_REDIRECT = window.location.pathname.replace(/\/(signin|register).*/, '/home');
     </script>`;
-    html = html.replace('</head>', debugScript + '</head>');
+    html = html.replace('</head>', authScript + '</head>');
     
     return new Response(html, {
       headers: {
