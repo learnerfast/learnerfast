@@ -141,12 +141,19 @@
           try {
             if (isRegister) {
               log('Attempting registration for website:', websiteName);
+              log('Request URL:', 'https://www.learnerfast.com/api/auth/template-register');
+              log('Request origin:', window.location.origin);
               
-              const response = await fetch('https://learnerfast.com/api/auth/template-register', {
+              const response = await fetch('https://www.learnerfast.com/api/auth/template-register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password, name, website_name: websiteName })
+                body: JSON.stringify({ email, password, name, website_name: websiteName }),
+                mode: 'cors',
+                credentials: 'omit'
               });
+              
+              log('Response status:', response.status);
+              log('Response headers:', Object.fromEntries(response.headers.entries()));
               
               const result = await response.json();
               log('Registration response:', result);
@@ -164,12 +171,19 @@
               }, 3000);
             } else {
               log('Attempting sign in for website:', websiteName);
+              log('Request URL:', 'https://www.learnerfast.com/api/auth/template-login');
+              log('Request origin:', window.location.origin);
               
-              const response = await fetch('https://learnerfast.com/api/auth/template-login', {
+              const response = await fetch('https://www.learnerfast.com/api/auth/template-login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password, website_name: websiteName })
+                body: JSON.stringify({ email, password, website_name: websiteName }),
+                mode: 'cors',
+                credentials: 'omit'
               });
+              
+              log('Response status:', response.status);
+              log('Response headers:', Object.fromEntries(response.headers.entries()));
               
               const result = await response.json();
               log('Sign in response:', result);

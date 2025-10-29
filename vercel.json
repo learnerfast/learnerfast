@@ -5,6 +5,19 @@
       "schedule": "0 9 * * *"
     }
   ],
+  "redirects": [
+    {
+      "source": "/:path((?!api).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "learnerfast.com"
+        }
+      ],
+      "destination": "https://www.learnerfast.com/:path*",
+      "permanent": false
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",

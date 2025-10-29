@@ -12,11 +12,22 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
-export async function OPTIONS() {
+export async function OPTIONS(request) {
+  console.log('[TEMPLATE-LOGIN] OPTIONS preflight received', {
+    origin: request.headers.get('origin'),
+    host: request.headers.get('host'),
+    method: request.headers.get('access-control-request-method'),
+    headers: request.headers.get('access-control-request-headers')
+  });
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
 export async function POST(request) {
+  console.log('[TEMPLATE-LOGIN] POST request received', {
+    origin: request.headers.get('origin'),
+    host: request.headers.get('host'),
+    url: request.url
+  });
   try {
     const { email, password, website_name } = await request.json();
     
