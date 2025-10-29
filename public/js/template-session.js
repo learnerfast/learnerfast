@@ -1,8 +1,5 @@
 // Template session handler - shows user icon when logged in
 (function() {
-  const DEBUG = true;
-  const log = (...args) => DEBUG && console.log('[SESSION DEBUG]', ...args);
-  
   const script = document.createElement('script');
   script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
   script.onload = () => {
@@ -24,19 +21,13 @@
     );
     
     const { data: { user } } = await supabaseClient.auth.getUser();
-    log('Supabase user:', user);
       
     if (user) {
-      const signinLink = document.querySelector('a[href="signin.html"], a[href*="signin"]');
-      const registerLink = document.querySelector('a[href="register.html"], a[href*="register"]');
+      const signinLink = document.querySelector('a[href="signin.html"], a[href*="/signin"]');
+      const registerLink = document.querySelector('a[href="register.html"], a[href*="/register"]');
       
-      log('Found signin link:', signinLink);
-      log('Found register link:', registerLink);
-      
-      if (signinLink && registerLink) {
+      if (signinLink && registerLink && signinLink.parentElement === registerLink.parentElement) {
         const authContainer = signinLink.parentElement;
-        log('Auth container:', authContainer);
-        
         const userName = user.user_metadata?.name || user.email?.split('@')[0] || 'User';
         
         authContainer.innerHTML = `
@@ -55,15 +46,9 @@
         if (logoutBtn) {
           logoutBtn.addEventListener('click', async () => {
             await supabaseClient.auth.signOut();
-            const pathParts = window.location.pathname.split('/');
-            pathParts.pop();
-            window.location.href = pathParts.join('/') + '/';
+            window.location.reload();
           });
         }
-        
-        log('UI updated with user info');
-      } else {
-        log('Could not find signin/register links');
       }
     }
   }
