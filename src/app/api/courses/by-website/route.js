@@ -33,7 +33,8 @@ export async function GET(request) {
         description,
         status,
         course_settings!left(course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id),
-        course_pricing(price)
+        course_pricing(price),
+        course_sections(id, title, description, order_index)
       `)
       .eq('course_settings.website_id', site.id)
       .eq('status', 'published');
@@ -54,7 +55,8 @@ export async function GET(request) {
         instructorName: course.course_settings?.instructor_name || '',
         instructorTitle: course.course_settings?.instructor_title || '',
         instructorBio: course.course_settings?.instructor_bio || '',
-        price: course.course_pricing?.[0]?.price || 0
+        price: course.course_pricing?.[0]?.price || 0,
+        sections: (course.course_sections || []).sort((a, b) => a.order_index - b.order_index)
       }))
     });
   } catch (error) {

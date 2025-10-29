@@ -90,6 +90,21 @@
         if (bioEl) bioEl.textContent = course.instructorBio;
       }
       
+      // Course sections/syllabus
+      console.log('Course sections:', course.sections);
+      if (course.sections && course.sections.length > 0) {
+        const syllabusEl = document.querySelector('.course-syllabus, .syllabus, .curriculum');
+        console.log('Syllabus element:', syllabusEl);
+        if (syllabusEl) {
+          syllabusEl.innerHTML = course.sections.map((section, index) => `
+            <div class="syllabus-item">
+              <h4>Module ${index + 1}: ${section.title}</h4>
+              ${section.description ? `<p>${section.description}</p>` : ''}
+            </div>
+          `).join('');
+        }
+      }
+      
     } catch (error) {
       console.error('Failed to load course details:', error);
     }
