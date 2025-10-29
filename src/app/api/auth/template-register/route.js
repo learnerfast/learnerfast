@@ -52,30 +52,19 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: 'User already exists for this website' }, { status: 400, headers: corsHeaders });
     }
     
-    const supabaseClient = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-    );
-    
-    const subdomain = website_name.toLowerCase();
-    const redirectUrl = `https://${subdomain}.learnerfast.com/home`;
-    
-    console.log('[TEMPLATE-REGISTER] Calling Supabase auth.signUp', { email, redirectUrl });
-    const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+    // Use service role to create user without email confirmation
+    console.log('[TEMPLATE-REGISTER] Creating auth user with service role');
+    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
       email,
       password,
-      options: {
-        data: { name, website_name, context: 'template' },
-        emailRedirectTo: redirectUrl,
-        emailRedirectTo: false
-      }
+      email_confirm: true,
+      user_metadata: { name, website_name, context: 'template' }
     });
     
-    console.log('[TEMPLATE-REGISTER] Auth signup result:', { 
+    console.log('[TEMPLATE-REGISTER] Auth user creation result:', { 
       success: !authError, 
       error: authError?.message,
-      userId: authData?.user?.id,
-      identities: authData?.user?.identities?.length
+      userId: authData?.user?.id
     });
     
     if (authError) {
@@ -103,14 +92,21 @@ export async function POST(request) {
 
     console.log('[TEMPLATE-REGISTER] User created successfully:', newUser.id);
 
-    // Auto sign-in the user
+    // Auto sign-in the user using anon client
+    const supabaseClient = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
+    
     const { data: sessionData, error: signInError } = await supabaseClient.auth.signInWithPassword({
       email,
       password
     });
 
     if (signInError) {
-      console.log('[TEMPLATE-REGISTER] Auto sign-in error:', signInError);
+      console.log('[TEMPLATE-REGISTER] Auto sign-in error:', signInError.message);
+    } else {
+      console.log('[TEMPLATE-REGISTER] Auto sign-in successful');
     }
 
     // Log analytics
