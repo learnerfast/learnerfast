@@ -61,8 +61,8 @@ const CourseBuilder = ({ course, onBack }) => {
   const [courseImage, setCourseImage] = useState(null);
   const [courseTitle, setCourseTitle] = useState(course?.title || '');
   const [courseDescription, setCourseDescription] = useState(course?.description || '');
-  const [courseLabel, setCourseLabel] = useState('');
-  const [courseWhatYouLearn, setCourseWhatYouLearn] = useState('');
+  const [courseIncludes, setCourseIncludes] = useState(['', '', '', '', '']);
+  const [whatYouLearn, setWhatYouLearn] = useState(['', '', '']);
   const [instructorName, setInstructorName] = useState('');
   const [instructorTitle, setInstructorTitle] = useState('');
   const [instructorBio, setInstructorBio] = useState('');
@@ -230,8 +230,10 @@ const CourseBuilder = ({ course, onBack }) => {
       
       if (!error && data) {
         setLoadedCourseImage(data.course_image);
-        setCourseLabel(data.course_label || '');
-        setCourseWhatYouLearn(data.what_you_learn || '');
+        const includes = data.course_label ? data.course_label.split('\n').slice(0, 5) : [];
+        setCourseIncludes([...includes, ...Array(5 - includes.length).fill('')]);
+        const learns = data.what_you_learn ? data.what_you_learn.split('\n').slice(0, 3) : [];
+        setWhatYouLearn([...learns, ...Array(3 - learns.length).fill('')]);
         setInstructorName(data.instructor_name || '');
         setInstructorTitle(data.instructor_title || '');
         setInstructorBio(data.instructor_bio || '');
@@ -279,8 +281,8 @@ const CourseBuilder = ({ course, onBack }) => {
         .upsert({
           course_id: course.id,
           course_image: imageData,
-          course_label: courseLabel,
-          what_you_learn: courseWhatYouLearn,
+          course_label: courseIncludes.filter(i => i.trim()).join('\n'),
+          what_you_learn: whatYouLearn.filter(l => l.trim()).join('\n'),
           instructor_name: instructorName,
           instructor_title: instructorTitle,
           instructor_bio: instructorBio,
@@ -600,7 +602,7 @@ const CourseBuilder = ({ course, onBack }) => {
           <p className="text-gray-600 mb-6">Select the image, the title and the description of your course card. See the preview below.</p>
           
           <div className="grid grid-cols-2 gap-8">
-            <div className="space-y-6">
+            <div className="space-y-4">
               {/* Preview */}
               <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                 <div className="w-full h-32 bg-gray-200 flex items-center justify-center">
@@ -629,13 +631,10 @@ const CourseBuilder = ({ course, onBack }) => {
                   <p className="text-sm text-gray-600">{courseDescription || 'Course description will appear here'}</p>
                 </div>
               </div>
-            </div>
-            
-            <div className="space-y-6">
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">IMAGE</label>
-                <div className="w-full h-24 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center relative">
+                <div className="w-full h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center relative">
                   <input
                     type="file"
                     accept="image/*"
@@ -650,9 +649,11 @@ const CourseBuilder = ({ course, onBack }) => {
                     Upload
                   </button>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">For best results, upload a 640 X 360 image file.</p>
+                <p className="text-xs text-gray-500 mt-1">For best results, upload a 640 X 360 image file.</p>
               </div>
-              
+            </div>
+            
+            <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">TITLE</label>
                 <input 
@@ -666,7 +667,7 @@ const CourseBuilder = ({ course, onBack }) => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">DESCRIPTION</label>
                 <textarea 
-                  rows={4} 
+                  rows={3} 
                   value={courseDescription} 
                   onChange={(e) => setCourseDescription(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none" 
@@ -674,37 +675,43 @@ const CourseBuilder = ({ course, onBack }) => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">COURSE INCLUDES (Max 5 items)</label>
-                <textarea 
-                  rows={5} 
-                  value={courseLabel}
-                  onChange={(e) => {
-                    const lines = e.target.value.split('\n');
-                    if (lines.length <= 5) {
-                      setCourseLabel(e.target.value);
-                    }
-                  }}
-                  placeholder="e.g. 20.5 hours on-demand video\n12 articles\nDownloadable resources\nFull lifetime access\nAccess on mobile and TV" 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none" 
-                />
-                <p className="text-xs text-gray-500 mt-1">Enter each item on a new line (maximum 5 items) - {courseLabel.split('\n').filter(l => l.trim()).length}/5</p>
+                <label className="block text-sm font-medium text-gray-700 mb-2">COURSE INCLUDES</label>
+                <div className="space-y-2">
+                  {courseIncludes.map((item, index) => (
+                    <input
+                      key={index}
+                      type="text"
+                      value={item}
+                      onChange={(e) => {
+                        const newIncludes = [...courseIncludes];
+                        newIncludes[index] = e.target.value;
+                        setCourseIncludes(newIncludes);
+                      }}
+                      placeholder={index === 0 ? '20.5 hours on-demand video' : index === 1 ? '12 articles' : index === 2 ? 'Downloadable resources' : index === 3 ? 'Full lifetime access' : 'Access on mobile and TV'}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ))}
+                </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">WHAT YOU'LL LEARN (Max 3 items)</label>
-                <textarea 
-                  rows={3} 
-                  value={courseWhatYouLearn}
-                  onChange={(e) => {
-                    const lines = e.target.value.split('\n');
-                    if (lines.length <= 3) {
-                      setCourseWhatYouLearn(e.target.value);
-                    }
-                  }}
-                  placeholder="e.g. Build 10+ real-world projects\nMaster front-end and back-end technologies\nDeploy your applications to the cloud" 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none" 
-                />
-                <p className="text-xs text-gray-500 mt-1">Enter each learning outcome on a new line (maximum 3 items) - {courseWhatYouLearn.split('\n').filter(l => l.trim()).length}/3</p>
+                <label className="block text-sm font-medium text-gray-700 mb-2">WHAT YOU'LL LEARN</label>
+                <div className="space-y-2">
+                  {whatYouLearn.map((item, index) => (
+                    <input
+                      key={index}
+                      type="text"
+                      value={item}
+                      onChange={(e) => {
+                        const newLearn = [...whatYouLearn];
+                        newLearn[index] = e.target.value;
+                        setWhatYouLearn(newLearn);
+                      }}
+                      placeholder={index === 0 ? 'Build 10+ real-world projects' : index === 1 ? 'Master front-end and back-end technologies' : 'Deploy your applications to the cloud'}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
