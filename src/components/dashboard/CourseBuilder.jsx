@@ -2192,7 +2192,7 @@ const CourseBuilder = ({ course, onBack }) => {
     <div className="h-screen bg-gray-50">
       {/* Success/Error Messages */}
       {uploadMessage.text && (
-        <div className={`mx-6 mt-4 p-3 rounded-lg ${uploadMessage.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+        <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg ${uploadMessage.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'} animate-slide-in`}>
           {uploadMessage.text}
         </div>
       )}
