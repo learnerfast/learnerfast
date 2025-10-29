@@ -29,6 +29,12 @@ const CreateSiteModal = ({
     setCurrentStep(1);
   };
 
+  const handleClose = () => {
+    setCurrentStep(1);
+    setSelectedCategory('All');
+    onClose();
+  };
+
   const handleCreateClick = async () => {
     setIsCreating(true);
     const success = await onCreate();
@@ -58,7 +64,7 @@ const CreateSiteModal = ({
           animate="visible"
           exit="exit"
           variants={backdropVariants}
-          onClick={onClose}
+          onClick={handleClose}
         >
           <motion.div
             className="relative w-full max-w-7xl h-[90vh] bg-white rounded-2xl shadow-2xl overflow-hidden"
@@ -69,7 +75,7 @@ const CreateSiteModal = ({
               <div className="p-8 pb-4">
                 <div className="flex items-center mb-6">
                   <button
-                    onClick={onClose}
+                    onClick={handleClose}
                     className="ml-auto p-1 rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors"
                     disabled={isCreating}
                   >
@@ -225,7 +231,7 @@ const CreateSiteModal = ({
 
             <div className="px-8 py-6 bg-gray-50 border-t border-gray-200 flex justify-end items-center">
               <button
-                onClick={onClose}
+                onClick={handleClose}
                 disabled={isCreating}
                 className="px-6 py-2 text-sm font-medium text-gray-700 bg-transparent rounded-lg hover:bg-gray-200 disabled:opacity-50 transition-colors"
               >
