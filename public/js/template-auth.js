@@ -1,4 +1,4 @@
-// Template website authentication handler
+// Template website authentication handler - matches landing page flow
 (function() {
   const currentPath = window.location.pathname;
   const isRegister = currentPath.includes('register') || currentPath.includes('signup');
@@ -9,16 +9,34 @@
   script.onload = initAuth;
   document.head.appendChild(script);
   
-  function showMessage(message, isError = false) {
-    const existing = document.getElementById('auth-message');
+  function showToast(message, isError = false) {
+    const existing = document.getElementById('auth-toast');
     if (existing) existing.remove();
     
-    const div = document.createElement('div');
-    div.id = 'auth-message';
-    div.style.cssText = `position:fixed;top:20px;right:20px;padding:16px 24px;border-radius:8px;z-index:9999;font-size:14px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,0.15);${isError ? 'background:#ef4444;color:#fff;' : 'background:#22c55e;color:#fff;'}`;
-    div.textContent = message;
-    document.body.appendChild(div);
-    setTimeout(() => div.remove(), 5000);
+    const toast = document.createElement('div');
+    toast.id = 'auth-toast';
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 0.75rem;
+      z-index: 9999;
+      font-size: 15px;
+      font-weight: 500;
+      max-width: 500px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+      animation: slideIn 0.3s ease-out;
+      ${isError ? 'background: #ef4444; color: #ffffff;' : 'background: #4f46e5; color: #ffffff;'}
+    `;
+    toast.textContent = message;
+    
+    const style = document.createElement('style');
+    style.textContent = '@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }';
+    document.head.appendChild(style);
+    
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 5000);
   }
   
   function initAuth() {
@@ -42,16 +60,14 @@
         btn.style.opacity = '0.6';
         
         try {
-          const redirectUrl = window.TEMPLATE_AUTH_REDIRECT 
-            ? window.location.origin + window.TEMPLATE_AUTH_REDIRECT 
-            : window.location.origin + '/index.html';
+          const baseUrl = window.location.origin + window.location.pathname.replace(/\/(signin|register)\.html/, '');
           const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
-            options: { redirectTo: redirectUrl }
+            options: { redirectTo: baseUrl + '/index.html' }
           });
           if (error) throw error;
         } catch (error) {
-          showMessage(error.message, true);
+          showToast(error.message, true);
           btn.disabled = false;
           btn.style.opacity = '1';
         }
@@ -76,7 +92,7 @@
           
           const email = emailInput.value;
           const password = passwordInput.value;
-          const nameInput = form.querySelector('input[name="name"], input[name="full-name"], #name, #full-name');
+          const nameInput = form.querySelector('input[name="name"], input[name="fullname"], input[name="full-name"], #name, #full-name, #fullname');
           const name = nameInput ? nameInput.value : '';
           
           try {
@@ -87,34 +103,58 @@
                 options: { data: { full_name: name } }
               });
               
-              if (error) throw error;
-              
-              if (data.user && !data.session) {
-                showMessage('Registration successful! Please check your email to verify your account.');
-                setTimeout(() => {
-                  window.location.href = window.location.pathname.replace('register', 'signin');
-                }, 2000);
-              } else {
-                showMessage('Registration successful!');
-                setTimeout(() => {
-                  window.location.href = window.TEMPLATE_AUTH_REDIRECT || '/index.html';
-                }, 1000);
+              if (error) {
+                if (error.message.includes('429') || error.status === 429) {
+                  throw new Error('Too many requests. Please wait a few minutes and try again.');
+                }
+                throw error;
               }
+              
+              if (data?.user && data?.user?.identities?.length === 0) {
+                throw new Error('This email is already registered. Please sign in instead.');
+              }
+              
+              showToast('Registration successful! Please check your email inbox (and spam folder) to verify your account before signing in.');
+              form.reset();
+              setTimeout(() => {
+                window.location.href = window.location.pathname.replace('register', 'signin');
+              }, 5000);
             } else {
               const { error } = await supabaseClient.auth.signInWithPassword({
                 email,
                 password
               });
               
-              if (error) throw error;
+              if (error) {
+                if (error.message.includes('Email not confirmed')) {
+                  throw new Error('Please verify your email before signing in. Check your inbox.');
+                }
+                if (error.message.includes('Invalid login credentials')) {
+                  throw new Error('Invalid email or password. Please try again.');
+                }
+                throw error;
+              }
               
-              showMessage('Signed in successfully!');
+              showToast('Signed in successfully!');
               setTimeout(() => {
-                window.location.href = window.TEMPLATE_AUTH_REDIRECT || '/index.html';
+                const baseUrl = window.location.pathname.replace(/\/signin\.html/, '');
+                window.location.href = baseUrl + '/index.html';
               }, 1000);
             }
           } catch (error) {
-            showMessage(error.message || 'Authentication failed', true);
+            let errorMessage = 'Authentication failed';
+            if (error.message.includes('already registered') || error.message.includes('User already registered')) {
+              errorMessage = 'This email is already registered. Please sign in instead.';
+            } else if (error.message.includes('Too many requests')) {
+              errorMessage = error.message;
+            } else if (error.message.includes('Email not confirmed')) {
+              errorMessage = error.message;
+            } else if (error.message.includes('Invalid login credentials')) {
+              errorMessage = error.message;
+            } else {
+              errorMessage = error.message || 'Authentication failed';
+            }
+            showToast(errorMessage, true);
             if (submitBtn) {
               submitBtn.disabled = false;
               submitBtn.textContent = originalText;

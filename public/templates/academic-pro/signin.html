@@ -111,47 +111,6 @@ Continue with Google
 <img alt="A developer focused on their code on a large monitor in a modern office." class="w-full h-64 lg:h-screen object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaTLXjA8gbqUpb82hR7pnsJOCihJ0oSpxDzj3Zy_Ch6VmtXtwqE05TardCTI0W9vT0ghTHrtxjv6yMAt_490nBDrQ3TOiuEGjCF9J--595cU16fRnexGmRwcvrsR7wOFGbPSshhkXibvmdSzLZk6n1OHwqGHX9IBLW2CcbfvJ50uaRTR2Idzx6EULSX29-GfwVtn6LdG7Siy-D6XG3JdOx7r1HFb-K3AqFi7wpaX5MOex9R352nfhqi414KKMJMZTn7HYirAul3Hcq"/>
 </div>
 </div>
-<script>
-        const form = document.getElementById('signInForm');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const emailError = document.getElementById('emailError');
-        const passwordError = document.getElementById('passwordError');
-        const formSuccess = document.getElementById('formSuccess');
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            let isValid = true;
-            // Reset states
-            emailInput.classList.remove('error', 'success');
-            passwordInput.classList.remove('error', 'success');
-            emailError.classList.add('hidden');
-            passwordError.classList.add('hidden');
-            formSuccess.classList.add('hidden');
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(emailInput.value)) {
-                emailInput.classList.add('error');
-                emailError.classList.remove('hidden');
-                isValid = false;
-            } else {
-                 emailInput.classList.add('success');
-            }
-            // Password validation
-            if (passwordInput.value.length < 8) {
-                passwordInput.classList.add('error');
-                passwordError.classList.remove('hidden');
-                isValid = false;
-            } else {
-                 passwordInput.classList.add('success');
-            }
-            if(isValid) {
-                // On successful validation
-                console.log('Form submitted successfully!');
-                formSuccess.classList.remove('hidden');
-                 // You can add logic here to actually submit the form
-                 // For demo purposes, we'll just show the success message.
-            }
-        });
-    </script>
+
 
 </body></html>

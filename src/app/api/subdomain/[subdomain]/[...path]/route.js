@@ -43,6 +43,27 @@ function rewriteLinks(html, subdomain) {
 export async function GET(request, { params }) {
   const { subdomain, path } = await params;
   const pageName = path ? path.join('/') : 'index';
+  
+  // Handle JS file requests
+  if (pageName.startsWith('js/')) {
+    const jsFileName = pageName.replace('js/', '');
+    const fs = await import('fs');
+    const pathModule = await import('path');
+    const filePath = pathModule.join(process.cwd(), 'public', 'js', jsFileName);
+    
+    try {
+      const fileContent = fs.readFileSync(filePath, 'utf8');
+      return new Response(fileContent, {
+        headers: {
+          'Content-Type': 'application/javascript; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600'
+        }
+      });
+    } catch (error) {
+      return new Response('File not found', { status: 404 });
+    }
+  }
+  
   let pageKey = pageName === 'index' ? 'home' : pageName;
   
   // Normalize page names
