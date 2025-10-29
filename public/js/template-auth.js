@@ -72,7 +72,7 @@
           const pathParts = window.location.pathname.split('/');
           pathParts.pop();
           const templatePath = pathParts.join('/');
-          const redirectUrl = window.location.origin + templatePath + '/index.html';
+          const redirectUrl = window.location.origin + templatePath + '/index';
           log('OAuth redirect URL:', redirectUrl);
           const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
@@ -134,57 +134,55 @@
           }
           
           try {
+            const hostname = window.location.hostname;
+            const websiteName = hostname.split('.')[0];
+            
             if (isRegister) {
-              log('Attempting registration...');
-              const { data, error } = await supabaseClient.auth.signUp({
-                email,
-                password,
-                options: { data: { full_name: name } }
+              log('Attempting registration for website:', websiteName);
+              
+              const response = await fetch('/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, name, website_name: websiteName })
               });
               
-              if (error) {
-                log('Registration error:', error);
-                if (error.message.includes('429') || error.status === 429) {
-                  throw new Error('Too many requests. Please wait a few minutes and try again.');
-                }
-                throw error;
-              }
-              log('Registration response:', data);
+              const result = await response.json();
+              log('Registration response:', result);
               
-              if (data?.user && data?.user?.identities?.length === 0) {
-                throw new Error('This email is already registered. Please sign in instead.');
+              if (!response.ok) {
+                throw new Error(result.error || 'Registration failed');
               }
               
-              showToast('Registration successful! Please check your email inbox (and spam folder) to verify your account before signing in.');
+              showToast('Registration successful! Please check your email to verify your account.');
               form.reset();
               setTimeout(() => {
                 const redirectUrl = window.location.pathname.replace('register', 'signin');
                 log('Redirecting to:', redirectUrl);
                 window.location.href = redirectUrl;
-              }, 5000);
+              }, 3000);
             } else {
-              log('Attempting sign in...');
-              const { error } = await supabaseClient.auth.signInWithPassword({
-                email,
-                password
+              log('Attempting sign in for website:', websiteName);
+              
+              const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, website_name: websiteName })
               });
               
-              if (error) {
-                log('Sign in error:', error);
-                if (error.message.includes('Email not confirmed')) {
-                  throw new Error('Please verify your email before signing in. Check your inbox.');
-                }
-                if (error.message.includes('Invalid login credentials')) {
-                  throw new Error('Invalid email or password. Please try again.');
-                }
-                throw error;
+              const result = await response.json();
+              log('Sign in response:', result);
+              
+              if (!response.ok) {
+                throw new Error(result.error || 'Sign in failed');
               }
-              log('Sign in successful');
+              
+              localStorage.setItem('template_session', JSON.stringify(result.session));
               
               showToast('Signed in successfully!');
               setTimeout(() => {
-                const baseUrl = window.location.pathname.replace(/\/signin\.html/, '');
-                const redirectUrl = baseUrl + '/index.html';
+                const pathParts = window.location.pathname.split('/');
+                pathParts.pop();
+                const redirectUrl = pathParts.join('/') + '/index';
                 log('Redirecting to:', redirectUrl);
                 window.location.href = redirectUrl;
               }, 1000);
@@ -192,9 +190,7 @@
           } catch (error) {
             log('Caught error:', error);
             let errorMessage = 'Authentication failed';
-            if (error.message.includes('already registered') || error.message.includes('User already registered')) {
-              errorMessage = 'This email is already registered. Please sign in instead.';
-            } else if (error.message.includes('Too many requests')) {
+            if (error.message.includes('Too many requests')) {
               errorMessage = error.message;
             } else if (error.message.includes('Email not confirmed')) {
               errorMessage = error.message;

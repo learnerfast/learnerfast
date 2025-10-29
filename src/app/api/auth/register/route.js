@@ -24,21 +24,23 @@ export async function POST(request) {
       .single();
 
     if (existingUser) {
-      return NextResponse.json({ error: 'User already exists' }, { status: 400 });
+      return NextResponse.json({ error: 'User already exists for this website' }, { status: 400 });
     }
 
     const { data, error: authError } = await supabaseAnon.auth.signUp({
       email,
       password,
       options: {
-        data: { name },
+        data: { name, website_name },
         emailRedirectTo: website_name 
-          ? `${process.env.NEXT_PUBLIC_APP_URL}/templates/${website_name}/index.html`
+          ? `${process.env.NEXT_PUBLIC_APP_URL}/templates/${website_name}/index`
           : `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`
       }
     });
 
-    if (authError) throw authError;
+    if (authError && !authError.message.includes('already registered')) {
+      throw authError;
+    }
 
     const { data: newUser, error } = await supabase
       .from('website_users')

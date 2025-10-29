@@ -21,11 +21,12 @@
     const pathParts = window.location.pathname.split('/');
     const lastPart = pathParts[pathParts.length - 1];
     
-    if (lastPart === 'index.html') {
-      log('Already on index.html, session established');
+    if (lastPart === 'index' || lastPart === 'index.html') {
+      log('Already on index, session established');
+      window.history.replaceState({}, '', window.location.pathname.replace('.html', ''));
     } else {
       pathParts.pop();
-      const redirectUrl = pathParts.join('/') + '/index.html';
+      const redirectUrl = pathParts.join('/') + '/index';
       log('Redirecting to:', redirectUrl);
       window.location.replace(redirectUrl);
     }

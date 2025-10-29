@@ -16,15 +16,7 @@ export async function POST(request) {
     const body = await request.json();
     const { email, password, website_name } = body;
 
-    const { data, error } = await supabaseAnon.auth.signInWithPassword({
-      email,
-      password
-    });
-
-    if (error) {
-      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
-    }
-
+    // Template login - check website_users table only
     if (website_name) {
       const { data: user } = await supabase
         .from('website_users')
@@ -33,19 +25,49 @@ export async function POST(request) {
         .eq('website_name', website_name)
         .single();
 
-      if (user) {
-        await supabase
-          .from('website_users')
-          .update({ last_login: new Date().toISOString() })
-          .eq('id', user.id);
-
-        await supabase.from('user_analytics').insert([{
-          user_id: user.id,
-          event_type: 'login',
-          event_data: { website_name },
-          website_name
-        }]);
+      if (!user) {
+        return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
       }
+
+      // Verify password with Supabase auth temporarily
+      const { error: authError } = await supabaseAnon.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (authError) {
+        return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+      }
+
+      // Sign out immediately to prevent session persistence
+      await supabaseAnon.auth.signOut();
+
+      await supabase
+        .from('website_users')
+        .update({ last_login: new Date().toISOString() })
+        .eq('id', user.id);
+
+      await supabase.from('user_analytics').insert([{
+        user_id: user.id,
+        event_type: 'login',
+        event_data: { website_name },
+        website_name
+      }]);
+
+      return NextResponse.json({ 
+        success: true, 
+        session: { user, website_name }
+      });
+    }
+
+    // Landing page login - use Supabase auth
+    const { data, error } = await supabaseAnon.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
     return NextResponse.json({ success: true, session: data.session });
