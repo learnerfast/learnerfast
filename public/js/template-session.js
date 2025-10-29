@@ -27,8 +27,8 @@
     log('Supabase user:', user);
       
     if (user) {
-      const signinLink = document.querySelector('a[href="signin.html"], a[href*="signin"]');
-      const registerLink = document.querySelector('a[href="register.html"], a[href*="register"]');
+      const signinLink = document.querySelector('a[href="signin.html"]');
+      const registerLink = document.querySelector('a[href="register.html"]');
       
       log('Found signin link:', signinLink);
       log('Found register link:', registerLink);
