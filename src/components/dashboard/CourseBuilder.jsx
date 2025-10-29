@@ -62,6 +62,10 @@ const CourseBuilder = ({ course, onBack }) => {
   const [courseTitle, setCourseTitle] = useState(course?.title || '');
   const [courseDescription, setCourseDescription] = useState(course?.description || '');
   const [courseLabel, setCourseLabel] = useState('');
+  const [courseWhatYouLearn, setCourseWhatYouLearn] = useState('');
+  const [instructorName, setInstructorName] = useState('');
+  const [instructorTitle, setInstructorTitle] = useState('');
+  const [instructorBio, setInstructorBio] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [loadedCourseImage, setLoadedCourseImage] = useState(null);
   const [accessType, setAccessType] = useState('free');
@@ -220,13 +224,17 @@ const CourseBuilder = ({ course, onBack }) => {
       const { supabase } = await import('../../lib/supabase');
       const { data, error } = await supabase
         .from('course_settings')
-        .select('course_image, course_label, website_id')
+        .select('course_image, course_label, website_id, instructor_name, instructor_title, instructor_bio')
         .eq('course_id', course.id)
         .single();
       
       if (!error && data) {
         setLoadedCourseImage(data.course_image);
         setCourseLabel(data.course_label || '');
+        setCourseWhatYouLearn(data.what_you_learn || '');
+        setInstructorName(data.instructor_name || '');
+        setInstructorTitle(data.instructor_title || '');
+        setInstructorBio(data.instructor_bio || '');
         setSelectedWebsite(data.website_id || 'none');
       }
     } catch (error) {
@@ -272,6 +280,10 @@ const CourseBuilder = ({ course, onBack }) => {
           course_id: course.id,
           course_image: imageData,
           course_label: courseLabel,
+          what_you_learn: courseWhatYouLearn,
+          instructor_name: instructorName,
+          instructor_title: instructorTitle,
+          instructor_bio: instructorBio,
           website_id: selectedWebsite === 'none' || !selectedWebsite ? null : selectedWebsite
         }, {
           onConflict: 'course_id'
@@ -662,15 +674,79 @@ const CourseBuilder = ({ course, onBack }) => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">ADD A LABEL</label>
-                <input 
-                  type="text" 
+                <label className="block text-sm font-medium text-gray-700 mb-2">COURSE INCLUDES (Max 5 items)</label>
+                <textarea 
+                  rows={5} 
                   value={courseLabel}
-                  onChange={(e) => setCourseLabel(e.target.value)}
-                  placeholder="e.g. course credits, num of installments, etc." 
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg" 
+                  onChange={(e) => {
+                    const lines = e.target.value.split('\n');
+                    if (lines.length <= 5) {
+                      setCourseLabel(e.target.value);
+                    }
+                  }}
+                  placeholder="e.g. 20.5 hours on-demand video\n12 articles\nDownloadable resources\nFull lifetime access\nAccess on mobile and TV" 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none" 
                 />
+                <p className="text-xs text-gray-500 mt-1">Enter each item on a new line (maximum 5 items) - {courseLabel.split('\n').filter(l => l.trim()).length}/5</p>
               </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">WHAT YOU'LL LEARN (Max 3 items)</label>
+                <textarea 
+                  rows={3} 
+                  value={courseWhatYouLearn}
+                  onChange={(e) => {
+                    const lines = e.target.value.split('\n');
+                    if (lines.length <= 3) {
+                      setCourseWhatYouLearn(e.target.value);
+                    }
+                  }}
+                  placeholder="e.g. Build 10+ real-world projects\nMaster front-end and back-end technologies\nDeploy your applications to the cloud" 
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none" 
+                />
+                <p className="text-xs text-gray-500 mt-1">Enter each learning outcome on a new line (maximum 3 items) - {courseWhatYouLearn.split('\n').filter(l => l.trim()).length}/3</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Instructor */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6">
+          <h3 className="text-lg font-semibold mb-4">Instructor</h3>
+          <p className="text-gray-600 mb-6">Add instructor information to display on the course page.</p>
+          
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">INSTRUCTOR NAME</label>
+              <input 
+                type="text" 
+                value={instructorName} 
+                onChange={(e) => setInstructorName(e.target.value)}
+                placeholder="e.g. Ethan Carter"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg" 
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">INSTRUCTOR TITLE</label>
+              <input 
+                type="text" 
+                value={instructorTitle} 
+                onChange={(e) => setInstructorTitle(e.target.value)}
+                placeholder="e.g. Full-Stack Developer & Instructor"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg" 
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">INSTRUCTOR BIO</label>
+              <textarea 
+                rows={4} 
+                value={instructorBio} 
+                onChange={(e) => setInstructorBio(e.target.value)}
+                placeholder="e.g. Ethan Carter is a seasoned full-stack developer with over 10 years of experience in the industry. He has worked with numerous startups and tech companies, building scalable and robust web applications."
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none" 
+              />
             </div>
           </div>
         </div>
