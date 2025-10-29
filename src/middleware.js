@@ -8,6 +8,7 @@ export function middleware(request) {
   if (url.pathname.startsWith('/api') || 
       url.pathname.startsWith('/_next') || 
       url.pathname.startsWith('/assets') ||
+      url.pathname.startsWith('/js') ||
       url.pathname.startsWith('/templates')) {
     return NextResponse.next();
   }
