@@ -43,8 +43,39 @@
       const priceEl = document.querySelector('.course-price, .price');
       if (priceEl) priceEl.textContent = course.price > 0 ? `$${course.price}` : 'Free';
       
-      const labelEl = document.querySelector('.course-instructor, .instructor');
-      if (labelEl && course.label) labelEl.textContent = course.label;
+      // Course includes
+      if (course.label) {
+        const includesEl = document.querySelector('.course-includes, .includes');
+        if (includesEl) {
+          const items = course.label.split('\n').filter(i => i.trim());
+          includesEl.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+        }
+      }
+      
+      // What you'll learn
+      if (course.whatYouLearn) {
+        const learnEl = document.querySelector('.what-you-learn, .learn');
+        if (learnEl) {
+          const items = course.whatYouLearn.split('\n').filter(i => i.trim());
+          learnEl.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+        }
+      }
+      
+      // Instructor info
+      if (course.instructorName) {
+        const nameEl = document.querySelector('.instructor-name');
+        if (nameEl) nameEl.textContent = course.instructorName;
+      }
+      
+      if (course.instructorTitle) {
+        const titleEl = document.querySelector('.instructor-title');
+        if (titleEl) titleEl.textContent = course.instructorTitle;
+      }
+      
+      if (course.instructorBio) {
+        const bioEl = document.querySelector('.instructor-bio');
+        if (bioEl) bioEl.textContent = course.instructorBio;
+      }
       
     } catch (error) {
       console.error('Failed to load course details:', error);

@@ -32,7 +32,7 @@ export async function GET(request) {
         title,
         description,
         status,
-        course_settings!inner(course_image, course_label, website_id),
+        course_settings!inner(course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id),
         course_pricing(price)
       `)
       .eq('course_settings.website_id', site.id)
@@ -45,6 +45,10 @@ export async function GET(request) {
         description: course.description,
         image: course.course_settings?.course_image,
         label: course.course_settings?.course_label,
+        whatYouLearn: course.course_settings?.what_you_learn,
+        instructorName: course.course_settings?.instructor_name,
+        instructorTitle: course.course_settings?.instructor_title,
+        instructorBio: course.course_settings?.instructor_bio,
         price: course.course_pricing?.[0]?.price || 0
       }))
     });
