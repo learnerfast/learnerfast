@@ -55,7 +55,9 @@
         if (logoutBtn) {
           logoutBtn.addEventListener('click', async () => {
             await supabaseClient.auth.signOut();
-            window.location.href = 'index.html';
+            const pathParts = window.location.pathname.split('/');
+            pathParts.pop();
+            window.location.href = pathParts.join('/') + '/';
           });
         }
         
