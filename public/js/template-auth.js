@@ -162,22 +162,13 @@
                 throw new Error(result.error || 'Registration failed');
               }
               
-              // Set session in Supabase client if returned
+              // Set Supabase session
               if (result.session) {
-                log('Setting session in Supabase client', {
-                  hasAccessToken: !!result.session.access_token,
-                  hasRefreshToken: !!result.session.refresh_token
-                });
-                const { data, error } = await supabaseClient.auth.setSession({
+                log('Setting Supabase session');
+                await supabaseClient.auth.setSession({
                   access_token: result.session.access_token,
                   refresh_token: result.session.refresh_token
                 });
-                log('Session set result:', { success: !error, error: error?.message });
-                
-                const { data: sessionCheck } = await supabaseClient.auth.getSession();
-                log('Session verification:', { hasSession: !!sessionCheck.session });
-              } else {
-                log('No session in response');
               }
               
               showToast('Registration successful! Redirecting...');
@@ -211,22 +202,13 @@
                 throw new Error(result.error || 'Sign in failed');
               }
               
-              // Set session in Supabase client if returned
+              // Set Supabase session
               if (result.session) {
-                log('Setting session in Supabase client', {
-                  hasAccessToken: !!result.session.access_token,
-                  hasRefreshToken: !!result.session.refresh_token
-                });
-                const { data, error } = await supabaseClient.auth.setSession({
+                log('Setting Supabase session');
+                await supabaseClient.auth.setSession({
                   access_token: result.session.access_token,
                   refresh_token: result.session.refresh_token
                 });
-                log('Session set result:', { success: !error, error: error?.message });
-                
-                const { data: sessionCheck } = await supabaseClient.auth.getSession();
-                log('Session verification:', { hasSession: !!sessionCheck.session });
-              } else {
-                log('No session in response');
               }
               
               showToast('Signed in successfully!');

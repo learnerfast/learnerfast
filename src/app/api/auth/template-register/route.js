@@ -39,7 +39,7 @@ export async function POST(request) {
       return NextResponse.json({ success: false, error: 'Website name is required' }, { status: 400, headers: corsHeaders });
     }
 
-    // Check if user already exists in website_users
+    // Check if user already exists for this specific website
     const { data: existingUser } = await supabase
       .from('website_users')
       .select('*')
@@ -48,34 +48,37 @@ export async function POST(request) {
       .single();
 
     if (existingUser) {
-      console.log('[TEMPLATE-REGISTER] User already exists in website_users');
+      console.log('[TEMPLATE-REGISTER] User already exists for this website');
       return NextResponse.json({ success: false, error: 'User already exists for this website' }, { status: 400, headers: corsHeaders });
     }
     
-    // Use service role to create user without email confirmation
-    console.log('[TEMPLATE-REGISTER] Creating auth user with service role');
+    // Hash password for storage
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const passwordHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    // Create unique email for Supabase auth (email+website_name)
+    const uniqueEmail = `${email.split('@')[0]}+${website_name}@${email.split('@')[1]}`;
+    
+    console.log('[TEMPLATE-REGISTER] Creating Supabase auth user:', uniqueEmail);
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
-      email,
+      email: uniqueEmail,
       password,
       email_confirm: true,
-      user_metadata: { name, website_name, context: 'template' }
-    });
-    
-    console.log('[TEMPLATE-REGISTER] Auth user creation result:', { 
-      success: !authError, 
-      error: authError?.message,
-      userId: authData?.user?.id
+      user_metadata: { original_email: email, name, website_name, context: 'template' }
     });
     
     if (authError) {
-      console.log('[TEMPLATE-REGISTER] Auth error:', authError);
+      console.log('[TEMPLATE-REGISTER] Auth error:', authError.message);
       throw authError;
     }
-
-    // Insert into website_users
-    console.log('[TEMPLATE-REGISTER] Inserting into website_users');
+    
+    console.log('[TEMPLATE-REGISTER] Inserting into website_users with hashed password');
     const { data: newUser, error: insertError } = await supabase.from('website_users').insert([{
       email,
+      password_hash: passwordHash,
       name: name || email.split('@')[0],
       website_name,
       role: 'student',
@@ -92,21 +95,19 @@ export async function POST(request) {
 
     console.log('[TEMPLATE-REGISTER] User created successfully:', newUser.id);
 
-    // Auto sign-in the user using anon client
+    // Sign in to get session
     const supabaseClient = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     );
     
     const { data: sessionData, error: signInError } = await supabaseClient.auth.signInWithPassword({
-      email,
+      email: uniqueEmail,
       password
     });
 
     if (signInError) {
       console.log('[TEMPLATE-REGISTER] Auto sign-in error:', signInError.message);
-    } else {
-      console.log('[TEMPLATE-REGISTER] Auto sign-in successful');
     }
 
     // Log analytics
@@ -117,7 +118,7 @@ export async function POST(request) {
       website_name
     }]);
     
-    console.log('[TEMPLATE-REGISTER] Registration complete with auto sign-in');
+    console.log('[TEMPLATE-REGISTER] Registration complete');
     
     return NextResponse.json({ 
       success: true,
@@ -125,7 +126,7 @@ export async function POST(request) {
       session: sessionData?.session
     }, { headers: corsHeaders });
   } catch (error) {
-    console.log('[TEMPLATE-REGISTER] Caught error:', error.message, error);
+    console.log('[TEMPLATE-REGISTER] Caught error:', error.message);
     return NextResponse.json({ success: false, error: error.message }, { status: 400, headers: corsHeaders });
   }
 }
