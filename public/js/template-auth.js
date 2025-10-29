@@ -3,11 +3,12 @@
   const currentPath = window.location.pathname;
   const isRegister = currentPath.includes('register') || currentPath.includes('signup');
   
-  // Import Supabase from CDN
-  const script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-  script.onload = initAuth;
-  document.head.appendChild(script);
+  // Wait for Supabase to load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAuth);
+  } else {
+    initAuth();
+  }
   
   function showToast(message, isError = false) {
     const existing = document.getElementById('auth-toast');
