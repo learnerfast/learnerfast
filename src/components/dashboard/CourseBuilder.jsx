@@ -220,13 +220,14 @@ const CourseBuilder = ({ course, onBack }) => {
       const { supabase } = await import('../../lib/supabase');
       const { data, error } = await supabase
         .from('course_settings')
-        .select('course_image, course_label')
+        .select('course_image, course_label, website_id')
         .eq('course_id', course.id)
         .single();
       
       if (!error && data) {
         setLoadedCourseImage(data.course_image);
         setCourseLabel(data.course_label || '');
+        setSelectedWebsite(data.website_id || 'none');
       }
     } catch (error) {
     }
@@ -270,7 +271,8 @@ const CourseBuilder = ({ course, onBack }) => {
         .upsert({
           course_id: course.id,
           course_image: imageData,
-          course_label: courseLabel
+          course_label: courseLabel,
+          website_id: selectedWebsite === 'none' || !selectedWebsite ? null : selectedWebsite
         }, {
           onConflict: 'course_id'
         })
