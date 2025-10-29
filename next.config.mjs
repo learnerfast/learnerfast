@@ -13,6 +13,12 @@ const nextConfig = {
   async headers() {
     return [
       {
+        source: '/js/:path*.js',
+        headers: [
+          { key: 'Content-Type', value: 'application/javascript; charset=utf-8' },
+        ],
+      },
+      {
         source: '/:path*',
         headers: [
           { key: 'X-DNS-Prefetch-Control', value: 'on' },
