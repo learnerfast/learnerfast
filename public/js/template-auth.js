@@ -177,9 +177,6 @@
                 throw new Error(result.error || 'Sign in failed');
               }
               
-              localStorage.setItem('template_session', JSON.stringify(result.session));
-              log('Session stored:', result.session);
-              
               showToast('Signed in successfully!');
               setTimeout(() => {
                 const pathParts = window.location.pathname.split('/');

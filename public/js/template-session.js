@@ -3,28 +3,43 @@
   const DEBUG = true;
   const log = (...args) => DEBUG && console.log('[SESSION DEBUG]', ...args);
   
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', checkSession);
-  } else {
-    checkSession();
-  }
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  script.onload = () => {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', checkSession);
+    } else {
+      checkSession();
+    }
+  };
+  document.head.appendChild(script);
   
-  function checkSession() {
-    const session = JSON.parse(localStorage.getItem('template_session') || 'null');
-    log('Template session:', session);
-    log('LocalStorage keys:', Object.keys(localStorage));
+  async function checkSession() {
+    if (!window.supabase) return;
+    
+    const { createClient } = window.supabase;
+    const supabaseClient = createClient(
+      'https://bplarfqdpsgadtzzlxur.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbGFyZnFkcHNnYWR0enpseHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3NzMzNjgsImV4cCI6MjA3NjM0OTM2OH0.YKUf2RYypzvMlH1FiXZCBlzM3Rn8g8ZXQ6h65ESgWtk'
+    );
+    
+    const { data: { user } } = await supabaseClient.auth.getUser();
+    log('Supabase user:', user);
       
-    if (session?.user) {
-      // Find the specific div containing both signin and register links
-      const authButtons = Array.from(document.querySelectorAll('div.flex.items-center.gap-3')).find(div => 
-        div.querySelector('a[href="signin.html"]') && div.querySelector('a[href="register.html"]')
-      );
-      log('Found auth buttons:', authButtons);
-      if (authButtons) {
-        const user = session.user;
-        const userName = user.name || user.email?.split('@')[0] || 'User';
+    if (user) {
+      const signinLink = document.querySelector('a[href="signin.html"], a[href*="signin"]');
+      const registerLink = document.querySelector('a[href="register.html"], a[href*="register"]');
+      
+      log('Found signin link:', signinLink);
+      log('Found register link:', registerLink);
+      
+      if (signinLink && registerLink) {
+        const authContainer = signinLink.parentElement;
+        log('Auth container:', authContainer);
         
-        authButtons.innerHTML = `
+        const userName = user.user_metadata?.name || user.email?.split('@')[0] || 'User';
+        
+        authContainer.innerHTML = `
           <div class="relative group">
             <button class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
               <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">${userName.charAt(0).toUpperCase()}</div>
@@ -40,13 +55,15 @@
           
         const logoutBtn = document.getElementById('logout-btn');
         if (logoutBtn) {
-          logoutBtn.addEventListener('click', () => {
-            localStorage.removeItem('template_session');
-            window.location.reload();
+          logoutBtn.addEventListener('click', async () => {
+            await supabaseClient.auth.signOut();
+            window.location.href = 'signin.html';
           });
         }
         
         log('UI updated with user info');
+      } else {
+        log('Could not find signin/register links');
       }
     }
   }
