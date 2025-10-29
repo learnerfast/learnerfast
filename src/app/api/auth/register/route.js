@@ -25,7 +25,7 @@ export async function POST(request) {
       password,
       options: {
         data: { name, context: 'landing' },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`
+        emailRedirectTo: 'https://learnerfast.com/dashboard'
       }
     });
 

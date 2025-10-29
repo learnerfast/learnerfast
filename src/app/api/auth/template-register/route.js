@@ -30,12 +30,15 @@ export async function POST(request) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     );
     
+    const subdomain = website_name.toLowerCase();
+    const redirectUrl = `https://${subdomain}.learnerfast.com/home`;
+    
     const { data, error } = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
         data: { name, website_name, context: 'template' },
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/templates/${website_name}/index.html`
+        emailRedirectTo: redirectUrl
       }
     });
     
