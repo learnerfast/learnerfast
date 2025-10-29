@@ -17,8 +17,15 @@ export async function OPTIONS() {
 }
 
 export async function POST(request) {
+  console.log('[TEMPLATE-REGISTER] Request received', {
+    method: request.method,
+    origin: request.headers.get('origin'),
+    host: request.headers.get('host')
+  });
+  
   try {
     const { email, password, name, website_name, program_interest } = await request.json();
+    console.log('[TEMPLATE-REGISTER] Processing:', { email, website_name });
     
     if (!website_name) {
       return NextResponse.json({ success: false, error: 'Website name is required' }, { status: 400, headers: corsHeaders });

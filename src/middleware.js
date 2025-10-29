@@ -4,24 +4,20 @@ export function middleware(request) {
   const hostname = request.headers.get('host') || '';
   const url = request.nextUrl;
   
-  // Handle CORS preflight for API routes
-  if (request.method === 'OPTIONS' && url.pathname.startsWith('/api')) {
-    return new NextResponse(null, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      },
-    });
-  }
+  console.log('[MIDDLEWARE]', {
+    method: request.method,
+    pathname: url.pathname,
+    hostname,
+    origin: request.headers.get('origin')
+  });
   
-  // Skip if already on API route or static files
+  // Skip API routes entirely - they handle their own CORS
   if (url.pathname.startsWith('/api') || 
       url.pathname.startsWith('/_next') || 
       url.pathname.startsWith('/assets') ||
       url.pathname.startsWith('/js') ||
       url.pathname.startsWith('/templates')) {
+    console.log('[MIDDLEWARE] Skipping:', url.pathname);
     return NextResponse.next();
   }
   
