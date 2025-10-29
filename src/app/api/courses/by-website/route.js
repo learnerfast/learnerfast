@@ -6,6 +6,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+// Add these indexes to speed up queries:
+// CREATE INDEX idx_sites_url ON sites(url);
+// CREATE INDEX idx_courses_user_status ON courses(user_id, status);
+// CREATE INDEX idx_course_settings_course ON course_settings(course_id);
+
 export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const websiteName = searchParams.get('website_name');
