@@ -67,6 +67,11 @@ export async function GET(request, { params }) {
   
   let pageKey = pageName === 'index' ? 'home' : pageName;
   
+  // Handle course-detail with slug (e.g., course-detail/demo)
+  if (pathArray[0] === 'course-detail' && pathArray.length > 1) {
+    pageKey = 'course-detail';
+  }
+  
   // Normalize page names
   const pageMap = {
     'course-detail': 'course detail',

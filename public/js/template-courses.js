@@ -16,7 +16,7 @@
       }
       
       container.innerHTML = courses.map(course => `
-        <div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl cursor-pointer" onclick="window.location.href='course-detail.html/${encodeURIComponent(course.title.toLowerCase().replace(/\s+/g, '-'))}'">
+        <div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl cursor-pointer" onclick="window.location.href='/course-detail/${encodeURIComponent(course.title.toLowerCase().replace(/\s+/g, '-'))}'">
           <div class="aspect-video overflow-hidden">
             <img 
               alt="${course.title}" 
