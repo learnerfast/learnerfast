@@ -11,19 +11,22 @@ export async function GET(request) {
   const websiteName = searchParams.get('website_name');
   
   if (!websiteName) {
-    return NextResponse.json({ courses: [] });
+    return NextResponse.json({ courses: [], error: 'No website name provided' });
   }
 
   try {
-    const { data: site } = await supabase
+    const { data: site, error: siteError } = await supabase
       .from('sites')
-      .select('id')
-      .eq('name', websiteName)
+      .select('id, name, url')
+      .eq('url', websiteName)
       .single();
 
-    if (!site) {
-      return NextResponse.json({ courses: [] });
+    if (siteError || !site) {
+      console.log('Site lookup failed:', { websiteName, siteError });
+      return NextResponse.json({ courses: [], error: 'Site not found', websiteName });
     }
+    
+    console.log('Found site:', site);
 
     const { data: courses, error: coursesError } = await supabase
       .from('courses')

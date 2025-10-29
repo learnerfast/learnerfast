@@ -14,8 +14,11 @@
       }
       
       // Fetch courses
+      console.log('Fetching courses for website:', websiteName);
       const response = await fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`);
-      const { courses } = await response.json();
+      const data = await response.json();
+      console.log('API response:', data);
+      const { courses } = data;
       
       // Find course by slug
       console.log('Looking for course with slug:', courseSlug);
@@ -50,41 +53,45 @@
       
       // Course includes
       console.log('Course label:', course.label);
-      if (course.label) {
+      if (course.label && course.label.trim()) {
         const includesEl = document.querySelector('.course-includes, .includes');
         console.log('Includes element:', includesEl);
         if (includesEl) {
           const items = course.label.split('\n').filter(i => i.trim());
-          includesEl.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+          if (items.length > 0) {
+            includesEl.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+          }
         }
       }
       
       // What you'll learn
       console.log('What you learn:', course.whatYouLearn);
-      if (course.whatYouLearn) {
+      if (course.whatYouLearn && course.whatYouLearn.trim()) {
         const learnEl = document.querySelector('.what-you-learn, .learn');
         console.log('Learn element:', learnEl);
         if (learnEl) {
           const items = course.whatYouLearn.split('\n').filter(i => i.trim());
-          learnEl.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+          if (items.length > 0) {
+            learnEl.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+          }
         }
       }
       
       // Instructor info
       console.log('Instructor:', course.instructorName, course.instructorTitle, course.instructorBio);
-      if (course.instructorName) {
+      if (course.instructorName && course.instructorName.trim()) {
         const nameEl = document.querySelector('.instructor-name');
         console.log('Name element:', nameEl);
         if (nameEl) nameEl.textContent = course.instructorName;
       }
       
-      if (course.instructorTitle) {
+      if (course.instructorTitle && course.instructorTitle.trim()) {
         const titleEl = document.querySelector('.instructor-title');
         console.log('Title element:', titleEl);
         if (titleEl) titleEl.textContent = course.instructorTitle;
       }
       
-      if (course.instructorBio) {
+      if (course.instructorBio && course.instructorBio.trim()) {
         const bioEl = document.querySelector('.instructor-bio');
         console.log('Bio element:', bioEl);
         if (bioEl) bioEl.textContent = course.instructorBio;
