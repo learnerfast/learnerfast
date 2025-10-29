@@ -309,10 +309,10 @@ const CourseBuilder = ({ course, onBack }) => {
         course.description = courseDescription;
       }
       
-      alert('Course settings saved successfully!');
+      showMessage('success', 'Course settings saved successfully!');
     } catch (error) {
       console.error('Error saving course settings:', error);
-      alert(`Failed to save course settings: ${error.message || 'Unknown error'}`);
+      showMessage('error', `Failed to save: ${error.message || 'Unknown error'}`);
     } finally {
       setIsSaving(false);
     }
@@ -344,9 +344,9 @@ const CourseBuilder = ({ course, onBack }) => {
       
       if (error) throw error;
       
-      alert('Access settings saved successfully!');
+      showMessage('success', 'Access settings saved successfully!');
     } catch (error) {
-      alert('Failed to save access settings');
+      showMessage('error', 'Failed to save access settings');
     } finally {
       setIsSaving(false);
     }
