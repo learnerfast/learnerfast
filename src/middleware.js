@@ -46,6 +46,6 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    '/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)',
+    '/((?!api|_next|_static|_vercel|favicon.ico|.*\\..*).*)',
   ],
 };
