@@ -1,5 +1,8 @@
 // Template session handler - shows user icon when logged in
 (function() {
+  // Only run on actual template pages, not in dashboard/editor/modals/iframes
+  if (window.parent !== window) return;
+  
   const script = document.createElement('script');
   script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
   script.onload = () => {
