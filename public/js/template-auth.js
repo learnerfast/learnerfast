@@ -69,11 +69,14 @@
         btn.style.opacity = '0.6';
         
         try {
-          const baseUrl = window.location.origin + window.location.pathname.replace(/\/(signin|register)\.html/, '');
-          log('OAuth redirect URL:', baseUrl + '/index.html');
+          const pathParts = window.location.pathname.split('/');
+          pathParts.pop();
+          const templatePath = pathParts.join('/');
+          const redirectUrl = window.location.origin + templatePath + '/index.html';
+          log('OAuth redirect URL:', redirectUrl);
           const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
-            options: { redirectTo: baseUrl + '/index.html' }
+            options: { redirectTo: redirectUrl }
           });
           if (error) throw error;
         } catch (error) {

@@ -5,6 +5,7 @@
   
   log('Template init loaded');
   log('Current URL:', window.location.href);
+  log('Pathname:', window.location.pathname);
   
   // Check if returning from OAuth
   const urlParams = new URLSearchParams(window.location.search);
@@ -16,12 +17,15 @@
   // Supabase OAuth returns tokens in hash
   if (hashParams.get('access_token')) {
     log('OAuth access token found');
-    const isAuthPage = window.location.pathname.includes('signin') || window.location.pathname.includes('register');
-    log('Is auth page:', isAuthPage);
-    if (isAuthPage) {
-      // Redirect to index after successful OAuth
-      const baseUrl = window.location.pathname.replace(/\/(signin|register)\.html/, '');
-      const redirectUrl = baseUrl + '/index.html';
+    
+    const pathParts = window.location.pathname.split('/');
+    const lastPart = pathParts[pathParts.length - 1];
+    
+    if (lastPart === 'index.html') {
+      log('Already on index.html, session established');
+    } else {
+      pathParts.pop();
+      const redirectUrl = pathParts.join('/') + '/index.html';
       log('Redirecting to:', redirectUrl);
       window.location.replace(redirectUrl);
     }
