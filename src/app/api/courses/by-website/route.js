@@ -17,7 +17,7 @@ export async function GET(request) {
   try {
     const { data: site, error: siteError } = await supabase
       .from('sites')
-      .select('id, name, url')
+      .select('id, name, url, user_id')
       .eq('url', websiteName)
       .single();
 
@@ -35,11 +35,13 @@ export async function GET(request) {
         title,
         description,
         status,
-        course_settings!left(course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id),
+        user_id,
+        course_settings!inner(course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id),
         course_pricing(price),
         course_sections(id, title, description, order_index)
       `)
       .eq('course_settings.website_id', site.id)
+      .eq('user_id', site.user_id)
       .eq('status', 'published');
 
     if (coursesError) {
