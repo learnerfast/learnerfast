@@ -13,24 +13,12 @@ const corsHeaders = {
 };
 
 export async function OPTIONS(request) {
-  console.log('[TEMPLATE-LOGIN] OPTIONS preflight received', {
-    origin: request.headers.get('origin'),
-    host: request.headers.get('host'),
-    method: request.headers.get('access-control-request-method'),
-    headers: request.headers.get('access-control-request-headers')
-  });
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
 export async function POST(request) {
-  console.log('[TEMPLATE-LOGIN] POST request received', {
-    origin: request.headers.get('origin'),
-    host: request.headers.get('host'),
-    url: request.url
-  });
   try {
     const { email, password, website_name } = await request.json();
-    console.log('[TEMPLATE-LOGIN] Processing:', { email, website_name });
     
     if (!website_name) {
       return NextResponse.json({ success: false, error: 'Website name is required' }, { status: 400, headers: corsHeaders });
@@ -44,7 +32,6 @@ export async function POST(request) {
       .single();
 
     if (!user) {
-      console.log('[TEMPLATE-LOGIN] User not found');
       return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401, headers: corsHeaders });
     }
     
@@ -56,11 +43,8 @@ export async function POST(request) {
     const passwordHash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     
     if (passwordHash !== user.password_hash) {
-      console.log('[TEMPLATE-LOGIN] Password mismatch');
       return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401, headers: corsHeaders });
     }
-
-    console.log('[TEMPLATE-LOGIN] Password verified, signing in with Supabase');
     
     // Sign in with unique email to get session
     const uniqueEmail = `${email.split('@')[0]}+${website_name}@${email.split('@')[1]}`;
@@ -76,11 +60,8 @@ export async function POST(request) {
     });
     
     if (signInError) {
-      console.log('[TEMPLATE-LOGIN] Supabase sign-in error:', signInError.message);
       return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401, headers: corsHeaders });
     }
-
-    console.log('[TEMPLATE-LOGIN] Sign in successful');
 
     await supabase
       .from('website_users')

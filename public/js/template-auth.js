@@ -1,13 +1,8 @@
-// Template website authentication handler - matches landing page flow
+// Template website authentication handler
 (function() {
-  const DEBUG = true;
-  const log = (...args) => DEBUG && console.log('[AUTH DEBUG]', ...args);
-  
   const currentPath = window.location.pathname;
   const isRegister = currentPath.includes('register') || currentPath.includes('signup');
-  log('Page type:', isRegister ? 'Register' : 'Sign In');
   
-  // Import Supabase from CDN
   const script = document.createElement('script');
   script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
   script.onload = initAuth;
@@ -17,7 +12,6 @@
   const websiteName = hostname.split('.')[0];
   
   function showToast(message, isError = false) {
-    log('Toast:', message, 'Error:', isError);
     const existing = document.getElementById('auth-toast');
     if (existing) existing.remove();
     
@@ -48,37 +42,26 @@
   }
   
   function initAuth() {
-    log('Initializing auth...');
-    if (!window.supabase) {
-      console.error('Supabase not loaded');
-      return;
-    }
-    log('Supabase loaded successfully');
+    if (!window.supabase) return;
     
     const { createClient } = window.supabase;
-    const hostname = window.location.hostname;
-    const websiteName = hostname.split('.')[0];
     const supabaseClient = createClient(
       'https://bplarfqdpsgadtzzlxur.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbGFyZnFkcHNnYWR0enpseHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3NzMzNjgsImV4cCI6MjA3NjM0OTM2OH0.YKUf2RYypzvMlH1FiXZCBlzM3Rn8g8ZXQ6h65ESgWtk'
     );
-    log('Supabase client created');
     
     // Handle Google OAuth
     document.addEventListener('click', async (e) => {
       const btn = e.target.closest('button, a');
       if (btn && btn.textContent.toLowerCase().includes('google')) {
         e.preventDefault();
-        log('Google OAuth clicked');
         btn.disabled = true;
         btn.style.opacity = '0.6';
         
         try {
           const pathParts = window.location.pathname.split('/');
           pathParts.pop();
-          const templatePath = pathParts.join('/');
-          const redirectUrl = window.location.origin + templatePath + '/home';
-          log('OAuth redirect URL:', redirectUrl);
+          const redirectUrl = window.location.origin + pathParts.join('/') + '/home';
           const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
             options: { redirectTo: redirectUrl }
@@ -98,10 +81,8 @@
       const passwordInput = form.querySelector('input[type="password"]');
       
       if (emailInput && passwordInput) {
-        log('Form found with email and password inputs');
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
-          log('Form submitted');
           
           const submitBtn = form.querySelector('button[type="submit"]');
           const originalText = submitBtn ? submitBtn.textContent : '';
@@ -114,12 +95,9 @@
           const password = passwordInput.value;
           const nameInput = form.querySelector('input[name="name"], input[name="fullname"], input[name="full-name"], #name, #full-name, #fullname');
           const name = nameInput ? nameInput.value : '';
-          log('Form data:', { email, name, passwordLength: password.length });
           
-          // Validate password confirmation for registration
           if (isRegister) {
             const confirmPasswordInput = form.querySelector('input[name="confirm-password"], input[id="confirm-password"]');
-            log('Password confirmation check:', password === confirmPasswordInput?.value);
             if (confirmPasswordInput && password !== confirmPasswordInput.value) {
               showToast('Passwords do not match', true);
               if (submitBtn) {
@@ -139,100 +117,36 @@
           }
           
           try {
-            if (isRegister) {
-              log('Attempting registration for website:', websiteName);
-              log('Request URL:', 'https://www.learnerfast.com/api/auth/template-register');
-              log('Request origin:', window.location.origin);
-              
-              const response = await fetch('https://www.learnerfast.com/api/auth/template-register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password, name, website_name: websiteName }),
-                mode: 'cors',
-                credentials: 'omit'
-              });
-              
-              log('Response status:', response.status);
-              log('Response headers:', Object.fromEntries(response.headers.entries()));
-              
-              const result = await response.json();
-              log('Registration response:', result);
-              
-              if (!response.ok) {
-                throw new Error(result.error || 'Registration failed');
-              }
-              
-              // Set Supabase session
-              if (result.session) {
-                log('Setting Supabase session');
-                await supabaseClient.auth.setSession({
-                  access_token: result.session.access_token,
-                  refresh_token: result.session.refresh_token
-                });
-              }
-              
-              showToast('Registration successful! Redirecting...');
-              setTimeout(() => {
-                const pathParts = window.location.pathname.split('/');
-                pathParts.pop();
-                const redirectUrl = pathParts.join('/') + '/home';
-                log('Redirecting to:', redirectUrl);
-                window.location.href = redirectUrl;
-              }, 1000);
-            } else {
-              log('Attempting sign in for website:', websiteName);
-              log('Request URL:', 'https://www.learnerfast.com/api/auth/template-login');
-              log('Request origin:', window.location.origin);
-              
-              const response = await fetch('https://www.learnerfast.com/api/auth/template-login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password, website_name: websiteName }),
-                mode: 'cors',
-                credentials: 'omit'
-              });
-              
-              log('Response status:', response.status);
-              log('Response headers:', Object.fromEntries(response.headers.entries()));
-              
-              const result = await response.json();
-              log('Sign in response:', result);
-              
-              if (!response.ok) {
-                throw new Error(result.error || 'Sign in failed');
-              }
-              
-              // Set Supabase session
-              if (result.session) {
-                log('Setting Supabase session');
-                await supabaseClient.auth.setSession({
-                  access_token: result.session.access_token,
-                  refresh_token: result.session.refresh_token
-                });
-              }
-              
-              showToast('Signed in successfully!');
-              setTimeout(() => {
-                const pathParts = window.location.pathname.split('/');
-                pathParts.pop();
-                const redirectUrl = pathParts.join('/') + '/home';
-                log('Redirecting to:', redirectUrl);
-                window.location.href = redirectUrl;
-              }, 1000);
+            const endpoint = isRegister ? 'template-register' : 'template-login';
+            const response = await fetch(`https://www.learnerfast.com/api/auth/${endpoint}`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password, name, website_name: websiteName }),
+              mode: 'cors',
+              credentials: 'omit'
+            });
+            
+            const result = await response.json();
+            
+            if (!response.ok) {
+              throw new Error(result.error || 'Authentication failed');
             }
+            
+            if (result.session) {
+              await supabaseClient.auth.setSession({
+                access_token: result.session.access_token,
+                refresh_token: result.session.refresh_token
+              });
+            }
+            
+            showToast(isRegister ? 'Registration successful! Redirecting...' : 'Signed in successfully!');
+            setTimeout(() => {
+              const pathParts = window.location.pathname.split('/');
+              pathParts.pop();
+              window.location.href = pathParts.join('/') + '/home';
+            }, 1000);
           } catch (error) {
-            log('Caught error:', error);
-            let errorMessage = 'Authentication failed';
-            if (error.message.includes('Too many requests')) {
-              errorMessage = error.message;
-            } else if (error.message.includes('Email not confirmed')) {
-              errorMessage = error.message;
-            } else if (error.message.includes('Invalid login credentials')) {
-              errorMessage = error.message;
-            } else {
-              errorMessage = error.message || 'Authentication failed';
-            }
-            showToast(errorMessage, true);
+            showToast(error.message || 'Authentication failed', true);
             if (submitBtn) {
               submitBtn.disabled = false;
               submitBtn.textContent = originalText;
