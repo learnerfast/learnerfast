@@ -189,11 +189,11 @@
         console.log('⚠️ No instructor name data');
       }
       
-      const titleEl = document.querySelector('.instructor-title');
-      console.log('Title element:', titleEl);
+      const instructorTitleEl = document.querySelector('.instructor-title');
+      console.log('Instructor title element:', instructorTitleEl);
       if (course.instructorTitle && course.instructorTitle.trim()) {
-        if (titleEl) {
-          titleEl.textContent = course.instructorTitle;
+        if (instructorTitleEl) {
+          instructorTitleEl.textContent = course.instructorTitle;
           console.log('✓ Updated instructor title');
         } else {
           console.error('❌ Instructor title element not found');
