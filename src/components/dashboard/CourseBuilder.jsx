@@ -224,7 +224,7 @@ const CourseBuilder = ({ course, onBack }) => {
       const { supabase } = await import('../../lib/supabase');
       const { data, error } = await supabase
         .from('course_settings')
-        .select('course_image, course_label, website_id, instructor_name, instructor_title, instructor_bio')
+        .select('course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id')
         .eq('course_id', course.id)
         .single();
       
