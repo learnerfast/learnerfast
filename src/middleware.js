@@ -4,20 +4,12 @@ export function middleware(request) {
   const hostname = request.headers.get('host') || '';
   const url = request.nextUrl;
   
-  console.log('[MIDDLEWARE]', {
-    method: request.method,
-    pathname: url.pathname,
-    hostname,
-    origin: request.headers.get('origin')
-  });
-  
   // Skip API routes entirely - they handle their own CORS
   if (url.pathname.startsWith('/api') || 
       url.pathname.startsWith('/_next') || 
       url.pathname.startsWith('/assets') ||
       url.pathname.startsWith('/js') ||
       url.pathname.startsWith('/templates')) {
-    console.log('[MIDDLEWARE] Skipping:', url.pathname);
     return NextResponse.next();
   }
   
@@ -42,7 +34,6 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$).*)',
-    '/((?!api/).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|css|js)$).*)',
   ],
 };
