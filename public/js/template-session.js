@@ -3,14 +3,19 @@
   const DEBUG = true;
   const log = (...args) => DEBUG && console.log('[SESSION DEBUG]', ...args);
   
-  checkSession();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', checkSession);
+  } else {
+    checkSession();
+  }
   
   function checkSession() {
     const session = JSON.parse(localStorage.getItem('template_session') || 'null');
     log('Template session:', session);
       
     if (session?.user) {
-      const authButtons = document.querySelector('.flex.items-center.gap-3');
+      const authButtons = document.querySelector('div.flex.items-center.gap-3');
+      log('Found auth buttons:', authButtons);
       if (authButtons && authButtons.querySelector('a[href="signin.html"]')) {
         const user = session.user;
         const userName = user.name || user.email?.split('@')[0] || 'User';
@@ -29,15 +34,13 @@
           </div>
         `;
           
-        setTimeout(() => {
-          const logoutBtn = document.getElementById('logout-btn');
-          if (logoutBtn) {
-            logoutBtn.addEventListener('click', () => {
-              localStorage.removeItem('template_session');
-              window.location.reload();
-            });
-          }
-        }, 100);
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('template_session');
+            window.location.reload();
+          });
+        }
         
         log('UI updated with user info');
       }
