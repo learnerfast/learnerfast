@@ -142,7 +142,7 @@
             if (isRegister) {
               log('Attempting registration for website:', websiteName);
               
-              const response = await fetch('/api/auth/register', {
+              const response = await fetch('/api/auth/template-register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password, name, website_name: websiteName })
@@ -165,7 +165,7 @@
             } else {
               log('Attempting sign in for website:', websiteName);
               
-              const response = await fetch('/api/auth/login', {
+              const response = await fetch('/api/auth/template-login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password, website_name: websiteName })

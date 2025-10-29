@@ -10,6 +10,21 @@ export async function POST(request) {
   try {
     const { email, password, website_name } = await request.json();
     
+    if (!website_name) {
+      return NextResponse.json({ success: false, error: 'Website name is required' }, { status: 400 });
+    }
+
+    const { data: user } = await supabase
+      .from('website_users')
+      .select('*')
+      .eq('email', email)
+      .eq('website_name', website_name)
+      .single();
+
+    if (!user) {
+      return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
+    }
+    
     const supabaseClient = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -20,32 +35,25 @@ export async function POST(request) {
       password
     });
     
-    if (error) throw error;
-
-    if (website_name) {
-      const { data: user } = await supabase
-        .from('website_users')
-        .select('*')
-        .eq('email', email)
-        .eq('website_name', website_name)
-        .single();
-
-      if (user) {
-        await supabase
-          .from('website_users')
-          .update({ last_login: new Date().toISOString() })
-          .eq('id', user.id);
-
-        await supabase.from('user_analytics').insert([{
-          user_id: user.id,
-          event_type: 'login',
-          event_data: { website_name },
-          website_name
-        }]);
-      }
+    if (error) {
+      return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
     }
+
+    await supabaseClient.auth.signOut();
+
+    await supabase
+      .from('website_users')
+      .update({ last_login: new Date().toISOString() })
+      .eq('id', user.id);
+
+    await supabase.from('user_analytics').insert([{
+      user_id: user.id,
+      event_type: 'login',
+      event_data: { website_name },
+      website_name
+    }]);
     
-    return NextResponse.json({ success: true, session: data.session });
+    return NextResponse.json({ success: true, session: { user, website_name } });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
