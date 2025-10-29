@@ -51,16 +51,17 @@ export async function POST(request) {
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     );
     
-    const { data, error } = await supabaseClient.auth.signInWithPassword({
+    const { data: sessionData, error } = await supabaseClient.auth.signInWithPassword({
       email,
       password
     });
     
     if (error) {
+      console.log('[TEMPLATE-LOGIN] Auth error:', error.message);
       return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401, headers: corsHeaders });
     }
 
-    await supabaseClient.auth.signOut();
+    console.log('[TEMPLATE-LOGIN] Sign in successful');
 
     await supabase
       .from('website_users')
@@ -74,7 +75,7 @@ export async function POST(request) {
       website_name
     }]);
     
-    return NextResponse.json({ success: true, session: { user, website_name } }, { headers: corsHeaders });
+    return NextResponse.json({ success: true, user, session: sessionData.session }, { headers: corsHeaders });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400, headers: corsHeaders });
   }
