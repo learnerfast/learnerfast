@@ -6,12 +6,22 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type'
+};
+
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 export async function POST(request) {
   try {
     const { email, password, website_name } = await request.json();
     
     if (!website_name) {
-      return NextResponse.json({ success: false, error: 'Website name is required' }, { status: 400 });
+      return NextResponse.json({ success: false, error: 'Website name is required' }, { status: 400, headers: corsHeaders });
     }
 
     const { data: user } = await supabase
@@ -22,7 +32,7 @@ export async function POST(request) {
       .single();
 
     if (!user) {
-      return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
+      return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401, headers: corsHeaders });
     }
     
     const supabaseClient = createClient(
@@ -36,7 +46,7 @@ export async function POST(request) {
     });
     
     if (error) {
-      return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401 });
+      return NextResponse.json({ success: false, error: 'Invalid credentials' }, { status: 401, headers: corsHeaders });
     }
 
     await supabaseClient.auth.signOut();
@@ -53,8 +63,8 @@ export async function POST(request) {
       website_name
     }]);
     
-    return NextResponse.json({ success: true, session: { user, website_name } });
+    return NextResponse.json({ success: true, session: { user, website_name } }, { headers: corsHeaders });
   } catch (error) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+    return NextResponse.json({ success: false, error: error.message }, { status: 400, headers: corsHeaders });
   }
 }
