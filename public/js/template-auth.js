@@ -13,6 +13,9 @@
   script.onload = initAuth;
   document.head.appendChild(script);
   
+  const hostname = window.location.hostname;
+  const websiteName = hostname.split('.')[0];
+  
   function showToast(message, isError = false) {
     log('Toast:', message, 'Error:', isError);
     const existing = document.getElementById('auth-toast');
@@ -53,6 +56,8 @@
     log('Supabase loaded successfully');
     
     const { createClient } = window.supabase;
+    const hostname = window.location.hostname;
+    const websiteName = hostname.split('.')[0];
     const supabaseClient = createClient(
       'https://bplarfqdpsgadtzzlxur.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbGFyZnFkcHNnYWR0enpseHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3NzMzNjgsImV4cCI6MjA3NjM0OTM2OH0.YKUf2RYypzvMlH1FiXZCBlzM3Rn8g8ZXQ6h65ESgWtk'
@@ -134,9 +139,6 @@
           }
           
           try {
-            const hostname = window.location.hostname;
-            const websiteName = hostname.split('.')[0];
-            
             if (isRegister) {
               log('Attempting registration for website:', websiteName);
               
@@ -171,7 +173,6 @@
               
               const result = await response.json();
               log('Sign in response:', result);
-              log('Session data:', result.session);
               
               if (!response.ok) {
                 throw new Error(result.error || 'Sign in failed');
