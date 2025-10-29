@@ -42,13 +42,13 @@
       const titleEl = document.querySelector('h1, .course-title');
       if (titleEl) titleEl.textContent = course.title;
       
-      const imageEl = document.querySelector('.course-image, img[alt*="course"]');
-      if (imageEl) imageEl.src = course.image || 'https://via.placeholder.com/1200x600?text=Course';
+      const imageEl = document.querySelector('.course-image');
+      if (imageEl && course.image) imageEl.src = course.image;
       
       const descEl = document.querySelector('.course-description, .description');
       if (descEl) descEl.textContent = course.description || '';
       
-      const priceEl = document.querySelector('.course-price, .price');
+      const priceEl = document.querySelector('.course-price');
       if (priceEl) priceEl.textContent = course.price > 0 ? `$${course.price}` : 'Free';
       
       // Course includes
@@ -59,7 +59,7 @@
         if (includesEl) {
           const items = course.label.split('\n').filter(i => i.trim());
           if (items.length > 0) {
-            includesEl.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+            includesEl.innerHTML = items.map(item => `<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">check_circle</span><span>${item}</span></li>`).join('');
           }
         }
       }
@@ -72,7 +72,7 @@
         if (learnEl) {
           const items = course.whatYouLearn.split('\n').filter(i => i.trim());
           if (items.length > 0) {
-            learnEl.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+            learnEl.innerHTML = items.map(item => `<li class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span class="text-sm text-gray-800 dark:text-gray-200">${item}</span></li>`).join('');
           }
         }
       }

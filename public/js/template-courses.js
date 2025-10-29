@@ -26,7 +26,6 @@
           </div>
           <div class="flex flex-1 flex-col p-4">
             <h3 class="font-bold text-black dark:text-white">${course.title}</h3>
-            ${course.label ? `<p class="text-sm text-black/60 dark:text-white/60">${course.label}</p>` : ''}
             <p class="mt-2 text-sm text-black/80 dark:text-white/80 flex-grow">${course.description || ''}</p>
             <div class="mt-4 flex items-center justify-between">
               <span class="text-lg font-bold text-primary">${course.price > 0 ? `$${course.price}` : 'Free'}</span>
