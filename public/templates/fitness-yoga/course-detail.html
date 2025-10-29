@@ -47,6 +47,7 @@
       }
     </style>
 <script src="/js/template-session.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
 <div class="flex min-h-screen w-full flex-col">
@@ -75,77 +76,136 @@
 </div>
 </div>
 </header>
-<main class="flex-1">
-<div class="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-<div class="flex flex-col gap-8">
-<div class="relative min-h-[400px] w-full overflow-hidden rounded-xl">
-<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCPJnKiYakZwazN-VKTTncZrlr_VezQQZQKsy09nwmL0E005wnYH4n7swm-WcsNz6HxDWn9GHEhRnNQwHzxadEm4gcFsuKfuARfdSiPZFNZms-7G3h0sX1oFrwo30isaD_zdHFxr7dH3mLKe7llNQf_tCn0J5HukRu9-G4Vg1SRYtkVxp-dMi7v4zRZ2pPFiLHSWZteqd2F2t0kOnS8iILoJr0SnJXnClla2xpAZlPyqlCXxy2a9JszANa_0KMzm50GRz3GhD3ZG0Ey');"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-<div class="relative flex h-full flex-col justify-end p-8">
-<h1 class="text-4xl font-bold text-white lg:text-5xl">Yoga for Beginners</h1>
-</div>
-</div>
-<div class="grid grid-cols-1 gap-12 lg:grid-cols-3">
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 <div class="lg:col-span-2">
-<div class="space-y-8">
+<div class="flex flex-col gap-8">
 <div>
-<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Course Description</h2>
-<p class="mt-4 text-gray-600 dark:text-gray-300">
-                      This course is designed for individuals new to yoga, focusing on foundational poses, breathing techniques, and mindfulness practices. Participants will learn to build strength, flexibility, and balance while reducing stress and improving overall well-being.
-                    </p>
+<div class="mb-4">
+<a href="courses.html" class="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+Back to Courses
+</a>
 </div>
+<div class="rounded-xl overflow-hidden mb-6">
+<img alt="A smiling instructor pointing at code on a computer screen." class="w-full h-96 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN0z4MnbkLjN_A78LdMQvX06a514I5OZ9cGh6qaOw_iRVL8Uzsre8hFUwoNqtTX6KsRWfoGjvvnEW8ZSOltIZ0YaqwJi_RabF7kXGOoe4eWAaVl_OOYqEvNUPKPoje1VVr0GZXZfmsPZFJzeGsjYi2DZEAHSPpTkRH8VaUnJAdXlqWUwH8YW2fhIEyDpRyTS8hXJYuGytZRqFee5mCT_tqldZtfXxCrBxNHmsafJ3N0XawZvcl23Q-HmL7MVs_lBWwtbePBbSPNcdU"/>
+</div>
+<h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl">Complete Web Development Bootcamp</h2>
+<p class="mt-3 text-base text-gray-600 dark:text-gray-300">Master front-end and back-end development with this comprehensive course. Build real-world projects and become a job-ready web developer.</p>
+</div>
+<div class="border-b border-gray-200 dark:border-gray-700">
+<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+<a class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Overview</a>
+</nav>
+</div>
+<div class="space-y-4">
+<section>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">What you'll learn</h3>
+<div class="grid grid-cols-1 gap-3">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-primary text-xl">code</span>
+<p class="text-sm text-gray-800 dark:text-gray-200">Build 10+ real-world projects</p>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-primary text-xl">laptop_chromebook</span>
+<p class="text-sm text-gray-800 dark:text-gray-200">Master front-end and back-end technologies</p>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-primary text-xl">database</span>
+<p class="text-sm text-gray-800 dark:text-gray-200">Deploy your applications to the cloud</p>
+</div>
+</div>
+</section>
+<section>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Instructor</h3>
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-cover bg-center flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzQP4vL_UPZC4ZUWpoIW6EDnLHJ0eEifNAptFmEcILF7KDZzbHGV2Cd_WtFtDgugrF63lpQAe464mc1s0ngMLEDomI7ELr9F6mCQrLb7yMqHbioUfblJ6bnSTWi-XcB40HykkUR3moNfTOk8OoW496BST77qh8Bc_kOXL4pL03tTCWIODSwzXNBd3fmdDdx_h82Lhc4l0f6J1oHLeDtLu7LYtZ0Ips0Gfjd64iHJLPBq3jhCei5m0MbQgKfHlmkOzBqJ8RNR21pjd4");'></div>
 <div>
-<h2 class="text-2xl font-bold text-gray-900 dark:text-white">What You'll Learn</h2>
-<ul class="mt-4 space-y-3">
-<li class="flex items-center gap-3">
-<input checked="" class="checkbox-custom" id="learn1" type="checkbox"/>
-<label class="text-gray-600 dark:text-gray-300" for="learn1">Master basic yoga poses</label>
-</li>
-<li class="flex items-center gap-3">
-<input checked="" class="checkbox-custom" id="learn2" type="checkbox"/>
-<label class="text-gray-600 dark:text-gray-300" for="learn2">Improve flexibility and balance</label>
-</li>
-<li class="flex items-center gap-3">
-<input checked="" class="checkbox-custom" id="learn3" type="checkbox"/>
-<label class="text-gray-600 dark:text-gray-300" for="learn3">Learn breathing techniques</label>
-</li>
-<li class="flex items-center gap-3">
-<input checked="" class="checkbox-custom" id="learn4" type="checkbox"/>
-<label class="text-gray-600 dark:text-gray-300" for="learn4">Reduce stress and improve mindfulness</label>
-</li>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Ethan Carter</h4>
+<p class="text-gray-600 dark:text-gray-300">Full-Stack Developer &amp; Instructor</p>
+</div>
+</div>
+<p class="mt-4 text-gray-600 dark:text-gray-400">Ethan Carter is a seasoned full-stack developer with over 10 years of experience in the industry. He has worked with numerous startups and tech companies, building scalable and robust web applications.</p>
+</section>
+<section>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Course Syllabus</h3>
+<div class="space-y-3">
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 1: Introduction to Data Science</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Overview of the data science workflow, key concepts, and real-world applications.
+</div>
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 2: Data Analysis with Python</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Learn Python fundamentals and data manipulation using Pandas and NumPy libraries.
+</div>
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 3: Data Visualization Techniques</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Create compelling visualizations using Matplotlib and Seaborn.
+</div>
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 4: Machine Learning Fundamentals</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Introduction to machine learning algorithms, model training, and evaluation.
+</div>
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 5: Capstone Project</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Apply all learned concepts to complete a comprehensive data science project.
+</div>
+</details>
+</div>
+</section>
+</div>
+</div>
+</div>
+<aside class="lg:col-span-1">
+<div class="sticky top-4">
+<div class="rounded-xl bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-800 shadow-lg overflow-hidden">
+<div class="p-6">
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">$84.99</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 line-through mt-1">$129.99</p>
+<button class="w-full mt-6 bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-primary/90 transition-colors duration-200">
+Enroll Now
+</button>
+<button class="w-full mt-3 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-bold py-3 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+Add to Cart
+</button>
+<p class="text-xs text-center mt-4 text-gray-500 dark:text-gray-400">30-Day Money-Back Guarantee</p>
+</div>
+<div class="border-t border-gray-200 dark:border-gray-700 p-6">
+<h4 class="font-semibold text-gray-900 dark:text-white mb-3">This course includes:</h4>
+<ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">ondemand_video</span>20.5 hours on-demand video</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">article</span>12 articles</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">download_for_offline</span>Downloadable resources</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">all_inclusive</span>Full lifetime access</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">smartphone</span>Access on mobile and TV</li>
 </ul>
 </div>
-<div>
-<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Meet Your Instructor</h2>
-<div class="mt-4 flex items-center gap-4">
-<div class="h-24 w-24 flex-shrink-0 rounded-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC9xK_M4WclIbJKscrXYkY2P14Yo2L7LDkG-BQQJUDHFSU-BC70LiB4S2voaCrvkrlQeAzlfpx0R9yS1mhpTG8Q-7A56AiWhJqfYSzlXlok7FD9T2uO6IrZmebDOYdksD-PTQ2fJNKigtXeS4FhBvzpb2PhXoBNj1JQWVDYSkh613AoOZqOieJNSV7sUL1V0-81QhqkJBlxl5cxZ4UzE2AmRvVXrZ4Hmv-owNO5uvTKU3MU772iurkHwjAE8kntBDiSOHR4bY5ZJAFf');"></div>
-<div>
-<h3 class="text-xl font-bold text-gray-900 dark:text-white">Sarah Miller</h3>
-<p class="text-primary">Certified Yoga Instructor</p>
 </div>
 </div>
-<p class="mt-4 text-gray-600 dark:text-gray-300">
-                      Sarah Miller is a certified yoga instructor with over 10 years of experience. She specializes in beginner-friendly yoga and mindfulness practices, helping students of all levels achieve their fitness goals.
-                    </p>
-</div>
-</div>
-</div>
-<div class="lg:col-span-1">
-<div class="sticky top-28 rounded-lg border border-gray-200/80 bg-background-light p-6 shadow-sm dark:border-gray-800/50 dark:bg-background-dark">
-<div class="space-y-4">
-<div class="flex items-baseline gap-2">
-<span class="text-4xl font-bold text-gray-900 dark:text-white">$49</span>
-<span class="text-gray-500 dark:text-gray-400">one-time fee</span>
-</div>
-<p class="text-sm text-gray-500 dark:text-gray-400">Includes lifetime access to all course materials and future updates.</p>
-<button class="w-full rounded-lg bg-primary px-5 py-3 text-base font-bold text-black transition hover:bg-primary/90">Enroll Now</button>
-<div class="text-center text-xs text-gray-500 dark:text-gray-400">30-day money-back guarantee</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</aside>
 </div>
 </main>
-</div>
-</body></html>

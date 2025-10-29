@@ -8,6 +8,7 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#ffffff", "background-light": "#f7f7f7", "background-dark": "#191919"}, fontFamily: {display: "Be Vietnam Pro"}, borderRadius: {DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem"}}}};</script>
 <script src="/js/template-session.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display">
 <div class="relative flex h-auto min-h-screen w-full flex-col">
@@ -37,99 +38,137 @@
 </div>
 </div>
 </header>
-<main class="w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-<div class="lg:col-span-2 space-y-8">
+<div class="lg:col-span-2">
+<div class="flex flex-col gap-8">
 <div>
-<h1 class="text-4xl font-bold tracking-tight text-background-dark dark:text-background-light">Mastering Financial Markets</h1>
-<p class="mt-4 text-lg text-background-dark/70 dark:text-background-light/70">
-                  Unlock the secrets of financial markets with this comprehensive course. Learn to analyze market trends, make informed investment decisions, and build a robust financial portfolio.
-                </p>
+<div class="mb-4">
+<a href="courses.html" class="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+Back to Courses
+</a>
 </div>
-<div class="aspect-video w-full overflow-hidden rounded-xl">
-<div class="w-full h-full bg-center bg-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBpgUcQmQ29npvN1KDYel6wm65QX6H5NOhzw_-JXPi1PaJ1hwA7rAooYfYKdMp_lWaHooFRHDD3E8v6loGUk74JA7EG7z2wEXIzdzdvykApK_NCr7n1aE7Et6J2UzUJW1aH4dz3Bldiez_F-pqiDq4yjpvqKd1zhLlwS9u_pecAOksSkqgcBiiYyC9ZESq8oOtkOsbN8jdA9Az9dCW-igp1Cavq3cv4X1hvsOzsflXYHRF1nVEWIktz1IG9XEcC7rgwgEamc6K97VPi");'></div>
+<div class="rounded-xl overflow-hidden mb-6">
+<img alt="A smiling instructor pointing at code on a computer screen." class="w-full h-96 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN0z4MnbkLjN_A78LdMQvX06a514I5OZ9cGh6qaOw_iRVL8Uzsre8hFUwoNqtTX6KsRWfoGjvvnEW8ZSOltIZ0YaqwJi_RabF7kXGOoe4eWAaVl_OOYqEvNUPKPoje1VVr0GZXZfmsPZFJzeGsjYi2DZEAHSPpTkRH8VaUnJAdXlqWUwH8YW2fhIEyDpRyTS8hXJYuGytZRqFee5mCT_tqldZtfXxCrBxNHmsafJ3N0XawZvcl23Q-HmL7MVs_lBWwtbePBbSPNcdU"/>
 </div>
-<div class="space-y-6">
+<h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl">Complete Web Development Bootcamp</h2>
+<p class="mt-3 text-base text-gray-600 dark:text-gray-300">Master front-end and back-end development with this comprehensive course. Build real-world projects and become a job-ready web developer.</p>
+</div>
+<div class="border-b border-gray-200 dark:border-gray-700">
+<nav aria-label="Tabs" class="-mb-px flex space-x-8">
+<a class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Overview</a>
+</nav>
+</div>
+<div class="space-y-4">
+<section>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">What you'll learn</h3>
+<div class="grid grid-cols-1 gap-3">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-primary text-xl">code</span>
+<p class="text-sm text-gray-800 dark:text-gray-200">Build 10+ real-world projects</p>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-primary text-xl">laptop_chromebook</span>
+<p class="text-sm text-gray-800 dark:text-gray-200">Master front-end and back-end technologies</p>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-primary text-xl">database</span>
+<p class="text-sm text-gray-800 dark:text-gray-200">Deploy your applications to the cloud</p>
+</div>
+</div>
+</section>
+<section>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Instructor</h3>
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-cover bg-center flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzQP4vL_UPZC4ZUWpoIW6EDnLHJ0eEifNAptFmEcILF7KDZzbHGV2Cd_WtFtDgugrF63lpQAe464mc1s0ngMLEDomI7ELr9F6mCQrLb7yMqHbioUfblJ6bnSTWi-XcB40HykkUR3moNfTOk8OoW496BST77qh8Bc_kOXL4pL03tTCWIODSwzXNBd3fmdDdx_h82Lhc4l0f6J1oHLeDtLu7LYtZ0Ips0Gfjd64iHJLPBq3jhCei5m0MbQgKfHlmkOzBqJ8RNR21pjd4");'></div>
 <div>
-<h2 class="text-2xl font-bold text-background-dark dark:text-background-light">Course Overview</h2>
-<p class="mt-3 text-base text-background-dark/70 dark:text-background-light/70">
-                    This course provides a deep dive into the world of financial markets, covering everything from the basics of trading to advanced investment strategies. Participants will gain practical skills in market analysis, risk management, and portfolio construction, preparing them for success in the dynamic financial landscape.
-                  </p>
-</div>
-<div>
-<h2 class="text-2xl font-bold text-background-dark dark:text-background-light">Instructor</h2>
-<div class="mt-4 flex items-start gap-6">
-<div class="size-24 rounded-full bg-center bg-no-repeat bg-cover flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBSO_PqkFjdQa-vjjAihfBfSyI6cN620kVZb4EXY9m8gm-yECtSp3mtw8fti1QLKkrlZ33JGPtEfWYvESzT4Zt3lq2pAwRF9qHifU33VZ7vjcJV_7S_cj8UFISlE_lYeF5_OwhzwOuJ9XFGxjxxCYObVCvFdCY3CfGxy0IA7tI-1cSAswvNpdSIjt0LMPDI6HCk_F_hgjVI0vQWU4C-UJpVMruu4WXO-divLCzSd_gCYroqUoT2Oe1UtXW9FvXmlxWC_aIecEfo72So");'></div>
-<div>
-<h3 class="text-xl font-bold text-background-dark dark:text-background-light">Dr. Ethan Carter</h3>
-<p class="text-base text-primary">Financial Analyst &amp; Educator</p>
-<p class="mt-2 text-sm text-background-dark/70 dark:text-background-light/70">
-                        With over 15 years of experience in financial markets, Dr. Carter brings a wealth of knowledge and practical insights to this course. His expertise spans across various asset classes, including stocks, bonds, and derivatives.
-                      </p>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Ethan Carter</h4>
+<p class="text-gray-600 dark:text-gray-300">Full-Stack Developer &amp; Instructor</p>
 </div>
 </div>
+<p class="mt-4 text-gray-600 dark:text-gray-400">Ethan Carter is a seasoned full-stack developer with over 10 years of experience in the industry. He has worked with numerous startups and tech companies, building scalable and robust web applications.</p>
+</section>
+<section>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Course Syllabus</h3>
+<div class="space-y-3">
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 1: Introduction to Data Science</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Overview of the data science workflow, key concepts, and real-world applications.
+</div>
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 2: Data Analysis with Python</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Learn Python fundamentals and data manipulation using Pandas and NumPy libraries.
+</div>
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 3: Data Visualization Techniques</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Create compelling visualizations using Matplotlib and Seaborn.
+</div>
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 4: Machine Learning Fundamentals</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Introduction to machine learning algorithms, model training, and evaluation.
+</div>
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+<span>Module 5: Capstone Project</span>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Apply all learned concepts to complete a comprehensive data science project.
+</div>
+</details>
+</div>
+</section>
 </div>
 </div>
 </div>
-<div class="lg:col-span-1 space-y-8">
-<div class="p-6 rounded-lg bg-background-light/50 dark:bg-background-dark/50 border border-background-dark/10 dark:border-background-light/10">
-<div class="flex items-baseline justify-between">
-<span class="text-3xl font-bold text-background-dark dark:text-background-light">$499</span>
-<span class="text-sm font-medium text-background-dark/50 dark:text-background-light/50">One-time payment</span>
-</div>
-<button class="mt-6 w-full flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-base font-bold shadow-lg hover:bg-primary/90 transition-colors">
-<span class="truncate">Enroll Now</span>
+<aside class="lg:col-span-1">
+<div class="sticky top-4">
+<div class="rounded-xl bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-800 shadow-lg overflow-hidden">
+<div class="p-6">
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">$84.99</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 line-through mt-1">$129.99</p>
+<button class="w-full mt-6 bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-primary/90 transition-colors duration-200">
+Enroll Now
 </button>
-<ul class="mt-6 space-y-3 text-sm text-background-dark/70 dark:text-background-light/70">
-<li class="flex items-center gap-3">
-<svg class="size-5 text-primary" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-<path d="m9 12 2 2 4-4"></path>
-</svg>
-<span>Lifetime access</span>
-</li>
-<li class="flex items-center gap-3">
-<svg class="size-5 text-primary" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-<path d="m9 12 2 2 4-4"></path>
-</svg>
-<span>Certificate of completion</span>
-</li>
-<li class="flex items-center gap-3">
-<svg class="size-5 text-primary" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-<path d="m9 12 2 2 4-4"></path>
-</svg>
-<span>Downloadable resources</span>
-</li>
+<button class="w-full mt-3 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-bold py-3 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+Add to Cart
+</button>
+<p class="text-xs text-center mt-4 text-gray-500 dark:text-gray-400">30-Day Money-Back Guarantee</p>
+</div>
+<div class="border-t border-gray-200 dark:border-gray-700 p-6">
+<h4 class="font-semibold text-gray-900 dark:text-white mb-3">This course includes:</h4>
+<ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">ondemand_video</span>20.5 hours on-demand video</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">article</span>12 articles</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">download_for_offline</span>Downloadable resources</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">all_inclusive</span>Full lifetime access</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">smartphone</span>Access on mobile and TV</li>
 </ul>
 </div>
-<div class="space-y-2">
-<h2 class="text-2xl font-bold text-background-dark dark:text-background-light">Syllabus</h2>
-<div class="divide-y divide-background-dark/10 dark:divide-background-light/10 border-t border-background-dark/10 dark:border-background-light/10">
-<div class="py-4">
-<p class="font-semibold text-background-dark dark:text-background-light">Module 1</p>
-<p class="text-sm text-background-dark/70 dark:text-background-light/70">Introduction to Financial Markets</p>
-</div>
-<div class="py-4">
-<p class="font-semibold text-background-dark dark:text-background-light">Module 2</p>
-<p class="text-sm text-background-dark/70 dark:text-background-light/70">Market Analysis and Trading Strategies</p>
-</div>
-<div class="py-4">
-<p class="font-semibold text-background-dark dark:text-background-light">Module 3</p>
-<p class="text-sm text-background-dark/70 dark:text-background-light/70">Risk Management and Portfolio Construction</p>
-</div>
-<div class="py-4">
-<p class="font-semibold text-background-dark dark:text-background-light">Module 4</p>
-<p class="text-sm text-background-dark/70 dark:text-background-light/70">Advanced Investment Techniques</p>
-</div>
-<div class="py-4">
-<p class="font-semibold text-background-dark dark:text-background-light">Module 5</p>
-<p class="text-sm text-background-dark/70 dark:text-background-light/70">Case Studies and Real-World Applications</p>
 </div>
 </div>
-</div>
-</div>
+</aside>
 </div>
 </main>
 <footer class="bg-background-light dark:bg-background-dark border-t border-background-dark/10 dark:border-background-light/10 mt-auto">

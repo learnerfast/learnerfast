@@ -1,21 +1,17 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
-<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Work+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&family=Work+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 <title>Stitch Design</title>
 <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script>tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#bac5ee", "background-light": "#f6f6f8", "background-dark": "#13151f"}, fontFamily: {display: "Work Sans"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}}}};</script>
-<style type="text/tailwindcss">
-        [x-cloak] { display: none !important; }
-    </style>
-<script defer="" src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 <script src="/js/template-session.js"></script>
 </head>
 <body class="bg-background-light dark:bg-background-dark font-display text-gray-800 dark:text-gray-200">
-<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root">
 <div class="layout-container flex h-full grow flex-col">
 <header class="flex items-center justify-between whitespace-nowrap border-b border-primary/20 dark:border-primary/30 px-10 py-4">
 <div class="flex items-center gap-3 text-primary">
@@ -42,276 +38,133 @@
 </div>
 </div>
 </header>
-<main class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<main class="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-4">
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-<div class="lg:col-span-2 space-y-8">
+<div class="lg:col-span-2">
+<div class="flex flex-col gap-8">
 <div>
-<div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-4">
-<a class="hover:text-primary" href="#">Courses</a>
-<span>/</span>
-<span class="font-medium text-gray-800 dark:text-gray-200">Introduction to Data Science</span>
+<div class="mb-4">
+<a href="courses.html" class="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">arrow_back</span>
+Back to Courses
+</a>
 </div>
-<h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">Introduction to Data Science</h1>
-<p class="mt-4 text-lg text-gray-600 dark:text-gray-300"> Learn the fundamentals of data science, including data analysis, visualization, and machine learning techniques. This course is designed for beginners with no prior experience. </p>
+<div class="rounded-xl overflow-hidden mb-6">
+<img alt="A smiling instructor pointing at code on a computer screen." class="w-full h-96 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN0z4MnbkLjN_A78LdMQvX06a514I5OZ9cGh6qaOw_iRVL8Uzsre8hFUwoNqtTX6KsRWfoGjvvnEW8ZSOltIZ0YaqwJi_RabF7kXGOoe4eWAaVl_OOYqEvNUPKPoje1VVr0GZXZfmsPZFJzeGsjYi2DZEAHSPpTkRH8VaUnJAdXlqWUwH8YW2fhIEyDpRyTS8hXJYuGytZRqFee5mCT_tqldZtfXxCrBxNHmsafJ3N0XawZvcl23Q-HmL7MVs_lBWwtbePBbSPNcdU"/>
 </div>
-<div class="rounded-xl overflow-hidden shadow-lg">
-<div class="w-full bg-center bg-no-repeat bg-cover aspect-video" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAqW9Mg2cNP-HiQ7AHcjMH6W8pQa-MjQhzsGpTHnPINGVcec2-uLl-aLEUyKp_qwKK5kzvWnc0dgCRbNq19u4B0PuomcxXuCdN21P4RK-hHQidaImwkwSEsZZ-mupkDpiUIZTwvZGWATYK7K_LHbDR-TH2-e3CZNWTsqVHeMYgMLCOMxagye1TCrH2_XdoihHglXE8KeY8MYEkZSopnevU5dY_iiu7UsAJkucdDQX0mJqVvo_OhpZi1cLiHS8tYOxhyDQ6DN1oNBVYx");'></div>
+<h2 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-3xl">Complete Web Development Bootcamp</h2>
+<p class="mt-3 text-base text-gray-600 dark:text-gray-300">Master front-end and back-end development with this comprehensive course. Build real-world projects and become a job-ready web developer.</p>
 </div>
-<div class="space-y-8" x-data="{ activeTab: 'syllabus' }">
 <div class="border-b border-gray-200 dark:border-gray-700">
 <nav aria-label="Tabs" class="-mb-px flex space-x-8">
-<button :class="activeTab === 'syllabus' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600'" @click="activeTab = 'syllabus'" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"> Syllabus </button>
-<button :class="activeTab === 'instructor' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600'" @click="activeTab = 'instructor'" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"> Instructor </button>
-<button :class="activeTab === 'reviews' ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 dark:hover:border-gray-600'" @click="activeTab = 'reviews'" class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"> Reviews </button>
+<a class="border-primary text-primary whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" href="#">Overview</a>
 </nav>
 </div>
-<div class="space-y-8" x-cloak="" x-show="activeTab === 'syllabus'">
+<div class="space-y-4">
+<section>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">What you'll learn</h3>
+<div class="grid grid-cols-1 gap-3">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-primary text-xl">code</span>
+<p class="text-sm text-gray-800 dark:text-gray-200">Build 10+ real-world projects</p>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-primary text-xl">laptop_chromebook</span>
+<p class="text-sm text-gray-800 dark:text-gray-200">Master front-end and back-end technologies</p>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50">
+<span class="material-symbols-outlined text-primary text-xl">database</span>
+<p class="text-sm text-gray-800 dark:text-gray-200">Deploy your applications to the cloud</p>
+</div>
+</div>
+</section>
+<section>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Instructor</h3>
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-full bg-cover bg-center flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAzQP4vL_UPZC4ZUWpoIW6EDnLHJ0eEifNAptFmEcILF7KDZzbHGV2Cd_WtFtDgugrF63lpQAe464mc1s0ngMLEDomI7ELr9F6mCQrLb7yMqHbioUfblJ6bnSTWi-XcB40HykkUR3moNfTOk8OoW496BST77qh8Bc_kOXL4pL03tTCWIODSwzXNBd3fmdDdx_h82Lhc4l0f6J1oHLeDtLu7LYtZ0Ips0Gfjd64iHJLPBq3jhCei5m0MbQgKfHlmkOzBqJ8RNR21pjd4");'></div>
 <div>
-<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">What You'll Learn</h2>
-<ul class="space-y-3 text-gray-600 dark:text-gray-300">
-<li class="flex items-start gap-3">
-<div class="w-6 h-6 flex-shrink-0 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mt-1">
-<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
+<h4 class="text-lg font-bold text-gray-900 dark:text-white">Ethan Carter</h4>
+<p class="text-gray-600 dark:text-gray-300">Full-Stack Developer &amp; Instructor</p>
 </div>
-<p>Understand the basics of data science and its applications</p>
-</li>
-<li class="flex items-start gap-3">
-<div class="w-6 h-6 flex-shrink-0 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mt-1">
-<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
 </div>
-<p>Master data analysis techniques using Python libraries</p>
-</li>
-<li class="flex items-start gap-3">
-<div class="w-6 h-6 flex-shrink-0 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mt-1">
-<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<p>Create insightful data visualizations to communicate findings</p>
-</li>
-<li class="flex items-start gap-3">
-<div class="w-6 h-6 flex-shrink-0 bg-primary/20 dark:bg-primary/30 rounded-full flex items-center justify-center mt-1">
-<svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</div>
-<p>Build and evaluate machine learning models for predictive tasks</p>
-</li>
-</ul>
-</div>
-<div class="space-y-3" x-data="{ open: 'module1' }">
-<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Course Syllabus</h2>
-<div class="bg-white dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700">
-<div @click="open = open === 'module1' ? '' : 'module1'">
-<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+<p class="mt-4 text-gray-600 dark:text-gray-400">Ethan Carter is a seasoned full-stack developer with over 10 years of experience in the industry. He has worked with numerous startups and tech companies, building scalable and robust web applications.</p>
+</section>
+<section>
+<h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3">Course Syllabus</h3>
+<div class="space-y-3">
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
 <span>Module 1: Introduction to Data Science</span>
-<svg :class="{ 'rotate-180': open === 'module1' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module1'"> Overview of the data science workflow, key concepts, and real-world applications. Introduction to the tools and libraries used throughout the course. </div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Overview of the data science workflow, key concepts, and real-world applications.
 </div>
-<div @click="open = open === 'module2' ? '' : 'module2'">
-<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
 <span>Module 2: Data Analysis with Python</span>
-<svg :class="{ 'rotate-180': open === 'module2' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module2'"> Deep dive into data manipulation and analysis using popular Python libraries like Pandas and NumPy. </div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Learn Python fundamentals and data manipulation using Pandas and NumPy libraries.
 </div>
-<div @click="open = open === 'module3' ? '' : 'module3'">
-<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
 <span>Module 3: Data Visualization Techniques</span>
-<svg :class="{ 'rotate-180': open === 'module3' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module3'"> Learn to create compelling visualizations with Matplotlib and Seaborn to communicate insights effectively. </div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Create compelling visualizations using Matplotlib and Seaborn.
 </div>
-<div @click="open = open === 'module4' ? '' : 'module4'">
-<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
 <span>Module 4: Machine Learning Fundamentals</span>
-<svg :class="{ 'rotate-180': open === 'module4' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module4'"> Introduction to supervised and unsupervised learning models with scikit-learn. Model building, training, and evaluation. </div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Introduction to machine learning algorithms, model training, and evaluation.
 </div>
-<div @click="open = open === 'module5' ? '' : 'module5'">
-<button class="w-full flex items-center justify-between text-left p-4 font-medium text-gray-900 dark:text-white">
+</details>
+<details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+<summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
 <span>Module 5: Capstone Project</span>
-<svg :class="{ 'rotate-180': open === 'module5' }" class="w-5 h-5 text-gray-500 dark:text-gray-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-</button>
-<div class="px-4 pb-4 text-gray-600 dark:text-gray-300" x-collapse="" x-show="open === 'module5'"> Apply all your learned skills to a real-world dataset, from data cleaning and analysis to building a predictive model and presenting your findings. </div>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">
+Apply all learned concepts to complete a comprehensive data science project.
 </div>
+</details>
 </div>
-</div>
-</div>
-<div x-cloak="" x-show="activeTab === 'instructor'">
-<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Instructor</h2>
-<div class="flex flex-col sm:flex-row items-start gap-6 p-6 bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm">
-<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full w-28 h-28 flex-shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCWGL0OnFs8AhVX6Bv9bsfsnYGVEzRf3RRUKxXTcLl2aXTBsClkdNOQop93XYPG6fVnTMO2oBVHK3qXfDmBPSa6zm7JknF88WDrO7byBujhLlcvMT_a4swu3Q9MBTD7jvQBnXbCFf1rMTsTz8MyVzWz4IBaznIRbbjMnwfFzyAHzb7mbfgdFhUjhZQZFFsnxH5XxIq3uqGOGYCq3QjtFb1iMrCCX_qCUi3gQ7yxpbV5EmEGfnW5RY2Wwu4oBx5Wsr2dzu4KHt3JrrIs");'></div>
-<div class="flex flex-col">
-<h3 class="text-xl font-bold text-gray-900 dark:text-white">Dr. Emily Carter</h3>
-<p class="text-primary font-medium mt-1">Lead Data Scientist</p>
-<p class="mt-3 text-gray-600 dark:text-gray-300"> Dr. Carter has over 10 years of experience in data science and has worked with leading tech companies. She holds a PhD in Statistics from Stanford University. </p>
-</div>
-</div>
-</div>
-<div x-cloak="" x-show="activeTab === 'reviews'">
-<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Reviews</h2>
-<div class="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl p-6 shadow-sm">
-<div class="flex flex-col sm:flex-row items-center gap-8 mb-6">
-<div class="flex flex-col gap-2 items-center text-center">
-<p class="text-5xl font-black text-gray-900 dark:text-white">4.7</p>
-<div class="flex text-primary">
-<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="18" viewbox="0 0 256 256" width="18" xmlns="http://www.w3.org/2000/svg">
-<path d="M128,188.84,81,218.42l11.23-53.7L46.3,124.3l54.83-4.73L128,72l26.87,47.59,54.83,4.73-45.93,40.42L175,218.42ZM239.2,97.29a16,16,0,0,0-13.81-11L166,81.17,142.72,25.81h0a15.95,15.95,0,0,0-29.44,0L90.07,81.17,30.61,86.32a16,16,0,0,0-9.11,28.06L66.61,153.8,53.09,212.34a16,16,0,0,0,23.84,17.34l51-31,51.11,31a16,16,0,0,0,23.84-17.34l-13.51-58.6,45.1-39.36A16,16,0,0,0,239.2,97.29Z"></path>
-</svg>
-</div>
-<p class="text-sm text-gray-600 dark:text-gray-400">125 reviews</p>
-</div>
-<div class="grid flex-1 grid-cols-[auto_1fr_auto] items-center gap-x-3 gap-y-1 min-w-[200px]">
-<p class="text-sm">5</p>
-<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
-<div class="h-2 rounded-full bg-primary" style="width: 50%;"></div>
-</div>
-<p class="text-sm text-gray-500 dark:text-gray-400">50%</p>
-<p class="text-sm">4</p>
-<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
-<div class="h-2 rounded-full bg-primary" style="width: 30%;"></div>
-</div>
-<p class="text-sm text-gray-500 dark:text-gray-400">30%</p>
-<p class="text-sm">3</p>
-<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
-<div class="h-2 rounded-full bg-primary" style="width: 10%;"></div>
-</div>
-<p class="text-sm text-gray-500 dark:text-gray-400">10%</p>
-<p class="text-sm">2</p>
-<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
-<div class="h-2 rounded-full bg-primary" style="width: 5%;"></div>
-</div>
-<p class="text-sm text-gray-500 dark:text-gray-400">5%</p>
-<p class="text-sm">1</p>
-<div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700">
-<div class="h-2 rounded-full bg-primary" style="width: 5%;"></div>
-</div>
-<p class="text-sm text-gray-500 dark:text-gray-400">5%</p>
-</div>
-</div>
-<div class="space-y-6">
-<div class="flex flex-col gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmn969aiLR3gtChS2qD0Ylb1vTe_JmGpiXK9NHsd-PjYbkXZoh8QN5IrF2cDpSuZiFNMBmWL6UNOkTrZiN7lBMs6xsXiZCEfnIBkzztFXmWeEZzHzCUb7vr3D5QaIm9Ky4ZWzBPKnb3efIJZg0KzQujSFQXgsgnhwRo5iyE9irxnGeurXYhKB3idLQSbEyljUUcZ3zxnEeGos7mU4s_jKo9lgVUgqUly9YnWj61u4DgSkIRJ5tFoXuGYVAQH1aA9e5DLH78aAVHPfQ");'></div>
-<div>
-<p class="font-medium text-gray-900 dark:text-white">Liam Harper</p>
-<p class="text-xs text-gray-500 dark:text-gray-400">2023-08-15</p>
-</div>
-</div>
-<div class="flex text-primary">
-<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-</div>
-<p class="text-gray-600 dark:text-gray-300">This course exceeded my expectations! The content was well-structured and easy to follow, even for someone with no prior data science experience. Dr. Carter is an excellent instructor, and her explanations were clear and concise.</p>
-</div>
-<div class="flex flex-col gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-full bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDdPdszI38p3hpWAXU5wJkcI0R1W39Kx8FhEERLJQLwVOe3O5aUyGhpsvBu50wjwZZZKraVHrQzbxZLwbGLQQL4ci9BFYMNllaJ-40rWKThZby5SdqOzQ88stHLmw6yUqBHma8Y9xY2oao2XiOshv-ni1TcCvWUSiypb6TTd8mlwlflVFeh-ky8QG8dAlQllyv0bhMECROmfl4a3UcLk28JTvtoJgRuH48DyKuG9dJxf_nGxyEdJ6nXBAx3SHqmQf2vaz-lXy78eKDq");'></div>
-<div>
-<p class="font-medium text-gray-900 dark:text-white">Sophia Bennett</p>
-<p class="text-xs text-gray-500 dark:text-gray-400">2023-07-22</p>
-</div>
-</div>
-<div class="flex text-primary">
-<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M234.5,114.38l-45.1,39.36,13.51,58.6a16,16,0,0,1-23.84,17.34l-51.11-31-51,31a16,16,0,0,1-23.84-17.34L66.61,153.8,21.5,114.38a16,16,0,0,1,9.11-28.06l59.46-5.15,23.21-55.36a15.95,15.95,0,0,1,29.44,0h0L166,81.17l59.44,5.15a16,16,0,0,1,9.11,28.06Z"></path>
-</svg>
-<svg class="text-gray-300 dark:text-gray-600" fill="currentColor" height="20" viewbox="0 0 256 256" width="20" xmlns="http://www.w3.org/2000/svg">
-<path d="M128,188.84,81,218.42l11.23-53.7L46.3,124.3l54.83-4.73L128,72l26.87,47.59,54.83,4.73-45.93,40.42L175,218.42ZM239.2,97.29a16,16,0,0,0-13.81-11L166,81.17,142.72,25.81h0a15.95,15.95,0,0,0-29.44,0L90.07,81.17,30.61,86.32a16,16,0,0,0-9.11,28.06L66.61,153.8,53.09,212.34a16,16,0,0,0,23.84,17.34l51-31,51.11,31a16,16,0,0,0,23.84-17.34l-13.51-58.6,45.1-39.36A16,16,0,0,0,239.2,97.29Z"></path>
-</svg>
-</div>
-<p class="text-gray-600 dark:text-gray-300">I found the course to be very informative and practical. The hands-on projects were particularly helpful in reinforcing the concepts learned. However, some modules could have been more in-depth.</p>
-</div>
-</div>
-</div>
+</section>
 </div>
 </div>
 </div>
 <aside class="lg:col-span-1">
-<div class="sticky top-12 space-y-6">
-<div class="border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg p-6 bg-white dark:bg-gray-800/50">
-<p class="text-3xl font-bold text-gray-900 dark:text-white">$299</p>
-<p class="text-sm text-gray-500 dark:text-gray-400">One-time payment</p>
-<button class="mt-6 w-full flex items-center justify-center rounded-lg h-12 px-5 bg-primary text-white text-base font-bold shadow-lg hover:bg-primary/90 transition-colors">
-<span class="truncate">Enroll Now</span>
+<div class="sticky top-4">
+<div class="rounded-xl bg-background-light dark:bg-background-dark border border-gray-200 dark:border-gray-800 shadow-lg overflow-hidden">
+<div class="p-6">
+<h3 class="text-2xl font-bold text-gray-900 dark:text-white">$84.99</h3>
+<p class="text-sm text-gray-500 dark:text-gray-400 line-through mt-1">$129.99</p>
+<button class="w-full mt-6 bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-primary/90 transition-colors duration-200">
+Enroll Now
 </button>
-<div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700 space-y-4">
-<h3 class="text-lg font-bold text-gray-900 dark:text-white">Course Details</h3>
-<div class="flex items-center gap-3 text-gray-600 dark:text-gray-300">
-<svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<div>
-<p class="font-medium text-sm">Duration: <span class="font-normal">8 Weeks</span></p>
+<button class="w-full mt-3 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-bold py-3 px-4 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200">
+Add to Cart
+</button>
+<p class="text-xs text-center mt-4 text-gray-500 dark:text-gray-400">30-Day Money-Back Guarantee</p>
 </div>
-</div>
-<div class="flex items-center gap-3 text-gray-600 dark:text-gray-300">
-<svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<div>
-<p class="font-medium text-sm">Level: <span class="font-normal">Beginner</span></p>
-</div>
-</div>
-<div class="flex items-center gap-3 text-gray-600 dark:text-gray-300">
-<svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
-</svg>
-<div>
-<p class="font-medium text-sm">Format: <span class="font-normal">Online, Self-paced</span></p>
-</div>
-</div>
+<div class="border-t border-gray-200 dark:border-gray-700 p-6">
+<h4 class="font-semibold text-gray-900 dark:text-white mb-3">This course includes:</h4>
+<ul class="space-y-2 text-sm text-gray-600 dark:text-gray-300">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">ondemand_video</span>20.5 hours on-demand video</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">article</span>12 articles</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">download_for_offline</span>Downloadable resources</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">all_inclusive</span>Full lifetime access</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">smartphone</span>Access on mobile and TV</li>
+</ul>
 </div>
 </div>
 </div>
@@ -336,25 +189,8 @@
 <a class="hover:text-primary" href="#">Terms of Service</a>
 </div>
 </div>
-<div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col sm:flex-row items-center justify-between gap-4">
-<p class="text-sm text-gray-500 dark:text-gray-400">© 2024 EduSite. All rights reserved.</p>
-<div class="flex items-center gap-4 text-gray-500 dark:text-gray-400">
-<a class="hover:text-primary" href="#">
-<svg fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-<path d="M247.39,68.94A8,8,0,0,0,240,64H209.57A48.66,48.66,0,0,0,168.1,40a46.91,46.91,0,0,0-33.75,13.7A47.9,47.9,0,0,0,120,88v6.09C79.74,83.47,46.81,50.72,46.46,50.37a8,8,0,0,0-13.65,4.92c-4.31,47.79,9.57,79.77,22,98.18a110.93,110.93,0,0,0,21.88,24.2c-15.23,17.53-39.21,26.74-39.47,26.84a8,8,0,0,0-3.85,11.93c.75,1.12,3.75,5.05,11.08,8.72C53.51,229.7,65.48,232,80,232c70.67,0,129.72-54.42,135.75-124.44l29.91-29.9A8,8,0,0,0,247.39,68.94Zm-45,29.41a8,8,0,0,0-2.32,5.14C196,166.58,143.28,216,80,216c-10.56,0-18-1.4-23.22-3.08,11.51-6.25,27.56-17,37.88-32.48A8,8,0,0,0,92,169.08c-.47-.27-43.91-26.34-44-96,16,13,45.25,33.17,78.67,38.79A8,8,0,0,0,136,104V88a32,32,0,0,1,9.6-22.92A30.94,30.94,0,0,1,167.9,56c12.66.16,24.49,7.88,29.44,19.21A8,8,0,0,0,204.67,80h16Z"></path>
-</svg>
-</a>
-<a class="hover:text-primary" href="#">
-<svg fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z"></path>
-</svg>
-</a>
-<a class="hover:text-primary" href="#">
-<svg fill="currentColor" height="24" viewbox="0 0 256 256" width="24" xmlns="http://www.w3.org/2000/svg">
-<path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"></path>
-</svg>
-</a>
-</div>
+<div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
+<p>© 2024 EduSite. All rights reserved.</p>
 </div>
 </div>
 </footer>

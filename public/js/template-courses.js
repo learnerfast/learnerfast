@@ -16,7 +16,7 @@
       }
       
       container.innerHTML = courses.map(course => `
-        <div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl cursor-pointer" onclick="window.location.href='course-detail.html?id=${course.id}'">
+        <div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl cursor-pointer" onclick="window.location.href='course-detail.html/${encodeURIComponent(course.title.toLowerCase().replace(/\s+/g, '-'))}'">
           <div class="aspect-video overflow-hidden">
             <img 
               alt="${course.title}" 
@@ -37,6 +37,9 @@
           </div>
         </div>
       `).join('');
+      
+      // Store courses data for detail page
+      sessionStorage.setItem('courses', JSON.stringify(courses));
     } catch (error) {
       console.error('Failed to load courses:', error);
     }
