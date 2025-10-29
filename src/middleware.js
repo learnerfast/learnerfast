@@ -4,6 +4,18 @@ export function middleware(request) {
   const hostname = request.headers.get('host') || '';
   const url = request.nextUrl;
   
+  // Handle CORS preflight for API routes
+  if (request.method === 'OPTIONS' && url.pathname.startsWith('/api')) {
+    return new NextResponse(null, {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      },
+    });
+  }
+  
   // Skip if already on API route or static files
   if (url.pathname.startsWith('/api') || 
       url.pathname.startsWith('/_next') || 
