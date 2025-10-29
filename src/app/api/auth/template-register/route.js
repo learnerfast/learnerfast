@@ -66,7 +66,8 @@ export async function POST(request) {
       password,
       options: {
         data: { name, website_name, context: 'template' },
-        emailRedirectTo: redirectUrl
+        emailRedirectTo: redirectUrl,
+        emailRedirectTo: false
       }
     });
     
@@ -102,6 +103,16 @@ export async function POST(request) {
 
     console.log('[TEMPLATE-REGISTER] User created successfully:', newUser.id);
 
+    // Auto sign-in the user
+    const { data: sessionData, error: signInError } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (signInError) {
+      console.log('[TEMPLATE-REGISTER] Auto sign-in error:', signInError);
+    }
+
     // Log analytics
     await supabase.from('user_analytics').insert([{
       user_id: newUser.id,
@@ -110,14 +121,12 @@ export async function POST(request) {
       website_name
     }]);
     
-    const needsEmailConfirmation = !authData?.session && authData?.user?.identities?.length === 0;
-    console.log('[TEMPLATE-REGISTER] Needs email confirmation:', needsEmailConfirmation);
+    console.log('[TEMPLATE-REGISTER] Registration complete with auto sign-in');
     
     return NextResponse.json({ 
       success: true,
-      session: authData?.session,
-      needsEmailConfirmation,
-      message: needsEmailConfirmation ? 'Please check your email to confirm your account' : null
+      user: newUser,
+      session: sessionData?.session
     }, { headers: corsHeaders });
   } catch (error) {
     console.log('[TEMPLATE-REGISTER] Caught error:', error.message, error);

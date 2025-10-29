@@ -162,13 +162,14 @@
                 throw new Error(result.error || 'Registration failed');
               }
               
-              showToast('Registration successful! Please check your email to verify your account.');
-              form.reset();
+              showToast('Registration successful! Redirecting...');
               setTimeout(() => {
-                const redirectUrl = window.location.pathname.replace('register', 'signin');
+                const pathParts = window.location.pathname.split('/');
+                pathParts.pop();
+                const redirectUrl = pathParts.join('/') + '/home';
                 log('Redirecting to:', redirectUrl);
                 window.location.href = redirectUrl;
-              }, 3000);
+              }, 1000);
             } else {
               log('Attempting sign in for website:', websiteName);
               log('Request URL:', 'https://www.learnerfast.com/api/auth/template-login');
