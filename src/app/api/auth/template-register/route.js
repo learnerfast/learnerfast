@@ -35,9 +35,11 @@ export async function POST(request) {
     console.log('[TEMPLATE-REGISTER] Processing:', { email, website_name });
     
     if (!website_name) {
+      console.log('[TEMPLATE-REGISTER] Error: Missing website_name');
       return NextResponse.json({ success: false, error: 'Website name is required' }, { status: 400, headers: corsHeaders });
     }
 
+    // Check if user already exists in website_users
     const { data: existingUser } = await supabase
       .from('website_users')
       .select('*')
@@ -46,6 +48,7 @@ export async function POST(request) {
       .single();
 
     if (existingUser) {
+      console.log('[TEMPLATE-REGISTER] User already exists in website_users');
       return NextResponse.json({ success: false, error: 'User already exists for this website' }, { status: 400, headers: corsHeaders });
     }
     
@@ -57,7 +60,8 @@ export async function POST(request) {
     const subdomain = website_name.toLowerCase();
     const redirectUrl = `https://${subdomain}.learnerfast.com/home`;
     
-    const { data, error } = await supabaseClient.auth.signUp({
+    console.log('[TEMPLATE-REGISTER] Calling Supabase auth.signUp', { email, redirectUrl });
+    const { data: authData, error: authError } = await supabaseClient.auth.signUp({
       email,
       password,
       options: {
@@ -66,10 +70,20 @@ export async function POST(request) {
       }
     });
     
-    if (error && !error.message.includes('already registered')) {
-      throw error;
+    console.log('[TEMPLATE-REGISTER] Auth signup result:', { 
+      success: !authError, 
+      error: authError?.message,
+      userId: authData?.user?.id,
+      identities: authData?.user?.identities?.length
+    });
+    
+    if (authError) {
+      console.log('[TEMPLATE-REGISTER] Auth error:', authError);
+      throw authError;
     }
 
+    // Insert into website_users
+    console.log('[TEMPLATE-REGISTER] Inserting into website_users');
     const { data: newUser, error: insertError } = await supabase.from('website_users').insert([{
       email,
       name: name || email.split('@')[0],
@@ -81,8 +95,14 @@ export async function POST(request) {
       progress: 0
     }]).select().single();
 
-    if (insertError) throw insertError;
+    if (insertError) {
+      console.log('[TEMPLATE-REGISTER] Insert error:', insertError);
+      throw insertError;
+    }
 
+    console.log('[TEMPLATE-REGISTER] User created successfully:', newUser.id);
+
+    // Log analytics
     await supabase.from('user_analytics').insert([{
       user_id: newUser.id,
       event_type: 'registration',
@@ -90,12 +110,17 @@ export async function POST(request) {
       website_name
     }]);
     
+    const needsEmailConfirmation = !authData?.session && authData?.user?.identities?.length === 0;
+    console.log('[TEMPLATE-REGISTER] Needs email confirmation:', needsEmailConfirmation);
+    
     return NextResponse.json({ 
       success: true,
-      session: data?.session,
-      message: data?.session ? null : 'Check your email to confirm your account'
+      session: authData?.session,
+      needsEmailConfirmation,
+      message: needsEmailConfirmation ? 'Please check your email to confirm your account' : null
     }, { headers: corsHeaders });
   } catch (error) {
+    console.log('[TEMPLATE-REGISTER] Caught error:', error.message, error);
     return NextResponse.json({ success: false, error: error.message }, { status: 400, headers: corsHeaders });
   }
 }
