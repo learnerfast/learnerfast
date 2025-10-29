@@ -70,7 +70,7 @@ const CourseBuilder = ({ course, onBack }) => {
   const [loadedCourseImage, setLoadedCourseImage] = useState(null);
   const [accessType, setAccessType] = useState('free');
   const [navigationType, setNavigationType] = useState('global');
-  const [selectedWebsite, setSelectedWebsite] = useState(null);
+  const [selectedWebsites, setSelectedWebsites] = useState([]);
 
   useEffect(() => {
     if (course) {
@@ -237,7 +237,8 @@ const CourseBuilder = ({ course, onBack }) => {
         setInstructorName(data.instructor_name || '');
         setInstructorTitle(data.instructor_title || '');
         setInstructorBio(data.instructor_bio || '');
-        setSelectedWebsite(data.website_id || 'none');
+        const websiteIds = data.website_id ? (typeof data.website_id === 'string' ? data.website_id.split(',') : [data.website_id]) : [];
+        setSelectedWebsites(websiteIds);
       }
     } catch (error) {
     }
@@ -286,7 +287,7 @@ const CourseBuilder = ({ course, onBack }) => {
           instructor_name: instructorName,
           instructor_title: instructorTitle,
           instructor_bio: instructorBio,
-          website_id: selectedWebsite === 'none' || !selectedWebsite ? null : selectedWebsite
+          website_id: selectedWebsites.length === 0 ? null : selectedWebsites.join(',')
         }, {
           onConflict: 'course_id'
         })
@@ -767,11 +768,16 @@ const CourseBuilder = ({ course, onBack }) => {
             {sites.map((site) => (
               <label key={site.id} className="flex items-start space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors">
                 <input
-                  type="radio"
-                  name="website"
+                  type="checkbox"
                   value={site.id}
-                  checked={selectedWebsite === site.id}
-                  onChange={(e) => setSelectedWebsite(e.target.value)}
+                  checked={selectedWebsites.includes(site.id)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      setSelectedWebsites([...selectedWebsites, site.id]);
+                    } else {
+                      setSelectedWebsites(selectedWebsites.filter(id => id !== site.id));
+                    }
+                  }}
                   className="mt-1 h-4 w-4 text-teal-600 border-gray-300 focus:ring-teal-500"
                 />
                 <div className="flex-1">
@@ -789,20 +795,12 @@ const CourseBuilder = ({ course, onBack }) => {
               </label>
             ))}
             
-            <label className="flex items-start space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors">
-              <input
-                type="radio"
-                name="website"
-                value="none"
-                checked={selectedWebsite === 'none' || selectedWebsite === null}
-                onChange={(e) => setSelectedWebsite(e.target.value)}
-                className="mt-1 h-4 w-4 text-teal-600 border-gray-300 focus:ring-teal-500"
-              />
-              <div>
-                <div className="font-medium text-gray-900">Dashboard only</div>
-                <div className="text-sm text-gray-600">Keep this course in your dashboard without displaying it on any website</div>
+            <div className="p-3 border rounded-lg bg-gray-50">
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <Globe className="h-4 w-4 text-gray-500" />
+                <span>{selectedWebsites.length === 0 ? 'Dashboard only - Not displayed on any website' : `Displaying on ${selectedWebsites.length} website(s)`}</span>
               </div>
-            </label>
+            </div>
           </div>
         </div>
 

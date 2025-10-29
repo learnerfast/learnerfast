@@ -40,9 +40,16 @@ export async function GET(request) {
         course_pricing(price),
         course_sections(id, title, description, order_index)
       `)
-      .eq('course_settings.website_id', site.id)
       .eq('user_id', site.user_id)
       .eq('status', 'published');
+
+    // Filter courses that have this website_id in their comma-separated list
+    const filteredCourses = (courses || []).filter(course => {
+      const websiteIds = course.course_settings?.website_id;
+      if (!websiteIds) return false;
+      const ids = websiteIds.split(',');
+      return ids.includes(site.id);
+    });
 
     if (coursesError) {
       console.error('Courses query error:', coursesError);
@@ -50,7 +57,7 @@ export async function GET(request) {
     }
 
     return NextResponse.json({ 
-      courses: (courses || []).map(course => ({
+      courses: filteredCourses.map(course => ({
         id: course.id,
         title: course.title,
         description: course.description,
