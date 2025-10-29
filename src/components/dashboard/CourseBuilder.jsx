@@ -633,23 +633,23 @@ const CourseBuilder = ({ course, onBack }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">IMAGE</label>
-                <div className="w-full h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center relative">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    id="course-image-upload"
-                  />
-                  <button 
-                    onClick={() => document.getElementById('course-image-upload').click()}
-                    className="px-4 py-2 bg-teal-600 text-white rounded text-sm hover:bg-teal-700"
-                  >
-                    Upload
-                  </button>
+                <label className="block text-sm font-medium text-gray-700 mb-2">COURSE INCLUDES</label>
+                <div className="space-y-2">
+                  {courseIncludes.map((item, index) => (
+                    <input
+                      key={index}
+                      type="text"
+                      value={item}
+                      onChange={(e) => {
+                        const newIncludes = [...courseIncludes];
+                        newIncludes[index] = e.target.value;
+                        setCourseIncludes(newIncludes);
+                      }}
+                      placeholder={index === 0 ? '20.5 hours on-demand video' : index === 1 ? '12 articles' : index === 2 ? 'Downloadable resources' : index === 3 ? 'Full lifetime access' : 'Access on mobile and TV'}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
+                    />
+                  ))}
                 </div>
-                <p className="text-xs text-gray-500 mt-1">For best results, upload a 640 X 360 image file.</p>
               </div>
             </div>
             
@@ -673,25 +673,25 @@ const CourseBuilder = ({ course, onBack }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg resize-none" 
                 />
               </div>
-              
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">COURSE INCLUDES</label>
-                <div className="space-y-2">
-                  {courseIncludes.map((item, index) => (
-                    <input
-                      key={index}
-                      type="text"
-                      value={item}
-                      onChange={(e) => {
-                        const newIncludes = [...courseIncludes];
-                        newIncludes[index] = e.target.value;
-                        setCourseIncludes(newIncludes);
-                      }}
-                      placeholder={index === 0 ? '20.5 hours on-demand video' : index === 1 ? '12 articles' : index === 2 ? 'Downloadable resources' : index === 3 ? 'Full lifetime access' : 'Access on mobile and TV'}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-                    />
-                  ))}
+                <label className="block text-sm font-medium text-gray-700 mb-2">IMAGE</label>
+                <div className="w-full h-20 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center relative">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    id="course-image-upload"
+                  />
+                  <button 
+                    onClick={() => document.getElementById('course-image-upload').click()}
+                    className="px-4 py-2 bg-teal-600 text-white rounded text-sm hover:bg-teal-700"
+                  >
+                    Upload
+                  </button>
                 </div>
+                <p className="text-xs text-gray-500 mt-1">For best results, upload a 640 X 360 image file.</p>
               </div>
               
               <div>
