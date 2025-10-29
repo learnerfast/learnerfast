@@ -42,11 +42,12 @@ function rewriteLinks(html, subdomain) {
 
 export async function GET(request, { params }) {
   const { subdomain, path } = await params;
-  const pageName = path ? path.join('/') : 'index';
+  const pathArray = Array.isArray(path) ? path : [path];
+  const pageName = pathArray.length > 0 ? pathArray.join('/') : 'index';
   
-  // Handle JS file requests
-  if (pageName.startsWith('js/')) {
-    const jsFileName = pageName.replace('js/', '');
+  // Handle JS file requests - check if first segment is 'js'
+  if (pathArray[0] === 'js' && pathArray.length > 1) {
+    const jsFileName = pathArray.slice(1).join('/');
     const fs = await import('fs');
     const pathModule = await import('path');
     const filePath = pathModule.join(process.cwd(), 'public', 'js', jsFileName);
@@ -60,7 +61,7 @@ export async function GET(request, { params }) {
         }
       });
     } catch (error) {
-      return new Response('File not found', { status: 404 });
+      return new Response(`JS file not found: ${jsFileName}`, { status: 404 });
     }
   }
   

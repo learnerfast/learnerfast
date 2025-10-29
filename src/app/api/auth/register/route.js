@@ -9,7 +9,7 @@ const supabase = createClient(
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { email, name, website_name, program_interest } = body;
+    const { email, password, name, website_name, program_interest } = body;
 
     const { data: existingUser } = await supabase
       .from('website_users')
@@ -21,6 +21,19 @@ export async function POST(request) {
     if (existingUser) {
       return NextResponse.json({ error: 'User already exists' }, { status: 400 });
     }
+
+    const { data, error: authError } = await supabaseAnon.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { name },
+        emailRedirectTo: website_name 
+          ? `${process.env.NEXT_PUBLIC_APP_URL}/templates/${website_name}/index.html`
+          : `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`
+      }
+    });
+
+    if (authError) throw authError;
 
     const { data: newUser, error } = await supabase
       .from('website_users')
@@ -46,7 +59,12 @@ export async function POST(request) {
       website_name
     }]);
 
-    return NextResponse.json({ success: true, user: newUser });
+    return NextResponse.json({ 
+      success: true, 
+      user: newUser,
+      session: data.session,
+      message: data.session ? null : 'Check your email to confirm your account'
+    });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

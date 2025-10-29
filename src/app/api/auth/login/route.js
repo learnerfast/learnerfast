@@ -14,32 +14,41 @@ const supabaseAnon = createClient(
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { email, website_name } = body;
+    const { email, password, website_name } = body;
 
-    const { data: user, error } = await supabase
-      .from('website_users')
-      .select('*')
-      .eq('email', email)
-      .eq('website_name', website_name)
-      .single();
+    const { data, error } = await supabaseAnon.auth.signInWithPassword({
+      email,
+      password
+    });
 
-    if (error || !user) {
+    if (error) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    await supabase
-      .from('website_users')
-      .update({ last_login: new Date().toISOString() })
-      .eq('id', user.id);
+    if (website_name) {
+      const { data: user } = await supabase
+        .from('website_users')
+        .select('*')
+        .eq('email', email)
+        .eq('website_name', website_name)
+        .single();
 
-    await supabase.from('user_analytics').insert([{
-      user_id: user.id,
-      event_type: 'login',
-      event_data: { website_name },
-      website_name
-    }]);
+      if (user) {
+        await supabase
+          .from('website_users')
+          .update({ last_login: new Date().toISOString() })
+          .eq('id', user.id);
 
-    return NextResponse.json({ success: true, user });
+        await supabase.from('user_analytics').insert([{
+          user_id: user.id,
+          event_type: 'login',
+          event_data: { website_name },
+          website_name
+        }]);
+      }
+    }
+
+    return NextResponse.json({ success: true, session: data.session });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
