@@ -76,11 +76,13 @@
     });
     
     // Handle email/password forms
+    let formHandled = false;
     document.querySelectorAll('form').forEach(form => {
       const emailInput = form.querySelector('input[type="email"]');
       const passwordInput = form.querySelector('input[type="password"]');
       
-      if (emailInput && passwordInput) {
+      if (emailInput && passwordInput && !formHandled) {
+        formHandled = true;
         form.addEventListener('submit', async (e) => {
           e.preventDefault();
           
@@ -129,6 +131,15 @@
             const result = await response.json();
             
             if (!response.ok) {
+              if (isRegister && result.error?.includes('already exists')) {
+                showToast('Already registered! Redirecting to login...', true);
+                setTimeout(() => {
+                  const pathParts = window.location.pathname.split('/');
+                  pathParts.pop();
+                  window.location.href = pathParts.join('/') + '/signin';
+                }, 2000);
+                return;
+              }
               throw new Error(result.error || 'Authentication failed');
             }
             
