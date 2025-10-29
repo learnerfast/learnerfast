@@ -2,9 +2,13 @@
   const hostname = window.location.hostname;
   const websiteName = hostname.split('.')[0];
   
+  console.log('🔍 SCRIPT LOADED');
+  console.log('Hostname:', hostname);
+  console.log('Website name:', websiteName);
+  
   async function loadCourseDetail() {
     try {
-      console.log('=== COURSE DETAIL DEBUG START ===');
+      console.log('\n=== COURSE DETAIL DEBUG START ===');
       console.log('Current URL:', window.location.href);
       console.log('Hostname:', window.location.hostname);
       console.log('Website name:', websiteName);
@@ -22,13 +26,20 @@
       
       // Fetch courses
       const apiUrl = `https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`;
-      console.log('Fetching from API:', apiUrl);
+      console.log('\n📡 FETCHING FROM API:', apiUrl);
       const response = await fetch(apiUrl);
       console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
       const data = await response.json();
-      console.log('API response data:', data);
+      console.log('\n📦 API RESPONSE DATA:', JSON.stringify(data, null, 2));
       const { courses } = data;
-      console.log('Number of courses:', courses?.length || 0);
+      console.log('\n📊 Number of courses:', courses?.length || 0);
+      
+      if (!courses || courses.length === 0) {
+        console.error('❌ NO COURSES RETURNED FROM API');
+        console.log('Full response:', data);
+        return;
+      }
       
       // Find course by slug
       console.log('\n=== FINDING COURSE ===');
@@ -47,19 +58,18 @@
         return;
       }
       
-      console.log('✓ Found course:', course);
-      console.log('Course data:', {
-        title: course.title,
-        description: course.description,
-        image: course.image,
-        label: course.label,
-        whatYouLearn: course.whatYouLearn,
-        instructorName: course.instructorName,
-        instructorTitle: course.instructorTitle,
-        instructorBio: course.instructorBio,
-        price: course.price,
-        sections: course.sections
-      });
+      console.log('\n✅ FOUND COURSE:', course.title);
+      console.log('\n📋 COMPLETE COURSE DATA:');
+      console.log('  Title:', course.title);
+      console.log('  Description:', course.description);
+      console.log('  Image:', course.image ? 'YES (' + course.image.substring(0, 50) + '...)' : 'NO');
+      console.log('  Label (course includes):', course.label || 'EMPTY');
+      console.log('  What You Learn:', course.whatYouLearn || 'EMPTY');
+      console.log('  Instructor Name:', course.instructorName || 'EMPTY');
+      console.log('  Instructor Title:', course.instructorTitle || 'EMPTY');
+      console.log('  Instructor Bio:', course.instructorBio ? course.instructorBio.substring(0, 50) + '...' : 'EMPTY');
+      console.log('  Price:', course.price);
+      console.log('  Sections:', course.sections?.length || 0);
       
       console.log('\n=== UPDATING PAGE ELEMENTS ===');
       
@@ -110,49 +120,61 @@
       
       // Course includes
       console.log('\n=== COURSE INCLUDES ===');
-      console.log('Course label:', course.label);
+      console.log('Raw label value:', JSON.stringify(course.label));
+      console.log('Label type:', typeof course.label);
+      console.log('Label length:', course.label?.length);
       const includesEl = document.querySelector('.course-includes');
+      console.log('Includes element found:', !!includesEl);
       console.log('Includes element:', includesEl);
+      
       if (course.label && course.label.trim()) {
         if (includesEl) {
           const items = course.label.split('\n').filter(i => i.trim());
-          console.log('Include items:', items);
+          console.log('Split items:', items);
+          console.log('Number of items:', items.length);
           if (items.length > 0) {
-            includesEl.innerHTML = items.map(item => `<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">check_circle</span><span>${item}</span></li>`).join('');
-            console.log('✓ Updated course includes with', items.length, 'items');
+            const html = items.map(item => `<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">check_circle</span><span>${item}</span></li>`).join('');
+            console.log('Generated HTML:', html);
+            includesEl.innerHTML = html;
+            console.log('✅ Updated course includes with', items.length, 'items');
           }
         } else {
-          console.error('❌ Course includes element not found');
+          console.error('❌ Course includes element (.course-includes) NOT FOUND in DOM');
         }
       } else {
-        console.log('⚠️ No course includes data');
+        console.warn('⚠️ No course includes data - label is empty or null');
       }
       
       // What you'll learn
       console.log('\n=== WHAT YOU\'LL LEARN ===');
-      console.log('What you learn data:', course.whatYouLearn);
+      console.log('Raw whatYouLearn value:', JSON.stringify(course.whatYouLearn));
+      console.log('Type:', typeof course.whatYouLearn);
       const learnEl = document.querySelector('.what-you-learn');
+      console.log('Learn element found:', !!learnEl);
       console.log('Learn element:', learnEl);
+      
       if (course.whatYouLearn && course.whatYouLearn.trim()) {
         if (learnEl) {
           const items = course.whatYouLearn.split('\n').filter(i => i.trim());
-          console.log('Learn items:', items);
+          console.log('Split items:', items);
           if (items.length > 0) {
-            learnEl.innerHTML = items.map(item => `<li class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span class="text-sm text-gray-800 dark:text-gray-200">${item}</span></li>`).join('');
-            console.log('✓ Updated what you\'ll learn with', items.length, 'items');
+            const html = items.map(item => `<li class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span class="text-sm text-gray-800 dark:text-gray-200">${item}</span></li>`).join('');
+            console.log('Generated HTML:', html);
+            learnEl.innerHTML = html;
+            console.log('✅ Updated what you\'ll learn with', items.length, 'items');
           }
         } else {
-          console.error('❌ What you\'ll learn element not found');
+          console.error('❌ What you\'ll learn element (.what-you-learn) NOT FOUND in DOM');
         }
       } else {
-        console.log('⚠️ No what you\'ll learn data');
+        console.warn('⚠️ No what you\'ll learn data');
       }
       
       // Instructor info
       console.log('\n=== INSTRUCTOR INFO ===');
-      console.log('Instructor name:', course.instructorName);
-      console.log('Instructor title:', course.instructorTitle);
-      console.log('Instructor bio:', course.instructorBio);
+      console.log('Instructor name:', JSON.stringify(course.instructorName));
+      console.log('Instructor title:', JSON.stringify(course.instructorTitle));
+      console.log('Instructor bio:', JSON.stringify(course.instructorBio));
       
       const nameEl = document.querySelector('.instructor-name');
       console.log('Name element:', nameEl);
@@ -214,10 +236,14 @@
         console.log('⚠️ No course sections data');
       }
       
-      console.log('=== COURSE DETAIL DEBUG END ===\n');
+      console.log('\n=== COURSE DETAIL DEBUG END ===\n');
+      console.log('✅ Script execution completed successfully');
       
     } catch (error) {
-      console.error('Failed to load course details:', error);
+      console.error('\n❌ FATAL ERROR in loadCourseDetail:');
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+      console.error('Full error:', error);
     }
   }
   
