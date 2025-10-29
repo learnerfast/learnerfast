@@ -21,12 +21,12 @@
     const pathParts = window.location.pathname.split('/');
     const lastPart = pathParts[pathParts.length - 1];
     
-    if (lastPart === 'index' || lastPart === 'index.html') {
-      log('Already on index, session established');
-      window.history.replaceState({}, '', window.location.pathname.replace('.html', ''));
+    if (lastPart === 'home' || lastPart === 'home.html') {
+      log('Already on home, session established');
+      window.history.replaceState({}, '', window.location.pathname.replace('.html', '').replace('#', ''));
     } else {
       pathParts.pop();
-      const redirectUrl = pathParts.join('/') + '/index';
+      const redirectUrl = pathParts.join('/') + '/home';
       log('Redirecting to:', redirectUrl);
       window.location.replace(redirectUrl);
     }

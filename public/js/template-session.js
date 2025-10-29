@@ -12,18 +12,22 @@
   function checkSession() {
     const session = JSON.parse(localStorage.getItem('template_session') || 'null');
     log('Template session:', session);
+    log('LocalStorage keys:', Object.keys(localStorage));
       
     if (session?.user) {
-      const authButtons = document.querySelector('div.flex.items-center.gap-3');
+      // Find the specific div containing both signin and register links
+      const authButtons = Array.from(document.querySelectorAll('div.flex.items-center.gap-3')).find(div => 
+        div.querySelector('a[href="signin.html"]') && div.querySelector('a[href="register.html"]')
+      );
       log('Found auth buttons:', authButtons);
-      if (authButtons && authButtons.querySelector('a[href="signin.html"]')) {
+      if (authButtons) {
         const user = session.user;
         const userName = user.name || user.email?.split('@')[0] || 'User';
         
         authButtons.innerHTML = `
           <div class="relative group">
             <button class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-              <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">${userName.charAt(0).toUpperCase()}</div>
+              <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">${userName.charAt(0).toUpperCase()}</div>
               <span class="text-sm font-medium">${userName}</span>
             </button>
             <div class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">

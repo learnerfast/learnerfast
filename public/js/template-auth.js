@@ -72,7 +72,7 @@
           const pathParts = window.location.pathname.split('/');
           pathParts.pop();
           const templatePath = pathParts.join('/');
-          const redirectUrl = window.location.origin + templatePath + '/index';
+          const redirectUrl = window.location.origin + templatePath + '/home';
           log('OAuth redirect URL:', redirectUrl);
           const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
@@ -171,18 +171,20 @@
               
               const result = await response.json();
               log('Sign in response:', result);
+              log('Session data:', result.session);
               
               if (!response.ok) {
                 throw new Error(result.error || 'Sign in failed');
               }
               
               localStorage.setItem('template_session', JSON.stringify(result.session));
+              log('Session stored:', result.session);
               
               showToast('Signed in successfully!');
               setTimeout(() => {
                 const pathParts = window.location.pathname.split('/');
                 pathParts.pop();
-                const redirectUrl = pathParts.join('/') + '/index';
+                const redirectUrl = pathParts.join('/') + '/home';
                 log('Redirecting to:', redirectUrl);
                 window.location.href = redirectUrl;
               }, 1000);
