@@ -4,7 +4,9 @@
   
   async function loadCourses() {
     try {
-      const response = await fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`);
+      const response = await fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`, {
+        next: { revalidate: 60 }
+      });
       const { courses } = await response.json();
       
       const container = document.getElementById('courses-grid');
@@ -16,12 +18,13 @@
       }
       
       container.innerHTML = courses.map(course => `
-        <div class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl cursor-pointer" onclick="window.location.href='/course-detail/${encodeURIComponent(course.title.toLowerCase().replace(/\s+/g, '-'))}'">
+        <a href="/course-detail/${course.slug}" class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl">
           <div class="aspect-video overflow-hidden">
             <img 
               alt="${course.title}" 
               class="h-full w-full object-cover transition-transform group-hover:scale-105" 
               src="${course.image || 'https://via.placeholder.com/640x360?text=Course'}"
+              loading="lazy"
             />
           </div>
           <div class="flex flex-1 flex-col p-4">
@@ -34,10 +37,9 @@
               </button>
             </div>
           </div>
-        </div>
+        </a>
       `).join('');
       
-      // Store courses data for detail page
       sessionStorage.setItem('courses', JSON.stringify(courses));
     } catch (error) {
       console.error('Failed to load courses:', error);
