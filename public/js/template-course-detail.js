@@ -20,11 +20,17 @@
       if (!courses || courses.length === 0) return;
       
       const course = courses.find(c => c.slug === courseSlug);
-      if (!course) return;
+      if (!course) {
+        console.error('Course not found for slug:', courseSlug);
+        console.log('Available courses:', courses.map(c => ({ title: c.title, slug: c.slug })));
+        return;
+      }
       
+      console.log('Found course:', course.title);
       document.title = course.title;
       
       const titleEl = document.querySelector('.course-title');
+      console.log('Title element:', titleEl, 'Setting to:', course.title);
       if (titleEl) titleEl.textContent = course.title;
       
       const imageEl = document.querySelector('.course-image');
