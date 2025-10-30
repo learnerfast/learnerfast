@@ -474,7 +474,7 @@ const CourseBuilder = ({ course, onBack }) => {
                       {String(index + 1).padStart(2, '0')} {section.title}
                     </h3>
                     {section.description && (
-                      <p className="text-gray-600 mt-1">{section.description}</p>
+                      <p className="text-gray-600 mt-1 line-clamp-2">{section.description}</p>
                     )}
                   </div>
                 </div>
@@ -764,7 +764,7 @@ const CourseBuilder = ({ course, onBack }) => {
           <h3 className="text-lg font-semibold mb-4">Website Display</h3>
           <p className="text-gray-600 mb-6">Choose which website should display this course, or keep it in your dashboard only.</p>
           
-          <div className="space-y-4 max-h-48 overflow-y-auto">
+          <div className="space-y-4 max-h-72 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#4B5563 #E5E7EB' }}>
             {sites.map((site) => (
               <label key={site.id} className="flex items-start space-x-3 cursor-pointer p-3 border rounded-lg hover:bg-gray-50 transition-colors">
                 <input
@@ -798,7 +798,7 @@ const CourseBuilder = ({ course, onBack }) => {
             <div className="p-3 border rounded-lg bg-gray-50">
               <div className="flex items-center space-x-2 text-sm text-gray-600">
                 <Globe className="h-4 w-4 text-gray-500" />
-                <span>{selectedWebsites.length === 0 ? 'Dashboard only - Not displayed on any website' : `Displaying on ${selectedWebsites.length} website(s)`}</span>
+                <span>{selectedWebsites.length === 0 ? 'Dashboard only - Not displayed on any website' : `Displaying on ${selectedWebsites.filter(id => sites.some(site => site.id === id)).length} website(s)`}</span>
               </div>
             </div>
           </div>

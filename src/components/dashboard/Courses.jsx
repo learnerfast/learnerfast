@@ -217,24 +217,30 @@ const Courses = React.memo(() => {
           .single();
         
         if (!error && data) {
-          // Save course image if provided
-          if (newCourseData.coverImage) {
-            try {
+          // Save course image and website selection if provided
+          try {
+            let imageData = null;
+            if (newCourseData.coverImage) {
               const reader = new FileReader();
-              const imageData = await new Promise((resolve) => {
+              imageData = await new Promise((resolve) => {
                 reader.onload = (e) => resolve(e.target.result);
                 reader.readAsDataURL(newCourseData.coverImage);
               });
-              
-              await supabase
-                .from('course_settings')
-                .insert({
-                  course_id: data.id,
-                  course_image: imageData
-                });
-            } catch (imageError) {
-              // Continue without image
             }
+            
+            const websiteId = newCourseData.websiteIds && newCourseData.websiteIds.length > 0 
+              ? newCourseData.websiteIds.join(',') 
+              : null;
+            
+            await supabase
+              .from('course_settings')
+              .insert({
+                course_id: data.id,
+                course_image: imageData,
+                website_id: websiteId
+              });
+          } catch (settingsError) {
+            // Continue without settings
           }
           
           setCourses(prev => [data, ...prev]);

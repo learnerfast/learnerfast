@@ -488,7 +488,7 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                   </p>
                 </div>
 
-                <div className="space-y-4 max-h-64 overflow-y-auto">
+                <div className="space-y-4 max-h-72 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#4B5563 #E5E7EB' }}>
                   {sites.map((site) => (
                     <label key={site.id} className="flex items-start space-x-3 cursor-pointer p-4 border rounded-lg hover:bg-gray-50 transition-colors">
                       <input
@@ -601,12 +601,13 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                 <div className="flex space-x-3">
                   <button
                     onClick={async () => {
+                      const websiteIds = courseData.selectedWebsite && courseData.selectedWebsite !== 'none' ? [courseData.selectedWebsite] : [];
                       await onAddCourse({
                         title: courseData.title,
                         description: courseData.description,
                         status: courseData.access === 'draft' ? 'draft' : 'published',
                         coverImage: courseData.coverImage,
-                        websiteId: courseData.selectedWebsite !== 'none' ? courseData.selectedWebsite : null
+                        websiteIds: websiteIds
                       });
                       
                       // Reset form
@@ -628,12 +629,13 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                   </button>
                   <button
                     onClick={async () => {
+                      const websiteIds = courseData.selectedWebsite && courseData.selectedWebsite !== 'none' ? [courseData.selectedWebsite] : [];
                       const createdCourse = await onAddCourse({
                         title: courseData.title,
                         description: courseData.description,
                         status: courseData.access === 'draft' ? 'draft' : 'published',
                         coverImage: courseData.coverImage,
-                        websiteId: courseData.selectedWebsite !== 'none' ? courseData.selectedWebsite : null
+                        websiteIds: websiteIds
                       });
                       
                       if (createdCourse && onCourseCreated) {
