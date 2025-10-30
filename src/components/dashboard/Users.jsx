@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Filter, Mail, MoreHorizontal, UserPlus, Shield, Crown, TrendingUp, Activity } from 'lucide-react';
+import { Plus, Search, Filter, Mail, MoreHorizontal, UserPlus, Shield, Crown, TrendingUp, Activity, BarChart3 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 
