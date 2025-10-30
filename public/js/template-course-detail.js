@@ -184,9 +184,7 @@
                 // Store current page URL for redirect after login
                 sessionStorage.setItem('returnUrl', window.location.pathname);
                 // Redirect to sign-in page
-                const pathParts = window.location.pathname.split('/');
-                pathParts.pop();
-                window.location.href = pathParts.join('/') + '/signin';
+                window.location.href = '/signin';
               } else {
                 openCoursePlayer(course);
               }
