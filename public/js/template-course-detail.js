@@ -27,7 +27,6 @@
       }
       
       console.log('Found course:', course.title);
-      document.title = course.title;
       
       const titleEl = document.querySelector('.course-title');
       console.log('Title element:', titleEl, 'Setting to:', course.title);
