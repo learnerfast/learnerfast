@@ -40,6 +40,17 @@ export const courseApi = {
 
   // Delete course
   async deleteCourse(id) {
+    // Delete related records first
+    await supabase.from('course_activities').delete().eq('course_id', id);
+    await supabase.from('course_sections').delete().eq('course_id', id);
+    await supabase.from('course_automations').delete().eq('course_id', id);
+    await supabase.from('course_settings').delete().eq('course_id', id);
+    await supabase.from('course_access').delete().eq('course_id', id);
+    await supabase.from('course_pricing').delete().eq('course_id', id);
+    await supabase.from('course_page_layout').delete().eq('course_id', id);
+    await supabase.from('enrollments').delete().eq('course_id', id);
+    
+    // Now delete the course
     const { error } = await supabase
       .from('courses')
       .delete()
