@@ -30,11 +30,14 @@ export async function GET(request) {
     const { data: courses, error: coursesError } = await supabase
       .from('courses')
       .select(`
-        id, title, description, status, access_type, price, compare_price,
+        id, title, description, status,
         course_settings(course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id, show_course_includes, show_what_you_learn, show_instructor),
+        course_pricing(price, compare_price, show_compare_price),
+        course_access(access_type),
         course_sections(id, title, description, order_index, course_activities(id, title, activity_type, source, url, file_url))
       `)
-      .eq('user_id', site.user_id);
+      .eq('user_id', site.user_id)
+      .eq('status', 'published');
 
     if (coursesError) {
       return NextResponse.json({ courses: [], error: coursesError.message });
@@ -47,38 +50,43 @@ export async function GET(request) {
       return ids.includes(site.id);
     });
 
-    const mappedCourses = filteredCourses
-      .filter(course => course.access_type !== 'draft') // Filter out draft courses
-      .map(course => {
-        const settings = Array.isArray(course.course_settings) ? course.course_settings[0] : course.course_settings;
-        const sections = (course.course_sections || []).sort((a, b) => a.order_index - b.order_index).map(section => ({
-          id: section.id,
-          title: section.title,
-          description: section.description,
-          activities: section.course_activities || []
-        }));
-        
-        return {
-          id: course.id,
-          title: course.title,
-          description: course.description,
-          image: settings?.course_image || null,
-          label: settings?.course_label || '',
-          whatYouLearn: settings?.what_you_learn || '',
-          instructorName: settings?.instructor_name || '',
-          instructorTitle: settings?.instructor_title || '',
-          instructorBio: settings?.instructor_bio || '',
-          showCourseIncludes: settings?.show_course_includes !== false,
-          showWhatYouLearn: settings?.show_what_you_learn !== false,
-          showInstructor: settings?.show_instructor !== false,
-          price: course.price || 0,
-          comparePrice: course.compare_price || 0,
-          showComparePrice: course.compare_price > course.price,
-          access_type: course.access_type || 'free',
-          sections: sections,
-          slug: course.title.toLowerCase().replace(/\s+/g, '-')
-        }
-      });
+    const mappedCourses = filteredCourses.map(course => {
+      const settings = Array.isArray(course.course_settings) ? course.course_settings[0] : course.course_settings;
+      const pricing = Array.isArray(course.course_pricing) ? course.course_pricing[0] : course.course_pricing;
+      const access = Array.isArray(course.course_access) ? course.course_access[0] : course.course_access;
+      const accessType = access?.access_type || 'free';
+      
+      // Filter out draft courses
+      if (accessType === 'draft') return null;
+      
+      const sections = (course.course_sections || []).sort((a, b) => a.order_index - b.order_index).map(section => ({
+        id: section.id,
+        title: section.title,
+        description: section.description,
+        activities: section.course_activities || []
+      }));
+      
+      return {
+        id: course.id,
+        title: course.title,
+        description: course.description,
+        image: settings?.course_image || null,
+        label: settings?.course_label || '',
+        whatYouLearn: settings?.what_you_learn || '',
+        instructorName: settings?.instructor_name || '',
+        instructorTitle: settings?.instructor_title || '',
+        instructorBio: settings?.instructor_bio || '',
+        showCourseIncludes: settings?.show_course_includes !== false,
+        showWhatYouLearn: settings?.show_what_you_learn !== false,
+        showInstructor: settings?.show_instructor !== false,
+        price: pricing?.price || 0,
+        comparePrice: pricing?.compare_price || 0,
+        showComparePrice: pricing?.show_compare_price || false,
+        access_type: accessType,
+        sections: sections,
+        slug: course.title.toLowerCase().replace(/\s+/g, '-')
+      }
+    }).filter(Boolean);
     
     return NextResponse.json({ courses: mappedCourses }, {
       headers: {
