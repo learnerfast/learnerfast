@@ -268,7 +268,7 @@ const CourseBuilder = ({ course, onBack }) => {
     setIsSaving(true);
     try {
       const { supabase } = await import('../../lib/supabase');
-      
+      const { uploadFile } = await import('../../lib/storage');
       
       // Update course basic info
       const { data: courseData, error: courseError } = await supabase
@@ -284,16 +284,11 @@ const CourseBuilder = ({ course, onBack }) => {
         throw courseError;
       }
       
-      
       // Handle course settings (always save to ensure settings record exists)
       let imageData = loadedCourseImage; // Keep existing image if no new one
       
       if (courseImage) {
-        const reader = new FileReader();
-        imageData = await new Promise((resolve) => {
-          reader.onload = (e) => resolve(e.target.result);
-          reader.readAsDataURL(courseImage);
-        });
+        imageData = await uploadFile(courseImage, 'course-images', `course-${course.id}`);
       }
       
       // Always update or insert course settings
@@ -2364,6 +2359,10 @@ const CourseBuilder = ({ course, onBack }) => {
                               if (course?.id) {
                                 try {
                                   const { supabase } = await import('../../lib/supabase');
+                                  const { uploadFile } = await import('../../lib/storage');
+                                  
+                                  const fileUrl = await uploadFile(file, 'course-files', `course-${course.id}`);
+                                  
                                   const { data, error } = await supabase.from('course_activities').insert({
                                     course_id: course.id,
                                     section_id: currentSectionId,
@@ -2371,7 +2370,7 @@ const CourseBuilder = ({ course, onBack }) => {
                                     activity_type: activityType,
                                     source: 'upload',
                                     url: null,
-                                    file_url: file.name,
+                                    file_url: fileUrl,
                                     completed: false
                                   }).select().single();
                                   
