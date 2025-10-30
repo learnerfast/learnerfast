@@ -289,11 +289,11 @@
       let playerHTML = '';
       if (activity.activity_type === 'video') {
         playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%;">
-          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
         </div>`;
       } else if (activity.activity_type === 'pdf') {
         playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%;">
-          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0"></iframe>
         </div>`;
       } else if (activity.activity_type === 'audio') {
         playerHTML = `<div class="flex items-center justify-center bg-gray-900 rounded-lg" style="height: calc(100vh - 280px); width: 100%;">
@@ -301,7 +301,7 @@
         </div>`;
       } else if (activity.activity_type === 'presentation') {
         playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%;">
-          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0"></iframe>
         </div>`;
       } else {
         playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%;">

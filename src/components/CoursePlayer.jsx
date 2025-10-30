@@ -138,7 +138,7 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
-              <div className="bg-black rounded-lg overflow-hidden" style={{ height: 'calc(100vh - 280px)', width: '100%' }}>
+              <div className="bg-black rounded-lg" style={{ height: 'calc(100vh - 280px)', width: '100%', overflow: 'hidden' }}>
                 {selectedActivity.type === 'video' ? (
                   selectedActivity.file ? (
                     <video controls className="w-full h-full" key={selectedActivity.id}>
@@ -154,7 +154,7 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                     />
                   ) : null
                 ) : selectedActivity.type === 'pdf' ? (
-                  <div className="bg-white w-full h-full">
+                  <div className="bg-white w-full h-full" style={{ overflow: 'hidden' }}>
                     <iframe 
                       src={selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : selectedActivity.url} 
                       className="w-full h-full" 
@@ -163,7 +163,7 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                     />
                   </div>
                 ) : selectedActivity.type === 'presentation' ? (
-                  <div className="bg-white w-full h-full">
+                  <div className="bg-white w-full h-full" style={{ overflow: 'hidden' }}>
                     <iframe 
                       src={selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : selectedActivity.url} 
                       className="w-full h-full" 
