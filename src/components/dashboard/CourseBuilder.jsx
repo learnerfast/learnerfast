@@ -417,7 +417,8 @@ const CourseBuilder = ({ course, onBack }) => {
     {
       category: 'Contents',
       items: [
-        { id: 'course-outline', label: 'Course outline', icon: BookOpen, active: true }
+        { id: 'course-outline', label: 'Course outline', icon: BookOpen, active: true },
+        { id: 'course-page-layout', label: 'Course page layout', icon: Globe }
       ]
     },
     {
@@ -1980,6 +1981,23 @@ const CourseBuilder = ({ course, onBack }) => {
     </div>
   );
 
+  const renderCoursePageLayout = () => (
+    <div className="flex-1 p-8 bg-gray-50 overflow-auto">
+      <div className="mb-6">
+        <h2 className="text-2xl font-semibold text-gray-900">Course page layout</h2>
+        <p className="text-gray-600 mt-2">Preview how your course detail page will appear to students.</p>
+      </div>
+      <div className="bg-white rounded-lg shadow-lg p-8 max-w-6xl mx-auto" style={{ pointerEvents: 'none' }}>
+        <iframe 
+          src={`/templates/creative-pro/course-detail.html`}
+          className="w-full border-0"
+          style={{ height: '800px', pointerEvents: 'none' }}
+          title="Course Page Preview"
+        />
+      </div>
+    </div>
+  );
+
   const renderCoursePreview = () => (
     <CoursePlayer 
       course={course}
@@ -1993,6 +2011,8 @@ const CourseBuilder = ({ course, onBack }) => {
     switch (activeTab) {
       case 'course-outline':
         return renderCourseOutline();
+      case 'course-page-layout':
+        return renderCoursePageLayout();
       case 'general':
         return renderGeneral();
       case 'access':
