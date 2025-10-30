@@ -1217,10 +1217,6 @@ const CourseBuilder = ({ course, onBack }) => {
           )}
           <span>{isSaving ? 'Saving...' : 'Save'}</span>
         </button>
-        <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-          <Eye className="h-4 w-4" />
-          <span>Preview</span>
-        </button>
       </div>
 
       {priceError && (
