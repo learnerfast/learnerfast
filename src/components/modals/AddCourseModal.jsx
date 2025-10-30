@@ -607,7 +607,10 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                         description: courseData.description,
                         status: courseData.access === 'draft' ? 'draft' : 'published',
                         coverImage: courseData.coverImage,
-                        websiteIds: websiteIds
+                        websiteIds: websiteIds,
+                        access_type: courseData.access,
+                        price: courseData.access === 'paid' ? Number(courseData.price) : 0,
+                        compare_price: courseData.access === 'paid' ? Number(courseData.comparePrice) : 0
                       });
                       
                       // Reset form
@@ -635,7 +638,10 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
                         description: courseData.description,
                         status: courseData.access === 'draft' ? 'draft' : 'published',
                         coverImage: courseData.coverImage,
-                        websiteIds: websiteIds
+                        websiteIds: websiteIds,
+                        access_type: courseData.access,
+                        price: courseData.access === 'paid' ? Number(courseData.price) : 0,
+                        compare_price: courseData.access === 'paid' ? Number(courseData.comparePrice) : 0
                       });
                       
                       if (createdCourse && onCourseCreated) {

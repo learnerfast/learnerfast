@@ -211,7 +211,10 @@ const Courses = React.memo(() => {
             user_id: user.id,
             title: newCourseData.title,
             description: newCourseData.description,
-            status: newCourseData.status || 'draft'
+            status: newCourseData.status || 'draft',
+            access_type: newCourseData.access_type || 'draft',
+            price: newCourseData.price || 0,
+            compare_price: newCourseData.compare_price || 0
           }])
           .select()
           .single();
