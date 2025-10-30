@@ -37,8 +37,7 @@
               <span class="text-lg font-bold text-primary">
                 ${course.access_type === 'free' ? 'Free' : 
                   course.access_type === 'paid' ? `₹${course.price || 0}` : 
-                  course.access_type === 'coming-soon' ? 'Coming Soon' : 
-                  course.access_type === 'enrollment-closed' ? 'Enrollment Closed' : 'Free'}
+                  course.access_type === 'enrollment-closed' ? 'Enrollment Closed' : ''}
               </span>
               <button class="rounded-lg px-4 py-2 text-sm font-bold text-white transition-colors ${
                 course.access_type === 'coming-soon' || course.access_type === 'enrollment-closed' 
