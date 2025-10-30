@@ -205,21 +205,44 @@ const Courses = React.memo(() => {
   const handleAddCourse = useCallback(async (newCourseData) => {
     if (user) {
       try {
+        const courseInsert = {
+          user_id: user.id,
+          title: newCourseData.title,
+          description: newCourseData.description,
+          status: newCourseData.status || 'draft'
+        };
+        
         const { data, error } = await supabase
           .from('courses')
-          .insert([{
-            user_id: user.id,
-            title: newCourseData.title,
-            description: newCourseData.description,
-            status: newCourseData.status || 'draft',
-            access_type: newCourseData.access_type || 'draft',
-            price: newCourseData.price || 0,
-            compare_price: newCourseData.compare_price || 0
-          }])
+          .insert([courseInsert])
           .select()
           .single();
         
         if (!error && data) {
+          // Save course access and pricing
+          try {
+            await supabase
+              .from('course_access')
+              .insert({
+                course_id: data.id,
+                user_id: user.id,
+                access_type: newCourseData.access_type || 'draft'
+              });
+            
+            if (newCourseData.access_type === 'paid') {
+              await supabase
+                .from('course_pricing')
+                .insert({
+                  course_id: data.id,
+                  price: newCourseData.price || 0,
+                  compare_price: newCourseData.compare_price || 0,
+                  show_compare_price: (newCourseData.compare_price || 0) > (newCourseData.price || 0)
+                });
+            }
+          } catch (accessError) {
+            console.error('Failed to save access/pricing:', accessError);
+          }
+          
           // Save course image and website selection if provided
           try {
             let imageData = null;

@@ -368,11 +368,17 @@ const CourseBuilder = ({ course, onBack }) => {
       
       if (error) throw error;
       
-      // Update courses table
-      await supabase
-        .from('courses')
-        .update({ access_type: accessType })
-        .eq('id', course.id);
+      // Update pricing if paid
+      if (accessType === 'paid') {
+        await supabase
+          .from('course_pricing')
+          .upsert({
+            course_id: course.id,
+            price: coursePrice,
+            compare_price: compareAtPrice,
+            show_compare_price: compareAtPrice > coursePrice
+          }, { onConflict: 'course_id' });
+      }
       
       showMessage('success', 'Access settings saved successfully!');
     } catch (error) {
