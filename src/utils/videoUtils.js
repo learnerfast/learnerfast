@@ -101,7 +101,8 @@ export const getVideoTypeFromUrl = (url) => {
   if (trimmedUrl.includes('youtube.com') || trimmedUrl.includes('youtu.be')) return 'youtube';
   if (trimmedUrl.includes('vdocipher')) return 'vdocipher';
   if (trimmedUrl.includes('gumlet')) return 'gumlet';
-  if (trimmedUrl.includes('<iframe') || trimmedUrl.includes('<script')) return 'script';
+  if (trimmedUrl.includes('<iframe')) return 'iframe';
+  if (trimmedUrl.includes('<script')) return 'script';
   
   return 'iframe';
 };
