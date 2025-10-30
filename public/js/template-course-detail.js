@@ -266,7 +266,16 @@
       const isLastActivity = currentActivityIndex === allActivities.length - 1;
       const nextButtonText = isLastActivity ? 'Complete' : 'Next';
       
-      let embedUrl = activity.url || activity.file_url || '';
+      let embedUrl = activity.url || '';
+      
+      // For uploaded files, use file_url if url is empty
+      if (!embedUrl && activity.file_url && activity.source === 'upload') {
+        // file_url is just a filename, we need to construct proper URL
+        // For now, show a message that file needs to be uploaded to a CDN/storage
+        console.warn('⚠️ Uploaded file detected but no URL. File needs to be uploaded to storage:', activity.file_url);
+        embedUrl = ''; // Will show error message in player
+      }
+      
       if (activity.activity_type === 'video') {
         if (activity.source === 'youtube' && embedUrl) {
           embedUrl = embedUrl.includes('embed') ? embedUrl : embedUrl.replace('watch?v=', 'embed/');
@@ -274,11 +283,6 @@
           const vimeoId = embedUrl.match(/vimeo\.com\/(\d+)/);
           embedUrl = vimeoId ? `https://player.vimeo.com/video/${vimeoId[1]}` : embedUrl;
         }
-      }
-      
-      // Ensure PDF URLs are absolute
-      if (activity.activity_type === 'pdf' && embedUrl && !embedUrl.startsWith('http')) {
-        embedUrl = 'https://' + embedUrl;
       }
       
       console.log('🎬 Playing Activity:', {
@@ -303,9 +307,19 @@
         </div>`;
       } else if (activity.activity_type === 'pdf') {
         console.log('📄 Rendering PDF iframe with URL:', embedUrl);
-        playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
-          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" onload="console.log('✅ PDF iframe loaded')"></iframe>
-        </div>`;
+        if (!embedUrl) {
+          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+            <div class="text-center p-8">
+              <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <p class="text-gray-600 text-lg mb-2">PDF file not available</p>
+              <p class="text-gray-500 text-sm">Please add a URL for this PDF in the course settings</p>
+            </div>
+          </div>`;
+        } else {
+          playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+            <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" onload="console.log('✅ PDF iframe loaded')"></iframe>
+          </div>`;
+        }
       } else if (activity.activity_type === 'audio') {
         console.log('🎵 Rendering audio player with URL:', embedUrl);
         playerHTML = `<div class="flex items-center justify-center bg-gray-900 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
@@ -313,9 +327,19 @@
         </div>`;
       } else if (activity.activity_type === 'presentation') {
         console.log('📊 Rendering presentation iframe with URL:', embedUrl);
-        playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
-          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" onload="console.log('✅ Presentation iframe loaded')"></iframe>
-        </div>`;
+        if (!embedUrl) {
+          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+            <div class="text-center p-8">
+              <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+              <p class="text-gray-600 text-lg mb-2">Presentation file not available</p>
+              <p class="text-gray-500 text-sm">Please add a URL for this presentation in the course settings</p>
+            </div>
+          </div>`;
+        } else {
+          playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+            <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" onload="console.log('✅ Presentation iframe loaded')"></iframe>
+          </div>`;
+        }
       } else {
         console.log('❓ Unknown activity type:', activity.activity_type);
         playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
