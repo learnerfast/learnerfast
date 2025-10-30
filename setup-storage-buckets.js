@@ -7,31 +7,43 @@ const supabase = createClient(
 );
 
 async function setupBuckets() {
-  // Create course-images bucket
-  const { data: imagesData, error: imagesError } = await supabase.storage.createBucket('course-images', {
+  // Update course-images bucket
+  const { error: updateImagesError } = await supabase.storage.updateBucket('course-images', {
     public: true,
-    fileSizeLimit: 10485760 // 10MB
+    fileSizeLimit: 10485760
   });
   
-  if (imagesError && !imagesError.message.includes('already exists')) {
-    console.error('Error creating course-images bucket:', imagesError);
-  } else {
-    console.log('✓ course-images bucket ready');
+  if (updateImagesError) {
+    console.log('Creating course-images bucket...');
+    const { error: createImagesError } = await supabase.storage.createBucket('course-images', {
+      public: true,
+      fileSizeLimit: 10485760
+    });
+    if (createImagesError) console.error('Error:', createImagesError);
   }
+  console.log('✓ course-images bucket ready');
   
-  // Create course-files bucket
-  const { data: filesData, error: filesError } = await supabase.storage.createBucket('course-files', {
+  // Update course-files bucket
+  const { error: updateFilesError } = await supabase.storage.updateBucket('course-files', {
     public: true,
-    fileSizeLimit: 10485760 // 10MB
+    fileSizeLimit: 10485760
   });
   
-  if (filesError && !filesError.message.includes('already exists')) {
-    console.error('Error creating course-files bucket:', filesError);
-  } else {
-    console.log('✓ course-files bucket ready');
+  if (updateFilesError) {
+    console.log('Creating course-files bucket...');
+    const { error: createFilesError } = await supabase.storage.createBucket('course-files', {
+      public: true,
+      fileSizeLimit: 10485760
+    });
+    if (createFilesError) console.error('Error:', createFilesError);
   }
+  console.log('✓ course-files bucket ready');
   
-  console.log('\nStorage buckets setup complete!');
+  console.log('\n⚠️  IMPORTANT: Go to Supabase Dashboard > Storage > Policies');
+  console.log('For both buckets, add these policies:');
+  console.log('1. INSERT: authenticated users can upload');
+  console.log('2. SELECT: public can read');
+  console.log('3. DELETE: authenticated users can delete\n');
 }
 
 setupBuckets().catch(console.error);
