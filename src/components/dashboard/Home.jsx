@@ -3,15 +3,12 @@ import { BarChart3, Users, Globe, TrendingUp, Plus, BookOpen, Video } from 'luci
 import Link from 'next/link';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
+import { StatsSkeleton } from '../SkeletonLoader';
+import SmoothTransition from '../SmoothTransition';
 
 const Home = () => {
   const { user } = useAuth();
-  const [stats, setStats] = useState([
-    { name: 'Total Courses', value: '0', icon: BookOpen, change: '+0', changeType: 'positive' },
-    { name: 'Total Videos', value: '0', icon: Video, change: '+0', changeType: 'positive' },
-    { name: 'Websites Created', value: '0', icon: Globe, change: '+0', changeType: 'positive' },
-    { name: 'This Month', value: '0', icon: TrendingUp, change: '+0', changeType: 'positive' },
-  ]);
+  const [stats, setStats] = useState(null);
   const [recentActivity, setRecentActivity] = useState([]);
 
   useEffect(() => {
@@ -39,7 +36,6 @@ const Home = () => {
         
         const websites = sites || [];
 
-        // Update stats
         setStats([
           { name: 'Total Courses', value: courses?.length || 0, icon: BookOpen, change: '+0', changeType: 'positive' },
           { name: 'Total Videos', value: videos?.length || 0, icon: Video, change: '+0', changeType: 'positive' },
@@ -62,6 +58,7 @@ const Home = () => {
   }, [user]);
 
   return (
+    <SmoothTransition>
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
@@ -69,6 +66,7 @@ const Home = () => {
       </div>
 
       {/* Stats Grid */}
+      {!stats ? <StatsSkeleton /> : (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
           <div key={stat.name} className="bg-card rounded-xl shadow-subtle border border-border p-6 transition-transform hover:-translate-y-1">
@@ -92,6 +90,7 @@ const Home = () => {
           </div>
         ))}
       </div>
+      )}
 
       {/* Quick Actions */}
       <div className="bg-card rounded-xl shadow-subtle border border-border p-6">
@@ -117,6 +116,7 @@ const Home = () => {
         </div>
       </div>
     </div>
+    </SmoothTransition>
   );
 };
 

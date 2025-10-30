@@ -16,9 +16,15 @@ const Subscription = lazy(() => import('../components/dashboard/Subscription'));
 const Search = lazy(() => import('../components/dashboard/Search'));
 const Settings = lazy(() => import('../components/dashboard/Settings'));
 
-const LoadingSpinner = () => (
-  <div className="flex items-center justify-center h-64">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+import { StatsSkeleton } from '../components/SkeletonLoader';
+
+const LoadingFallback = () => (
+  <div className="space-y-6">
+    <div className="space-y-2">
+      <div className="h-8 bg-muted rounded w-48 animate-pulse"></div>
+      <div className="h-4 bg-muted rounded w-96 animate-pulse"></div>
+    </div>
+    <StatsSkeleton />
   </div>
 );
 
@@ -65,8 +71,15 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="flex h-screen bg-background">
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="h-16 bg-card border-b border-border animate-pulse"></div>
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
+            <div className="container mx-auto px-6 py-8">
+              <LoadingFallback />
+            </div>
+          </main>
+        </div>
       </div>
     );
   }
@@ -82,7 +95,7 @@ const Dashboard = () => {
         <Header />
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-background">
           <div className="container mx-auto px-6 py-8">
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<LoadingFallback />}>
               {renderComponent()}
             </Suspense>
           </div>

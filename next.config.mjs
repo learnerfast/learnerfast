@@ -10,6 +10,10 @@ const nextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: __dirname,
   
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
+  
   async headers() {
     return [
       {
@@ -44,6 +48,11 @@ const nextConfig = {
   images: {
     domains: ['bplarfqdpsgadtzzlxur.supabase.co'],
     formats: ['image/avif', 'image/webp'],
+    minimumCacheTTL: 60,
+  },
+  
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
   },
 };
 

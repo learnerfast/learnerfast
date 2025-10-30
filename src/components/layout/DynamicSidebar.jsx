@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { 
   Home, 
@@ -71,6 +71,7 @@ const courseBuilderItems = [
 
 const DynamicSidebar = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const { user } = useAuth();
   
   // Try to get course builder context, but don't fail if not available
@@ -157,6 +158,7 @@ const DynamicSidebar = () => {
           <div key={item.name}>
             <Link
               href={item.href}
+              onMouseEnter={() => router.prefetch(item.href)}
               className={`group flex items-center px-3 py-2.5 text-sm font-medium rounded-md transition-colors relative ${
                 isActive(item.href)
                   ? 'bg-primary/10 text-primary'

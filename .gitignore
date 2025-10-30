@@ -24,3 +24,5 @@ dist/
 
 # Supabase
 supabase/.temp/
+.env*
+!.env.example
