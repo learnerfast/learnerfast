@@ -330,16 +330,28 @@ const Courses = React.memo(() => {
     const course = deleteModal.course;
     if (!course) return;
     
-    const { error } = await supabase
-      .from('courses')
-      .delete()
-      .eq('id', course.id)
-      .eq('user_id', user.id);
-    
-    if (!error) {
-      setCourses(prev => prev.filter(c => c.id !== course.id));
-      toast.success('Course deleted successfully');
-    } else {
+    try {
+      // Delete related records first
+      await supabase.from('course_activities').delete().eq('course_id', course.id);
+      await supabase.from('course_sections').delete().eq('course_id', course.id);
+      await supabase.from('course_access').delete().eq('course_id', course.id);
+      await supabase.from('course_pricing').delete().eq('course_id', course.id);
+      await supabase.from('course_settings').delete().eq('course_id', course.id);
+      
+      // Finally delete the course
+      const { error } = await supabase
+        .from('courses')
+        .delete()
+        .eq('id', course.id)
+        .eq('user_id', user.id);
+      
+      if (!error) {
+        setCourses(prev => prev.filter(c => c.id !== course.id));
+        toast.success('Course deleted successfully');
+      } else {
+        toast.error('Failed to delete course');
+      }
+    } catch (error) {
       toast.error('Failed to delete course');
     }
     
