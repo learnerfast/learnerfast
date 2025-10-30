@@ -80,10 +80,13 @@
       const syllabusEl = document.querySelector('.course-syllabus');
       if (course.sections && course.sections.length > 0 && syllabusEl) {
         syllabusEl.innerHTML = course.sections.map((section, index) => `
-          <div class="syllabus-item">
-            <h4>Module ${index + 1}: ${section.title}</h4>
-            ${section.description ? `<p>${section.description}</p>` : ''}
-          </div>
+          <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+            <summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+              <span>Module ${index + 1}: ${section.title}</span>
+              <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+            </summary>
+            ${section.description ? `<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">${section.description}</div>` : ''}
+          </details>
         `).join('');
       }
       
