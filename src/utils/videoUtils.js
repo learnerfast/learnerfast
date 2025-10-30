@@ -29,7 +29,6 @@ export const validateVideoUrl = (url, type) => {
 
     case 'vdocipher':
     case 'gumlet':
-    case 'iframe':
       try {
         new URL(trimmedUrl);
         return { valid: true };
@@ -37,10 +36,20 @@ export const validateVideoUrl = (url, type) => {
         return { valid: false, error: 'Invalid URL format' };
       }
 
-    case 'script':
-      if (!trimmedUrl.includes('<') || !trimmedUrl.includes('>')) {
-        return { valid: false, error: 'Invalid embed script format' };
+    case 'iframe':
+      // Allow both URLs and iframe code
+      if (trimmedUrl.includes('<iframe')) {
+        return { valid: true };
       }
+      try {
+        new URL(trimmedUrl);
+        return { valid: true };
+      } catch {
+        return { valid: false, error: 'Invalid URL or iframe code' };
+      }
+
+    case 'script':
+      // Allow any script/embed code
       return { valid: true };
 
     default:
@@ -68,35 +77,11 @@ export const generateEmbedUrl = (url, type) => {
       return trimmedUrl;
 
     case 'iframe':
-      // Extract URL from iframe code if pasted
+      // Return iframe code as-is if it's already an iframe
       if (trimmedUrl.includes('<iframe')) {
-        const srcMatch = trimmedUrl.match(/src=["']([^"']+)["']/);
-        if (srcMatch) {
-          return srcMatch[1];
-        }
+        return trimmedUrl;
       }
-
-      // Handle YouTube URLs
-      if (trimmedUrl.includes('youtube.com/watch')) {
-        const videoId = trimmedUrl.match(/[?&]v=([^&]+)/)?.[1];
-        if (videoId) {
-          return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
-        }
-      } else if (trimmedUrl.includes('youtu.be/')) {
-        const videoId = trimmedUrl.split('youtu.be/')[1]?.split('?')[0];
-        if (videoId) {
-          return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
-        }
-      }
-
-      // Handle Vimeo URLs
-      if (trimmedUrl.includes('vimeo.com/') && !trimmedUrl.includes('player.vimeo.com')) {
-        const videoId = trimmedUrl.match(/vimeo\.com\/(\d+)/)?.[1];
-        if (videoId) {
-          return `https://player.vimeo.com/video/${videoId}?title=0&byline=0&portrait=0`;
-        }
-      }
-
+      // Otherwise return the URL
       return trimmedUrl;
 
     case 'script':
