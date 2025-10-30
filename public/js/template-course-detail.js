@@ -54,11 +54,14 @@
         }
       }
       
-      const learnEl = document.querySelector('.what-you-learn');
-      if (course.whatYouLearn && course.whatYouLearn.trim() && learnEl) {
-        const items = course.whatYouLearn.split('\n').filter(i => i.trim());
-        if (items.length > 0) {
-          learnEl.innerHTML = items.map(item => `<li class="flex items-start gap-3 p-3 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span class="text-sm text-gray-800 dark:text-gray-200">${item}</span></li>`).join('');
+      const learnSection = document.querySelector('section h3');
+      if (course.whatYouLearn && course.whatYouLearn.trim() && learnSection && learnSection.textContent.includes("What you'll learn")) {
+        const learnGrid = learnSection.nextElementSibling;
+        if (learnGrid && learnGrid.classList.contains('grid')) {
+          const items = course.whatYouLearn.split('\n').filter(i => i.trim());
+          if (items.length > 0) {
+            learnGrid.innerHTML = items.map(item => `<div class="flex items-start gap-4 p-4 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary mt-1">check_circle</span><p class="font-medium text-gray-800 dark:text-gray-200">${item}</p></div>`).join('');
+          }
         }
       }
       
