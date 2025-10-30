@@ -115,15 +115,9 @@ const Users = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900">Users</h2>
-          <p className="text-gray-600">Manage students, instructors, and administrators</p>
-        </div>
-        <button className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-          <Plus className="h-4 w-4" />
-          <span>Add User</span>
-        </button>
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">Users</h2>
+        <p className="text-gray-600">Manage your website students</p>
       </div>
 
       {/* Stats Grid */}
@@ -160,16 +154,10 @@ const Users = () => {
               className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
-          <div className="flex space-x-2">
-            <button className="flex items-center space-x-2 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
-              <Filter className="h-4 w-4" />
-              <span>Filter</span>
-            </button>
-            <button className="flex items-center space-x-2 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
-              <Mail className="h-4 w-4" />
-              <span>Send Email</span>
-            </button>
-          </div>
+          <button className="flex items-center space-x-2 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+            <Filter className="h-4 w-4" />
+            <span>Filter</span>
+          </button>
         </div>
       </div>
 

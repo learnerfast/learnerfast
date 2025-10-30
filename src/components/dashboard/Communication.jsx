@@ -43,7 +43,37 @@ const Communication = () => {
   const [activeTab, setActiveTab] = useState('messages');
   const [newMessage, setNewMessage] = useState({ recipient: '', subject: '', content: '' });
   const [showNewMessageModal, setShowNewMessageModal] = useState(false);
+  const [websiteUsers, setWebsiteUsers] = useState([]);
+  const [realMessages, setRealMessages] = useState([]);
   const { user } = useAuth();
+
+  React.useEffect(() => {
+    const loadWebsiteUsers = async () => {
+      if (!user) return;
+      
+      const { data } = await supabase
+        .from('website_users')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      setWebsiteUsers(data || []);
+    };
+    
+    const loadMessages = async () => {
+      if (!user) return;
+      
+      const { data } = await supabase
+        .from('user_messages')
+        .select('*')
+        .eq('sender_id', user.id)
+        .order('created_at', { ascending: false });
+      
+      setRealMessages(data || []);
+    };
+    
+    loadWebsiteUsers();
+    loadMessages();
+  }, [user]);
 
   const handleSendMessage = async () => {
     if (!newMessage.recipient || !newMessage.subject || !newMessage.content) {
@@ -76,8 +106,15 @@ const Communication = () => {
     }
   };
 
-  // Generate demo data
-  const messages = Array.from({ length: 8 }, (_, i) => ({
+  const messages = realMessages.length > 0 ? realMessages.map(msg => ({
+    id: msg.id,
+    sender: msg.recipient_email,
+    subject: msg.subject,
+    content: msg.content,
+    timestamp: new Date(msg.created_at),
+    read: true,
+    avatar: `/api/placeholder/40/40`
+  })) : Array.from({ length: 8 }, (_, i) => ({
     id: i + 1,
     sender: faker.person.fullName(),
     subject: faker.lorem.sentence(),
@@ -334,13 +371,27 @@ const Communication = () => {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-2">Recipient</label>
-                <input
-                  type="email"
-                  value={newMessage.recipient}
-                  onChange={(e) => setNewMessage(prev => ({ ...prev, recipient: e.target.value }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  placeholder="Enter email address"
-                />
+                {websiteUsers.length > 0 ? (
+                  <select
+                    value={newMessage.recipient}
+                    onChange={(e) => setNewMessage(prev => ({ ...prev, recipient: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  >
+                    <option value="">Select a student</option>
+                    {websiteUsers.map(u => (
+                      <option key={u.id} value={u.email}>{u.email} ({u.website_name})</option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="email"
+                    value={newMessage.recipient}
+                    onChange={(e) => setNewMessage(prev => ({ ...prev, recipient: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    placeholder="No students yet"
+                    disabled
+                  />
+                )}
               </div>
               
               <div>
