@@ -8,9 +8,9 @@ const Settings = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('general');
   const [formData, setFormData] = useState({
-    siteName: 'Course Builder',
+    userName: '',
+    userEmail: '',
     siteDescription: 'Professional course website builder',
-    adminEmail: 'admin@example.com',
     timezone: 'America/New_York',
     language: 'en',
     emailNotifications: true,
@@ -18,6 +18,16 @@ const Settings = () => {
     maintenanceMode: false,
     allowRegistration: true
   });
+
+  useEffect(() => {
+    if (user?.email) {
+      setFormData(prev => ({
+        ...prev,
+        userName: user.email.split('@')[0],
+        userEmail: user.email
+      }));
+    }
+  }, [user]);
 
   const handleChange = (field, value) => {
     setFormData(prev => ({
@@ -128,25 +138,25 @@ const Settings = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Site Name
+                        Name
                       </label>
                       <input
                         type="text"
-                        value={formData.siteName}
-                        onChange={(e) => handleChange('siteName', e.target.value)}
+                        value={formData.userName}
+                        onChange={(e) => handleChange('userName', e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                       />
                     </div>
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Admin Email
+                        Email
                       </label>
                       <input
                         type="email"
-                        value={formData.adminEmail}
-                        onChange={(e) => handleChange('adminEmail', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        value={formData.userEmail}
+                        disabled
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 cursor-not-allowed"
                       />
                     </div>
                     

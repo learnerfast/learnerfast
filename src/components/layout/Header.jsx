@@ -175,6 +175,16 @@ const Header = () => {
                 >
                   <button
                     onClick={() => {
+                      window.location.href = '/dashboard/settings';
+                      setShowDropdown(false);
+                    }}
+                    className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+                  >
+                    <User className="h-4 w-4" />
+                    <span>Profile</span>
+                  </button>
+                  <button
+                    onClick={() => {
                       logout();
                       setShowDropdown(false);
                     }}
