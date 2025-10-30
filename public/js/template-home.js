@@ -7,6 +7,8 @@
     const container = document.getElementById('home-courses-grid');
     if (!container) return;
     
+    container.innerHTML = '';
+    
     try {
       if (coursesCache) {
         renderCourses(coursesCache);
@@ -56,5 +58,9 @@
     }
   }
   
-  loadHomeCourses();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadHomeCourses);
+  } else {
+    loadHomeCourses();
+  }
 })();
