@@ -31,7 +31,12 @@
       
       const titleEl = document.querySelector('.course-title');
       console.log('Title element:', titleEl, 'Setting to:', course.title);
-      if (titleEl) titleEl.textContent = course.title;
+      if (titleEl) {
+        titleEl.textContent = course.title;
+        console.log('Title updated successfully to:', titleEl.textContent);
+      } else {
+        console.error('Title element not found in DOM!');
+      }
       
       const imageEl = document.querySelector('.course-image');
       if (imageEl && course.image) imageEl.src = course.image;
@@ -88,9 +93,5 @@
     }
   }
   
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadCourseDetail);
-  } else {
-    loadCourseDetail();
-  }
+  loadCourseDetail();
 })();
