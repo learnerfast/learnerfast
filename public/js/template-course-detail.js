@@ -12,6 +12,8 @@
   const hostname = window.location.hostname;
   const websiteName = hostname.split('.')[0];
   
+  let coursesCache = null;
+  
   async function loadCourseDetail() {
     try {
       const pathParts = window.location.pathname.split('/');
@@ -22,10 +24,15 @@
         return;
       }
       
-      const response = await fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`, {
-        next: { revalidate: 60 }
-      });
-      const { courses } = await response.json();
+      let courses;
+      if (coursesCache) {
+        courses = coursesCache;
+      } else {
+        const response = await fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`);
+        const data = await response.json();
+        courses = data.courses;
+        coursesCache = courses;
+      }
       
       if (!courses || courses.length === 0) return;
       
