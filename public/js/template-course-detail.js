@@ -39,13 +39,24 @@
       if (descEl) descEl.textContent = course.description || '';
       
       const priceEl = document.querySelector('.course-price');
+      const comparePriceEl = priceEl?.nextElementSibling;
+      
       if (priceEl) {
         if (course.accessType === 'free' || course.price === 0) {
           priceEl.textContent = 'Free';
-        } else if (course.showComparePrice && course.comparePrice > course.price) {
-          priceEl.innerHTML = `<span class="text-2xl font-bold">₹${course.price}</span> <span class="text-lg text-gray-500 line-through ml-2">₹${course.comparePrice}</span>`;
+          if (comparePriceEl && comparePriceEl.classList.contains('line-through')) {
+            comparePriceEl.style.display = 'none';
+          }
         } else {
           priceEl.textContent = `₹${course.price}`;
+          if (comparePriceEl && comparePriceEl.classList.contains('line-through')) {
+            if (course.showComparePrice && course.comparePrice > course.price) {
+              comparePriceEl.textContent = `₹${course.comparePrice}`;
+              comparePriceEl.style.display = 'block';
+            } else {
+              comparePriceEl.style.display = 'none';
+            }
+          }
         }
       }
       
