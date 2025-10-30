@@ -15,6 +15,9 @@
   let coursesCache = null;
   
   async function loadCourseDetail() {
+    const mainContent = document.querySelector('main');
+    if (mainContent) mainContent.style.opacity = '0';
+    
     try {
       const pathParts = window.location.pathname.split('/');
       const courseSlug = pathParts[pathParts.length - 1].replace('.html', '');
@@ -219,8 +222,13 @@
         }
       }
       
+      const mainContent = document.querySelector('main');
+      if (mainContent) mainContent.style.opacity = '1';
+      
     } catch (error) {
       console.error('Failed to load course details:', error);
+      const mainContent = document.querySelector('main');
+      if (mainContent) mainContent.style.opacity = '1';
     }
   }
   
