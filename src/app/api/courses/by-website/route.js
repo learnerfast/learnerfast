@@ -33,7 +33,7 @@ export async function GET(request) {
         id, title, description, status,
         course_settings(course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id, show_course_includes, show_what_you_learn, show_instructor),
         course_pricing(price),
-        course_sections(id, title, description, order_index, course_activities(id, title, activity_type, source, url))
+        course_sections(id, title, description, order_index, course_activities(id, title, activity_type, source, url, file_url))
       `)
       .eq('user_id', site.user_id)
       .eq('status', 'published');

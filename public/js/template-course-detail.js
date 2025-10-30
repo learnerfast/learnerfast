@@ -266,7 +266,7 @@
       const isLastActivity = currentActivityIndex === allActivities.length - 1;
       const nextButtonText = isLastActivity ? 'Complete' : 'Next';
       
-      let embedUrl = activity.url || '';
+      let embedUrl = activity.url || activity.file_url || '';
       if (activity.activity_type === 'video') {
         if (activity.source === 'youtube' && embedUrl) {
           embedUrl = embedUrl.includes('embed') ? embedUrl : embedUrl.replace('watch?v=', 'embed/');
@@ -284,7 +284,9 @@
       console.log('🎬 Playing Activity:', {
         title: activity.title,
         type: activity.activity_type,
-        url: embedUrl,
+        url: activity.url,
+        file_url: activity.file_url,
+        embedUrl: embedUrl,
         source: activity.source
       });
       
@@ -324,11 +326,11 @@
       contentArea.innerHTML = `
         <div style="width: 100%; height: 100%; display: flex; flex-direction: column;">
           <div class="flex items-center justify-between mb-4" style="flex-shrink: 0;">
-            <div>
-              <h2 class="text-3xl font-bold text-gray-900 mb-2">${activity.title}</h2>
-              <p class="text-gray-600">${sectionTitle} • ${activityLabel}</p>
+            <div style="min-width: 0; flex: 1; margin-right: 1rem;">
+              <h2 class="text-3xl font-bold text-gray-900 mb-2" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${activity.title}</h2>
+              <p class="text-gray-600" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${sectionTitle} • ${activityLabel}</p>
             </div>
-            <button onclick="playNextActivity()" class="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2">
+            <button onclick="playNextActivity()" class="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2" style="flex-shrink: 0;">
               <span>${nextButtonText}</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>

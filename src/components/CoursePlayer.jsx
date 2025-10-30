@@ -125,9 +125,9 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
           {selectedActivity ? (
             <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
               <div className="flex items-center justify-between mb-4" style={{ flexShrink: 0 }}>
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">{selectedActivity.title}</h2>
-                  <p className="text-gray-600">
+                <div style={{ minWidth: 0, flex: 1, marginRight: '1rem' }}>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{selectedActivity.title}</h2>
+                  <p className="text-gray-600" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {allActivities.find(a => a.id === selectedActivity.id)?.sectionTitle} • 
                     {selectedActivity.type === 'video' ? 'Video Lesson (10 Min)' :
                      selectedActivity.type === 'pdf' ? 'PDF Document' :
@@ -135,7 +135,7 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                      selectedActivity.type === 'presentation' ? 'Presentation' : 'Content'}
                   </p>
                 </div>
-                <button 
+                <button style={{ flexShrink: 0 }} 
                   onClick={handleNext}
                   disabled={currentActivityIndex >= allActivities.length - 1}
                   className="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"

@@ -484,7 +484,7 @@ const CourseBuilder = ({ course, onBack }) => {
                       {String(index + 1).padStart(2, '0')} {section.title}
                     </h3>
                     {section.description && (
-                      <p className="text-gray-600 mt-1 line-clamp-2">{section.description}</p>
+                      <p className="text-gray-600 mt-1" style={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', wordBreak: 'break-word' }}>{section.description}</p>
                     )}
                   </div>
                 </div>
