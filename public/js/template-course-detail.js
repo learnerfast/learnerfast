@@ -49,11 +49,17 @@
       const comparePriceEl = priceEl?.nextElementSibling;
       
       if (priceEl) {
-        if (course.accessType === 'free' || course.price === 0) {
+        if (course.access_type === 'free' || course.price === 0) {
           priceEl.textContent = 'Free';
           if (comparePriceEl && comparePriceEl.classList.contains('line-through')) {
             comparePriceEl.style.display = 'none';
           }
+        } else if (course.access_type === 'coming-soon') {
+          priceEl.textContent = 'Coming Soon';
+          if (comparePriceEl) comparePriceEl.style.display = 'none';
+        } else if (course.access_type === 'enrollment-closed') {
+          priceEl.textContent = 'Enrollment Closed';
+          if (comparePriceEl) comparePriceEl.style.display = 'none';
         } else {
           priceEl.textContent = `₹${course.price}`;
           if (comparePriceEl && comparePriceEl.classList.contains('line-through')) {
@@ -143,15 +149,15 @@
       enrollBtns.forEach(btn => {
         if (btn.textContent.includes('Enroll')) {
           // Update button text based on access type
-          if (course.accessType === 'free') {
+          if (course.access_type === 'free') {
             btn.textContent = 'Enroll for Free';
-          } else if (course.accessType === 'paid') {
+          } else if (course.access_type === 'paid') {
             btn.textContent = `Enroll Now - ₹${course.price}`;
-          } else if (course.accessType === 'coming-soon') {
+          } else if (course.access_type === 'coming-soon') {
             btn.textContent = 'Coming Soon';
             btn.disabled = true;
             btn.classList.add('opacity-50', 'cursor-not-allowed');
-          } else if (course.accessType === 'enrollment-closed') {
+          } else if (course.access_type === 'enrollment-closed') {
             btn.textContent = 'Enrollment Closed';
             btn.disabled = true;
             btn.classList.add('opacity-50', 'cursor-not-allowed');
@@ -159,7 +165,7 @@
           
           btn.addEventListener('click', async (e) => {
             e.preventDefault();
-            if (course.accessType !== 'coming-soon' && course.accessType !== 'enrollment-closed') {
+            if (course.access_type !== 'coming-soon' && course.access_type !== 'enrollment-closed') {
               // Check if user is logged in
               const { createClient } = window.supabase || {};
               if (!createClient) {

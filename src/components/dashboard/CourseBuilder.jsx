@@ -368,6 +368,12 @@ const CourseBuilder = ({ course, onBack }) => {
       
       if (error) throw error;
       
+      // Update courses table
+      await supabase
+        .from('courses')
+        .update({ access_type: accessType })
+        .eq('id', course.id);
+      
       showMessage('success', 'Access settings saved successfully!');
     } catch (error) {
       showMessage('error', 'Failed to save access settings');
@@ -1069,20 +1075,7 @@ const CourseBuilder = ({ course, onBack }) => {
                 </div>
               </label>
               
-              <label className="flex items-start space-x-3 cursor-pointer">
-                <input 
-                  type="radio" 
-                  name="access" 
-                  value="private" 
-                  checked={accessType === 'private'}
-                  onChange={(e) => setAccessType(e.target.value)}
-                  className="mt-1 h-4 w-4 text-teal-600" 
-                />
-                <div>
-                  <div className="font-medium text-gray-900">Private</div>
-                  <div className="text-sm text-gray-600">The course will be accessible only to users that have been manually enrolled to it. Private courses remain unpublished, hence they are not visible in the course catalogue.</div>
-                </div>
-              </label>
+
             </div>
           </div>
         </div>
