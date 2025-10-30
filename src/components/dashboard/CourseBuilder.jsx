@@ -217,6 +217,19 @@ const CourseBuilder = ({ course, onBack }) => {
         setAccessType(data.access_type || 'free');
         setNavigationType(data.navigation_type || 'global');
       }
+      
+      // Load pricing
+      const { data: pricingData } = await supabase
+        .from('course_pricing')
+        .select('price, compare_price, show_compare_price')
+        .eq('course_id', course.id)
+        .single();
+      
+      if (pricingData) {
+        setCoursePrice(pricingData.price || 0);
+        setCompareAtPrice(pricingData.compare_price || 0);
+        setShowComparePrice(pricingData.show_compare_price || false);
+      }
     } catch (error) {
     }
   };
@@ -358,6 +371,43 @@ const CourseBuilder = ({ course, onBack }) => {
       showMessage('success', 'Access settings saved successfully!');
     } catch (error) {
       showMessage('error', 'Failed to save access settings');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+  
+  const handleSavePricing = async () => {
+    if (accessType === 'free' && (coursePrice > 0 || compareAtPrice > 0)) {
+      setPriceError('Cannot set pricing for free courses');
+      return;
+    }
+    
+    if (showComparePrice && compareAtPrice > 0 && coursePrice >= compareAtPrice) {
+      setPriceError('Compare-at price must be higher than course price');
+      return;
+    }
+    
+    setIsSaving(true);
+    try {
+      const { supabase } = await import('../../lib/supabase');
+      
+      const { error } = await supabase
+        .from('course_pricing')
+        .upsert({
+          course_id: course.id,
+          price: coursePrice,
+          compare_price: compareAtPrice,
+          show_compare_price: showComparePrice
+        }, {
+          onConflict: 'course_id'
+        });
+      
+      if (error) throw error;
+      
+      showMessage('success', 'Pricing saved successfully!');
+      setPriceError('');
+    } catch (error) {
+      showMessage('error', 'Failed to save pricing');
     } finally {
       setIsSaving(false);
     }
@@ -1147,7 +1197,7 @@ const CourseBuilder = ({ course, onBack }) => {
   };
 
   const renderPricing = () => (
-    <div className="flex-1 p-8">
+    <div className="flex-1 p-8 bg-gray-50">
       <div className="mb-6">
         <div className="flex items-center space-x-4 mb-2">
           <h2 className="text-2xl font-semibold text-gray-900">Pricing</h2>
@@ -1157,7 +1207,16 @@ const CourseBuilder = ({ course, onBack }) => {
       </div>
 
       <div className="flex items-center space-x-4 mb-8">
-        <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">Save</button>
+        <button 
+          onClick={handleSavePricing}
+          disabled={isSaving}
+          className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+        >
+          {isSaving && (
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+          )}
+          <span>{isSaving ? 'Saving...' : 'Save'}</span>
+        </button>
         <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
           <Eye className="h-4 w-4" />
           <span>Preview</span>
@@ -1171,6 +1230,12 @@ const CourseBuilder = ({ course, onBack }) => {
       )}
 
       <div className="space-y-8">
+        {accessType === 'free' && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <p className="text-blue-800 text-sm">This course is set to <strong>Free</strong> access. Change the access type in the Access tab to enable pricing.</p>
+          </div>
+        )}
+        
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h3 className="text-lg font-semibold mb-4">Course price</h3>
           <p className="text-gray-600 mb-4">Set the current price for this course.</p>
@@ -1182,10 +1247,6 @@ const CourseBuilder = ({ course, onBack }) => {
                 type="number" 
                 value={coursePrice}
                 onChange={(e) => {
-                  if (accessType === 'free') {
-                    handlePriceFieldClick();
-                    return;
-                  }
                   const value = parseFloat(e.target.value) || 0;
                   setCoursePrice(value);
                   if (showComparePrice && compareAtPrice > 0 && value >= compareAtPrice) {
@@ -1194,10 +1255,9 @@ const CourseBuilder = ({ course, onBack }) => {
                     setPriceError('');
                   }
                 }}
-                onClick={handlePriceFieldClick}
                 disabled={accessType === 'free'}
                 className={`px-3 py-2 border rounded-lg ${
-                  accessType === 'free' ? 'bg-gray-100 cursor-not-allowed blur-[1px]' : 'border-gray-300'
+                  accessType === 'free' ? 'bg-gray-100 cursor-not-allowed' : 'border-gray-300'
                 }`}
               />
             </div>
@@ -1212,16 +1272,9 @@ const CourseBuilder = ({ course, onBack }) => {
               type="checkbox" 
               id="show-compare" 
               checked={showComparePrice}
-              onChange={(e) => {
-                if (accessType === 'free') {
-                  handlePriceFieldClick();
-                  return;
-                }
-                setShowComparePrice(e.target.checked);
-              }}
-              onClick={handlePriceFieldClick}
+              onChange={(e) => setShowComparePrice(e.target.checked)}
               disabled={accessType === 'free'}
-              className={`mr-2 ${
+              className={`mr-2 h-4 w-4 text-teal-600 ${
                 accessType === 'free' ? 'cursor-not-allowed opacity-50' : ''
               }`}
             />
@@ -1235,22 +1288,17 @@ const CourseBuilder = ({ course, onBack }) => {
                 type="number" 
                 value={compareAtPrice}
                 onChange={(e) => {
-                  if (accessType === 'free') {
-                    handlePriceFieldClick();
-                    return;
-                  }
                   const value = parseFloat(e.target.value) || 0;
                   setCompareAtPrice(value);
                   if (value > 0 && coursePrice > 0 && value <= coursePrice) {
-                    setPriceError(`The compare-at price must be at least ₹${(coursePrice + 0.01).toFixed(2)}`);
+                    setPriceError(`The compare-at price must be higher than ₹${coursePrice}`);
                   } else {
                     setPriceError('');
                   }
                 }}
-                onClick={handlePriceFieldClick}
-                disabled={accessType === 'free'}
+                disabled={accessType === 'free' || !showComparePrice}
                 className={`px-3 py-2 border rounded-lg ${
-                  accessType === 'free' ? 'bg-gray-100 cursor-not-allowed blur-[1px]' : 'border-gray-300'
+                  accessType === 'free' || !showComparePrice ? 'bg-gray-100 cursor-not-allowed' : 'border-gray-300'
                 }`}
               />
             </div>
