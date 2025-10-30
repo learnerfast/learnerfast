@@ -10,7 +10,7 @@ async function setupBuckets() {
   // Create course-images bucket
   const { data: imagesData, error: imagesError } = await supabase.storage.createBucket('course-images', {
     public: true,
-    fileSizeLimit: 5242880 // 5MB
+    fileSizeLimit: 10485760 // 10MB
   });
   
   if (imagesError && !imagesError.message.includes('already exists')) {
@@ -22,7 +22,7 @@ async function setupBuckets() {
   // Create course-files bucket
   const { data: filesData, error: filesError } = await supabase.storage.createBucket('course-files', {
     public: true,
-    fileSizeLimit: 52428800 // 50MB
+    fileSizeLimit: 10485760 // 10MB
   });
   
   if (filesError && !filesError.message.includes('already exists')) {

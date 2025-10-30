@@ -17,3 +17,8 @@ export const uploadFile = async (file, bucket, path) => {
 
   return publicUrl;
 };
+
+export const deleteCourseFiles = async (courseId) => {
+  await supabase.storage.from('course-images').remove([`course-${courseId}`]);
+  await supabase.storage.from('course-files').remove([`course-${courseId}`]);
+};

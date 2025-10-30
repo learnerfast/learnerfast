@@ -328,7 +328,12 @@ const Courses = React.memo(() => {
     if (!course) return;
     
     try {
-      // Delete related records first
+      const { deleteCourseFiles } = await import('../../lib/storage');
+      
+      // Delete storage files
+      await deleteCourseFiles(course.id);
+      
+      // Delete related records
       await supabase.from('course_activities').delete().eq('course_id', course.id);
       await supabase.from('course_sections').delete().eq('course_id', course.id);
       await supabase.from('course_access').delete().eq('course_id', course.id);
