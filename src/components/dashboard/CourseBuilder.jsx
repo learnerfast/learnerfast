@@ -132,16 +132,18 @@ const CourseBuilder = ({ course, onBack }) => {
 
   const validateVideoUrl = (source, url) => {
     if (!url) return false;
+    const trimmed = url.trim();
     switch (source) {
       case 'youtube':
-        // More comprehensive YouTube URL validation
-        const youtubeRegex = /^(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})(?:\S+)?$/;
-        return youtubeRegex.test(url.trim());
+        return /^(?:https?:\/\/)?(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})(?:\S+)?$/.test(trimmed);
       case 'vimeo':
-        const vimeoRegex = /^(?:https?:\/\/)?(?:www\.)?vimeo\.com\/([0-9]+)(?:\S+)?$/;
-        return vimeoRegex.test(url.trim());
+        return /vimeo\.com\/([0-9]+)/.test(trimmed);
+      case 'iframe':
+      case 'script':
+      case 'embed':
+        return trimmed.length > 0;
       default:
-        return true;
+        return trimmed.length > 0;
     }
   };
 
@@ -190,12 +192,13 @@ const CourseBuilder = ({ course, onBack }) => {
   };
 
   const convertToEmbedUrl = (source, url) => {
+    if (!url) return url;
     switch (source) {
       case 'youtube':
         const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
         return ytMatch ? `https://www.youtube.com/embed/${ytMatch[1]}` : url;
       case 'vimeo':
-        const vimeoMatch = url.match(/(?:vimeo\.com\/)([0-9]+)/);
+        const vimeoMatch = url.match(/vimeo\.com\/([0-9]+)/);
         return vimeoMatch ? `https://player.vimeo.com/video/${vimeoMatch[1]}` : url;
       default:
         return url;
@@ -2525,28 +2528,13 @@ const CourseBuilder = ({ course, onBack }) => {
                     return;
                   }
                   
-                  if (videoForm.source === 'youtube' && videoForm.url) {
-                    const isValid = validateVideoUrl('youtube', videoForm.url);
-                    if (!isValid) {
-                      showMessage('error', 'Please enter a valid YouTube URL (e.g., https://www.youtube.com/watch?v=... or https://youtu.be/...)');
-                      return;
-                    }
-                  }
-                  
-                  if (videoForm.source === 'vimeo' && videoForm.url) {
-                    if (!validateVideoUrl('vimeo', videoForm.url)) {
-                      showMessage('error', 'Please enter a valid Vimeo URL (e.g., https://vimeo.com/...)');
-                      return;
-                    }
-                  }
-                  
                   const newActivity = {
                     id: Date.now() + Math.random(),
                     title: videoForm.title,
                     type: 'video',
                     completed: false,
                     source: videoForm.source,
-                    url: videoForm.source === 'youtube' ? convertToEmbedUrl(videoForm.source, videoForm.url) : videoForm.url,
+                    url: ['youtube', 'vimeo'].includes(videoForm.source) ? convertToEmbedUrl(videoForm.source, videoForm.url) : videoForm.url,
                     file: videoForm.file
                   };
                   

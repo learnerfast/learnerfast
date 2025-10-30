@@ -378,10 +378,16 @@
       
       let playerHTML = '';
       if (activity.activity_type === 'video') {
-        console.log('📹 Rendering video iframe with URL:', embedUrl);
-        playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
-          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-        </div>`;
+        console.log('📹 Rendering video with source:', activity.source, 'URL:', embedUrl);
+        if (['script', 'embed', 'iframe'].includes(activity.source) && embedUrl.includes('<')) {
+          playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+            <div class="w-full h-full">${embedUrl}</div>
+          </div>`;
+        } else {
+          playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+            <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+          </div>`;
+        }
       } else if (activity.activity_type === 'pdf') {
         console.log('📄 Rendering PDF iframe with URL:', embedUrl);
         if (!embedUrl) {
