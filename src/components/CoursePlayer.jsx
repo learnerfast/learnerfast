@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, ChevronRight, Play, Award, BookOpen } from 'lucide-react';
 
 const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [expandedSections, setExpandedSections] = useState({});
+  const [currentActivityIndex, setCurrentActivityIndex] = useState(0);
 
   const totalActivities = sections.reduce((total, section) => total + section.activities.length, 0);
   const completedActivities = sections.reduce((total, section) => 
@@ -11,13 +12,28 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
   );
   const progressPercentage = totalActivities > 0 ? Math.round((completedActivities / totalActivities) * 100) : 0;
 
-  const allActivities = sections.flatMap(s => s.activities);
+  const allActivities = sections.flatMap(s => s.activities.map(a => ({ ...a, sectionTitle: s.title })));
+  
+  useEffect(() => {
+    if (sections[0]?.activities?.length > 0) {
+      setExpandedSections({ [sections[0].id]: true });
+      setSelectedActivity(sections[0].activities[0]);
+      setCurrentActivityIndex(0);
+    }
+  }, [sections]);
 
   const handleNext = () => {
-    const currentIndex = allActivities.findIndex(a => a.id === selectedActivity?.id);
-    if (currentIndex < allActivities.length - 1) {
-      setSelectedActivity(allActivities[currentIndex + 1]);
+    if (currentActivityIndex < allActivities.length - 1) {
+      const nextActivity = allActivities[currentActivityIndex + 1];
+      setSelectedActivity(nextActivity);
+      setCurrentActivityIndex(currentActivityIndex + 1);
     }
+  };
+  
+  const handleActivityClick = (activity) => {
+    setSelectedActivity(activity);
+    const index = allActivities.findIndex(a => a.id === activity.id);
+    setCurrentActivityIndex(index);
   };
 
   const toggleSection = (sectionId) => {
@@ -63,7 +79,7 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
               {expandedSections[section.id] && section.activities.map((activity) => (
                 <div
                   key={activity.id}
-                  onClick={() => setSelectedActivity(activity)}
+                  onClick={() => handleActivityClick(activity)}
                   className={`px-6 py-3 pl-16 flex items-center justify-between cursor-pointer transition-colors ${
                     selectedActivity?.id === activity.id ? 'bg-gray-100' : 'hover:bg-gray-50'
                   }`}
@@ -96,17 +112,33 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col bg-gray-50">
         <div className="bg-white border-b border-gray-200 px-8 py-4">
-          <h1 className="text-xl font-semibold text-amber-600 text-center">{course?.title}</h1>
+          <h1 className="text-xl font-semibold text-amber-600">{course?.title}</h1>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-8">
+        <div className="flex-1 overflow-y-auto" style={{ padding: '2rem' }}>
           {selectedActivity ? (
-            <div className="w-full max-w-6xl mx-auto">
-              <div className="mb-6">
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">{selectedActivity.title}</h2>
-                <p className="text-gray-600">{sections.find(s => s.activities.some(a => a.id === selectedActivity.id))?.title} • Video Lesson (10 Min)</p>
+            <div className="w-full h-full">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-2">{selectedActivity.title}</h2>
+                  <p className="text-gray-600">
+                    {allActivities.find(a => a.id === selectedActivity.id)?.sectionTitle} • 
+                    {selectedActivity.type === 'video' ? 'Video Lesson (10 Min)' :
+                     selectedActivity.type === 'pdf' ? 'PDF Document' :
+                     selectedActivity.type === 'audio' ? 'Audio Lesson' :
+                     selectedActivity.type === 'presentation' ? 'Presentation' : 'Content'}
+                  </p>
+                </div>
+                <button 
+                  onClick={handleNext}
+                  disabled={currentActivityIndex >= allActivities.length - 1}
+                  className="px-6 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span>{currentActivityIndex >= allActivities.length - 1 ? 'Complete' : 'Next'}</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               </div>
-              <div className="bg-black rounded-lg overflow-hidden" style={{ maxHeight: 'calc(100vh - 400px)', aspectRatio: '16/9' }}>
+              <div className="bg-black rounded-lg overflow-hidden" style={{ height: 'calc(100vh - 280px)', width: '100%' }}>
                 {selectedActivity.type === 'video' ? (
                   selectedActivity.file ? (
                     <video controls className="w-full h-full" key={selectedActivity.id}>
@@ -122,12 +154,23 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                     />
                   ) : null
                 ) : selectedActivity.type === 'pdf' ? (
-                  <iframe 
-                    src={selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : selectedActivity.url} 
-                    className="w-full h-full" 
-                    title={selectedActivity.title} 
-                    style={{ height: '600px' }} 
-                  />
+                  <div className="bg-white w-full h-full">
+                    <iframe 
+                      src={selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : selectedActivity.url} 
+                      className="w-full h-full" 
+                      title={selectedActivity.title}
+                      frameBorder="0"
+                    />
+                  </div>
+                ) : selectedActivity.type === 'presentation' ? (
+                  <div className="bg-white w-full h-full">
+                    <iframe 
+                      src={selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : selectedActivity.url} 
+                      className="w-full h-full" 
+                      title={selectedActivity.title}
+                      frameBorder="0"
+                    />
+                  </div>
                 ) : selectedActivity.type === 'audio' ? (
                   <div className="flex items-center justify-center h-full bg-gray-900">
                     <audio controls className="w-full max-w-2xl">
@@ -139,23 +182,14 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                     </audio>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center h-full bg-gray-900 text-white">
-                    <p>Content type: {selectedActivity.type}</p>
+                  <div className="flex items-center justify-center h-full bg-gray-100">
+                    <p className="text-gray-500">Content type: {selectedActivity.type}</p>
                   </div>
                 )}
               </div>
-              <div className="mt-6 pb-6 flex justify-end">
-                <button 
-                  onClick={handleNext}
-                  className="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2"
-                >
-                  <span>Next</span>
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
             </div>
           ) : (
-            <div className="text-center text-gray-500">
+            <div className="text-center text-gray-500 py-16">
               <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-300" />
               <p className="text-lg">Select a lesson to start learning</p>
             </div>
