@@ -225,20 +225,17 @@ const Courses = React.memo(() => {
               .from('course_access')
               .insert({
                 course_id: data.id,
-                user_id: user.id,
                 access_type: newCourseData.access_type || 'draft'
               });
             
-            if (newCourseData.access_type === 'paid') {
-              await supabase
-                .from('course_pricing')
-                .insert({
-                  course_id: data.id,
-                  price: newCourseData.price || 0,
-                  compare_price: newCourseData.compare_price || 0,
-                  show_compare_price: (newCourseData.compare_price || 0) > (newCourseData.price || 0)
-                });
-            }
+            await supabase
+              .from('course_pricing')
+              .insert({
+                course_id: data.id,
+                price: newCourseData.price || 0,
+                compare_price: newCourseData.compare_price || 0,
+                show_compare_price: (newCourseData.compare_price || 0) > (newCourseData.price || 0)
+              });
           } catch (accessError) {
             console.error('Failed to save access/pricing:', accessError);
           }
