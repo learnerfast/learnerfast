@@ -62,9 +62,13 @@
           const pathParts = window.location.pathname.split('/');
           pathParts.pop();
           const redirectUrl = window.location.origin + pathParts.join('/') + '/home';
+          const returnUrl = sessionStorage.getItem('returnUrl');
+          const finalRedirect = returnUrl || redirectUrl;
+          if (returnUrl) sessionStorage.removeItem('returnUrl');
+          
           const { error } = await supabaseClient.auth.signInWithOAuth({
             provider: 'google',
-            options: { redirectTo: redirectUrl }
+            options: { redirectTo: finalRedirect }
           });
           if (error) throw error;
         } catch (error) {
@@ -152,9 +156,16 @@
             
             showToast(isRegister ? 'Registration successful! Redirecting...' : 'Signed in successfully!');
             setTimeout(() => {
-              const pathParts = window.location.pathname.split('/');
-              pathParts.pop();
-              window.location.href = pathParts.join('/') + '/home';
+              // Check if there's a return URL
+              const returnUrl = sessionStorage.getItem('returnUrl');
+              if (returnUrl) {
+                sessionStorage.removeItem('returnUrl');
+                window.location.href = returnUrl;
+              } else {
+                const pathParts = window.location.pathname.split('/');
+                pathParts.pop();
+                window.location.href = pathParts.join('/') + '/home';
+              }
             }, 1000);
           } catch (error) {
             showToast(error.message || 'Authentication failed', true);

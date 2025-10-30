@@ -2,6 +2,13 @@
   // Don't run in iframes
   if (window.self !== window.top) return;
   
+  // Load Supabase
+  if (!window.supabase) {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+    document.head.appendChild(script);
+  }
+  
   const hostname = window.location.hostname;
   const websiteName = hostname.split('.')[0];
   
@@ -150,10 +157,33 @@
             btn.classList.add('opacity-50', 'cursor-not-allowed');
           }
           
-          btn.addEventListener('click', (e) => {
+          btn.addEventListener('click', async (e) => {
             e.preventDefault();
             if (course.accessType !== 'coming-soon' && course.accessType !== 'enrollment-closed') {
-              openCoursePlayer(course);
+              // Check if user is logged in
+              const { createClient } = window.supabase || {};
+              if (!createClient) {
+                console.error('Supabase not loaded');
+                return;
+              }
+              
+              const supabaseClient = createClient(
+                'https://bplarfqdpsgadtzzlxur.supabase.co',
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbGFyZnFkcHNnYWR0enpseHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3NzMzNjgsImV4cCI6MjA3NjM0OTM2OH0.YKUf2RYypzvMlH1FiXZCBlzM3Rn8g8ZXQ6h65ESgWtk'
+              );
+              
+              const { data: { session } } = await supabaseClient.auth.getSession();
+              
+              if (!session) {
+                // Store current page URL for redirect after login
+                sessionStorage.setItem('returnUrl', window.location.pathname);
+                // Redirect to sign-in page
+                const pathParts = window.location.pathname.split('/');
+                pathParts.pop();
+                window.location.href = pathParts.join('/') + '/signin';
+              } else {
+                openCoursePlayer(course);
+              }
             }
           });
         }
@@ -183,10 +213,30 @@
     }
   }
   
-  function openCoursePlayer(course) {
+  async function openCoursePlayer(course) {
     if (!course.sections || course.sections.length === 0) {
       alert('This course has no content yet. Please check back later.');
       return;
+    }
+    
+    // Enroll user in course
+    try {
+      const { createClient } = window.supabase;
+      const supabaseClient = createClient(
+        'https://bplarfqdpsgadtzzlxur.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbGFyZnFkcHNnYWR0enpseHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3NzMzNjgsImV4cCI6MjA3NjM0OTM2OH0.YKUf2RYypzvMlH1FiXZCBlzM3Rn8g8ZXQ6h65ESgWtk'
+      );
+      
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      if (user) {
+        await supabaseClient.from('course_enrollments').upsert({
+          user_id: user.id,
+          course_id: course.id,
+          enrolled_at: new Date().toISOString()
+        }, { onConflict: 'user_id,course_id' });
+      }
+    } catch (error) {
+      console.error('Enrollment error:', error);
     }
     
     const playerHTML = `
