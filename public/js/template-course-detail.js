@@ -88,7 +88,7 @@
               <span>Module ${index + 1}: ${section.title}</span>
               <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
             </summary>
-            ${section.description ? `<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">${section.description}</div>` : ''}
+            ${section.description ? `<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400 break-words overflow-wrap-anywhere">${section.description}</div>` : ''}
           </details>
         `).join('');
       }
