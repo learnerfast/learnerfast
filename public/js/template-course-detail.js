@@ -154,8 +154,8 @@
     }
     
     const playerHTML = `
-      <div id="course-player" class="fixed inset-0 z-50 bg-white flex" style="font-family: system-ui, -apple-system, sans-serif;">
-        <div class="w-80 bg-white border-r border-gray-200 flex flex-col">
+      <div id="course-player" class="fixed inset-0 z-50 bg-white flex" style="font-family: system-ui, -apple-system, sans-serif; min-width: 100vw;">
+        <div class="bg-white border-r border-gray-200 flex flex-col" style="width: 320px; min-width: 320px; flex-shrink: 0;">
           <div class="p-6 border-b border-gray-200">
             <div class="flex items-center justify-between mb-4">
               <img src="${course.image || '/learnerfast-logo.png'}" alt="Logo" class="h-12 w-12 rounded-lg object-cover" />
@@ -176,20 +176,20 @@
             ${course.sections.map((section, idx) => `
               <div class="border-b border-gray-100">
                 <button class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50" onclick="toggleSection(${idx})">
-                  <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-semibold">${idx + 1}</div>
-                    <span class="text-sm font-medium text-gray-900">${section.title}</span>
+                  <div class="flex items-center space-x-3" style="min-width: 0; flex: 1;">
+                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-semibold" style="flex-shrink: 0;">${idx + 1}</div>
+                    <span class="text-sm font-medium text-gray-900" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${section.title}</span>
                   </div>
-                  <svg class="w-4 h-4 text-gray-400 section-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                  <svg class="w-4 h-4 text-gray-400 section-chevron" style="flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                 </button>
                 <div class="section-activities hidden" id="section-${idx}">
                   ${(section.activities || []).map(activity => `
                     <div class="px-6 py-3 pl-16 flex items-center justify-between cursor-pointer hover:bg-gray-50" onclick='playActivity(${JSON.stringify(activity).replace(/'/g, "&apos;")}, "${section.title}")'>
-                      <div class="flex items-center space-x-3 flex-1">
-                        <div class="w-5 h-5 rounded-full border-2 border-gray-300"></div>
-                        <span class="text-sm text-gray-700">${activity.title}</span>
+                      <div class="flex items-center space-x-3 flex-1" style="min-width: 0;">
+                        <div class="w-5 h-5 rounded-full border-2 border-gray-300" style="flex-shrink: 0;"></div>
+                        <span class="text-sm text-gray-700" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${activity.title}</span>
                       </div>
-                      ${activity.activity_type === 'video' ? '<div class="flex items-center space-x-1 text-xs text-gray-500"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg><span>10 min</span></div>' : ''}
+                      ${activity.activity_type === 'video' ? '<div class="flex items-center space-x-1 text-xs text-gray-500" style="flex-shrink: 0;"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg><span>10 min</span></div>' : ''}
                     </div>
                   `).join('')}
                 </div>
@@ -197,11 +197,11 @@
             `).join('')}
           </div>
         </div>
-        <div class="flex-1 flex flex-col bg-gray-50">
+        <div class="flex-1 flex flex-col bg-gray-50" style="min-width: 0; overflow: hidden;">
           <div class="bg-white border-b border-gray-200 px-8 py-4">
             <h1 class="text-xl font-semibold text-amber-600">${course.title}</h1>
           </div>
-          <div class="flex-1 overflow-y-auto" id="content-area" style="padding: 2rem;">
+          <div class="flex-1" id="content-area" style="padding: 2rem; overflow: hidden;">
             <div class="text-center text-gray-500">
               <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
               <p class="text-lg">Select a lesson to start learning</p>
@@ -281,6 +281,13 @@
         embedUrl = 'https://' + embedUrl;
       }
       
+      console.log('🎬 Playing Activity:', {
+        title: activity.title,
+        type: activity.activity_type,
+        url: embedUrl,
+        source: activity.source
+      });
+      
       const activityLabel = activity.activity_type === 'video' ? 'Video Lesson (10 Min)' :
                            activity.activity_type === 'pdf' ? 'PDF Document' :
                            activity.activity_type === 'audio' ? 'Audio Lesson' :
@@ -288,30 +295,35 @@
       
       let playerHTML = '';
       if (activity.activity_type === 'video') {
-        playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%;">
+        console.log('📹 Rendering video iframe with URL:', embedUrl);
+        playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
           <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
         </div>`;
       } else if (activity.activity_type === 'pdf') {
-        playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%;">
-          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0"></iframe>
+        console.log('📄 Rendering PDF iframe with URL:', embedUrl);
+        playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" onload="console.log('✅ PDF iframe loaded')"></iframe>
         </div>`;
       } else if (activity.activity_type === 'audio') {
-        playerHTML = `<div class="flex items-center justify-center bg-gray-900 rounded-lg" style="height: calc(100vh - 280px); width: 100%;">
+        console.log('🎵 Rendering audio player with URL:', embedUrl);
+        playerHTML = `<div class="flex items-center justify-center bg-gray-900 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
           <audio controls class="w-full max-w-2xl"><source src="${embedUrl}" /></audio>
         </div>`;
       } else if (activity.activity_type === 'presentation') {
-        playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%;">
-          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0"></iframe>
+        console.log('📊 Rendering presentation iframe with URL:', embedUrl);
+        playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+          <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" onload="console.log('✅ Presentation iframe loaded')"></iframe>
         </div>`;
       } else {
-        playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%;">
+        console.log('❓ Unknown activity type:', activity.activity_type);
+        playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
           <p class="text-gray-500">Content type: ${activity.activity_type}</p>
         </div>`;
       }
       
       contentArea.innerHTML = `
-        <div class="w-full h-full">
-          <div class="flex items-center justify-between mb-4">
+        <div style="width: 100%; height: 100%; display: flex; flex-direction: column;">
+          <div class="flex items-center justify-between mb-4" style="flex-shrink: 0;">
             <div>
               <h2 class="text-3xl font-bold text-gray-900 mb-2">${activity.title}</h2>
               <p class="text-gray-600">${sectionTitle} • ${activityLabel}</p>

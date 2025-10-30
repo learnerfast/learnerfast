@@ -31,6 +31,12 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
   };
   
   const handleActivityClick = (activity) => {
+    console.log('🎬 Playing Activity:', {
+      title: activity.title,
+      type: activity.type,
+      url: activity.url,
+      file: activity.file?.name
+    });
     setSelectedActivity(activity);
     const index = allActivities.findIndex(a => a.id === activity.id);
     setCurrentActivityIndex(index);
@@ -41,9 +47,9 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex h-screen bg-white" style={{ minWidth: '100vw' }}>
       {/* Sidebar */}
-      <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
+      <div className="bg-white border-r border-gray-200 flex flex-col" style={{ width: '320px', minWidth: '320px', flexShrink: 0 }}>
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center justify-between mb-4">
             <img src={courseImage || '/learnerfast-logo.png'} alt="Logo" className="h-12 w-12 rounded-lg object-cover" />
@@ -68,13 +74,13 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                 onClick={() => toggleSection(section.id)}
                 className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
               >
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-semibold">
+                <div className="flex items-center space-x-3" style={{ minWidth: 0, flex: 1 }}>
+                  <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-semibold" style={{ flexShrink: 0 }}>
                     {sectionIndex + 1}
                   </div>
-                  <span className="text-sm font-medium text-gray-900">{section.title}</span>
+                  <span className="text-sm font-medium text-gray-900" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{section.title}</span>
                 </div>
-                <ChevronRight className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections[section.id] ? 'rotate-90' : ''}`} />
+                <ChevronRight className={`w-4 h-4 text-gray-400 transition-transform ${expandedSections[section.id] ? 'rotate-90' : ''}`} style={{ flexShrink: 0 }} />
               </button>
               {expandedSections[section.id] && section.activities.map((activity) => (
                 <div
@@ -84,20 +90,20 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                     selectedActivity?.id === activity.id ? 'bg-gray-100' : 'hover:bg-gray-50'
                   }`}
                 >
-                  <div className="flex items-center space-x-3 flex-1">
+                  <div className="flex items-center space-x-3 flex-1" style={{ minWidth: 0 }}>
                     {activity.completed ? (
-                      <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+                      <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center" style={{ flexShrink: 0 }}>
                         <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                       </div>
                     ) : (
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-300"></div>
+                      <div className="w-5 h-5 rounded-full border-2 border-gray-300" style={{ flexShrink: 0 }}></div>
                     )}
-                    <span className="text-sm text-gray-700">{activity.title}</span>
+                    <span className="text-sm text-gray-700" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{activity.title}</span>
                   </div>
                   {activity.type === 'video' && (
-                    <div className="flex items-center space-x-1 text-xs text-gray-500">
+                    <div className="flex items-center space-x-1 text-xs text-gray-500" style={{ flexShrink: 0 }}>
                       <Play className="w-3 h-3" />
                       <span>10 min</span>
                     </div>
@@ -110,15 +116,15 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col bg-gray-50">
+      <div className="flex-1 flex flex-col bg-gray-50" style={{ minWidth: 0, overflow: 'hidden' }}>
         <div className="bg-white border-b border-gray-200 px-8 py-4">
           <h1 className="text-xl font-semibold text-amber-600">{course?.title}</h1>
         </div>
 
-        <div className="flex-1 overflow-y-auto" style={{ padding: '2rem' }}>
+        <div className="flex-1" style={{ padding: '2rem', overflow: 'hidden' }}>
           {selectedActivity ? (
-            <div className="w-full h-full">
-              <div className="flex items-center justify-between mb-4">
+            <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+              <div className="flex items-center justify-between mb-4" style={{ flexShrink: 0 }}>
                 <div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-2">{selectedActivity.title}</h2>
                   <p className="text-gray-600">
@@ -138,53 +144,74 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
-              <div className="bg-black rounded-lg" style={{ height: 'calc(100vh - 280px)', width: '100%', overflow: 'hidden' }}>
+              <div className="bg-black rounded-lg" style={{ height: 'calc(100vh - 280px)', width: '100%', overflow: 'hidden', flexShrink: 0 }}>
                 {selectedActivity.type === 'video' ? (
                   selectedActivity.file ? (
                     <video controls className="w-full h-full" key={selectedActivity.id}>
                       <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
                     </video>
                   ) : selectedActivity.url ? (
-                    <iframe 
-                      src={selectedActivity.url.includes('embed') ? selectedActivity.url : selectedActivity.url.replace('watch?v=', 'embed/')}
-                      className="w-full h-full"
-                      frameBorder="0"
-                      allowFullScreen
-                      title={selectedActivity.title}
-                    />
+                    (() => {
+                      const videoUrl = selectedActivity.url.includes('embed') ? selectedActivity.url : selectedActivity.url.replace('watch?v=', 'embed/');
+                      console.log('📹 Rendering video iframe:', videoUrl);
+                      return <iframe 
+                        src={videoUrl}
+                        className="w-full h-full"
+                        frameBorder="0"
+                        allowFullScreen
+                        title={selectedActivity.title}
+                      />;
+                    })()
                   ) : null
                 ) : selectedActivity.type === 'pdf' ? (
-                  <div className="bg-white w-full h-full" style={{ overflow: 'hidden' }}>
-                    <iframe 
-                      src={selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : selectedActivity.url} 
-                      className="w-full h-full" 
-                      title={selectedActivity.title}
-                      frameBorder="0"
-                    />
-                  </div>
+                  (() => {
+                    const pdfUrl = selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : selectedActivity.url;
+                    console.log('📄 Rendering PDF iframe:', pdfUrl);
+                    return <div className="bg-white w-full h-full" style={{ overflow: 'hidden' }}>
+                      <iframe 
+                        src={pdfUrl} 
+                        className="w-full h-full" 
+                        title={selectedActivity.title}
+                        frameBorder="0"
+                        onLoad={() => console.log('✅ PDF iframe loaded')}
+                        onError={(e) => console.error('❌ PDF iframe error:', e)}
+                      />
+                    </div>;
+                  })()
                 ) : selectedActivity.type === 'presentation' ? (
-                  <div className="bg-white w-full h-full" style={{ overflow: 'hidden' }}>
-                    <iframe 
-                      src={selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : selectedActivity.url} 
-                      className="w-full h-full" 
-                      title={selectedActivity.title}
-                      frameBorder="0"
-                    />
-                  </div>
+                  (() => {
+                    const presUrl = selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : selectedActivity.url;
+                    console.log('📊 Rendering presentation iframe:', presUrl);
+                    return <div className="bg-white w-full h-full" style={{ overflow: 'hidden' }}>
+                      <iframe 
+                        src={presUrl} 
+                        className="w-full h-full" 
+                        title={selectedActivity.title}
+                        frameBorder="0"
+                        onLoad={() => console.log('✅ Presentation iframe loaded')}
+                      />
+                    </div>;
+                  })()
                 ) : selectedActivity.type === 'audio' ? (
-                  <div className="flex items-center justify-center h-full bg-gray-900">
-                    <audio controls className="w-full max-w-2xl">
-                      {selectedActivity.file ? (
-                        <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
-                      ) : selectedActivity.url ? (
-                        <source src={selectedActivity.url} />
-                      ) : null}
-                    </audio>
-                  </div>
+                  (() => {
+                    console.log('🎵 Rendering audio player');
+                    return <div className="flex items-center justify-center h-full bg-gray-900">
+                      <audio controls className="w-full max-w-2xl">
+                        {selectedActivity.file ? (
+                          <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
+                        ) : selectedActivity.url ? (
+                          <source src={selectedActivity.url} />
+                        ) : null}
+                      </audio>
+                    </div>;
+                  })()
                 ) : (
-                  <div className="flex items-center justify-center h-full bg-gray-100">
-                    <p className="text-gray-500">Content type: {selectedActivity.type}</p>
-                  </div>
+                  (() => {
+                    console.log('❓ Unknown activity type:', selectedActivity.type);
+                    return <div className="flex items-center justify-center h-full bg-gray-100">
+                      <p className="text-gray-500">Content type: {selectedActivity.type}</p>
+                    </div>;
+                  })()
                 )}
               </div>
             </div>

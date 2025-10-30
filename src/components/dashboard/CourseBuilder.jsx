@@ -504,15 +504,15 @@ const CourseBuilder = ({ course, onBack }) => {
                   {section.activities.map((activity) => (
                     <div key={activity.id} className="group relative">
                       <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                        <div className="text-gray-400">
+                        <div className="text-gray-400" style={{ flexShrink: 0 }}>
                           {activity.type === 'video' ? <Video className="h-4 w-4" /> : 
                            activity.type === 'pdf' ? <FileText className="h-4 w-4" /> : 
                            activity.type === 'audio' ? <Video className="h-4 w-4" /> : 
                            activity.type === 'presentation' ? <FileText className="h-4 w-4" /> : 
                            <FileText className="h-4 w-4" />}
                         </div>
-                        <span className="text-sm font-medium text-gray-900 flex-1">{activity.title}</span>
-                        <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded">{activity.type}</span>
+                        <span className="text-sm font-medium text-gray-900 flex-1" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', minWidth: 0 }}>{activity.title}</span>
+                        <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded" style={{ flexShrink: 0 }}>{activity.type}</span>
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
