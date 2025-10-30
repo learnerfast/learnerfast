@@ -1,235 +1,207 @@
 (function() {
-  // Don't run in iframes
   if (window.self !== window.top) return;
   
-  // Load Supabase
+  const hostname = window.location.hostname;
+  const websiteName = hostname.split('.')[0];
+  const pathParts = window.location.pathname.split('/');
+  const courseSlug = pathParts[pathParts.length - 1].replace('.html', '');
+  
+  let coursesCache = sessionStorage.getItem(`courses_${websiteName}`);
+  if (coursesCache) coursesCache = JSON.parse(coursesCache);
+  
+  const mainContent = document.querySelector('main');
+  if (mainContent) mainContent.style.visibility = 'hidden';
+  
+  if (!coursesCache) {
+    fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`)
+      .then(r => r.json())
+      .then(data => {
+        coursesCache = data.courses;
+        sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+        renderCourse();
+      });
+  } else {
+    renderCourse();
+  }
+  
   if (!window.supabase) {
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
     document.head.appendChild(script);
   }
   
-  const hostname = window.location.hostname;
-  const websiteName = hostname.split('.')[0];
-  
-  let coursesCache = null;
-  
-  async function loadCourseDetail() {
-    const mainContent = document.querySelector('main');
-    if (mainContent) mainContent.style.opacity = '0';
+  function renderCourse() {
+    if (!courseSlug || courseSlug === 'course-detail') return;
+    if (!coursesCache || coursesCache.length === 0) return;
     
-    try {
-      const pathParts = window.location.pathname.split('/');
-      const courseSlug = pathParts[pathParts.length - 1].replace('.html', '');
+    const course = coursesCache.find(c => c.slug === courseSlug);
+    if (!course) return;
       
-      if (!courseSlug || courseSlug === 'course-detail') {
-        console.error('❌ No course specified');
-        return;
-      }
+    const titleEl = document.querySelector('.course-title');
+    if (titleEl) titleEl.textContent = course.title;
       
-      let courses;
-      if (coursesCache) {
-        courses = coursesCache;
+    const imageEl = document.querySelector('.course-image');
+    if (imageEl && course.image) imageEl.src = course.image;
+      
+    const descEl = document.querySelector('.course-description');
+    if (descEl) descEl.textContent = course.description || '';
+      
+    const priceEl = document.querySelector('.course-price');
+    const comparePriceEl = priceEl?.nextElementSibling;
+    
+    if (priceEl) {
+      if (course.access_type === 'free' || course.price === 0) {
+        priceEl.textContent = 'Free';
+        if (comparePriceEl && comparePriceEl.classList.contains('line-through')) {
+          comparePriceEl.style.display = 'none';
+        }
+      } else if (course.access_type === 'coming-soon') {
+        priceEl.textContent = 'Coming Soon';
+        if (comparePriceEl) comparePriceEl.style.display = 'none';
+      } else if (course.access_type === 'enrollment-closed') {
+        priceEl.textContent = 'Enrollment Closed';
+        if (comparePriceEl) comparePriceEl.style.display = 'none';
       } else {
-        const response = await fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`);
-        const data = await response.json();
-        courses = data.courses;
-        coursesCache = courses;
-      }
-      
-      if (!courses || courses.length === 0) return;
-      
-      const course = courses.find(c => c.slug === courseSlug);
-      if (!course) {
-        console.error('Course not found for slug:', courseSlug);
-        console.log('Available courses:', courses.map(c => ({ title: c.title, slug: c.slug })));
-        return;
-      }
-      
-      const titleEl = document.querySelector('.course-title');
-      if (titleEl) titleEl.textContent = course.title;
-      
-      const imageEl = document.querySelector('.course-image');
-      if (imageEl && course.image) imageEl.src = course.image;
-      
-      const descEl = document.querySelector('.course-description');
-      if (descEl) descEl.textContent = course.description || '';
-      
-      const priceEl = document.querySelector('.course-price');
-      const comparePriceEl = priceEl?.nextElementSibling;
-      
-      if (priceEl) {
-        if (course.access_type === 'free' || course.price === 0) {
-          priceEl.textContent = 'Free';
-          if (comparePriceEl && comparePriceEl.classList.contains('line-through')) {
+        priceEl.textContent = `₹${course.price}`;
+        if (comparePriceEl && comparePriceEl.classList.contains('line-through')) {
+          if (course.showComparePrice && course.comparePrice > course.price) {
+            comparePriceEl.textContent = `₹${course.comparePrice}`;
+            comparePriceEl.style.display = 'block';
+          } else {
             comparePriceEl.style.display = 'none';
           }
-        } else if (course.access_type === 'coming-soon') {
-          priceEl.textContent = 'Coming Soon';
-          if (comparePriceEl) comparePriceEl.style.display = 'none';
-        } else if (course.access_type === 'enrollment-closed') {
-          priceEl.textContent = 'Enrollment Closed';
-          if (comparePriceEl) comparePriceEl.style.display = 'none';
-        } else {
-          priceEl.textContent = `₹${course.price}`;
-          if (comparePriceEl && comparePriceEl.classList.contains('line-through')) {
-            if (course.showComparePrice && course.comparePrice > course.price) {
-              comparePriceEl.textContent = `₹${course.comparePrice}`;
-              comparePriceEl.style.display = 'block';
-            } else {
-              comparePriceEl.style.display = 'none';
-            }
-          }
         }
       }
+    }
       
-      const includesEl = document.querySelector('.course-includes');
-      if (includesEl) {
-        const showIncludes = course.showCourseIncludes !== false;
-        const hasUserValues = course.label && course.label.trim();
-        const items = hasUserValues ? course.label.split('\n').filter(i => i.trim()) : [];
-        
-        if (showIncludes) {
+    const includesEl = document.querySelector('.course-includes');
+    if (includesEl) {
+      const showIncludes = course.showCourseIncludes !== false;
+      const hasUserValues = course.label && course.label.trim();
+      const items = hasUserValues ? course.label.split('\n').filter(i => i.trim()) : [];
+      
+      if (showIncludes) {
+        if (items.length > 0) {
+          includesEl.innerHTML = items.map(item => `<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">check_circle</span><span>${item}</span></li>`).join('');
+        }
+      } else {
+        const includesSection = includesEl.closest('section') || includesEl.closest('.course-includes-section');
+        if (includesSection) includesSection.style.display = 'none';
+      }
+    }
+      
+    const learnSection = document.querySelector('section h3');
+    if (learnSection && learnSection.textContent.includes("What you'll learn")) {
+      const showLearn = course.showWhatYouLearn !== false;
+      const hasUserValues = course.whatYouLearn && course.whatYouLearn.trim();
+      const items = hasUserValues ? course.whatYouLearn.split('\n').filter(i => i.trim()) : [];
+      
+      if (showLearn) {
+        const learnGrid = learnSection.nextElementSibling;
+        if (learnGrid && learnGrid.classList.contains('grid')) {
           if (items.length > 0) {
-            includesEl.innerHTML = items.map(item => `<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">check_circle</span><span>${item}</span></li>`).join('');
+            learnGrid.innerHTML = items.map(item => `<div class="flex items-start gap-4 p-4 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary mt-1">check_circle</span><p class="font-medium text-gray-800 dark:text-gray-200">${item}</p></div>`).join('');
           }
-          // If no user values, fallback values will be shown from HTML
-        } else {
-          // Hide the entire section
-          const includesSection = includesEl.closest('section') || includesEl.closest('.course-includes-section');
-          if (includesSection) includesSection.style.display = 'none';
         }
+      } else {
+        const learnSectionContainer = learnSection.closest('section');
+        if (learnSectionContainer) learnSectionContainer.style.display = 'none';
       }
+    }
       
-      const learnSection = document.querySelector('section h3');
-      if (learnSection && learnSection.textContent.includes("What you'll learn")) {
-        const showLearn = course.showWhatYouLearn !== false;
-        const hasUserValues = course.whatYouLearn && course.whatYouLearn.trim();
-        const items = hasUserValues ? course.whatYouLearn.split('\n').filter(i => i.trim()) : [];
-        
-        if (showLearn) {
-          const learnGrid = learnSection.nextElementSibling;
-          if (learnGrid && learnGrid.classList.contains('grid')) {
-            if (items.length > 0) {
-              learnGrid.innerHTML = items.map(item => `<div class="flex items-start gap-4 p-4 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary mt-1">check_circle</span><p class="font-medium text-gray-800 dark:text-gray-200">${item}</p></div>`).join('');
-            }
-            // If no user values, fallback values will be shown from HTML
-          }
-        } else {
-          // Hide the entire section
-          const learnSectionContainer = learnSection.closest('section');
-          if (learnSectionContainer) learnSectionContainer.style.display = 'none';
-        }
-      }
-      
-      const showInstructor = course.showInstructor !== false;
-      const hasInstructorValues = (course.instructorName && course.instructorName.trim()) || 
-                                   (course.instructorTitle && course.instructorTitle.trim()) || 
-                                   (course.instructorBio && course.instructorBio.trim());
-      
-      if (!showInstructor) {
-        // Hide the entire instructor section
-        const allSections = document.querySelectorAll('section');
-        allSections.forEach(section => {
-          const heading = section.querySelector('h3, h2');
-          if (heading && heading.textContent.toLowerCase().includes('instructor')) {
-            section.style.display = 'none';
-          }
-        });
-      } else if (hasInstructorValues) {
-        const nameEl = document.querySelector('.instructor-name');
-        if (course.instructorName && course.instructorName.trim() && nameEl) {
-          nameEl.textContent = course.instructorName;
-        }
-        
-        const instructorTitleEl = document.querySelector('.instructor-title');
-        if (course.instructorTitle && course.instructorTitle.trim() && instructorTitleEl) {
-          instructorTitleEl.textContent = course.instructorTitle;
-        }
-        
-        const bioEl = document.querySelector('.instructor-bio');
-        if (course.instructorBio && course.instructorBio.trim() && bioEl) {
-          bioEl.textContent = course.instructorBio;
-        }
-      }
-      // If showInstructor is true but no user values, fallback values from HTML will be shown
-      
-      // Handle enroll button click
-      const enrollBtns = document.querySelectorAll('button');
-      enrollBtns.forEach(btn => {
-        if (btn.textContent.includes('Enroll')) {
-          // Update button text based on access type
-          if (course.access_type === 'free') {
-            btn.textContent = 'Enroll for Free';
-          } else if (course.access_type === 'paid') {
-            btn.textContent = `Enroll Now - ₹${course.price}`;
-          } else if (course.access_type === 'coming-soon') {
-            btn.textContent = 'Coming Soon';
-            btn.disabled = true;
-            btn.classList.add('opacity-50', 'cursor-not-allowed');
-          } else if (course.access_type === 'enrollment-closed') {
-            btn.textContent = 'Enrollment Closed';
-            btn.disabled = true;
-            btn.classList.add('opacity-50', 'cursor-not-allowed');
-          }
-          
-          btn.addEventListener('click', async (e) => {
-            e.preventDefault();
-            if (course.access_type !== 'coming-soon' && course.access_type !== 'enrollment-closed') {
-              // Check if user is logged in
-              const { createClient } = window.supabase || {};
-              if (!createClient) {
-                console.error('Supabase not loaded');
-                return;
-              }
-              
-              const supabaseClient = createClient(
-                'https://bplarfqdpsgadtzzlxur.supabase.co',
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbGFyZnFkcHNnYWR0enpseHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3NzMzNjgsImV4cCI6MjA3NjM0OTM2OH0.YKUf2RYypzvMlH1FiXZCBlzM3Rn8g8ZXQ6h65ESgWtk'
-              );
-              
-              const { data: { session } } = await supabaseClient.auth.getSession();
-              
-              if (!session) {
-                // Store current page URL for redirect after login
-                sessionStorage.setItem('returnUrl', window.location.pathname);
-                // Redirect to sign-in page
-                window.location.href = '/signin';
-              } else {
-                openCoursePlayer(course);
-              }
-            }
-          });
+    const showInstructor = course.showInstructor !== false;
+    const hasInstructorValues = (course.instructorName && course.instructorName.trim()) || 
+                                 (course.instructorTitle && course.instructorTitle.trim()) || 
+                                 (course.instructorBio && course.instructorBio.trim());
+    
+    if (!showInstructor) {
+      const allSections = document.querySelectorAll('section');
+      allSections.forEach(section => {
+        const heading = section.querySelector('h3, h2');
+        if (heading && heading.textContent.toLowerCase().includes('instructor')) {
+          section.style.display = 'none';
         }
       });
-      
-      const syllabusEl = document.querySelector('.course-syllabus');
-      if (syllabusEl) {
-        if (course.sections && course.sections.length > 0) {
-          syllabusEl.innerHTML = course.sections.map((section, index) => `
-            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
-              <summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
-                <span>Module ${index + 1}: ${section.title}</span>
-                <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
-              </summary>
-              ${section.description ? `<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400 break-words overflow-wrap-anywhere">${section.description}</div>` : ''}
-            </details>
-          `).join('');
-        } else {
-          // Hide the entire syllabus section if no sections exist
-          const syllabusSection = syllabusEl.closest('section');
-          if (syllabusSection) syllabusSection.style.display = 'none';
-        }
+    } else if (hasInstructorValues) {
+      const nameEl = document.querySelector('.instructor-name');
+      if (course.instructorName && course.instructorName.trim() && nameEl) {
+        nameEl.textContent = course.instructorName;
       }
       
-      const mainContent = document.querySelector('main');
-      if (mainContent) mainContent.style.opacity = '1';
+      const instructorTitleEl = document.querySelector('.instructor-title');
+      if (course.instructorTitle && course.instructorTitle.trim() && instructorTitleEl) {
+        instructorTitleEl.textContent = course.instructorTitle;
+      }
       
-    } catch (error) {
-      console.error('Failed to load course details:', error);
-      const mainContent = document.querySelector('main');
-      if (mainContent) mainContent.style.opacity = '1';
+      const bioEl = document.querySelector('.instructor-bio');
+      if (course.instructorBio && course.instructorBio.trim() && bioEl) {
+        bioEl.textContent = course.instructorBio;
+      }
     }
+      
+    const enrollBtns = document.querySelectorAll('button');
+    enrollBtns.forEach(btn => {
+      if (btn.textContent.includes('Enroll')) {
+        if (course.access_type === 'free') {
+          btn.textContent = 'Enroll for Free';
+        } else if (course.access_type === 'paid') {
+          btn.textContent = `Enroll Now - ₹${course.price}`;
+        } else if (course.access_type === 'coming-soon') {
+          btn.textContent = 'Coming Soon';
+          btn.disabled = true;
+          btn.classList.add('opacity-50', 'cursor-not-allowed');
+        } else if (course.access_type === 'enrollment-closed') {
+          btn.textContent = 'Enrollment Closed';
+          btn.disabled = true;
+          btn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+        
+        btn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          if (course.access_type !== 'coming-soon' && course.access_type !== 'enrollment-closed') {
+            const { createClient } = window.supabase || {};
+            if (!createClient) {
+              console.error('Supabase not loaded');
+              return;
+            }
+            
+            const supabaseClient = createClient(
+              'https://bplarfqdpsgadtzzlxur.supabase.co',
+              'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwbGFyZnFkcHNnYWR0enpseHVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3NzMzNjgsImV4cCI6MjA3NjM0OTM2OH0.YKUf2RYypzvMlH1FiXZCBlzM3Rn8g8ZXQ6h65ESgWtk'
+            );
+            
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            
+            if (!session) {
+              sessionStorage.setItem('returnUrl', window.location.pathname);
+              window.location.href = '/signin';
+            } else {
+              openCoursePlayer(course);
+            }
+          }
+        });
+      }
+    });
+      
+    const syllabusEl = document.querySelector('.course-syllabus');
+    if (syllabusEl) {
+      if (course.sections && course.sections.length > 0) {
+        syllabusEl.innerHTML = course.sections.map((section, index) => `
+          <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+            <summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+              <span>Module ${index + 1}: ${section.title}</span>
+              <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+            </summary>
+            ${section.description ? `<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400 break-words overflow-wrap-anywhere">${section.description}</div>` : ''}
+          </details>
+        `).join('');
+      } else {
+        const syllabusSection = syllabusEl.closest('section');
+        if (syllabusSection) syllabusSection.style.display = 'none';
+      }
+    }
+    
+    if (mainContent) mainContent.style.visibility = 'visible';
   }
   
   async function openCoursePlayer(course) {
