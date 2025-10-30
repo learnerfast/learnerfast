@@ -71,6 +71,9 @@ const CourseBuilder = ({ course, onBack }) => {
   const [accessType, setAccessType] = useState('free');
   const [navigationType, setNavigationType] = useState('global');
   const [selectedWebsites, setSelectedWebsites] = useState([]);
+  const [showCourseIncludes, setShowCourseIncludes] = useState(true);
+  const [showWhatYouLearn, setShowWhatYouLearn] = useState(true);
+  const [showInstructor, setShowInstructor] = useState(true);
 
   useEffect(() => {
     if (course) {
@@ -224,7 +227,7 @@ const CourseBuilder = ({ course, onBack }) => {
       const { supabase } = await import('../../lib/supabase');
       const { data, error } = await supabase
         .from('course_settings')
-        .select('course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id')
+        .select('course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id, show_course_includes, show_what_you_learn, show_instructor')
         .eq('course_id', course.id)
         .single();
       
@@ -239,6 +242,9 @@ const CourseBuilder = ({ course, onBack }) => {
         setInstructorBio(data.instructor_bio || '');
         const websiteIds = data.website_id ? (typeof data.website_id === 'string' ? data.website_id.split(',') : [data.website_id]) : [];
         setSelectedWebsites(websiteIds);
+        setShowCourseIncludes(data.show_course_includes !== false);
+        setShowWhatYouLearn(data.show_what_you_learn !== false);
+        setShowInstructor(data.show_instructor !== false);
       }
     } catch (error) {
     }
@@ -287,7 +293,10 @@ const CourseBuilder = ({ course, onBack }) => {
           instructor_name: instructorName,
           instructor_title: instructorTitle,
           instructor_bio: instructorBio,
-          website_id: selectedWebsites.length === 0 ? null : selectedWebsites.join(',')
+          website_id: selectedWebsites.length === 0 ? null : selectedWebsites.join(','),
+          show_course_includes: showCourseIncludes,
+          show_what_you_learn: showWhatYouLearn,
+          show_instructor: showInstructor
         }, {
           onConflict: 'course_id'
         })
@@ -634,7 +643,18 @@ const CourseBuilder = ({ course, onBack }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">COURSE INCLUDES</label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-gray-700">COURSE INCLUDES</label>
+                  <label className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={showCourseIncludes}
+                      onChange={(e) => setShowCourseIncludes(e.target.checked)}
+                      className="h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                    />
+                    <span className="text-xs text-gray-600">Show on course page</span>
+                  </label>
+                </div>
                 <div className="space-y-2">
                   {courseIncludes.map((item, index) => (
                     <input
@@ -696,7 +716,18 @@ const CourseBuilder = ({ course, onBack }) => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">WHAT YOU'LL LEARN</label>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-medium text-gray-700">WHAT YOU'LL LEARN</label>
+                  <label className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={showWhatYouLearn}
+                      onChange={(e) => setShowWhatYouLearn(e.target.checked)}
+                      className="h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+                    />
+                    <span className="text-xs text-gray-600">Show on course page</span>
+                  </label>
+                </div>
                 <div className="space-y-2">
                   {whatYouLearn.map((item, index) => (
                     <input
@@ -720,7 +751,18 @@ const CourseBuilder = ({ course, onBack }) => {
 
         {/* Instructor */}
         <div className="bg-white border border-gray-200 rounded-lg p-6">
-          <h3 className="text-lg font-semibold mb-4">Instructor</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold">Instructor</h3>
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={showInstructor}
+                onChange={(e) => setShowInstructor(e.target.checked)}
+                className="h-4 w-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500"
+              />
+              <span className="text-sm text-gray-600">Show on course page</span>
+            </label>
+          </div>
           <p className="text-gray-600 mb-6">Add instructor information to display on the course page.</p>
           
           <div className="space-y-4">

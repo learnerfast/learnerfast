@@ -26,16 +26,10 @@
         return;
       }
       
-      console.log('Found course:', course.title);
+
       
       const titleEl = document.querySelector('.course-title');
-      console.log('Title element:', titleEl, 'Setting to:', course.title);
-      if (titleEl) {
-        titleEl.textContent = course.title;
-        console.log('Title updated successfully to:', titleEl.textContent);
-      } else {
-        console.error('Title element not found in DOM!');
-      }
+      if (titleEl) titleEl.textContent = course.title;
       
       const imageEl = document.querySelector('.course-image');
       if (imageEl && course.image) imageEl.src = course.image;
@@ -47,50 +41,90 @@
       if (priceEl) priceEl.textContent = course.price > 0 ? `$${course.price}` : 'Free';
       
       const includesEl = document.querySelector('.course-includes');
-      if (course.label && course.label.trim() && includesEl) {
-        const items = course.label.split('\n').filter(i => i.trim());
-        if (items.length > 0) {
-          includesEl.innerHTML = items.map(item => `<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">check_circle</span><span>${item}</span></li>`).join('');
+      if (includesEl) {
+        const showIncludes = course.showCourseIncludes !== false;
+        const hasUserValues = course.label && course.label.trim();
+        const items = hasUserValues ? course.label.split('\n').filter(i => i.trim()) : [];
+        
+        if (showIncludes) {
+          if (items.length > 0) {
+            includesEl.innerHTML = items.map(item => `<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">check_circle</span><span>${item}</span></li>`).join('');
+          }
+          // If no user values, fallback values will be shown from HTML
+        } else {
+          // Hide the entire section
+          const includesSection = includesEl.closest('section') || includesEl.closest('.course-includes-section');
+          if (includesSection) includesSection.style.display = 'none';
         }
       }
       
       const learnSection = document.querySelector('section h3');
-      if (course.whatYouLearn && course.whatYouLearn.trim() && learnSection && learnSection.textContent.includes("What you'll learn")) {
-        const learnGrid = learnSection.nextElementSibling;
-        if (learnGrid && learnGrid.classList.contains('grid')) {
-          const items = course.whatYouLearn.split('\n').filter(i => i.trim());
-          if (items.length > 0) {
-            learnGrid.innerHTML = items.map(item => `<div class="flex items-start gap-4 p-4 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary mt-1">check_circle</span><p class="font-medium text-gray-800 dark:text-gray-200">${item}</p></div>`).join('');
+      if (learnSection && learnSection.textContent.includes("What you'll learn")) {
+        const showLearn = course.showWhatYouLearn !== false;
+        const hasUserValues = course.whatYouLearn && course.whatYouLearn.trim();
+        const items = hasUserValues ? course.whatYouLearn.split('\n').filter(i => i.trim()) : [];
+        
+        if (showLearn) {
+          const learnGrid = learnSection.nextElementSibling;
+          if (learnGrid && learnGrid.classList.contains('grid')) {
+            if (items.length > 0) {
+              learnGrid.innerHTML = items.map(item => `<div class="flex items-start gap-4 p-4 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary mt-1">check_circle</span><p class="font-medium text-gray-800 dark:text-gray-200">${item}</p></div>`).join('');
+            }
+            // If no user values, fallback values will be shown from HTML
           }
+        } else {
+          // Hide the entire section
+          const learnSectionContainer = learnSection.closest('section');
+          if (learnSectionContainer) learnSectionContainer.style.display = 'none';
         }
       }
       
-      const nameEl = document.querySelector('.instructor-name');
-      if (course.instructorName && course.instructorName.trim() && nameEl) {
-        nameEl.textContent = course.instructorName;
-      }
+      const showInstructor = course.showInstructor !== false;
+      const hasInstructorValues = (course.instructorName && course.instructorName.trim()) || 
+                                   (course.instructorTitle && course.instructorTitle.trim()) || 
+                                   (course.instructorBio && course.instructorBio.trim());
       
-      const instructorTitleEl = document.querySelector('.instructor-title');
-      if (course.instructorTitle && course.instructorTitle.trim() && instructorTitleEl) {
-        instructorTitleEl.textContent = course.instructorTitle;
-      }
-      
-      const bioEl = document.querySelector('.instructor-bio');
-      if (course.instructorBio && course.instructorBio.trim() && bioEl) {
-        bioEl.textContent = course.instructorBio;
+      if (showInstructor) {
+        const nameEl = document.querySelector('.instructor-name');
+        if (hasInstructorValues && course.instructorName && course.instructorName.trim() && nameEl) {
+          nameEl.textContent = course.instructorName;
+        }
+        
+        const instructorTitleEl = document.querySelector('.instructor-title');
+        if (hasInstructorValues && course.instructorTitle && course.instructorTitle.trim() && instructorTitleEl) {
+          instructorTitleEl.textContent = course.instructorTitle;
+        }
+        
+        const bioEl = document.querySelector('.instructor-bio');
+        if (hasInstructorValues && course.instructorBio && course.instructorBio.trim() && bioEl) {
+          bioEl.textContent = course.instructorBio;
+        }
+        // If no user values, fallback values will be shown from HTML
+      } else {
+        // Hide the entire instructor section
+        const instructorSection = document.querySelector('.instructor-section') || 
+                                 document.querySelector('section h3')?.textContent.includes('Instructor') ? 
+                                 document.querySelector('section h3').closest('section') : null;
+        if (instructorSection) instructorSection.style.display = 'none';
       }
       
       const syllabusEl = document.querySelector('.course-syllabus');
-      if (course.sections && course.sections.length > 0 && syllabusEl) {
-        syllabusEl.innerHTML = course.sections.map((section, index) => `
-          <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
-            <summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
-              <span>Module ${index + 1}: ${section.title}</span>
-              <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
-            </summary>
-            ${section.description ? `<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400 break-words overflow-wrap-anywhere">${section.description}</div>` : ''}
-          </details>
-        `).join('');
+      if (syllabusEl) {
+        if (course.sections && course.sections.length > 0) {
+          syllabusEl.innerHTML = course.sections.map((section, index) => `
+            <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
+              <summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
+                <span>Module ${index + 1}: ${section.title}</span>
+                <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
+              </summary>
+              ${section.description ? `<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400 break-words overflow-wrap-anywhere">${section.description}</div>` : ''}
+            </details>
+          `).join('');
+        } else {
+          // Hide the entire syllabus section if no sections exist
+          const syllabusSection = syllabusEl.closest('section');
+          if (syllabusSection) syllabusSection.style.display = 'none';
+        }
       }
       
     } catch (error) {
