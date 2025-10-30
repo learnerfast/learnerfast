@@ -33,7 +33,7 @@ export async function GET(request) {
         id, title, description, status,
         course_settings(course_image, course_label, what_you_learn, instructor_name, instructor_title, instructor_bio, website_id, show_course_includes, show_what_you_learn, show_instructor),
         course_pricing(price),
-        course_sections(id, title, description, order_index)
+        course_sections(id, title, description, order_index, course_activities(id, title, activity_type, source, url))
       `)
       .eq('user_id', site.user_id)
       .eq('status', 'published');
@@ -51,6 +51,12 @@ export async function GET(request) {
 
     const mappedCourses = filteredCourses.map(course => {
       const settings = Array.isArray(course.course_settings) ? course.course_settings[0] : course.course_settings;
+      const sections = (course.course_sections || []).sort((a, b) => a.order_index - b.order_index).map(section => ({
+        id: section.id,
+        title: section.title,
+        description: section.description,
+        activities: section.course_activities || []
+      }));
       return {
         id: course.id,
         title: course.title,
@@ -65,7 +71,7 @@ export async function GET(request) {
         showWhatYouLearn: settings?.show_what_you_learn !== false,
         showInstructor: settings?.show_instructor !== false,
         price: course.course_pricing?.[0]?.price || 0,
-        sections: (course.course_sections || []).sort((a, b) => a.order_index - b.order_index),
+        sections: sections,
         slug: course.title.toLowerCase().replace(/\s+/g, '-')
       };
     });

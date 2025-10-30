@@ -1936,125 +1936,73 @@ const CourseBuilder = ({ course, onBack }) => {
   );
 
   const renderCoursePreview = () => {
-    
-    // Calculate progress based on completed activities
     const totalActivities = sections.reduce((total, section) => total + section.activities.length, 0);
     const completedActivities = sections.reduce((total, section) => 
       total + section.activities.filter(activity => activity.completed).length, 0
     );
     const progressPercentage = totalActivities > 0 ? Math.round((completedActivities / totalActivities) * 100) : 0;
 
-    const courseData = {
-      title: course?.title || 'demon',
-      progress: progressPercentage,
-      sections: sections.map((section, index) => ({
-        id: section.id,
-        title: section.title,
-        lessons: section.activities.map(activity => ({
-          id: activity.id,
-          title: activity.title,
-          type: activity.type,
-          completed: activity.completed || false,
-          file: activity.file,
-          source: activity.source,
-          url: activity.url
-        }))
-      }))
-    };
-
-    const getLessonIcon = (type) => {
-      switch (type) {
-        case 'reading': return <BookOpen className="w-4 h-4" />;
-        case 'video': return <Play className="w-4 h-4" />;
-        case 'exam': return <HelpCircle className="w-4 h-4" />;
-        default: return <BookOpen className="w-4 h-4" />;
-      }
-    };
-
     return (
-      <div className="flex h-screen bg-gray-100">
-        <div className="w-96 bg-white border-r border-gray-200 flex flex-col">
-          <div className="bg-orange-400 text-white p-6">
+      <div className="flex h-screen bg-white">
+        {/* Sidebar */}
+        <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
+          {/* Header */}
+          <div className="p-6 border-b border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <button 
-                onClick={() => setShowPreview(false)}
-                className="flex items-center text-white/80 hover:text-white"
-              >
-                <ChevronLeft className="w-4 h-4 mr-1" />
-                Back to course page
-              </button>
-              <button className="p-1">
-                <ChevronLeft className="w-5 h-5" />
+              <img src={loadedCourseImage || '/learnerfast-logo.png'} alt="Logo" className="h-12 w-12 rounded-lg object-cover" />
+              <button onClick={() => setShowPreview(false)} className="text-gray-400 hover:text-gray-600">
+                <X className="w-5 h-5" />
               </button>
             </div>
-            
-            <h1 className="text-2xl font-light mb-4">{courseData.title}</h1>
-            
-            <div className="mb-4">
-              <div className="w-full bg-white/20 rounded-full h-1">
-                <div className="bg-white h-1 rounded-full transition-all duration-300" style={{ width: `${courseData.progress}%` }}></div>
-              </div>
-              <div className="text-right text-sm mt-1 text-white/80">{courseData.progress}%</div>
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">{course?.title}</h2>
+            <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+              <span>{progressPercentage}% COMPLETE</span>
+              <Award className="w-5 h-5 text-yellow-500" />
             </div>
-
-            <div className="flex space-x-8">
-              {['Path', 'Learners', 'Discuss'].map((tab) => (
-                <button key={tab} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
-                  tab === 'Path' ? 'border-white text-white' : 'border-transparent text-white/70 hover:text-white/90'
-                }`}>
-                  {tab}
-                </button>
-              ))}
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="bg-green-500 h-2 rounded-full transition-all" style={{ width: `${progressPercentage}%` }}></div>
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4">
-            {courseData.sections.map((section) => (
-              <div key={section.id} className="mb-6">
-                <div className="flex items-center mb-3">
-                  <ChevronRight className="w-4 h-4 text-gray-400 mr-2" />
-                  <span className="text-sm font-medium text-gray-600">
-                    {section.id}. {section.title}
-                  </span>
-                </div>
-                
-                {section.lessons.map((lesson) => (
-                  <div 
-                    key={lesson.id} 
-                    onClick={() => {
-                      setSelectedActivity(lesson);
-                      // Mark as completed when clicked
-                      if (!lesson.completed) {
-                        setSections(prev => prev.map(s => 
-                          s.id === section.id 
-                            ? {
-                                ...s, 
-                                activities: s.activities.map(a => 
-                                  a.id === lesson.id ? { ...a, completed: true } : a
-                                )
-                              }
-                            : s
-                        ));
-                      }
-                    }}
-                    className={`ml-6 mb-2 p-3 rounded-lg cursor-pointer transition-colors ${
-                      selectedActivity?.id === lesson.id ? 'bg-orange-50 border-l-4 border-orange-400' : 'hover:bg-gray-50'
+          {/* Sections List */}
+          <div className="flex-1 overflow-y-auto">
+            {sections.map((section, sectionIndex) => (
+              <div key={section.id} className="border-b border-gray-100">
+                <button className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-semibold">
+                      {sectionIndex + 1}
+                    </div>
+                    <span className="text-sm font-medium text-gray-900">{section.title}</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-400" />
+                </button>
+                {section.activities.map((activity) => (
+                  <div
+                    key={activity.id}
+                    onClick={() => setSelectedActivity(activity)}
+                    className={`px-6 py-3 pl-16 flex items-center justify-between cursor-pointer transition-colors ${
+                      selectedActivity?.id === activity.id ? 'bg-gray-100' : 'hover:bg-gray-50'
                     }`}
                   >
-                    <div className="flex items-center">
-                      <div className={`mr-3 ${lesson.completed ? 'text-green-500' : 'text-gray-400'}`}>
-                        {getLessonIcon(lesson.type)}
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-sm font-medium text-gray-900">{lesson.title}</div>
-                        {lesson.duration && (
-                          <div className="text-xs text-gray-500 mt-1">{lesson.duration}</div>
-                        )}
-                      </div>
-                      {lesson.completed && (
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div className="flex items-center space-x-3 flex-1">
+                      {activity.completed ? (
+                        <div className="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                      ) : (
+                        <div className="w-5 h-5 rounded-full border-2 border-gray-300"></div>
                       )}
+                      <span className="text-sm text-gray-700">{activity.title}</span>
                     </div>
+                    {activity.type === 'video' && (
+                      <div className="flex items-center space-x-1 text-xs text-gray-500">
+                        <Play className="w-3 h-3" />
+                        <span>10 min</span>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
@@ -2062,129 +2010,67 @@ const CourseBuilder = ({ course, onBack }) => {
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col">
-          <div className="bg-white border-b border-gray-200 px-6 py-4">
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col bg-gray-50">
+          {/* Top Bar */}
+          <div className="bg-white border-b border-gray-200 px-8 py-4">
             <div className="flex items-center justify-between">
-              <button className="flex items-center text-gray-600 hover:text-gray-900">
-                <ChevronLeft className="w-4 h-4 mr-1" />
-                previous
-              </button>
-              
-              <div className="w-10 h-10 bg-teal-500 rounded-full flex items-center justify-center">
-                <div className="w-4 h-4 bg-white rounded-sm"></div>
-              </div>
-              
-              <button className="flex items-center text-gray-600 hover:text-gray-900">
-                next
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </button>
+              <h1 className="text-xl font-semibold text-amber-600">{course?.title}</h1>
             </div>
           </div>
 
-          <div className="flex-1 flex items-center justify-center bg-gray-50">
+          {/* Content Area */}
+          <div className="flex-1 flex flex-col items-center justify-center p-8">
             {selectedActivity ? (
-              <div className="w-full h-full p-4">
-                {selectedActivity.type === 'video' ? (
-                  <div className="w-full h-full flex flex-col">
-                    <h3 className="text-xl font-semibold mb-4">{selectedActivity.title}</h3>
-                    <div className="flex-1 w-full">
-                      {selectedActivity.file ? (
-                        <video controls className="w-full h-full bg-black rounded-lg" key={selectedActivity.id}>
-                          <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
-                          Your browser does not support the video tag.
-                        </video>
-                      ) : selectedActivity.source === 'youtube' && selectedActivity.url ? (
-                        <iframe 
-                          src={selectedActivity.url.includes('embed') ? selectedActivity.url : 
-                               selectedActivity.url.includes('watch?v=') ? selectedActivity.url.replace('watch?v=', 'embed/') :
-                               selectedActivity.url.includes('youtu.be/') ? selectedActivity.url.replace('youtu.be/', 'youtube.com/embed/') :
-                               selectedActivity.url}
-                          className="w-full h-full rounded-lg"
-                          frameBorder="0"
-                          allowFullScreen
-                          title={selectedActivity.title}
-                        />
-                      ) : selectedActivity.source && ['vimeo', 'vdocipher', 'gumlet', 'iframe', 'script', 'embed'].includes(selectedActivity.source) ? (
-                        <div className="w-full h-full" dangerouslySetInnerHTML={{__html: selectedActivity.url}} />
-                      ) : selectedActivity.url ? (
-                        <video controls className="w-full h-full bg-black rounded-lg" key={selectedActivity.id} preload="metadata">
-                          <source src={selectedActivity.url} />
-                          Your browser does not support the video tag.
-                        </video>
-                      ) : null}
-                    </div>
-                  </div>
-                ) : selectedActivity.type === 'pdf' && selectedActivity.file ? (
-                  <div className="w-full h-full flex flex-col">
-                    <h3 className="text-xl font-semibold mb-4">{selectedActivity.title}</h3>
-                    <div className="flex-1">
+              <div className="w-full max-w-6xl">
+                <div className="mb-6">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-2">{selectedActivity.title}</h2>
+                  <p className="text-gray-600">{sections.find(s => s.activities.some(a => a.id === selectedActivity.id))?.title} • Video Lesson (10 Min)</p>
+                </div>
+                <div className="bg-black rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
+                  {selectedActivity.type === 'video' ? (
+                    selectedActivity.file ? (
+                      <video controls className="w-full h-full" key={selectedActivity.id}>
+                        <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
+                      </video>
+                    ) : selectedActivity.url ? (
                       <iframe 
-                        src={URL.createObjectURL(selectedActivity.file)} 
-                        className="w-full h-full border rounded-lg"
+                        src={selectedActivity.url.includes('embed') ? selectedActivity.url : selectedActivity.url.replace('watch?v=', 'embed/')}
+                        className="w-full h-full"
+                        frameBorder="0"
+                        allowFullScreen
                         title={selectedActivity.title}
                       />
-                    </div>
-                  </div>
-                ) : selectedActivity.type === 'audio' ? (
-                  <div className="w-full h-full flex flex-col items-center justify-center">
-                    <h3 className="text-xl font-semibold mb-8">{selectedActivity.title}</h3>
-                    <div className="w-full max-w-2xl">
-                      <audio controls className="w-full">
+                    ) : null
+                  ) : selectedActivity.type === 'pdf' && selectedActivity.file ? (
+                    <iframe src={URL.createObjectURL(selectedActivity.file)} className="w-full h-full" title={selectedActivity.title} />
+                  ) : selectedActivity.type === 'audio' ? (
+                    <div className="flex items-center justify-center h-full bg-gray-900">
+                      <audio controls className="w-full max-w-2xl">
                         {selectedActivity.file ? (
                           <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
                         ) : selectedActivity.url ? (
                           <source src={selectedActivity.url} />
                         ) : null}
-                        Your browser does not support the audio tag.
                       </audio>
                     </div>
-                  </div>
-                ) : selectedActivity.type === 'presentation' && selectedActivity.file ? (
-                  <div className="w-full h-full flex flex-col items-center justify-center">
-                    <h3 className="text-xl font-semibold mb-8">{selectedActivity.title}</h3>
-                    <div className="bg-gray-100 p-12 rounded-lg">
-                      <FileText className="w-20 h-20 mx-auto mb-6 text-gray-400" />
-                      <p className="text-gray-600 mb-6 text-lg">Presentation: {selectedActivity.file.name}</p>
-                      <button 
-                        onClick={() => {
-                          const url = URL.createObjectURL(selectedActivity.file);
-                          const a = document.createElement('a');
-                          a.href = url;
-                          a.download = selectedActivity.file.name;
-                          a.click();
-                        }}
-                        className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-lg"
-                      >
-                        Download Presentation
-                      </button>
+                  ) : (
+                    <div className="flex items-center justify-center h-full bg-gray-900 text-white">
+                      <p>Content type: {selectedActivity.type}</p>
                     </div>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <h3 className="text-xl font-semibold mb-4">{selectedActivity.title}</h3>
-                    <p className="text-gray-600">Content type: {selectedActivity.type}</p>
-                    {selectedActivity.file && (
-                      <button 
-                        onClick={() => {
-                          const url = URL.createObjectURL(selectedActivity.file);
-                          const a = document.createElement('a');
-                          a.href = url;
-                          a.download = selectedActivity.file.name;
-                          a.click();
-                        }}
-                        className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
-                      >
-                        Download File
-                      </button>
-                    )}
-                  </div>
-                )}
+                  )}
+                </div>
+                <div className="mt-6 flex justify-end">
+                  <button className="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2">
+                    <span>Next</span>
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                </div>
               </div>
             ) : (
-              <div className="text-center text-gray-500 max-w-md">
-                <p className="text-lg">
-                  Select a lesson from the sidebar to start learning!
-                </p>
+              <div className="text-center text-gray-500">
+                <BookOpen className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                <p className="text-lg">Select a lesson to start learning</p>
               </div>
             )}
           </div>

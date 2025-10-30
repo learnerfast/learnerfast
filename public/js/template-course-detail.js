@@ -111,6 +111,15 @@
       }
       // If showInstructor is true but no user values, fallback values from HTML will be shown
       
+      // Handle enroll button click
+      const enrollBtn = document.querySelectorAll('[href*="enroll"], .enroll-btn, button:has-text("Enroll"), a:has-text("Enroll")');
+      enrollBtn.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCoursePlayer(course);
+        });
+      });
+      
       const syllabusEl = document.querySelector('.course-syllabus');
       if (syllabusEl) {
         if (course.sections && course.sections.length > 0) {
@@ -133,6 +142,103 @@
     } catch (error) {
       console.error('Failed to load course details:', error);
     }
+  }
+  
+  function openCoursePlayer(course) {
+    
+    const playerHTML = `
+      <div id="course-player" class="fixed inset-0 z-50 bg-white flex" style="font-family: system-ui, -apple-system, sans-serif;">
+        <div class="w-80 bg-white border-r border-gray-200 flex flex-col">
+          <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center justify-between mb-4">
+              <img src="${course.image || '/learnerfast-logo.png'}" alt="Logo" class="h-12 w-12 rounded-lg object-cover" />
+              <button onclick="document.getElementById('course-player').remove()" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+              </button>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-900 mb-2">${course.title}</h2>
+            <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+              <span>0% COMPLETE</span>
+              <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-green-500 h-2 rounded-full" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="flex-1 overflow-y-auto" id="sections-list">
+            ${course.sections.map((section, idx) => `
+              <div class="border-b border-gray-100">
+                <button class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50" onclick="toggleSection(${idx})">
+                  <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-semibold">${idx + 1}</div>
+                    <span class="text-sm font-medium text-gray-900">${section.title}</span>
+                  </div>
+                  <svg class="w-4 h-4 text-gray-400 section-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+                <div class="section-activities hidden" id="section-${idx}">
+                  ${(section.activities || []).map(activity => `
+                    <div class="px-6 py-3 pl-16 flex items-center justify-between cursor-pointer hover:bg-gray-50" onclick='playActivity(${JSON.stringify(activity).replace(/'/g, "&apos;")}, "${section.title}")'>
+                      <div class="flex items-center space-x-3 flex-1">
+                        <div class="w-5 h-5 rounded-full border-2 border-gray-300"></div>
+                        <span class="text-sm text-gray-700">${activity.title}</span>
+                      </div>
+                      ${activity.activity_type === 'video' ? '<div class="flex items-center space-x-1 text-xs text-gray-500"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg><span>10 min</span></div>' : ''}
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div class="flex-1 flex flex-col bg-gray-50">
+          <div class="bg-white border-b border-gray-200 px-8 py-4">
+            <h1 class="text-xl font-semibold text-amber-600">${course.title}</h1>
+          </div>
+          <div class="flex-1 flex flex-col items-center justify-center p-8" id="content-area">
+            <div class="text-center text-gray-500">
+              <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              <p class="text-lg">Select a lesson to start learning</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', playerHTML);
+    
+    window.toggleSection = (idx) => {
+      const section = document.getElementById(`section-${idx}`);
+      section.classList.toggle('hidden');
+    };
+    
+    window.playActivity = (activity, sectionTitle) => {
+      const contentArea = document.getElementById('content-area');
+      let videoHTML = '';
+      
+      if (activity.activity_type === 'video') {
+        const embedUrl = activity.source === 'youtube' && activity.url ? 
+          (activity.url.includes('embed') ? activity.url : activity.url.replace('watch?v=', 'embed/')) : activity.url;
+        
+        videoHTML = `
+          <div class="w-full max-w-6xl">
+            <div class="mb-6">
+              <h2 class="text-3xl font-bold text-gray-900 mb-2">${activity.title}</h2>
+              <p class="text-gray-600">${sectionTitle} • Video Lesson (10 Min)</p>
+            </div>
+            <div class="bg-black rounded-lg overflow-hidden" style="aspect-ratio: 16/9;">
+              <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="mt-6 flex justify-end">
+              <button class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2">
+                <span>Next</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      }
+      
+      contentArea.innerHTML = videoHTML;
+    };
   }
   
   loadCourseDetail();
