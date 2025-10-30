@@ -84,29 +84,32 @@
                                    (course.instructorTitle && course.instructorTitle.trim()) || 
                                    (course.instructorBio && course.instructorBio.trim());
       
-      if (showInstructor) {
+      if (!showInstructor) {
+        // Hide the entire instructor section
+        const allSections = document.querySelectorAll('section');
+        allSections.forEach(section => {
+          const heading = section.querySelector('h3, h2');
+          if (heading && heading.textContent.toLowerCase().includes('instructor')) {
+            section.style.display = 'none';
+          }
+        });
+      } else if (hasInstructorValues) {
         const nameEl = document.querySelector('.instructor-name');
-        if (hasInstructorValues && course.instructorName && course.instructorName.trim() && nameEl) {
+        if (course.instructorName && course.instructorName.trim() && nameEl) {
           nameEl.textContent = course.instructorName;
         }
         
         const instructorTitleEl = document.querySelector('.instructor-title');
-        if (hasInstructorValues && course.instructorTitle && course.instructorTitle.trim() && instructorTitleEl) {
+        if (course.instructorTitle && course.instructorTitle.trim() && instructorTitleEl) {
           instructorTitleEl.textContent = course.instructorTitle;
         }
         
         const bioEl = document.querySelector('.instructor-bio');
-        if (hasInstructorValues && course.instructorBio && course.instructorBio.trim() && bioEl) {
+        if (course.instructorBio && course.instructorBio.trim() && bioEl) {
           bioEl.textContent = course.instructorBio;
         }
-        // If no user values, fallback values will be shown from HTML
-      } else {
-        // Hide the entire instructor section
-        const instructorSection = document.querySelector('.instructor-section') || 
-                                 document.querySelector('section h3')?.textContent.includes('Instructor') ? 
-                                 document.querySelector('section h3').closest('section') : null;
-        if (instructorSection) instructorSection.style.display = 'none';
       }
+      // If showInstructor is true but no user values, fallback values from HTML will be shown
       
       const syllabusEl = document.querySelector('.course-syllabus');
       if (syllabusEl) {
