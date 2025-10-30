@@ -26,8 +26,6 @@
         return;
       }
       
-
-      
       const titleEl = document.querySelector('.course-title');
       if (titleEl) titleEl.textContent = course.title;
       
@@ -112,12 +110,14 @@
       // If showInstructor is true but no user values, fallback values from HTML will be shown
       
       // Handle enroll button click
-      const enrollBtn = document.querySelectorAll('[href*="enroll"], .enroll-btn, button:has-text("Enroll"), a:has-text("Enroll")');
-      enrollBtn.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          openCoursePlayer(course);
-        });
+      const enrollBtns = document.querySelectorAll('button');
+      enrollBtns.forEach(btn => {
+        if (btn.textContent.includes('Enroll')) {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openCoursePlayer(course);
+          });
+        }
       });
       
       const syllabusEl = document.querySelector('.course-syllabus');
@@ -145,6 +145,10 @@
   }
   
   function openCoursePlayer(course) {
+    if (!course.sections || course.sections.length === 0) {
+      alert('This course has no content yet. Please check back later.');
+      return;
+    }
     
     const playerHTML = `
       <div id="course-player" class="fixed inset-0 z-50 bg-white flex" style="font-family: system-ui, -apple-system, sans-serif;">
@@ -192,9 +196,9 @@
         </div>
         <div class="flex-1 flex flex-col bg-gray-50">
           <div class="bg-white border-b border-gray-200 px-8 py-4">
-            <h1 class="text-xl font-semibold text-amber-600">${course.title}</h1>
+            <h1 class="text-xl font-semibold text-amber-600 text-center">${course.title}</h1>
           </div>
-          <div class="flex-1 flex flex-col items-center justify-center p-8" id="content-area">
+          <div class="flex-1 overflow-y-auto p-8" id="content-area">
             <div class="text-center text-gray-500">
               <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
               <p class="text-lg">Select a lesson to start learning</p>
@@ -205,31 +209,156 @@
     `;
     document.body.insertAdjacentHTML('beforeend', playerHTML);
     
+    // Auto-expand first section
+    setTimeout(() => {
+      if (course.sections[0] && course.sections[0].activities && course.sections[0].activities.length > 0) {
+        toggleSection(0);
+        playActivity(course.sections[0].activities[0], course.sections[0].title);
+      }
+    }, 100);
+    
     window.toggleSection = (idx) => {
       const section = document.getElementById(`section-${idx}`);
+      const chevron = section.previousElementSibling.querySelector('.section-chevron');
       section.classList.toggle('hidden');
+      if (chevron) {
+        chevron.style.transform = section.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(90deg)';
+      }
     };
     
+    let allActivities = [];
+    let currentActivityIndex = 0;
+    
+    course.sections.forEach(section => {
+      (section.activities || []).forEach(activity => {
+        allActivities.push({ ...activity, sectionTitle: section.title });
+      });
+    });
+    
     window.playActivity = (activity, sectionTitle) => {
+      currentActivityIndex = allActivities.findIndex(a => a.id === activity.id);
+      renderActivity(activity, sectionTitle);
+    };
+    
+    window.playNextActivity = () => {
+      if (currentActivityIndex < allActivities.length - 1) {
+        currentActivityIndex++;
+        const nextActivity = allActivities[currentActivityIndex];
+        renderActivity(nextActivity, nextActivity.sectionTitle);
+      } else {
+        const contentArea = document.getElementById('content-area');
+        contentArea.innerHTML = `
+          <div class="text-center py-16">
+            <svg class="w-24 h-24 mx-auto mb-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Congratulations!</h2>
+            <p class="text-xl text-gray-600 mb-8">You've completed all activities in this course.</p>
+            <button onclick="document.getElementById('course-player').remove()" class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold">Close Course</button>
+          </div>
+        `;
+      }
+    };
+    
+    function renderActivity(activity, sectionTitle) {
       const contentArea = document.getElementById('content-area');
-      let videoHTML = '';
+      const isLastActivity = currentActivityIndex === allActivities.length - 1;
+      const nextButtonText = isLastActivity ? 'Complete' : 'Next';
+      let contentHTML = '';
       
       if (activity.activity_type === 'video') {
-        const embedUrl = activity.source === 'youtube' && activity.url ? 
-          (activity.url.includes('embed') ? activity.url : activity.url.replace('watch?v=', 'embed/')) : activity.url;
+        let embedUrl = activity.url;
+        if (activity.source === 'youtube' && activity.url) {
+          embedUrl = activity.url.includes('embed') ? activity.url : activity.url.replace('watch?v=', 'embed/');
+        } else if (activity.source === 'vimeo' && activity.url) {
+          const vimeoId = activity.url.match(/vimeo\.com\/(\d+)/);
+          embedUrl = vimeoId ? `https://player.vimeo.com/video/${vimeoId[1]}` : activity.url;
+        }
         
-        videoHTML = `
-          <div class="w-full max-w-6xl">
+        contentHTML = `
+          <div class="w-full max-w-6xl mx-auto">
             <div class="mb-6">
               <h2 class="text-3xl font-bold text-gray-900 mb-2">${activity.title}</h2>
               <p class="text-gray-600">${sectionTitle} • Video Lesson (10 Min)</p>
             </div>
-            <div class="bg-black rounded-lg overflow-hidden" style="aspect-ratio: 16/9;">
-              <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
+            <div class="bg-black rounded-lg overflow-hidden" style="max-height: calc(100vh - 400px); aspect-ratio: 16/9;">
+              <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
             </div>
-            <div class="mt-6 flex justify-end">
-              <button class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2">
-                <span>Next</span>
+            <div class="mt-6 pb-6 flex justify-end">
+              <button onclick="playNextActivity()" class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2">
+                <span>${nextButtonText}</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      } else if (activity.activity_type === 'pdf') {
+        contentHTML = `
+          <div class="w-full max-w-6xl mx-auto">
+            <div class="mb-6">
+              <h2 class="text-3xl font-bold text-gray-900 mb-2">${activity.title}</h2>
+              <p class="text-gray-600">${sectionTitle} • PDF Document</p>
+            </div>
+            <div class="bg-white rounded-lg overflow-hidden" style="max-height: calc(100vh - 400px); height: 600px;">
+              <iframe src="${activity.url}" class="w-full h-full" frameborder="0"></iframe>
+            </div>
+            <div class="mt-6 pb-6 flex justify-end">
+              <button onclick="playNextActivity()" class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2">
+                <span>${nextButtonText}</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      } else if (activity.activity_type === 'audio') {
+        contentHTML = `
+          <div class="w-full max-w-6xl mx-auto">
+            <div class="mb-6">
+              <h2 class="text-3xl font-bold text-gray-900 mb-2">${activity.title}</h2>
+              <p class="text-gray-600">${sectionTitle} • Audio Lesson</p>
+            </div>
+            <div class="flex items-center justify-center bg-gray-900 rounded-lg" style="height: 400px;">
+              <audio controls class="w-full max-w-2xl">
+                <source src="${activity.url}" />
+              </audio>
+            </div>
+            <div class="mt-6 pb-6 flex justify-end">
+              <button onclick="playNextActivity()" class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2">
+                <span>${nextButtonText}</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      } else if (activity.activity_type === 'presentation') {
+        contentHTML = `
+          <div class="w-full max-w-6xl mx-auto">
+            <div class="mb-6">
+              <h2 class="text-3xl font-bold text-gray-900 mb-2">${activity.title}</h2>
+              <p class="text-gray-600">${sectionTitle} • Presentation</p>
+            </div>
+            <div class="bg-white rounded-lg overflow-hidden" style="max-height: calc(100vh - 400px); height: 600px;">
+              <iframe src="${activity.url}" class="w-full h-full" frameborder="0"></iframe>
+            </div>
+            <div class="mt-6 pb-6 flex justify-end">
+              <button onclick="playNextActivity()" class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2">
+                <span>${nextButtonText}</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+        `;
+      } else {
+        contentHTML = `
+          <div class="w-full max-w-6xl mx-auto text-center">
+            <div class="mb-6">
+              <h2 class="text-3xl font-bold text-gray-900 mb-2">${activity.title}</h2>
+              <p class="text-gray-600">${sectionTitle}</p>
+            </div>
+            <div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: 400px;">
+              <p class="text-gray-500">Content type: ${activity.activity_type}</p>
+            </div>
+            <div class="mt-6 pb-6 flex justify-end">
+              <button onclick="playNextActivity()" class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold flex items-center space-x-2">
+                <span>${nextButtonText}</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
               </button>
             </div>
@@ -237,8 +366,8 @@
         `;
       }
       
-      contentArea.innerHTML = videoHTML;
-    };
+      contentArea.innerHTML = contentHTML;
+    }
   }
   
   loadCourseDetail();
