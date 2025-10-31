@@ -24,11 +24,26 @@
     renderCourse();
   }
   
-  if (!window.supabase) {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-    document.head.appendChild(script);
+  let supabaseLoaded = false;
+  
+  function loadSupabase() {
+    return new Promise((resolve) => {
+      if (window.supabase) {
+        supabaseLoaded = true;
+        resolve();
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+      script.onload = () => {
+        supabaseLoaded = true;
+        resolve();
+      };
+      document.head.appendChild(script);
+    });
   }
+  
+  loadSupabase();
   
   function renderCourse() {
     if (!courseSlug || courseSlug === 'course-detail') return;
@@ -166,6 +181,8 @@
         btn.addEventListener('click', async (e) => {
           e.preventDefault();
           if (course.access_type !== 'coming-soon' && course.access_type !== 'enrollment-closed') {
+            if (!supabaseLoaded) await loadSupabase();
+            
             const { createClient } = window.supabase || {};
             if (!createClient) {
               console.error('Supabase not loaded');
