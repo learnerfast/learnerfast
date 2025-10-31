@@ -141,19 +141,26 @@
       
     const enrollBtns = document.querySelectorAll('button');
     enrollBtns.forEach(btn => {
-      if (btn.textContent.includes('Enroll')) {
+      const btnText = btn.textContent.trim();
+      if (btnText.includes('Enroll') || btnText.includes('Add to Cart')) {
         if (course.access_type === 'free') {
-          btn.textContent = 'Enroll for Free';
+          if (btnText.includes('Enroll')) {
+            btn.textContent = 'Enroll for Free';
+          }
         } else if (course.access_type === 'paid') {
-          btn.textContent = `Enroll Now - ₹${course.price}`;
+          if (btnText.includes('Enroll')) {
+            btn.textContent = `Enroll Now - ₹${course.price}`;
+          }
         } else if (course.access_type === 'coming-soon') {
           btn.textContent = 'Coming Soon';
           btn.disabled = true;
           btn.classList.add('opacity-50', 'cursor-not-allowed');
+          btn.classList.remove('hover:bg-primary/90', 'hover:bg-gray-200');
         } else if (course.access_type === 'enrollment-closed') {
           btn.textContent = 'Enrollment Closed';
           btn.disabled = true;
-          btn.classList.add('opacity-50', 'cursor-not-allowed');
+          btn.classList.add('opacity-50', 'cursor-not-allowed', 'bg-gray-400');
+          btn.classList.remove('bg-primary', 'hover:bg-primary/90', 'bg-gray-100', 'hover:bg-gray-200');
         }
         
         btn.addEventListener('click', async (e) => {
@@ -447,6 +454,4 @@
       `;
     }
   }
-  
-  loadCourseDetail();
 })();
