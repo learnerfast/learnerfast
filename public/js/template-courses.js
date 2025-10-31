@@ -1,7 +1,8 @@
 (function() {
   const hostname = window.location.hostname;
   const websiteName = hostname.split('.')[0];
-  let coursesCache = null;
+  let coursesCache = sessionStorage.getItem(`courses_${websiteName}`);
+  if (coursesCache) coursesCache = JSON.parse(coursesCache);
   
   async function loadCourses() {
     const container = document.getElementById('courses-grid');
@@ -10,12 +11,19 @@
     try {
       if (coursesCache) {
         renderCourses(coursesCache);
+        fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`)
+          .then(r => r.json())
+          .then(data => {
+            coursesCache = data.courses;
+            sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+          });
         return;
       }
       
       const response = await fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`);
       const { courses } = await response.json();
       coursesCache = courses;
+      sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
       renderCourses(courses);
     } catch (error) {
       console.error('Failed to load courses:', error);

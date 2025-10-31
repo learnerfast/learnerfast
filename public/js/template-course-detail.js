@@ -10,26 +10,20 @@
   if (coursesCache) coursesCache = JSON.parse(coursesCache);
   
   const mainContent = document.querySelector('main');
-  if (mainContent) mainContent.style.visibility = 'hidden';
   
-  if (!coursesCache) {
-    fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`)
-      .then(r => r.json())
-      .then(data => {
-        coursesCache = data.courses;
-        sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
-        renderCourse();
-      });
-  } else {
+  if (coursesCache) {
     renderCourse();
-    fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`)
-      .then(r => r.json())
-      .then(data => {
-        coursesCache = data.courses;
-        sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
-        renderCourse();
-      });
+  } else if (mainContent) {
+    mainContent.style.visibility = 'hidden';
   }
+  
+  fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`)
+    .then(r => r.json())
+    .then(data => {
+      coursesCache = data.courses;
+      sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+      if (!mainContent || mainContent.style.visibility === 'hidden') renderCourse();
+    });
   
   let supabaseLoaded = false;
   
@@ -76,6 +70,8 @@
     
     const course = coursesCache.find(c => c.slug === courseSlug);
     if (!course) return;
+    
+    if (mainContent) mainContent.style.visibility = 'visible';
       
     const titleEl = document.querySelector('.course-title');
     if (titleEl) titleEl.textContent = course.title;
@@ -275,7 +271,7 @@
       }
     }
     
-    if (mainContent) mainContent.style.visibility = 'visible';
+
   }
   
   async function openCoursePlayer(course, startActivityIndex = 0) {
