@@ -52,6 +52,24 @@
   
   loadSupabase();
   
+  // Check if we should restore course player on page load
+  window.addEventListener('load', () => {
+    const playerState = sessionStorage.getItem('coursePlayerState');
+    if (playerState) {
+      try {
+        const { courseSlug: savedSlug, activityIndex } = JSON.parse(playerState);
+        if (savedSlug === courseSlug && coursesCache) {
+          const course = coursesCache.find(c => c.slug === courseSlug);
+          if (course) {
+            setTimeout(() => openCoursePlayer(course, activityIndex), 500);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to restore player state:', e);
+      }
+    }
+  });
+  
   function renderCourse() {
     if (!courseSlug || courseSlug === 'course-detail') return;
     if (!coursesCache || coursesCache.length === 0) return;
@@ -260,7 +278,12 @@
     if (mainContent) mainContent.style.visibility = 'visible';
   }
   
-  async function openCoursePlayer(course) {
+  async function openCoursePlayer(course, startActivityIndex = 0) {
+    // Save player state
+    sessionStorage.setItem('coursePlayerState', JSON.stringify({
+      courseSlug: course.slug,
+      activityIndex: startActivityIndex
+    }));
     console.log('Opening course player with course:', course);
     console.log('Sections:', course.sections);
     if (course.sections && course.sections.length > 0) {
@@ -299,7 +322,7 @@
           <div class="p-6 border-b border-gray-200">
             <div class="flex items-center justify-between mb-4">
               <img src="${course.image || '/learnerfast-logo.png'}" alt="Logo" class="h-12 w-12 rounded-lg object-cover" />
-              <button onclick="document.getElementById('course-player').remove()" class="text-gray-400 hover:text-gray-600">
+              <button onclick="sessionStorage.removeItem('coursePlayerState'); document.getElementById('course-player').remove()" class="text-gray-400 hover:text-gray-600">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
               </button>
             </div>
@@ -313,7 +336,9 @@
             </div>
           </div>
           <div class="flex-1 overflow-y-auto" id="sections-list">
-            ${course.sections.map((section, idx) => `
+            ${course.sections.map((section, idx) => {
+              const activities = Array.isArray(section.activities) ? section.activities : [];
+              return `
               <div class="border-b border-gray-100">
                 <button class="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50" onclick="toggleSection(${idx})">
                   <div class="flex items-center space-x-3" style="min-width: 0; flex: 1;">
@@ -323,7 +348,7 @@
                   <svg class="w-4 h-4 text-gray-400 section-chevron" style="flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                 </button>
                 <div class="section-activities hidden" id="section-${idx}">
-                  ${(section.activities || []).map((activity, actIdx) => {
+                  ${activities.map((activity, actIdx) => {
                     const icon = activity.activity_type === 'video' ? '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>' :
                                 activity.activity_type === 'pdf' ? '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z"/><path d="M3 8a2 2 0 012-2v10h8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>' :
                                 activity.activity_type === 'audio' ? '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>' :
@@ -345,7 +370,8 @@
                   }).join('')}
                 </div>
               </div>
-            `).join('')}
+            `;
+            }).join('')}
           </div>
         </div>
         <div class="flex-1 flex flex-col bg-gray-50" style="min-width: 0; overflow: hidden;">
@@ -365,14 +391,6 @@
     `;
     document.body.insertAdjacentHTML('beforeend', playerHTML);
     
-    // Auto-expand first section
-    setTimeout(() => {
-      if (course.sections[0] && course.sections[0].activities && course.sections[0].activities.length > 0) {
-        toggleSection(0);
-        playActivity(course.sections[0].activities[0], course.sections[0].title);
-      }
-    }, 100);
-    
     window.toggleSection = (idx) => {
       const section = document.getElementById(`section-${idx}`);
       const chevron = section.previousElementSibling.querySelector('.section-chevron');
@@ -386,13 +404,34 @@
     let currentActivityIndex = 0;
     
     course.sections.forEach(section => {
-      (section.activities || []).forEach(activity => {
+      const activities = Array.isArray(section.activities) ? section.activities : [];
+      activities.forEach(activity => {
         allActivities.push({ ...activity, sectionTitle: section.title });
       });
     });
     
+    // Auto-expand first section and restore activity
+    setTimeout(() => {
+      if (course.sections[0] && course.sections[0].activities && course.sections[0].activities.length > 0) {
+        toggleSection(0);
+        if (startActivityIndex > 0 && allActivities[startActivityIndex]) {
+          playActivity(allActivities[startActivityIndex], allActivities[startActivityIndex].sectionTitle);
+        } else {
+          playActivity(course.sections[0].activities[0], course.sections[0].title);
+        }
+      }
+    }, 100);
+    
+    console.log('📚 Total activities loaded:', allActivities.length);
+    console.log('Activities:', allActivities);
+    
     window.playActivity = (activity, sectionTitle) => {
       currentActivityIndex = allActivities.findIndex(a => a.id === activity.id);
+      // Update player state
+      sessionStorage.setItem('coursePlayerState', JSON.stringify({
+        courseSlug: course.slug,
+        activityIndex: currentActivityIndex
+      }));
       updateSidebarHighlight();
       renderActivity(activity, sectionTitle);
     };
@@ -432,7 +471,7 @@
             <svg class="w-24 h-24 mx-auto mb-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <h2 class="text-3xl font-bold text-gray-900 mb-4">Congratulations!</h2>
             <p class="text-xl text-gray-600 mb-8">You've completed all activities in this course.</p>
-            <button onclick="document.getElementById('course-player').remove()" class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold">Close Course</button>
+            <button onclick="sessionStorage.removeItem('coursePlayerState'); document.getElementById('course-player').remove()" class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold">Close Course</button>
           </div>
         `;
         const progressBar = document.querySelector('.progress-bar');
@@ -445,14 +484,18 @@
       const isLastActivity = currentActivityIndex === allActivities.length - 1;
       const nextButtonText = isLastActivity ? 'Complete' : 'Next';
       
-      let embedUrl = activity.url || '';
+      let embedUrl = activity.url || activity.file_url || '';
       
-      // For uploaded files, use file_url if url is empty
-      if (!embedUrl && activity.file_url && activity.source === 'upload') {
-        // file_url is just a filename, we need to construct proper URL
-        // For now, show a message that file needs to be uploaded to a CDN/storage
-        console.warn('⚠️ Uploaded file detected but no URL. File needs to be uploaded to storage:', activity.file_url);
-        embedUrl = ''; // Will show error message in player
+      // For uploaded files, construct proper URL if file_url exists
+      if (!activity.url && activity.file_url) {
+        // If file_url is a full URL, use it directly
+        if (activity.file_url.startsWith('http://') || activity.file_url.startsWith('https://')) {
+          embedUrl = activity.file_url;
+        } else {
+          // If it's a relative path or filename, construct URL
+          // Assuming files are stored in a public uploads directory
+          embedUrl = activity.file_url.startsWith('/') ? activity.file_url : `/uploads/${activity.file_url}`;
+        }
       }
       
       if (activity.activity_type === 'video') {
@@ -509,10 +552,15 @@
           </div>`;
         } else {
           let pdfUrl = embedUrl;
-          if (embedUrl.includes('drive.google.com') && !embedUrl.includes('/preview')) {
-            pdfUrl = embedUrl.replace('/view', '/preview');
+          // Handle Google Drive URLs
+          if (embedUrl.includes('drive.google.com')) {
+            if (!embedUrl.includes('/preview')) {
+              pdfUrl = embedUrl.replace('/view', '/preview');
+            }
           }
-          playerHTML = `<iframe src="${pdfUrl}" style="width: 100%; height: calc(100vh - 240px); border: 0; border-radius: 0.5rem;"></iframe>`;
+          // Use PDF.js viewer for better compatibility with local files
+          const viewerUrl = pdfUrl.startsWith('http') ? pdfUrl : `https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + pdfUrl)}&embedded=true`;
+          playerHTML = `<iframe src="${viewerUrl}" style="width: 100%; height: calc(100vh - 240px); border: 0; border-radius: 0.5rem;" onload="console.log('✅ PDF loaded')"></iframe>`;
         }
       } else if (activity.activity_type === 'audio') {
         if (!embedUrl) {
