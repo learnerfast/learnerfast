@@ -16,39 +16,47 @@ const Home = () => {
       if (!user) return;
 
       try {
+        // Load websites count
+        const { data: sites } = await supabase
+          .from('sites')
+          .select('id')
+          .eq('user_id', user.id);
+
         // Load courses count
-        const { data: courses, error: coursesError } = await supabase
+        const { data: courses } = await supabase
           .from('courses')
           .select('id')
           .eq('user_id', user.id);
 
-        // Load videos count
-        const { data: videos, error: videosError } = await supabase
-          .from('course_videos')
-          .select('id')
-          .eq('user_id', user.id);
+        // Load enrollments count
+        const courseIds = (courses || []).map(c => c.id);
+        let enrollmentsCount = 0;
+        if (courseIds.length > 0) {
+          const { data: enrollments } = await supabase
+            .from('enrollments')
+            .select('id')
+            .in('course_id', courseIds);
+          enrollmentsCount = enrollments?.length || 0;
+        }
 
-        // Load websites count from database
-        const { data: sites, error: sitesError } = await supabase
-          .from('sites')
-          .select('id')
-          .eq('user_id', user.id);
-        
-        const websites = sites || [];
+        // Load activities count
+        let activitiesCount = 0;
+        if (courseIds.length > 0) {
+          const { data: activities } = await supabase
+            .from('course_activities')
+            .select('id')
+            .in('course_id', courseIds);
+          activitiesCount = activities?.length || 0;
+        }
 
         setStats([
+          { name: 'Websites Created', value: sites?.length || 0, icon: Globe, change: '+0', changeType: 'positive' },
           { name: 'Total Courses', value: courses?.length || 0, icon: BookOpen, change: '+0', changeType: 'positive' },
-          { name: 'Total Videos', value: videos?.length || 0, icon: Video, change: '+0', changeType: 'positive' },
-          { name: 'Websites Created', value: websites.length, icon: Globe, change: '+0', changeType: 'positive' },
-          { name: 'This Month', value: '0', icon: TrendingUp, change: '+0', changeType: 'positive' },
+          { name: 'Total Enrollments', value: enrollmentsCount, icon: Users, change: '+0', changeType: 'positive' },
+          { name: 'Total Activities', value: activitiesCount, icon: Video, change: '+0', changeType: 'positive' },
         ]);
 
-        // Set recent activity
-        const activities = [];
-        if (courses?.length > 0) activities.push({ type: 'course', count: courses.length });
-        if (videos?.length > 0) activities.push({ type: 'video', count: videos.length });
-        if (websites.length > 0) activities.push({ type: 'website', count: websites.length });
-        setRecentActivity(activities);
+        setRecentActivity([]);
 
       } catch (error) {
       }
