@@ -8,6 +8,7 @@ import Link from "next/link";
 import { supabase } from "../lib/supabase";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import LoadingScreen from "../components/LoadingScreen";
 
 const schema = yup
   .object({
@@ -54,7 +55,6 @@ const LogingForm = () => {
       router.push('/dashboard');
     } catch (error) {
       toast.error(error.message || 'Sign in failed');
-    } finally {
       setLoading(false);
     }
   };
@@ -87,6 +87,8 @@ const LogingForm = () => {
       toast.error(error.message || 'Failed to send reset link');
     }
   };
+
+  if (loading) return <LoadingScreen />;
 
   if (showForgotPassword) {
     return (
