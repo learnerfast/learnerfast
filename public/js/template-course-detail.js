@@ -541,11 +541,19 @@
               <p class="text-gray-500 text-sm">Please add a video URL in the course settings</p>
             </div>
           </div>`;
-        } else if (['script', 'embed', 'iframe'].includes(activity.source) && embedUrl.includes('<')) {
-          const wrappedEmbed = embedUrl.replace(/<iframe/gi, '<iframe style="width: 100%; height: 100%; border: 0;"');
-          playerHTML = `<div class="bg-black rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
-            ${wrappedEmbed}
-          </div>`;
+        } else if (['script', 'embed', 'iframe'].includes(activity.source) && embedUrl.includes('<iframe')) {
+          // Extract iframe from embed code and ensure proper styling
+          const iframeMatch = embedUrl.match(/<iframe[^>]*src=["']([^"']+)["'][^>]*>/i);
+          if (iframeMatch) {
+            const iframeSrc = iframeMatch[1];
+            playerHTML = `<div class="bg-black rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
+              <iframe src="${iframeSrc}" style="width: 100%; height: 100%; border: 0;" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+            </div>`;
+          } else {
+            playerHTML = `<div class="bg-black rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
+              ${embedUrl}
+            </div>`;
+          }
         } else {
           playerHTML = `<div class="bg-black rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
             <iframe src="${embedUrl}" style="width: 100%; height: 100%; border: 0;" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
