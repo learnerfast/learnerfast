@@ -313,6 +313,15 @@
           course_id: course.id,
           enrolled_at: new Date().toISOString()
         }, { onConflict: 'user_id,course_id' });
+        
+        // Update website_users enrolled_courses count
+        const originalEmail = user.user_metadata?.original_email || user.email;
+        if (originalEmail && websiteName) {
+          const { data: webUser } = await supabaseClient.from('website_users').select('enrolled_courses').eq('email', originalEmail).eq('website_name', websiteName).single();
+          if (webUser) {
+            await supabaseClient.from('website_users').update({ enrolled_courses: (webUser.enrolled_courses || 0) + 1 }).eq('email', originalEmail).eq('website_name', websiteName);
+          }
+        }
       }
     } catch (error) {
       console.error('Enrollment error:', error);
