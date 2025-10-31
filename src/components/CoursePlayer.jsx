@@ -33,7 +33,8 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
   const handleActivityClick = (activity) => {
     console.log('🎬 Playing Activity:', {
       title: activity.title,
-      type: activity.type,
+      type: activity.activity_type || activity.type,
+      source: activity.source,
       url: activity.url,
       file: activity.file?.name
     });
@@ -129,10 +130,10 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                   <h2 className="text-3xl font-bold text-gray-900 mb-2" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{selectedActivity.title}</h2>
                   <p className="text-gray-600" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {allActivities.find(a => a.id === selectedActivity.id)?.sectionTitle} • 
-                    {selectedActivity.type === 'video' ? 'Video Lesson (10 Min)' :
-                     selectedActivity.type === 'pdf' ? 'PDF Document' :
-                     selectedActivity.type === 'audio' ? 'Audio Lesson' :
-                     selectedActivity.type === 'presentation' ? 'Presentation' : 'Content'}
+                    {(selectedActivity.activity_type || selectedActivity.type) === 'video' ? 'Video Lesson (10 Min)' :
+                     (selectedActivity.activity_type || selectedActivity.type) === 'pdf' ? 'PDF Document' :
+                     (selectedActivity.activity_type || selectedActivity.type) === 'audio' ? 'Audio Lesson' :
+                     (selectedActivity.activity_type || selectedActivity.type) === 'presentation' ? 'Presentation' : 'Content'}
                   </p>
                 </div>
                 <button style={{ flexShrink: 0 }} 
@@ -145,7 +146,7 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                 </button>
               </div>
               <div className="bg-black rounded-lg" style={{ height: 'calc(100vh - 280px)', width: '100%', overflow: 'hidden', flexShrink: 0 }}>
-                {selectedActivity.type === 'video' ? (
+                {(selectedActivity.activity_type || selectedActivity.type) === 'video' ? (
                   selectedActivity.file ? (
                     <video controls className="w-full h-full" key={selectedActivity.id}>
                       <source src={URL.createObjectURL(selectedActivity.file)} type={selectedActivity.file.type} />
@@ -178,7 +179,7 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                       />;
                     })()
                   ) : null
-                ) : selectedActivity.type === 'pdf' ? (
+                ) : (selectedActivity.activity_type || selectedActivity.type) === 'pdf' ? (
                   (() => {
                     const pdfUrl = selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : (selectedActivity.url || selectedActivity.file_url);
                     console.log('📄 Rendering PDF iframe:', pdfUrl);
@@ -202,7 +203,7 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                       />
                     </div>;
                   })()
-                ) : selectedActivity.type === 'presentation' ? (
+                ) : (selectedActivity.activity_type || selectedActivity.type) === 'presentation' ? (
                   (() => {
                     const presUrl = selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : (selectedActivity.url || selectedActivity.file_url);
                     console.log('📊 Rendering presentation iframe:', presUrl);
@@ -225,7 +226,7 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                       />
                     </div>;
                   })()
-                ) : selectedActivity.type === 'audio' ? (
+                ) : (selectedActivity.activity_type || selectedActivity.type) === 'audio' ? (
                   (() => {
                     console.log('🎵 Rendering audio player');
                     return <div className="flex items-center justify-center h-full bg-gray-900">
@@ -240,9 +241,9 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                   })()
                 ) : (
                   (() => {
-                    console.log('❓ Unknown activity type:', selectedActivity.type);
+                    console.log('❓ Unknown activity type:', selectedActivity.activity_type || selectedActivity.type);
                     return <div className="flex items-center justify-center h-full bg-gray-100">
-                      <p className="text-gray-500">Content type: {selectedActivity.type}</p>
+                      <p className="text-gray-500">Content type: {selectedActivity.activity_type || selectedActivity.type}</p>
                     </div>;
                   })()
                 )}
