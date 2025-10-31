@@ -19,6 +19,8 @@ const Users = () => {
     completionRate: 0
   });
   const [selectedUser, setSelectedUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -28,6 +30,9 @@ const Users = () => {
   const loadData = async () => {
     if (!user) return;
     
+    setLoading(true);
+    setError(null);
+    
     try {
       // Load websites
       const { data: sitesData } = await supabase
@@ -36,57 +41,67 @@ const Users = () => {
         .eq('user_id', user.id);
       setWebsites(sitesData || []);
 
-      // Load courses with sections and activities
-      const { data: coursesData } = await supabase
+      // Load courses created by this user with sections and activities
+      const { data: coursesData, error: coursesError } = await supabase
         .from('courses')
         .select(`
           *,
           course_sections(id, course_activities(id))
         `)
         .eq('user_id', user.id);
+      
+      if (coursesError) {
+        console.error('Courses fetch error:', coursesError);
+        throw new Error('Failed to load courses');
+      }
+      
       setCourses(coursesData || []);
 
-      // Load ALL enrollments for user's courses
+      // Get enrollments for THIS user's courses only
       const courseIds = (coursesData || []).map(c => c.id);
-      let enrollmentsData = [];
+      let enrichedEnrollments = [];
       
       if (courseIds.length > 0) {
-        const { data } = await supabase
-          .from('course_enrollments')
+        // Fetch enrollments for user's courses
+        const { data: enrollmentsData, error: enrollError } = await supabase
+          .from('enrollments')
           .select('*')
           .in('course_id', courseIds);
-        enrollmentsData = data || [];
+        
+        if (enrollError) {
+          console.error('Enrollment fetch error:', enrollError);
+        } else if (enrollmentsData && enrollmentsData.length > 0) {
+          // Get unique user IDs from enrollments
+          const userIds = [...new Set(enrollmentsData.map(e => e.user_id))];
+          
+          // Fetch profiles for enrolled users
+          const { data: profilesData } = await supabase
+            .from('profiles')
+            .select('id, email, name')
+            .in('id', userIds);
+          
+          // Create profile map
+          const profileMap = new Map((profilesData || []).map(p => [p.id, p]));
+          
+          // Enrich enrollments with course and profile data
+          enrichedEnrollments = enrollmentsData.map(e => {
+            const course = coursesData?.find(c => c.id === e.course_id);
+            const profile = profileMap.get(e.user_id);
+            return {
+              ...e,
+              courses: course ? { title: course.title, id: course.id } : null,
+              profiles: profile || null,
+              progress: 0,
+              completed_at: null,
+              last_accessed_at: e.enrolled_at
+            };
+          });
+        }
       }
       
-      // Get unique user IDs from enrollments
-      const userIds = [...new Set(enrollmentsData.map(e => e.user_id))];
-      
-      // Fetch user profiles
-      let profilesData = [];
-      if (userIds.length > 0) {
-        const { data } = await supabase
-          .from('profiles')
-          .select('id, email, full_name')
-          .in('id', userIds);
-        profilesData = data || [];
-      }
-      
-      // Create profile map
-      const profileMap = new Map(profilesData.map(p => [p.id, p]));
-      
-      // Enrich enrollments with course and profile data
-      const enrichedEnrollments = enrollmentsData.map(e => {
-        const course = coursesData?.find(c => c.id === e.course_id);
-        const profile = profileMap.get(e.user_id);
-        return {
-          ...e,
-          courses: course ? { title: course.title, id: course.id } : null,
-          profiles: profile || null
-        };
-      });
       setEnrollments(enrichedEnrollments);
 
-      // Aggregate student data
+      // Aggregate student data from enrollments
       const studentMap = new Map();
       enrichedEnrollments.forEach(enrollment => {
         const userId = enrollment.user_id;
@@ -94,7 +109,7 @@ const Users = () => {
           studentMap.set(userId, {
             id: userId,
             email: enrollment.profiles?.email || `user_${userId.substring(0, 8)}`,
-            name: enrollment.profiles?.full_name || enrollment.profiles?.email?.split('@')[0] || `Student ${userId.substring(0, 8)}`,
+            name: enrollment.profiles?.name || enrollment.profiles?.email?.split('@')[0] || `Student ${userId.substring(0, 8)}`,
             enrollments: [],
             totalProgress: 0,
             lastActive: enrollment.last_accessed_at || enrollment.enrolled_at,
@@ -145,6 +160,9 @@ const Users = () => {
       });
     } catch (error) {
       console.error('Error loading data:', error);
+      setError(error.message || 'Failed to load analytics data');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -170,6 +188,32 @@ const Users = () => {
     purple: 'bg-purple-100 text-purple-600',
     orange: 'bg-orange-100 text-orange-600'
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading analytics...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+        <h3 className="text-red-800 font-semibold mb-2">Error Loading Data</h3>
+        <p className="text-red-600 text-sm">{error}</p>
+        <button 
+          onClick={loadData}
+          className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -268,11 +312,11 @@ const Users = () => {
               </div>
               <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-orange-900">Revenue</span>
+                  <span className="text-sm font-medium text-orange-900">Completion</span>
                   <TrendingUp className="h-5 w-5 text-orange-600" />
                 </div>
-                <p className="text-3xl font-bold text-orange-900">₹0</p>
-                <p className="text-xs text-orange-700 mt-1">Total earnings</p>
+                <p className="text-3xl font-bold text-orange-900">{analytics.completionRate}%</p>
+                <p className="text-xs text-orange-700 mt-1">Course completion</p>
               </div>
             </div>
           </div>
@@ -458,7 +502,7 @@ const Users = () => {
                 {enrollments.map((enrollment) => (
                   <tr key={enrollment.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{enrollment.profiles?.full_name || enrollment.profiles?.email?.split('@')[0] || 'Student'}</div>
+                      <div className="text-sm font-medium text-gray-900">{enrollment.profiles?.name || enrollment.profiles?.email?.split('@')[0] || 'Student'}</div>
                       <div className="text-sm text-gray-500">{enrollment.profiles?.email || 'N/A'}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{enrollment.courses?.title || 'Unknown'}</td>
