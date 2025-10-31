@@ -152,13 +152,28 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                     </video>
                   ) : selectedActivity.url ? (
                     (() => {
-                      const videoUrl = selectedActivity.url.includes('embed') ? selectedActivity.url : selectedActivity.url.replace('watch?v=', 'embed/');
+                      let videoUrl = selectedActivity.url;
+                      
+                      // Handle iframe embed codes
+                      if (['script', 'embed', 'iframe'].includes(selectedActivity.source) && videoUrl.includes('<iframe')) {
+                        const iframeMatch = videoUrl.match(/<iframe[^>]*src=["']([^"']+)["'][^>]*>/i);
+                        if (iframeMatch) {
+                          videoUrl = iframeMatch[1];
+                        }
+                      } else if (selectedActivity.source === 'youtube' && videoUrl) {
+                        videoUrl = videoUrl.includes('embed') ? videoUrl : videoUrl.replace('watch?v=', 'embed/');
+                      } else if (selectedActivity.source === 'vimeo' && videoUrl) {
+                        const vimeoId = videoUrl.match(/vimeo\.com\/(\d+)/);
+                        videoUrl = vimeoId ? `https://player.vimeo.com/video/${vimeoId[1]}` : videoUrl;
+                      }
+                      
                       console.log('📹 Rendering video iframe:', videoUrl);
                       return <iframe 
                         src={videoUrl}
                         className="w-full h-full"
                         frameBorder="0"
                         allowFullScreen
+                        allow="autoplay; encrypted-media; picture-in-picture"
                         title={selectedActivity.title}
                       />;
                     })()
