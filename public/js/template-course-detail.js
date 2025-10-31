@@ -279,6 +279,12 @@
   }
   
   async function openCoursePlayer(course, startActivityIndex = 0) {
+    // Remove existing player if present
+    const existingPlayer = document.getElementById('course-player');
+    if (existingPlayer) {
+      existingPlayer.remove();
+    }
+    
     // Save player state
     sessionStorage.setItem('coursePlayerState', JSON.stringify({
       courseSlug: course.slug,
