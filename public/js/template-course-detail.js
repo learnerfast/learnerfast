@@ -261,6 +261,8 @@
   }
   
   async function openCoursePlayer(course) {
+    console.log('Opening course player with course:', course);
+    console.log('Sections:', course.sections);
     if (!course.sections || course.sections.length === 0) {
       alert('This course has no content yet. Please check back later.');
       return;
