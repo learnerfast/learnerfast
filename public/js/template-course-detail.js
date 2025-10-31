@@ -564,7 +564,12 @@
       
       const progressPercent = ((currentActivityIndex + 1) / allActivities.length) * 100;
       const progressBar = document.querySelector('.progress-bar');
-      if (progressBar) progressBar.style.width = progressPercent + '%';
+      if (progressBar) {
+        const currentWidth = parseFloat(progressBar.style.width) || 0;
+        if (progressPercent > currentWidth) {
+          progressBar.style.width = progressPercent + '%';
+        }
+      }
     }
   }
 })();
