@@ -380,6 +380,7 @@ const CourseBuilder = ({ course, onBack }) => {
           }, { onConflict: 'course_id' });
       }
       
+      courseBuilder.setAccessType(accessType);
       showMessage('success', 'Access settings saved successfully!');
     } catch (error) {
       showMessage('error', 'Failed to save access settings');
@@ -394,7 +395,7 @@ const CourseBuilder = ({ course, onBack }) => {
       return;
     }
     
-    if (showComparePrice && compareAtPrice > 0 && coursePrice >= compareAtPrice) {
+    if (accessType === 'paid' && showComparePrice && compareAtPrice > 0 && coursePrice >= compareAtPrice) {
       setPriceError('Compare-at price must be higher than course price');
       return;
     }
@@ -1262,7 +1263,7 @@ const CourseBuilder = ({ course, onBack }) => {
 
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <h3 className="text-lg font-semibold mb-4">Compare-at price</h3>
-          <p className="text-gray-600 mb-4">An optional reference price displayed alongside the course price.</p>
+          <p className="text-gray-600 mb-4">An optional reference price displayed alongside the course price. Available for all access types.</p>
           <div className="mb-4">
             <input 
               type="checkbox" 
@@ -1283,7 +1284,7 @@ const CourseBuilder = ({ course, onBack }) => {
                 onChange={(e) => {
                   const value = parseFloat(e.target.value) || 0;
                   setCompareAtPrice(value);
-                  if (value > 0 && coursePrice > 0 && value <= coursePrice) {
+                  if (accessType === 'paid' && value > 0 && coursePrice > 0 && value <= coursePrice) {
                     setPriceError(`The compare-at price must be higher than ₹${coursePrice}`);
                   } else {
                     setPriceError('');
