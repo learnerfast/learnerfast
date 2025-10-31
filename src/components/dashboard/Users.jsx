@@ -217,6 +217,12 @@ const Users = () => {
 
   return (
     <div className="space-y-6">
+      {/* Debug Info */}
+      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 text-xs">
+        <p><strong>Debug:</strong> User ID: {user?.id}</p>
+        <p>Courses: {courses.length} | Enrollments: {enrollments.length} | Students: {students.length}</p>
+      </div>
+      
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Users & Analytics</h2>
