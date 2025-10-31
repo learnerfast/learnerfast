@@ -210,15 +210,40 @@
     const syllabusEl = document.querySelector('.course-syllabus');
     if (syllabusEl) {
       if (course.sections && course.sections.length > 0) {
-        syllabusEl.innerHTML = course.sections.map((section, index) => `
+        syllabusEl.innerHTML = course.sections.map((section, index) => {
+          const activityCount = (section.activities || []).length;
+          const activityText = activityCount === 1 ? '1 lesson' : `${activityCount} lessons`;
+          return `
           <details class="group rounded-lg border border-gray-200 dark:border-gray-700">
             <summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50">
-              <span>Module ${index + 1}: ${section.title}</span>
+              <div class="flex-1">
+                <div class="font-semibold text-gray-900 dark:text-gray-100">Module ${index + 1}: ${section.title}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">${activityText}</div>
+              </div>
               <span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span>
             </summary>
-            ${section.description ? `<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400 break-words overflow-wrap-anywhere">${section.description}</div>` : ''}
+            <div class="border-t border-gray-200 dark:border-gray-700">
+              ${section.description ? `<div class="p-4 text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/30">${section.description}</div>` : ''}
+              ${activityCount > 0 ? `
+                <ul class="divide-y divide-gray-100 dark:divide-gray-700">
+                  ${(section.activities || []).map(activity => {
+                    const icon = activity.activity_type === 'video' ? 'play_circle' : 
+                                activity.activity_type === 'pdf' ? 'description' :
+                                activity.activity_type === 'audio' ? 'headphones' :
+                                activity.activity_type === 'presentation' ? 'slideshow' : 'article';
+                    return `
+                      <li class="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800/50 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-gray-400 text-base">${icon}</span>
+                        <span class="text-sm text-gray-700 dark:text-gray-300">${activity.title}</span>
+                      </li>
+                    `;
+                  }).join('')}
+                </ul>
+              ` : ''}
+            </div>
           </details>
-        `).join('');
+        `;
+        }).join('');
       } else {
         const syllabusSection = syllabusEl.closest('section');
         if (syllabusSection) syllabusSection.style.display = 'none';
@@ -284,15 +309,26 @@
                   <svg class="w-4 h-4 text-gray-400 section-chevron" style="flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                 </button>
                 <div class="section-activities hidden" id="section-${idx}">
-                  ${(section.activities || []).map(activity => `
-                    <div class="px-6 py-3 pl-16 flex items-center justify-between cursor-pointer hover:bg-gray-50" onclick='playActivity(${JSON.stringify(activity).replace(/'/g, "&apos;")}, "${section.title}")'>
+                  ${(section.activities || []).map((activity, actIdx) => {
+                    const icon = activity.activity_type === 'video' ? '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>' :
+                                activity.activity_type === 'pdf' ? '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9 2a2 2 0 00-2 2v8a2 2 0 002 2h6a2 2 0 002-2V6.414A2 2 0 0016.414 5L14 2.586A2 2 0 0012.586 2H9z"/><path d="M3 8a2 2 0 012-2v10h8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>' :
+                                activity.activity_type === 'audio' ? '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/></svg>' :
+                                activity.activity_type === 'presentation' ? '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clip-rule="evenodd"/></svg>' :
+                                '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>';
+                    return `
+                    <div class="px-6 py-3 pl-16 flex items-center justify-between cursor-pointer hover:bg-gray-50 activity-item" data-activity-id="${activity.id}" onclick='playActivity(${JSON.stringify(activity).replace(/'/g, "&apos;")}, "${section.title}")'>
                       <div class="flex items-center space-x-3 flex-1" style="min-width: 0;">
-                        <div class="w-5 h-5 rounded-full border-2 border-gray-300" style="flex-shrink: 0;"></div>
-                        <span class="text-sm text-gray-700" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${activity.title}</span>
+                        <div class="w-5 h-5 rounded-full border-2 border-gray-300 flex items-center justify-center" style="flex-shrink: 0;">
+                          <div class="w-2 h-2 rounded-full bg-gray-300"></div>
+                        </div>
+                        <div class="flex items-center space-x-2 flex-1" style="min-width: 0;">
+                          <span class="text-gray-500" style="flex-shrink: 0;">${icon}</span>
+                          <span class="text-sm text-gray-700" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${activity.title}</span>
+                        </div>
                       </div>
-                      ${activity.activity_type === 'video' ? '<div class="flex items-center space-x-1 text-xs text-gray-500" style="flex-shrink: 0;"><svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg><span>10 min</span></div>' : ''}
                     </div>
-                  `).join('')}
+                  `;
+                  }).join('')}
                 </div>
               </div>
             `).join('')}
@@ -341,6 +377,27 @@
     
     window.playActivity = (activity, sectionTitle) => {
       currentActivityIndex = allActivities.findIndex(a => a.id === activity.id);
+      
+      // Update active state in sidebar
+      document.querySelectorAll('.activity-item').forEach(item => {
+        item.classList.remove('bg-amber-50', 'border-l-4', 'border-amber-500');
+        const checkbox = item.querySelector('.w-5.h-5 > div');
+        if (checkbox) {
+          checkbox.classList.remove('bg-amber-500');
+          checkbox.classList.add('bg-gray-300');
+        }
+      });
+      
+      const activeItem = document.querySelector(`[data-activity-id="${activity.id}"]`);
+      if (activeItem) {
+        activeItem.classList.add('bg-amber-50', 'border-l-4', 'border-amber-500');
+        const checkbox = activeItem.querySelector('.w-5.h-5 > div');
+        if (checkbox) {
+          checkbox.classList.remove('bg-gray-300');
+          checkbox.classList.add('bg-amber-500');
+        }
+      }
+      
       renderActivity(activity, sectionTitle);
     };
     
@@ -403,13 +460,21 @@
       let playerHTML = '';
       if (activity.activity_type === 'video') {
         console.log('📹 Rendering video with source:', activity.source, 'URL:', embedUrl);
-        if (['script', 'embed', 'iframe'].includes(activity.source) && embedUrl.includes('<')) {
+        if (!embedUrl) {
+          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+            <div class="text-center p-8">
+              <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <p class="text-gray-600 text-lg mb-2">Video not available</p>
+              <p class="text-gray-500 text-sm">Please add a video URL in the course settings</p>
+            </div>
+          </div>`;
+        } else if (['script', 'embed', 'iframe'].includes(activity.source) && embedUrl.includes('<')) {
           playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="position: relative; width: 100%; padding-bottom: 56.25%; flex-shrink: 0;">
             <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">${embedUrl}</div>
           </div>`;
         } else {
           playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="position: relative; width: 100%; padding-bottom: 56.25%; flex-shrink: 0;">
-            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
           </div>`;
         }
       } else if (activity.activity_type === 'pdf') {
@@ -419,19 +484,32 @@
             <div class="text-center p-8">
               <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
               <p class="text-gray-600 text-lg mb-2">PDF file not available</p>
-              <p class="text-gray-500 text-sm">Please add a URL for this PDF in the course settings</p>
+              <p class="text-gray-500 text-sm">Please add a PDF URL in the course settings</p>
             </div>
           </div>`;
         } else {
+          const pdfUrl = embedUrl.includes('drive.google.com') && !embedUrl.includes('/preview') 
+            ? embedUrl.replace('/view', '/preview') 
+            : embedUrl;
           playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="position: relative; width: 100%; height: calc(100vh - 280px); flex-shrink: 0;">
-            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" onload="console.log('✅ PDF iframe loaded')"></iframe>
+            <iframe src="${pdfUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"></iframe>
           </div>`;
         }
       } else if (activity.activity_type === 'audio') {
         console.log('🎵 Rendering audio player with URL:', embedUrl);
-        playerHTML = `<div class="flex items-center justify-center bg-gray-900 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
-          <audio controls class="w-full max-w-2xl"><source src="${embedUrl}" /></audio>
-        </div>`;
+        if (!embedUrl) {
+          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+            <div class="text-center p-8">
+              <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+              <p class="text-gray-600 text-lg mb-2">Audio file not available</p>
+              <p class="text-gray-500 text-sm">Please add an audio URL in the course settings</p>
+            </div>
+          </div>`;
+        } else {
+          playerHTML = `<div class="flex items-center justify-center bg-gray-900 rounded-lg" style="height: 400px; width: 100%; flex-shrink: 0;">
+            <audio controls class="w-full max-w-2xl" style="filter: invert(1);"><source src="${embedUrl}" type="audio/mpeg" /></audio>
+          </div>`;
+        }
       } else if (activity.activity_type === 'presentation') {
         console.log('📊 Rendering presentation iframe with URL:', embedUrl);
         if (!embedUrl) {
@@ -439,18 +517,22 @@
             <div class="text-center p-8">
               <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
               <p class="text-gray-600 text-lg mb-2">Presentation file not available</p>
-              <p class="text-gray-500 text-sm">Please add a URL for this presentation in the course settings</p>
+              <p class="text-gray-500 text-sm">Please add a presentation URL in the course settings</p>
             </div>
           </div>`;
         } else {
           playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="position: relative; width: 100%; height: calc(100vh - 280px); flex-shrink: 0;">
-            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" onload="console.log('✅ Presentation iframe loaded')"></iframe>
+            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
           </div>`;
         }
       } else {
         console.log('❓ Unknown activity type:', activity.activity_type);
         playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
-          <p class="text-gray-500">Content type: ${activity.activity_type}</p>
+          <div class="text-center p-8">
+            <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <p class="text-gray-600 text-lg mb-2">Content type not supported</p>
+            <p class="text-gray-500 text-sm">Type: ${activity.activity_type}</p>
+          </div>
         </div>`;
       }
       
