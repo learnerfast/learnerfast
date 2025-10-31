@@ -1,5 +1,4 @@
 import LogingForm from '@/forms/loging-form';
-import LoadingScreen from '@/components/LoadingScreen';
 
 
 import Link from 'next/link';
@@ -27,11 +26,9 @@ const {bg_img, banner_title}  = login_content
 const SingnInArea = () => {
     const router = useRouter();
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
 
     const handleGoogleSignIn = async () => {
         setError("");
-        setLoading(true);
         try {
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
@@ -44,11 +41,8 @@ const SingnInArea = () => {
             }
         } catch (error) {
             setError(error.message || 'Failed to sign in with Google');
-            setLoading(false);
         }
     };
-
-    if (loading) return <LoadingScreen />;
 
     return (
         <>
