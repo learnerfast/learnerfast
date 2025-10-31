@@ -147,6 +147,10 @@ export async function GET(request, { params }) {
       html = html.replace(/<\/head>/i, `<title>${siteData.name}</title></head>`);
     }
     
+    // Add favicon
+    html = html.replace(/<link[^>]*rel="icon"[^>]*>/gi, '');
+    html = html.replace(/<\/head>/i, '<link rel="icon" type="image/png" href="https://learnerfast.com/favicon.png"/></head>');
+    
     // Inject auth script
     html = html.replace('</body>', '<script src="/js/template-auth.js"></script></body>');
     
