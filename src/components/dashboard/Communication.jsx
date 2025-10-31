@@ -40,7 +40,7 @@ const Communication = () => {
       
       if (courseIds.length > 0) {
         const { data: enrollmentsData } = await supabase
-          .from('course_enrollments')
+          .from('enrollments')
           .select('*')
           .in('course_id', courseIds);
         

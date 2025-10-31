@@ -308,7 +308,7 @@
       
       const { data: { user } } = await supabaseClient.auth.getUser();
       if (user) {
-        await supabaseClient.from('course_enrollments').upsert({
+        await supabaseClient.from('enrollments').upsert({
           user_id: user.id,
           course_id: course.id,
           enrolled_at: new Date().toISOString()
