@@ -509,15 +509,15 @@
       }
       
       if (activity.activity_type === 'video') {
-        // Handle iframe embed codes
-        if (['script', 'embed', 'iframe'].includes(activity.source) && embedUrl.includes('<iframe')) {
+        // Handle iframe embed codes for all sources
+        if (embedUrl.includes('<iframe')) {
           const iframeMatch = embedUrl.match(/<iframe[^>]*src=["']([^"']+)["'][^>]*>/i);
           if (iframeMatch) {
             embedUrl = iframeMatch[1];
           }
         } else if (activity.source === 'youtube' && embedUrl) {
           embedUrl = embedUrl.includes('embed') ? embedUrl : embedUrl.replace('watch?v=', 'embed/');
-        } else if (activity.source === 'vimeo' && embedUrl) {
+        } else if (activity.source === 'vimeo' && embedUrl && !embedUrl.includes('player.vimeo.com')) {
           const vimeoId = embedUrl.match(/vimeo\.com\/(\d+)/);
           embedUrl = vimeoId ? `https://player.vimeo.com/video/${vimeoId[1]}` : embedUrl;
         }

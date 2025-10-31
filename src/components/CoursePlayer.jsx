@@ -155,15 +155,15 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                     (() => {
                       let videoUrl = selectedActivity.url;
                       
-                      // Handle iframe embed codes
-                      if (['script', 'embed', 'iframe'].includes(selectedActivity.source) && videoUrl.includes('<iframe')) {
+                      // Handle iframe embed codes for all sources
+                      if (videoUrl.includes('<iframe')) {
                         const iframeMatch = videoUrl.match(/<iframe[^>]*src=["']([^"']+)["'][^>]*>/i);
                         if (iframeMatch) {
                           videoUrl = iframeMatch[1];
                         }
                       } else if (selectedActivity.source === 'youtube' && videoUrl) {
                         videoUrl = videoUrl.includes('embed') ? videoUrl : videoUrl.replace('watch?v=', 'embed/');
-                      } else if (selectedActivity.source === 'vimeo' && videoUrl) {
+                      } else if (selectedActivity.source === 'vimeo' && videoUrl && !videoUrl.includes('player.vimeo.com')) {
                         const vimeoId = videoUrl.match(/vimeo\.com\/(\d+)/);
                         videoUrl = vimeoId ? `https://player.vimeo.com/video/${vimeoId[1]}` : videoUrl;
                       }
