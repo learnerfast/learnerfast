@@ -114,11 +114,14 @@ const DynamicSidebar = () => {
               <div className="space-y-1">
                 {category.items.map((item) => {
                   const Icon = item.icon;
+                  const isDisabled = item.id === 'pricing' && courseBuilder.accessType !== 'paid';
                   return (
                     <button
                       key={item.id}
-                      onClick={() => courseBuilder.setActiveTab(item.id)}
+                      onClick={() => !isDisabled && courseBuilder.setActiveTab(item.id)}
+                      disabled={isDisabled}
                       className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                        isDisabled ? 'opacity-50 cursor-not-allowed text-gray-400' :
                         courseBuilder.activeTab === item.id
                           ? 'bg-teal-50 text-teal-700 border-r-2 border-teal-600'
                           : 'text-gray-700 hover:bg-gray-100'

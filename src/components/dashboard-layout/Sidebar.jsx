@@ -100,11 +100,13 @@ const Sidebar = React.memo(() => {
                 <div className="space-y-1">
                   {category.items.map((item) => {
                     const Icon = item.icon;
+                    const isDisabled = item.id === 'pricing' && selectedCourse?.accessType !== 'paid';
                     return (
                       <button
                         key={item.id}
-                        onClick={() => onTabSelect?.(item.id)}
-                        className="w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors text-muted-foreground hover:bg-accent hover:text-foreground"
+                        onClick={() => !isDisabled && onTabSelect?.(item.id)}
+                        disabled={isDisabled}
+                        className={`w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${isDisabled ? 'opacity-50 cursor-not-allowed' : 'text-muted-foreground hover:bg-accent hover:text-foreground'}`}
                       >
                         <Icon className="mr-3 h-4 w-4" />
                         <span className="flex-1 text-left">{item.label}</span>

@@ -217,7 +217,9 @@ const CourseBuilder = ({ course, onBack }) => {
         .single();
       
       if (!error && data) {
-        setAccessType(data.access_type || 'free');
+        const newAccessType = data.access_type || 'free';
+        setAccessType(newAccessType);
+        courseBuilder.setAccessType(newAccessType);
         setNavigationType(data.navigation_type || 'global');
       }
       
@@ -387,8 +389,8 @@ const CourseBuilder = ({ course, onBack }) => {
   };
   
   const handleSavePricing = async () => {
-    if (accessType === 'free' && (coursePrice > 0 || compareAtPrice > 0)) {
-      setPriceError('Cannot set pricing for free courses');
+    if (accessType === 'free' && coursePrice > 0) {
+      setPriceError('Cannot set course price for free courses');
       return;
     }
     
@@ -1224,9 +1226,9 @@ const CourseBuilder = ({ course, onBack }) => {
       )}
 
       <div className="space-y-8">
-        {accessType === 'free' && (
+        {accessType !== 'paid' && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-blue-800 text-sm">This course is set to <strong>Free</strong> access. Change the access type in the Access tab to enable pricing.</p>
+            <p className="text-blue-800 text-sm">This course is set to <strong>{accessType}</strong> access. Change the access type to "Paid" in the Access tab to enable course pricing.</p>
           </div>
         )}
         
@@ -1249,9 +1251,9 @@ const CourseBuilder = ({ course, onBack }) => {
                     setPriceError('');
                   }
                 }}
-                disabled={accessType === 'free'}
+                disabled={accessType !== 'paid'}
                 className={`px-3 py-2 border rounded-lg ${
-                  accessType === 'free' ? 'bg-gray-100 cursor-not-allowed' : 'border-gray-300'
+                  accessType !== 'paid' ? 'bg-gray-100 cursor-not-allowed' : 'border-gray-300'
                 }`}
               />
             </div>
@@ -1267,10 +1269,7 @@ const CourseBuilder = ({ course, onBack }) => {
               id="show-compare" 
               checked={showComparePrice}
               onChange={(e) => setShowComparePrice(e.target.checked)}
-              disabled={accessType === 'free'}
-              className={`mr-2 h-4 w-4 text-teal-600 ${
-                accessType === 'free' ? 'cursor-not-allowed opacity-50' : ''
-              }`}
+              className="mr-2 h-4 w-4 text-teal-600"
             />
             <label htmlFor="show-compare" className="text-sm text-gray-700">Show a compare-at price</label>
           </div>
@@ -1290,9 +1289,9 @@ const CourseBuilder = ({ course, onBack }) => {
                     setPriceError('');
                   }
                 }}
-                disabled={accessType === 'free' || !showComparePrice}
+                disabled={!showComparePrice}
                 className={`px-3 py-2 border rounded-lg ${
-                  accessType === 'free' || !showComparePrice ? 'bg-gray-100 cursor-not-allowed' : 'border-gray-300'
+                  !showComparePrice ? 'bg-gray-100 cursor-not-allowed' : 'border-gray-300'
                 }`}
               />
             </div>

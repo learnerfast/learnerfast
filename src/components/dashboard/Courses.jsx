@@ -97,6 +97,7 @@ const initialCourses = [
 export const CourseBuilderProvider = ({ children }) => {
   const [editingCourse, setEditingCourse] = useState(null);
   const [activeTab, setActiveTab] = useState('course-outline');
+  const [accessType, setAccessType] = useState('free');
 
   const startEditing = useCallback((course) => {
     setEditingCourse(course);
@@ -113,7 +114,9 @@ export const CourseBuilderProvider = ({ children }) => {
     activeTab,
     setActiveTab,
     startEditing,
-    stopEditing
+    stopEditing,
+    accessType,
+    setAccessType
   };
 
   return (
