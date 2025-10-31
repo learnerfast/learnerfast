@@ -1977,22 +1977,135 @@ const CourseBuilder = ({ course, onBack }) => {
     </div>
   );
 
-  const renderCoursePageLayout = () => (
-    <div className="flex-1 p-8 bg-gray-50 overflow-auto">
-      <div className="mb-6">
-        <h2 className="text-2xl font-semibold text-gray-900">Course page layout</h2>
-        <p className="text-gray-600 mt-2">Preview how your course detail page will appear to students.</p>
+  const renderCoursePageLayout = () => {
+    const iframeRef = useRef(null);
+    const [template, setTemplate] = useState('creative-pro');
+    const [isLoading, setIsLoading] = useState(true);
+    
+    useEffect(() => {
+      const loadTemplate = async () => {
+        if (selectedWebsites.length === 0) {
+          setIsLoading(false);
+          return;
+        }
+        
+        try {
+          const { supabase } = await import('../../lib/supabase');
+          const { data: websiteData } = await supabase
+            .from('websites')
+            .select('template')
+            .eq('id', selectedWebsites[0])
+            .single();
+          
+          if (websiteData?.template) {
+            setTemplate(websiteData.template);
+          }
+        } catch (error) {
+          console.error('Error loading template:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      
+      loadTemplate();
+    }, [selectedWebsites]);
+    
+    useEffect(() => {
+      if (!iframeRef.current || isLoading || selectedWebsites.length === 0) return;
+      
+      const iframe = iframeRef.current;
+      const timer = setTimeout(() => {
+        try {
+          const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+          if (!iframeDoc) return;
+          
+          const header = iframeDoc.querySelector('header');
+          const footer = iframeDoc.querySelector('footer');
+          if (header) header.style.display = 'none';
+          if (footer) footer.style.display = 'none';
+          
+          const main = iframeDoc.querySelector('main');
+          if (main) main.style.paddingTop = '0';
+          
+          const courseData = {
+            title: courseTitle,
+            description: courseDescription,
+            image: loadedCourseImage,
+            price: coursePrice,
+            comparePrice: compareAtPrice,
+            showComparePrice,
+            access_type: accessType,
+            label: courseIncludes.filter(i => i.trim()).join('\n'),
+            whatYouLearn: whatYouLearn.filter(l => l.trim()).join('\n'),
+            instructorName,
+            instructorTitle,
+            instructorBio,
+            showCourseIncludes,
+            showWhatYouLearn,
+            showInstructor,
+            sections
+          };
+          
+          const script = iframeDoc.createElement('script');
+          script.textContent = `(function(){const c=${JSON.stringify(courseData)};const t=document.querySelector('.course-title');if(t)t.textContent=c.title;const i=document.querySelector('.course-image');if(i&&c.image)i.src=c.image;const d=document.querySelector('.course-description');if(d)d.textContent=c.description||'';const p=document.querySelector('.course-price');const cp=p?.nextElementSibling;if(p){if(c.access_type==='free'||c.price===0){p.textContent='Free';if(cp?.classList.contains('line-through'))cp.style.display='none'}else if(c.access_type==='coming-soon'){p.textContent='Coming Soon';if(cp)cp.style.display='none'}else if(c.access_type==='enrollment-closed'){p.textContent='Enrollment Closed';if(cp)cp.style.display='none'}else{p.textContent='₹'+c.price;if(cp?.classList.contains('line-through')){if(c.showComparePrice&&c.comparePrice>c.price){cp.textContent='₹'+c.comparePrice;cp.style.display='block'}else{cp.style.display='none'}}}}const inc=document.querySelector('.course-includes');if(inc){const items=c.label?c.label.split('\\n').filter(i=>i.trim()):[];if(c.showCourseIncludes&&items.length>0){inc.innerHTML=items.map(item=>'<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">check_circle</span><span>'+item+'</span></li>').join('')}else if(!c.showCourseIncludes){const s=inc.closest('section');if(s)s.style.display='none'}}const ls=document.querySelector('section h3');if(ls&&ls.textContent.includes("What you'll learn")){const items=c.whatYouLearn?c.whatYouLearn.split('\\n').filter(i=>i.trim()):[];if(c.showWhatYouLearn&&items.length>0){const g=ls.nextElementSibling;if(g?.classList.contains('grid')){g.innerHTML=items.map(item=>'<div class="flex items-start gap-4 p-4 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary mt-1">check_circle</span><p class="font-medium text-gray-800 dark:text-gray-200">'+item+'</p></div>').join('')}}else if(!c.showWhatYouLearn){const s=ls.closest('section');if(s)s.style.display='none'}}if(!c.showInstructor){document.querySelectorAll('section').forEach(s=>{const h=s.querySelector('h3, h2');if(h?.textContent.toLowerCase().includes('instructor'))s.style.display='none'})}else{const n=document.querySelector('.instructor-name');if(n&&c.instructorName)n.textContent=c.instructorName;const ti=document.querySelector('.instructor-title');if(ti&&c.instructorTitle)ti.textContent=c.instructorTitle;const b=document.querySelector('.instructor-bio');if(b&&c.instructorBio)b.textContent=c.instructorBio}document.querySelectorAll('button').forEach(btn=>{const txt=btn.textContent.trim();if(txt.includes('Enroll')||txt.includes('Add to Cart')){if(c.access_type==='free'){btn.textContent='Enroll for Free'}else if(c.access_type==='paid'){btn.textContent='Enroll Now - ₹'+c.price}else if(c.access_type==='coming-soon'){btn.textContent='Coming Soon';btn.disabled=true;btn.classList.add('opacity-50','cursor-not-allowed')}else if(c.access_type==='enrollment-closed'){btn.textContent='Enrollment Closed';btn.disabled=true;btn.classList.add('opacity-50','cursor-not-allowed')}btn.disabled=true;btn.style.pointerEvents='none'}});const syl=document.querySelector('.course-syllabus');if(syl&&c.sections?.length>0){syl.innerHTML=c.sections.map((s,i)=>'<details class="group rounded-lg border border-gray-200 dark:border-gray-700"><summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50"><span>Module '+(i+1)+': '+s.title+'</span><span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span></summary>'+(s.description?'<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">'+s.description+'</div>':'')+'</details>').join('')}})();`;
+          iframeDoc.body.appendChild(script);
+        } catch (error) {
+          console.error('Preview error:', error);
+        }
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }, [courseTitle, courseDescription, loadedCourseImage, coursePrice, compareAtPrice, showComparePrice, accessType, courseIncludes, whatYouLearn, instructorName, instructorTitle, instructorBio, showCourseIncludes, showWhatYouLearn, showInstructor, sections, isLoading, selectedWebsites]);
+    
+    return (
+      <div className="flex-1 bg-gray-50 overflow-auto">
+        <div className="p-8">
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold text-gray-900">Course page layout</h2>
+            <p className="text-gray-600 mt-2">Live preview of how your course detail page appears on the selected website.</p>
+          </div>
+          
+          {isLoading ? (
+            <div className="flex items-center justify-center h-96">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+            </div>
+          ) : selectedWebsites.length === 0 ? (
+            <div className="bg-white rounded-lg shadow-lg p-12 text-center">
+              <svg className="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+              </svg>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">No Website Selected</h3>
+              <p className="text-gray-600 mb-4">Please select a website in the General settings to preview the course page.</p>
+              <button 
+                onClick={() => setActiveTab('general')}
+                className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+              >
+                Go to General Settings
+              </button>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-2xl overflow-hidden" style={{ maxWidth: '1440px', margin: '0 auto' }}>
+              <div className="bg-gray-800 px-4 py-2 flex items-center space-x-2">
+                <div className="flex space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <div className="flex-1 text-center text-sm text-gray-400">Course Preview - Read Only</div>
+              </div>
+              <iframe 
+                ref={iframeRef}
+                src={`/templates/${template}/course-detail.html`}
+                className="w-full border-0"
+                style={{ height: '900px', pointerEvents: 'none', userSelect: 'none' }}
+                title="Course Page Preview"
+              />
+            </div>
+          )}
+        </div>
       </div>
-      <div className="bg-white rounded-lg shadow-lg p-8 max-w-6xl mx-auto" style={{ pointerEvents: 'none' }}>
-        <iframe 
-          src={`/templates/creative-pro/course-detail.html`}
-          className="w-full border-0"
-          style={{ height: '800px', pointerEvents: 'none' }}
-          title="Course Page Preview"
-        />
-      </div>
-    </div>
-  );
+    );
+  };
 
   const renderCoursePreview = () => (
     <CoursePlayer 

@@ -404,12 +404,12 @@
       if (activity.activity_type === 'video') {
         console.log('📹 Rendering video with source:', activity.source, 'URL:', embedUrl);
         if (['script', 'embed', 'iframe'].includes(activity.source) && embedUrl.includes('<')) {
-          playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
-            <div class="w-full h-full">${embedUrl}</div>
+          playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="position: relative; width: 100%; padding-bottom: 56.25%; flex-shrink: 0;">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">${embedUrl}</div>
           </div>`;
         } else {
-          playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
-            <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+          playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="position: relative; width: 100%; padding-bottom: 56.25%; flex-shrink: 0;">
+            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen allow="autoplay; encrypted-media"></iframe>
           </div>`;
         }
       } else if (activity.activity_type === 'pdf') {
@@ -423,8 +423,8 @@
             </div>
           </div>`;
         } else {
-          playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
-            <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" onload="console.log('✅ PDF iframe loaded')"></iframe>
+          playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="position: relative; width: 100%; height: calc(100vh - 280px); flex-shrink: 0;">
+            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" onload="console.log('✅ PDF iframe loaded')"></iframe>
           </div>`;
         }
       } else if (activity.activity_type === 'audio') {
@@ -443,8 +443,8 @@
             </div>
           </div>`;
         } else {
-          playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
-            <iframe src="${embedUrl}" class="w-full h-full" frameborder="0" onload="console.log('✅ Presentation iframe loaded')"></iframe>
+          playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="position: relative; width: 100%; height: calc(100vh - 280px); flex-shrink: 0;">
+            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" onload="console.log('✅ Presentation iframe loaded')"></iframe>
           </div>`;
         }
       } else {
