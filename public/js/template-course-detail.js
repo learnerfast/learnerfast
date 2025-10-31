@@ -295,7 +295,7 @@
               <svg class="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-2">
-              <div class="bg-green-500 h-2 rounded-full" style="width: 0%"></div>
+              <div class="bg-green-500 h-2 rounded-full progress-bar" style="width: 0%"></div>
             </div>
           </div>
           <div class="flex-1 overflow-y-auto" id="sections-list">
@@ -335,13 +335,15 @@
           </div>
         </div>
         <div class="flex-1 flex flex-col bg-gray-50" style="min-width: 0; overflow: hidden;">
-          <div class="bg-white border-b border-gray-200 px-8 py-4">
+          <div class="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-center">
             <h1 class="text-xl font-semibold text-amber-600">${course.title}</h1>
           </div>
-          <div class="flex-1" id="content-area" style="padding: 2rem; overflow: hidden;">
-            <div class="text-center text-gray-500">
-              <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-              <p class="text-lg">Select a lesson to start learning</p>
+          <div class="flex-1" id="content-area" style="padding: 2rem; overflow: auto; display: flex; flex-direction: column;">
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+              <div class="text-center text-gray-500">
+                <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                <p class="text-lg">Select a lesson to start learning</p>
+              </div>
             </div>
           </div>
         </div>
@@ -377,8 +379,11 @@
     
     window.playActivity = (activity, sectionTitle) => {
       currentActivityIndex = allActivities.findIndex(a => a.id === activity.id);
-      
-      // Update active state in sidebar
+      updateSidebarHighlight();
+      renderActivity(activity, sectionTitle);
+    };
+    
+    function updateSidebarHighlight() {
       document.querySelectorAll('.activity-item').forEach(item => {
         item.classList.remove('bg-amber-50', 'border-l-4', 'border-amber-500');
         const checkbox = item.querySelector('.w-5.h-5 > div');
@@ -388,7 +393,8 @@
         }
       });
       
-      const activeItem = document.querySelector(`[data-activity-id="${activity.id}"]`);
+      const currentActivity = allActivities[currentActivityIndex];
+      const activeItem = document.querySelector(`[data-activity-id="${currentActivity.id}"]`);
       if (activeItem) {
         activeItem.classList.add('bg-amber-50', 'border-l-4', 'border-amber-500');
         const checkbox = activeItem.querySelector('.w-5.h-5 > div');
@@ -397,14 +403,13 @@
           checkbox.classList.add('bg-amber-500');
         }
       }
-      
-      renderActivity(activity, sectionTitle);
-    };
+    }
     
     window.playNextActivity = () => {
       if (currentActivityIndex < allActivities.length - 1) {
         currentActivityIndex++;
         const nextActivity = allActivities[currentActivityIndex];
+        updateSidebarHighlight();
         renderActivity(nextActivity, nextActivity.sectionTitle);
       } else {
         const contentArea = document.getElementById('content-area');
@@ -416,6 +421,8 @@
             <button onclick="document.getElementById('course-player').remove()" class="px-8 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 font-semibold">Close Course</button>
           </div>
         `;
+        const progressBar = document.querySelector('.progress-bar');
+        if (progressBar) progressBar.style.width = '100%';
       }
     };
     
@@ -459,9 +466,8 @@
       
       let playerHTML = '';
       if (activity.activity_type === 'video') {
-        console.log('📹 Rendering video with source:', activity.source, 'URL:', embedUrl);
         if (!embedUrl) {
-          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="width: 100%; height: calc(100vh - 240px);">
             <div class="text-center p-8">
               <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
               <p class="text-gray-600 text-lg mb-2">Video not available</p>
@@ -469,18 +475,17 @@
             </div>
           </div>`;
         } else if (['script', 'embed', 'iframe'].includes(activity.source) && embedUrl.includes('<')) {
-          playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="position: relative; width: 100%; padding-bottom: 56.25%; flex-shrink: 0;">
-            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">${embedUrl}</div>
+          playerHTML = `<div class="bg-black rounded-lg" style="width: 100%; height: calc(100vh - 240px); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">${embedUrl}</div>
           </div>`;
         } else {
-          playerHTML = `<div class="bg-black rounded-lg overflow-hidden" style="position: relative; width: 100%; padding-bottom: 56.25%; flex-shrink: 0;">
-            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+          playerHTML = `<div class="bg-black rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
+            <iframe src="${embedUrl}" style="width: 100%; height: 100%; border: 0;" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
           </div>`;
         }
       } else if (activity.activity_type === 'pdf') {
-        console.log('📄 Rendering PDF iframe with URL:', embedUrl);
         if (!embedUrl) {
-          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="width: 100%; height: calc(100vh - 240px);">
             <div class="text-center p-8">
               <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
               <p class="text-gray-600 text-lg mb-2">PDF file not available</p>
@@ -488,17 +493,17 @@
             </div>
           </div>`;
         } else {
-          const pdfUrl = embedUrl.includes('drive.google.com') && !embedUrl.includes('/preview') 
-            ? embedUrl.replace('/view', '/preview') 
-            : embedUrl;
-          playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="position: relative; width: 100%; height: calc(100vh - 280px); flex-shrink: 0;">
-            <iframe src="${pdfUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"></iframe>
+          let pdfUrl = embedUrl;
+          if (embedUrl.includes('drive.google.com') && !embedUrl.includes('/preview')) {
+            pdfUrl = embedUrl.replace('/view', '/preview');
+          }
+          playerHTML = `<div class="bg-white rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
+            <iframe src="${pdfUrl}" style="width: 100%; height: 100%; border: 0;"></iframe>
           </div>`;
         }
       } else if (activity.activity_type === 'audio') {
-        console.log('🎵 Rendering audio player with URL:', embedUrl);
         if (!embedUrl) {
-          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="width: 100%; height: calc(100vh - 240px);">
             <div class="text-center p-8">
               <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
               <p class="text-gray-600 text-lg mb-2">Audio file not available</p>
@@ -506,14 +511,13 @@
             </div>
           </div>`;
         } else {
-          playerHTML = `<div class="flex items-center justify-center bg-gray-900 rounded-lg" style="height: 400px; width: 100%; flex-shrink: 0;">
+          playerHTML = `<div class="flex items-center justify-center bg-gray-900 rounded-lg" style="width: 100%; height: 400px;">
             <audio controls class="w-full max-w-2xl" style="filter: invert(1);"><source src="${embedUrl}" type="audio/mpeg" /></audio>
           </div>`;
         }
       } else if (activity.activity_type === 'presentation') {
-        console.log('📊 Rendering presentation iframe with URL:', embedUrl);
         if (!embedUrl) {
-          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+          playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="width: 100%; height: calc(100vh - 240px);">
             <div class="text-center p-8">
               <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
               <p class="text-gray-600 text-lg mb-2">Presentation file not available</p>
@@ -521,13 +525,12 @@
             </div>
           </div>`;
         } else {
-          playerHTML = `<div class="bg-white rounded-lg overflow-hidden" style="position: relative; width: 100%; height: calc(100vh - 280px); flex-shrink: 0;">
-            <iframe src="${embedUrl}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
+          playerHTML = `<div class="bg-white rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
+            <iframe src="${embedUrl}" style="width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
           </div>`;
         }
       } else {
-        console.log('❓ Unknown activity type:', activity.activity_type);
-        playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="height: calc(100vh - 280px); width: 100%; flex-shrink: 0;">
+        playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="width: 100%; height: calc(100vh - 240px);">
           <div class="text-center p-8">
             <svg class="w-16 h-16 mx-auto mb-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
             <p class="text-gray-600 text-lg mb-2">Content type not supported</p>
@@ -548,9 +551,13 @@
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
           </div>
-          ${playerHTML}
+          <div style="flex: 1; min-height: 0;">${playerHTML}</div>
         </div>
       `;
+      
+      const progressPercent = ((currentActivityIndex + 1) / allActivities.length) * 100;
+      const progressBar = document.querySelector('.progress-bar');
+      if (progressBar) progressBar.style.width = progressPercent + '%';
     }
   }
 })();
