@@ -406,13 +406,13 @@
       }
     };
     
-    let allActivities = [];
-    let currentActivityIndex = 0;
+    window.allActivities = [];
+    window.currentActivityIndex = 0;
     
     course.sections.forEach(section => {
       const activities = Array.isArray(section.activities) ? section.activities : [];
       activities.forEach(activity => {
-        allActivities.push({ ...activity, sectionTitle: section.title });
+        window.allActivities.push({ ...activity, sectionTitle: section.title });
       });
     });
     
@@ -420,23 +420,22 @@
     setTimeout(() => {
       if (course.sections[0] && course.sections[0].activities && course.sections[0].activities.length > 0) {
         toggleSection(0);
-        if (startActivityIndex > 0 && allActivities[startActivityIndex]) {
-          playActivity(allActivities[startActivityIndex], allActivities[startActivityIndex].sectionTitle);
+        if (startActivityIndex > 0 && window.allActivities[startActivityIndex]) {
+          playActivity(window.allActivities[startActivityIndex], window.allActivities[startActivityIndex].sectionTitle);
         } else {
           playActivity(course.sections[0].activities[0], course.sections[0].title);
         }
       }
     }, 100);
     
-    console.log('📚 Total activities loaded:', allActivities.length);
-    console.log('Activities:', allActivities);
+    console.log('📚 Total activities loaded:', window.allActivities.length);
+    console.log('Activities:', window.allActivities);
     
     window.playActivity = (activity, sectionTitle) => {
-      currentActivityIndex = allActivities.findIndex(a => a.id === activity.id);
-      // Update player state
+      window.currentActivityIndex = window.allActivities.findIndex(a => a.id === activity.id);
       sessionStorage.setItem('coursePlayerState', JSON.stringify({
         courseSlug: course.slug,
-        activityIndex: currentActivityIndex
+        activityIndex: window.currentActivityIndex
       }));
       updateSidebarHighlight();
       renderActivity(activity, sectionTitle);
@@ -452,7 +451,7 @@
         }
       });
       
-      const currentActivity = allActivities[currentActivityIndex];
+      const currentActivity = window.allActivities[window.currentActivityIndex];
       const activeItem = document.querySelector(`[data-activity-id="${currentActivity.id}"]`);
       if (activeItem) {
         activeItem.classList.add('bg-amber-50', 'border-l-4', 'border-amber-500');
@@ -465,9 +464,9 @@
     }
     
     window.playNextActivity = () => {
-      if (currentActivityIndex < allActivities.length - 1) {
-        currentActivityIndex++;
-        const nextActivity = allActivities[currentActivityIndex];
+      if (window.currentActivityIndex < window.allActivities.length - 1) {
+        window.currentActivityIndex++;
+        const nextActivity = window.allActivities[window.currentActivityIndex];
         updateSidebarHighlight();
         renderActivity(nextActivity, nextActivity.sectionTitle);
       } else {
@@ -487,7 +486,7 @@
     
     function renderActivity(activity, sectionTitle) {
       const contentArea = document.getElementById('content-area');
-      const isLastActivity = currentActivityIndex === allActivities.length - 1;
+      const isLastActivity = window.currentActivityIndex === window.allActivities.length - 1;
       const nextButtonText = isLastActivity ? 'Complete' : 'Next';
       
       let embedUrl = activity.url || activity.file_url || '';
@@ -620,7 +619,7 @@
         </div>
       `;
       
-      const progressPercent = ((currentActivityIndex + 1) / allActivities.length) * 100;
+      const progressPercent = ((window.currentActivityIndex + 1) / window.allActivities.length) * 100;
       const progressBar = document.querySelector('.progress-bar');
       if (progressBar) {
         const currentWidth = parseFloat(progressBar.style.width) || 0;
