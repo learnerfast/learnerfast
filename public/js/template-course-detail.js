@@ -22,6 +22,13 @@
       });
   } else {
     renderCourse();
+    fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`)
+      .then(r => r.json())
+      .then(data => {
+        coursesCache = data.courses;
+        sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+        renderCourse();
+      });
   }
   
   let supabaseLoaded = false;
