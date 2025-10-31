@@ -482,8 +482,9 @@
             </div>
           </div>`;
         } else if (['script', 'embed', 'iframe'].includes(activity.source) && embedUrl.includes('<')) {
-          playerHTML = `<div class="bg-black rounded-lg" style="width: 100%; height: calc(100vh - 240px); display: flex; align-items: center; justify-content: center; overflow: hidden;">
-            <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">${embedUrl}</div>
+          const wrappedEmbed = embedUrl.replace(/<iframe/gi, '<iframe style="width: 100%; height: 100%; border: 0;"');
+          playerHTML = `<div class="bg-black rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
+            ${wrappedEmbed}
           </div>`;
         } else {
           playerHTML = `<div class="bg-black rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
@@ -504,9 +505,7 @@
           if (embedUrl.includes('drive.google.com') && !embedUrl.includes('/preview')) {
             pdfUrl = embedUrl.replace('/view', '/preview');
           }
-          playerHTML = `<div class="bg-white rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
-            <iframe src="${pdfUrl}" style="width: 100%; height: 100%; border: 0;"></iframe>
-          </div>`;
+          playerHTML = `<iframe src="${pdfUrl}" style="width: 100%; height: calc(100vh - 240px); border: 0; border-radius: 0.5rem;"></iframe>`;
         }
       } else if (activity.activity_type === 'audio') {
         if (!embedUrl) {
@@ -532,9 +531,7 @@
             </div>
           </div>`;
         } else {
-          playerHTML = `<div class="bg-white rounded-lg" style="width: 100%; height: calc(100vh - 240px); overflow: hidden;">
-            <iframe src="${embedUrl}" style="width: 100%; height: 100%; border: 0;" allowfullscreen></iframe>
-          </div>`;
+          playerHTML = `<iframe src="${embedUrl}" style="width: 100%; height: calc(100vh - 240px); border: 0; border-radius: 0.5rem;" allowfullscreen></iframe>`;
         }
       } else {
         playerHTML = `<div class="flex items-center justify-center bg-gray-100 rounded-lg" style="width: 100%; height: calc(100vh - 240px);">
