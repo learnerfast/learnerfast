@@ -1,22 +1,31 @@
 (function() {
   const hostname = window.location.hostname;
   const websiteName = hostname.split('.')[0];
-  let coursesCache = sessionStorage.getItem(`courses_${websiteName}`);
-  if (coursesCache) coursesCache = JSON.parse(coursesCache);
+  let coursesCache = null;
   
   async function loadHomeCourses() {
     const container = document.getElementById('home-courses-grid');
-    if (!container) return;
+    if (!container) {
+      console.log('home-courses-grid container not found');
+      return;
+    }
+    
+    container.innerHTML = '';
     
     try {
       if (coursesCache) {
         renderCourses(coursesCache);
+        return;
       }
       
-      const response = await fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`);
+      const url = `https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`;
+      console.log('Fetching courses from:', url);
+      
+      const response = await fetch(url);
       const data = await response.json();
+      console.log('API response:', data);
+      
       coursesCache = data.courses || [];
-      sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
       renderCourses(coursesCache);
     } catch (error) {
       console.error('Failed to load courses:', error);
@@ -25,10 +34,11 @@
   
   function renderCourses(courses) {
     const container = document.getElementById('home-courses-grid');
-    const visibleCourses = (courses || []).filter(c => c.access_type !== 'draft');
+    console.log('Rendering courses:', courses);
     
-    if (visibleCourses.length > 0) {
-      container.innerHTML = visibleCourses.slice(0, 3).map(course => `
+    if (courses && courses.length > 0) {
+      console.log('Rendering', courses.length, 'courses');
+      container.innerHTML = courses.slice(0, 3).map(course => `
         <a href="/course-detail/${course.slug}" class="group flex flex-col overflow-hidden rounded-xl bg-white dark:bg-background-dark/50 shadow-md transition-shadow hover:shadow-xl">
           <div class="aspect-video overflow-hidden">
             <img 
