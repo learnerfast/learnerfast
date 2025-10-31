@@ -36,33 +36,65 @@ const Users = () => {
         .eq('user_id', user.id);
       setWebsites(sitesData || []);
 
-      // Load courses
+      // Load courses with sections and activities
       const { data: coursesData } = await supabase
         .from('courses')
-        .select('*')
+        .select(`
+          *,
+          course_sections(id, course_activities(id))
+        `)
         .eq('user_id', user.id);
       setCourses(coursesData || []);
 
-      // Load enrollments
-      const { data: enrollmentsData } = await supabase
-        .from('course_enrollments')
-        .select(`
-          *,
-          courses(title, id),
-          profiles(email, full_name)
-        `)
-        .in('course_id', (coursesData || []).map(c => c.id));
-      setEnrollments(enrollmentsData || []);
+      // Load ALL enrollments for user's courses
+      const courseIds = (coursesData || []).map(c => c.id);
+      let enrollmentsData = [];
+      
+      if (courseIds.length > 0) {
+        const { data } = await supabase
+          .from('course_enrollments')
+          .select('*')
+          .in('course_id', courseIds);
+        enrollmentsData = data || [];
+      }
+      
+      // Get unique user IDs from enrollments
+      const userIds = [...new Set(enrollmentsData.map(e => e.user_id))];
+      
+      // Fetch user profiles
+      let profilesData = [];
+      if (userIds.length > 0) {
+        const { data } = await supabase
+          .from('profiles')
+          .select('id, email, full_name')
+          .in('id', userIds);
+        profilesData = data || [];
+      }
+      
+      // Create profile map
+      const profileMap = new Map(profilesData.map(p => [p.id, p]));
+      
+      // Enrich enrollments with course and profile data
+      const enrichedEnrollments = enrollmentsData.map(e => {
+        const course = coursesData?.find(c => c.id === e.course_id);
+        const profile = profileMap.get(e.user_id);
+        return {
+          ...e,
+          courses: course ? { title: course.title, id: course.id } : null,
+          profiles: profile || null
+        };
+      });
+      setEnrollments(enrichedEnrollments);
 
       // Aggregate student data
       const studentMap = new Map();
-      (enrollmentsData || []).forEach(enrollment => {
+      enrichedEnrollments.forEach(enrollment => {
         const userId = enrollment.user_id;
         if (!studentMap.has(userId)) {
           studentMap.set(userId, {
             id: userId,
-            email: enrollment.profiles?.email || 'Unknown',
-            name: enrollment.profiles?.full_name || enrollment.profiles?.email?.split('@')[0] || 'Student',
+            email: enrollment.profiles?.email || `user_${userId.substring(0, 8)}`,
+            name: enrollment.profiles?.full_name || enrollment.profiles?.email?.split('@')[0] || `Student ${userId.substring(0, 8)}`,
             enrollments: [],
             totalProgress: 0,
             lastActive: enrollment.last_accessed_at || enrollment.enrolled_at,
@@ -78,7 +110,7 @@ const Users = () => {
           completedAt: enrollment.completed_at
         });
         student.totalProgress += enrollment.progress || 0;
-        if (new Date(enrollment.last_accessed_at) > new Date(student.lastActive)) {
+        if (enrollment.last_accessed_at && new Date(enrollment.last_accessed_at) > new Date(student.lastActive)) {
           student.lastActive = enrollment.last_accessed_at;
         }
       });
@@ -100,14 +132,14 @@ const Users = () => {
       const newThisMonth = studentsArray.filter(s => new Date(s.joinDate) > new Date(monthAgo)).length;
       const totalProgress = studentsArray.reduce((sum, s) => sum + s.avgProgress, 0);
       const avgProgress = studentsArray.length > 0 ? Math.round(totalProgress / studentsArray.length) : 0;
-      const completed = enrollmentsData?.filter(e => e.completed_at).length || 0;
-      const completionRate = enrollmentsData?.length > 0 ? Math.round((completed / enrollmentsData.length) * 100) : 0;
+      const completed = enrichedEnrollments.filter(e => e.completed_at).length || 0;
+      const completionRate = enrichedEnrollments.length > 0 ? Math.round((completed / enrichedEnrollments.length) * 100) : 0;
 
       setAnalytics({
         totalStudents: studentsArray.length,
         activeThisWeek,
         newThisMonth,
-        totalEnrollments: enrollmentsData?.length || 0,
+        totalEnrollments: enrichedEnrollments.length,
         avgProgress,
         completionRate
       });
@@ -204,31 +236,77 @@ const Users = () => {
       {/* Overview Tab */}
       {activeTab === 'overview' && (
         <div className="space-y-6">
+          {/* Website Analytics */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Platform Overview</h3>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-blue-900">Websites</span>
+                  <UsersIcon className="h-5 w-5 text-blue-600" />
+                </div>
+                <p className="text-3xl font-bold text-blue-900">{websites.length}</p>
+                <p className="text-xs text-blue-700 mt-1">Active platforms</p>
+              </div>
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-purple-900">Courses</span>
+                  <BookOpen className="h-5 w-5 text-purple-600" />
+                </div>
+                <p className="text-3xl font-bold text-purple-900">{courses.length}</p>
+                <p className="text-xs text-purple-700 mt-1">{courses.reduce((sum, c) => sum + (c.course_sections?.length || 0), 0)} modules</p>
+              </div>
+              <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-green-900">Activities</span>
+                  <Activity className="h-5 w-5 text-green-600" />
+                </div>
+                <p className="text-3xl font-bold text-green-900">
+                  {courses.reduce((sum, c) => sum + (c.course_sections?.reduce((s, sec) => s + (sec.course_activities?.length || 0), 0) || 0), 0)}
+                </p>
+                <p className="text-xs text-green-700 mt-1">Learning resources</p>
+              </div>
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-orange-900">Revenue</span>
+                  <TrendingUp className="h-5 w-5 text-orange-600" />
+                </div>
+                <p className="text-3xl font-bold text-orange-900">₹0</p>
+                <p className="text-xs text-orange-700 mt-1">Total earnings</p>
+              </div>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Recent Activity */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Students</h3>
               <div className="space-y-4">
-                {students.slice(0, 5).map((student) => (
+                {students.length > 0 ? students.slice(0, 5).map((student) => (
                   <div key={student.id} className="flex items-center space-x-3 pb-3 border-b border-gray-100 last:border-0">
                     <div className="h-10 w-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                       <span className="text-white font-semibold">{student.name.charAt(0).toUpperCase()}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate">{student.name}</p>
-                      <p className="text-xs text-gray-500">{student.coursesEnrolled} courses • {student.avgProgress}% avg progress</p>
+                      <p className="text-xs text-gray-500">{student.coursesEnrolled} courses • {student.avgProgress}% progress</p>
                     </div>
                     <Clock className="h-4 w-4 text-gray-400" />
                   </div>
-                ))}
+                )) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <UsersIcon className="h-12 w-12 mx-auto mb-2 text-gray-300" />
+                    <p className="text-sm">No students enrolled yet</p>
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Top Courses */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Courses by Enrollment</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Courses</h3>
               <div className="space-y-4">
-                {courses.slice(0, 5).map((course, idx) => {
+                {courses.length > 0 ? courses.slice(0, 5).map((course, idx) => {
                   const courseEnrollments = enrollments.filter(e => e.course_id === course.id).length;
                   return (
                     <div key={course.id} className="flex items-center space-x-3">
@@ -237,11 +315,16 @@ const Users = () => {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-gray-900 truncate">{course.title}</p>
-                        <p className="text-xs text-gray-500">{courseEnrollments} students enrolled</p>
+                        <p className="text-xs text-gray-500">{courseEnrollments} students</p>
                       </div>
                     </div>
                   );
-                })}
+                }) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <BookOpen className="h-12 w-12 mx-auto mb-2 text-gray-300" />
+                    <p className="text-sm">No courses created yet</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
