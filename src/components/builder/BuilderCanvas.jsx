@@ -23,7 +23,6 @@ const BuilderCanvas = () => {
 
   // Ensure no selection on mount
   useEffect(() => {
-    console.log('[DEBUG] BuilderCanvas mounted, clearing selection');
     setSelectedElement(null);
   }, []);
 
@@ -81,13 +80,11 @@ const BuilderCanvas = () => {
     if (iframeRef.current?.contentDocument && !isLoadingTemplate) {
       const doc = iframeRef.current.contentDocument;
       const selectedEls = doc.querySelectorAll('.builder-selected, .builder-hover');
-      console.log('[DEBUG] syncIframeToTemplate - removing classes from', selectedEls.length, 'elements');
       selectedEls.forEach(el => {
         el.classList.remove('builder-selected', 'builder-hover');
         el.removeAttribute('data-element-type');
       });
       const newHTML = doc.documentElement.outerHTML;
-      console.log('[DEBUG] syncIframeToTemplate - HTML contains .builder-selected:', newHTML.includes('builder-selected'));
       if (window.updateTemplateContent) {
         window.updateTemplateContent(newHTML);
       }
@@ -96,7 +93,6 @@ const BuilderCanvas = () => {
 
   // Handle iframe load and setup interaction
   const handleIframeLoad = () => {
-    console.log('[DEBUG] Iframe loaded');
     setIframeLoaded(true);
     
     if (iframeRef.current) {
@@ -105,9 +101,8 @@ const BuilderCanvas = () => {
         if (iframeDoc) {
           // Check for existing selected elements in loaded HTML
           const existingSelected = iframeDoc.querySelectorAll('.builder-selected');
-          console.log('[DEBUG] Found existing .builder-selected elements:', existingSelected.length);
           existingSelected.forEach(el => {
-            console.log('[DEBUG] Element with .builder-selected:', el.tagName, el.className);
+            // Element with .builder-selected
           });
           
           // Clear selection immediately
@@ -150,8 +145,6 @@ const BuilderCanvas = () => {
             element.addEventListener('click', (e) => {
               e.preventDefault();
               e.stopPropagation();
-              
-              console.log('[DEBUG] Element clicked:', element.tagName, element.className);
 
               // Remove previous selections
               iframeDoc.querySelectorAll('.builder-selected').forEach(el => {
@@ -161,7 +154,6 @@ const BuilderCanvas = () => {
 
               // Select current element
               element.classList.add('builder-selected');
-              console.log('[DEBUG] Added .builder-selected to:', element.tagName);
               element.setAttribute('data-element-type', element.tagName.toLowerCase());
 
               // Calculate element position for toolbar
@@ -309,9 +301,7 @@ const BuilderCanvas = () => {
 
           // Clear any existing selections
           const selectedElements = iframeDoc.querySelectorAll('.builder-selected, .builder-hover');
-          console.log('[DEBUG] Clearing selections, found:', selectedElements.length);
           selectedElements.forEach(el => {
-            console.log('[DEBUG] Removing classes from:', el.tagName, el.className);
             el.classList.remove('builder-selected', 'builder-hover');
             el.removeAttribute('data-element-type');
           });

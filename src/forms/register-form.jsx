@@ -68,7 +68,7 @@ const RegisterForm = () => {
           })
         });
       } catch (emailError) {
-        console.error('Welcome email failed:', emailError);
+        // Welcome email failed silently
       }
       
       toast.success('Registration successful! Please check your email inbox (and spam folder) to verify your account before signing in.', {

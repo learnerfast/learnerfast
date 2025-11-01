@@ -240,7 +240,7 @@ const Courses = React.memo(() => {
                 show_compare_price: (newCourseData.compare_price || 0) > (newCourseData.price || 0)
               });
           } catch (accessError) {
-            console.error('Failed to save access/pricing:', accessError);
+            // Failed to save access/pricing
           }
           
           // Save course image and website selection if provided

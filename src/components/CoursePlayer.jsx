@@ -31,13 +31,6 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
   };
   
   const handleActivityClick = (activity) => {
-    console.log('🎬 Playing Activity:', {
-      title: activity.title,
-      type: activity.activity_type || activity.type,
-      source: activity.source,
-      url: activity.url,
-      file: activity.file?.name
-    });
     setSelectedActivity(activity);
     const index = allActivities.findIndex(a => a.id === activity.id);
     setCurrentActivityIndex(index);
@@ -168,7 +161,6 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                         videoUrl = vimeoId ? `https://player.vimeo.com/video/${vimeoId[1]}` : videoUrl;
                       }
                       
-                      console.log('📹 Rendering video iframe:', videoUrl);
                       return <iframe 
                         src={videoUrl}
                         className="w-full h-full"
@@ -182,7 +174,6 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                 ) : (selectedActivity.activity_type || selectedActivity.type) === 'pdf' ? (
                   (() => {
                     const pdfUrl = selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : (selectedActivity.url || selectedActivity.file_url);
-                    console.log('📄 Rendering PDF iframe:', pdfUrl);
                     if (!pdfUrl) {
                       return <div className="flex items-center justify-center h-full bg-gray-100">
                         <div className="text-center p-8">
@@ -198,15 +189,12 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                         className="w-full h-full" 
                         title={selectedActivity.title}
                         frameBorder="0"
-                        onLoad={() => console.log('✅ PDF iframe loaded')}
-                        onError={(e) => console.error('❌ PDF iframe error:', e)}
                       />
                     </div>;
                   })()
                 ) : (selectedActivity.activity_type || selectedActivity.type) === 'presentation' ? (
                   (() => {
                     const presUrl = selectedActivity.file ? URL.createObjectURL(selectedActivity.file) : (selectedActivity.url || selectedActivity.file_url);
-                    console.log('📊 Rendering presentation iframe:', presUrl);
                     if (!presUrl) {
                       return <div className="flex items-center justify-center h-full bg-gray-100">
                         <div className="text-center p-8">
@@ -222,13 +210,11 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                         className="w-full h-full" 
                         title={selectedActivity.title}
                         frameBorder="0"
-                        onLoad={() => console.log('✅ Presentation iframe loaded')}
                       />
                     </div>;
                   })()
                 ) : (selectedActivity.activity_type || selectedActivity.type) === 'audio' ? (
                   (() => {
-                    console.log('🎵 Rendering audio player');
                     return <div className="flex items-center justify-center h-full bg-gray-900">
                       <audio controls className="w-full max-w-2xl">
                         {selectedActivity.file ? (
@@ -241,7 +227,6 @@ const CoursePlayer = ({ course, sections, onClose, courseImage }) => {
                   })()
                 ) : (
                   (() => {
-                    console.log('❓ Unknown activity type:', selectedActivity.activity_type || selectedActivity.type);
                     return <div className="flex items-center justify-center h-full bg-gray-100">
                       <p className="text-gray-500">Content type: {selectedActivity.activity_type || selectedActivity.type}</p>
                     </div>;

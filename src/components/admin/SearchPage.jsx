@@ -65,7 +65,7 @@ const SearchPage = () => {
         courses: coursesWithOwners
       });
     } catch (error) {
-      console.error('Search error:', error);
+      // Search error
     } finally {
       setLoading(false);
     }

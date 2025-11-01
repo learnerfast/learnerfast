@@ -335,7 +335,6 @@ const CourseBuilder = ({ course, onBack }) => {
       
       showMessage('success', 'Course settings saved successfully!');
     } catch (error) {
-      console.error('Error saving course settings:', error);
       showMessage('error', `Failed to save: ${error.message || 'Unknown error'}`);
     } finally {
       setIsSaving(false);
@@ -2002,7 +2001,7 @@ const CourseBuilder = ({ course, onBack }) => {
             setTemplate(websiteData.template);
           }
         } catch (error) {
-          console.error('Error loading template:', error);
+          // Error loading template
         } finally {
           setIsLoading(false);
         }
@@ -2051,7 +2050,7 @@ const CourseBuilder = ({ course, onBack }) => {
           script.textContent = `(function(){const c=${JSON.stringify(courseData)};const t=document.querySelector('.course-title');if(t)t.textContent=c.title;const i=document.querySelector('.course-image');if(i&&c.image)i.src=c.image;const d=document.querySelector('.course-description');if(d)d.textContent=c.description||'';const p=document.querySelector('.course-price');const cp=p?.nextElementSibling;if(p){if(c.access_type==='free'||c.price===0){p.textContent='Free';if(cp?.classList.contains('line-through'))cp.style.display='none'}else if(c.access_type==='coming-soon'){p.textContent='Coming Soon';if(cp)cp.style.display='none'}else if(c.access_type==='enrollment-closed'){p.textContent='Enrollment Closed';if(cp)cp.style.display='none'}else{p.textContent='₹'+c.price;if(cp?.classList.contains('line-through')){if(c.showComparePrice&&c.comparePrice>c.price){cp.textContent='₹'+c.comparePrice;cp.style.display='block'}else{cp.style.display='none'}}}}const inc=document.querySelector('.course-includes');if(inc){const items=c.label?c.label.split('\\n').filter(i=>i.trim()):[];if(c.showCourseIncludes&&items.length>0){inc.innerHTML=items.map(item=>'<li class="flex items-center gap-3"><span class="material-symbols-outlined text-base text-primary">check_circle</span><span>'+item+'</span></li>').join('')}else if(!c.showCourseIncludes){const s=inc.closest('section');if(s)s.style.display='none'}}const ls=document.querySelector('section h3');if(ls&&ls.textContent.includes("What you'll learn")){const items=c.whatYouLearn?c.whatYouLearn.split('\\n').filter(i=>i.trim()):[];if(c.showWhatYouLearn&&items.length>0){const g=ls.nextElementSibling;if(g?.classList.contains('grid')){g.innerHTML=items.map(item=>'<div class="flex items-start gap-4 p-4 rounded-lg bg-background-light dark:bg-gray-800/50"><span class="material-symbols-outlined text-primary mt-1">check_circle</span><p class="font-medium text-gray-800 dark:text-gray-200">'+item+'</p></div>').join('')}}else if(!c.showWhatYouLearn){const s=ls.closest('section');if(s)s.style.display='none'}}if(!c.showInstructor){document.querySelectorAll('section').forEach(s=>{const h=s.querySelector('h3, h2');if(h?.textContent.toLowerCase().includes('instructor'))s.style.display='none'})}else{const n=document.querySelector('.instructor-name');if(n&&c.instructorName)n.textContent=c.instructorName;const ti=document.querySelector('.instructor-title');if(ti&&c.instructorTitle)ti.textContent=c.instructorTitle;const b=document.querySelector('.instructor-bio');if(b&&c.instructorBio)b.textContent=c.instructorBio}document.querySelectorAll('button').forEach(btn=>{const txt=btn.textContent.trim();if(txt.includes('Enroll')||txt.includes('Add to Cart')){if(c.access_type==='free'){btn.textContent='Enroll for Free'}else if(c.access_type==='paid'){btn.textContent='Enroll Now - ₹'+c.price}else if(c.access_type==='coming-soon'){btn.textContent='Coming Soon';btn.disabled=true;btn.classList.add('opacity-50','cursor-not-allowed')}else if(c.access_type==='enrollment-closed'){btn.textContent='Enrollment Closed';btn.disabled=true;btn.classList.add('opacity-50','cursor-not-allowed')}btn.disabled=true;btn.style.pointerEvents='none'}});const syl=document.querySelector('.course-syllabus');if(syl&&c.sections?.length>0){syl.innerHTML=c.sections.map((s,i)=>'<details class="group rounded-lg border border-gray-200 dark:border-gray-700"><summary class="flex cursor-pointer items-center justify-between p-4 font-medium hover:bg-gray-50 dark:hover:bg-gray-800/50"><span>Module '+(i+1)+': '+s.title+'</span><span class="material-symbols-outlined transition-transform group-open:rotate-180">expand_more</span></summary>'+(s.description?'<div class="border-t border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-400">'+s.description+'</div>':'')+'</details>').join('')}})();`;
           iframeDoc.body.appendChild(script);
         } catch (error) {
-          console.error('Preview error:', error);
+          // Preview error
         }
       }, 500);
       

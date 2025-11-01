@@ -65,13 +65,11 @@ export async function POST(request) {
           });
           
           if (error) {
-            console.error(`Failed to send to ${email}:`, error);
             failed++;
           } else {
             sent++;
           }
         } catch (err) {
-          console.error(`Error sending to ${email}:`, err);
           failed++;
         }
       }
@@ -85,7 +83,6 @@ export async function POST(request) {
       tags: { api: 'email', method: 'POST' },
       extra: { type: 'email_send_error' }
     });
-    console.error('Email API Error:', error);
     return NextResponse.json({ success: false, error: error.message || 'Internal server error' }, { status: 500 });
   }
 }
@@ -133,7 +130,7 @@ export async function GET(request) {
         });
         if (!error) sent++;
       } catch (err) {
-        console.error(`Failed to send to ${user.email}:`, err);
+        // Failed to send email
       }
     }
     
@@ -143,7 +140,6 @@ export async function GET(request) {
       tags: { api: 'email', method: 'GET' },
       extra: { type: 'inactivity_check_error' }
     });
-    console.error('Inactivity Check Error:', error);
     return NextResponse.json({ success: false, error: error.message || 'Internal server error' }, { status: 500 });
   }
 }

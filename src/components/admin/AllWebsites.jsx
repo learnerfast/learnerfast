@@ -43,7 +43,7 @@ const AllWebsites = () => {
 
       setSites(sitesWithUsers);
     } catch (error) {
-      console.error('Error loading sites:', error);
+      // Error loading sites
     } finally {
       setLoading(false);
     }

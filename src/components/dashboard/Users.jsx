@@ -51,7 +51,6 @@ const Users = () => {
         .eq('user_id', user.id);
       
       if (coursesError) {
-        console.error('Courses fetch error:', coursesError);
         throw new Error('Failed to load courses');
       }
       
@@ -69,7 +68,7 @@ const Users = () => {
           .in('course_id', courseIds);
         
         if (enrollError) {
-          console.error('Enrollment fetch error:', enrollError);
+          // Enrollment fetch error
         } else if (enrollmentsData && enrollmentsData.length > 0) {
           // Get unique user IDs from enrollments
           const userIds = [...new Set(enrollmentsData.map(e => e.user_id))];
@@ -159,7 +158,6 @@ const Users = () => {
         completionRate
       });
     } catch (error) {
-      console.error('Error loading data:', error);
       setError(error.message || 'Failed to load analytics data');
     } finally {
       setLoading(false);

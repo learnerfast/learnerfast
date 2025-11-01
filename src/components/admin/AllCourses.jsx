@@ -38,7 +38,7 @@ const AllCourses = () => {
 
       setCourses(coursesWithUsers);
     } catch (error) {
-      console.error('Error loading courses:', error);
+      // Error loading courses
     } finally {
       setLoading(false);
     }

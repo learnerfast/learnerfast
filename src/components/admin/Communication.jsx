@@ -36,7 +36,7 @@ const Communication = () => {
       const data = await response.json();
       setUsers(data.users || []);
     } catch (error) {
-      console.error('Error loading users:', error);
+      // Error loading users
     } finally {
       setLoading(false);
     }
