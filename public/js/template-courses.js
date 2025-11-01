@@ -15,7 +15,9 @@
           .then(r => r.json())
           .then(data => {
             coursesCache = data.courses;
-            sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+            try {
+              sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+            } catch (e) {}
           });
         return;
       }
@@ -23,11 +25,19 @@
       const response = await fetch(`https://www.learnerfast.com/api/courses/by-website?website_name=${websiteName}`);
       const { courses } = await response.json();
       coursesCache = courses;
-      sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+      try {
+        sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+      } catch (e) {}
       renderCourses(courses);
-    } catch (error) {
-      console.error('Failed to load courses:', error);
-    }
+    } catch (error) {}
+  }
+  
+  if (typeof console !== 'undefined') {
+    const noop = () => {};
+    console.log = noop;
+    console.warn = noop;
+    console.error = noop;
+  }
   }
   
   function renderCourses(courses) {

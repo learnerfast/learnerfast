@@ -21,9 +21,18 @@
     .then(r => r.json())
     .then(data => {
       coursesCache = data.courses;
-      sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+      try {
+        sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
+      } catch (e) {}
       if (!mainContent || mainContent.style.visibility === 'hidden') renderCourse();
     });
+    
+  if (typeof console !== 'undefined') {
+    const noop = () => {};
+    console.log = noop;
+    console.warn = noop;
+    console.error = noop;
+  }
   
   let supabaseLoaded = false;
   
