@@ -16,7 +16,8 @@ const CreateSiteModal = ({
   setSiteName,
   selectedTemplate,
   setSelectedTemplate,
-  onCreate
+  onCreate,
+  onCoursesSelected
 }) => {
   const [isCreating, setIsCreating] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -34,7 +35,14 @@ const CreateSiteModal = ({
   const loadCourses = async () => {
     const { data } = await supabase
       .from('courses')
-      .select('id, title')
+      .select(`
+        id, 
+        title, 
+        description,
+        course_settings(course_image),
+        course_access(access_type),
+        course_pricing(price, compare_price, show_compare_price)
+      `)
       .eq('user_id', user.id);
     setCourses(data || []);
   };
@@ -65,6 +73,9 @@ const CreateSiteModal = ({
 
   const handleCreateClick = async () => {
     setIsCreating(true);
+    if (onCoursesSelected && selectedCourses.length > 0) {
+      await onCoursesSelected(selectedCourses);
+    }
     const success = await onCreate();
     if (!success) {
       setIsCreating(false);
@@ -258,30 +269,69 @@ const CreateSiteModal = ({
 
               {currentStep === 3 && courses.length > 0 && (
                 <div className="flex-1 px-8 overflow-y-auto pt-4">
-                  <div className="max-w-2xl mx-auto">
+                  <div className="max-w-6xl mx-auto">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Select courses to display</h3>
-                    <div className="space-y-3 mb-6">
-                      {courses.map((course) => (
-                        <label
-                          key={course.id}
-                          className="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
-                          style={{ borderColor: selectedCourses.includes(course.id) ? '#1f2937' : '#e5e7eb' }}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={selectedCourses.includes(course.id)}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedCourses([...selectedCourses, course.id]);
-                              } else {
-                                setSelectedCourses(selectedCourses.filter(id => id !== course.id));
-                              }
-                            }}
-                            className="w-5 h-5 text-gray-900 border-gray-300 rounded focus:ring-gray-900"
-                          />
-                          <span className="ml-3 text-gray-900 font-medium">{course.title}</span>
-                        </label>
-                      ))}
+                    <div className="grid grid-cols-3 gap-4 mb-6" style={{ maxHeight: courses.length > 6 ? '600px' : 'auto', overflowY: courses.length > 6 ? 'auto' : 'visible' }}>
+                      {courses.map((course) => {
+                        const accessType = course.course_access?.[0]?.access_type || 'free';
+                        const price = course.course_pricing?.[0]?.price || 0;
+                        const comparePrice = course.course_pricing?.[0]?.compare_price || 0;
+                        const showCompare = course.course_pricing?.[0]?.show_compare_price && comparePrice > price;
+                        const isSelected = selectedCourses.includes(course.id);
+                        
+                        return (
+                          <label
+                            key={course.id}
+                            className="relative border-2 rounded-lg cursor-pointer hover:shadow-lg transition-all overflow-hidden"
+                            style={{ borderColor: isSelected ? '#1f2937' : '#e5e7eb' }}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedCourses([...selectedCourses, course.id]);
+                                } else {
+                                  setSelectedCourses(selectedCourses.filter(id => id !== course.id));
+                                }
+                              }}
+                              className="absolute top-3 right-3 w-5 h-5 text-gray-900 border-gray-300 rounded focus:ring-gray-900 z-10"
+                            />
+                            <div className="aspect-video bg-gray-100 relative">
+                              {course.course_settings?.[0]?.course_image ? (
+                                <img src={course.course_settings[0].course_image} alt={course.title} className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                                  <GraduationCap className="h-12 w-12 text-blue-600" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="p-4">
+                              <h4 className="font-semibold text-gray-900 mb-1 line-clamp-1">{course.title}</h4>
+                              <p className="text-sm text-gray-600 mb-3 line-clamp-2">{course.description || 'No description'}</p>
+                              <div className="flex items-center gap-2">
+                                {accessType === 'free' && (
+                                  <span className="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded">FREE</span>
+                                )}
+                                {accessType === 'paid' && (
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-bold text-gray-900">₹{price}</span>
+                                    {showCompare && (
+                                      <span className="text-xs text-gray-500 line-through">₹{comparePrice}</span>
+                                    )}
+                                  </div>
+                                )}
+                                {accessType === 'coming-soon' && (
+                                  <span className="px-2 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 rounded">COMING SOON</span>
+                                )}
+                                {accessType === 'enrollment-closed' && (
+                                  <span className="px-2 py-1 text-xs font-semibold bg-gray-100 text-gray-800 rounded">CLOSED</span>
+                                )}
+                              </div>
+                            </div>
+                          </label>
+                        );
+                      })}
                     </div>
                     <button
                       onClick={handleCreateClick}

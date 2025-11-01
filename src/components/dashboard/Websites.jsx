@@ -409,6 +409,11 @@ const WebsitesList = () => {
         selectedTemplate={selectedTemplate}
         setSelectedTemplate={setSelectedTemplate}
         onCreate={handleCreateSite}
+        onCoursesSelected={(courseIds) => {
+          if (user?.id && courseIds.length > 0) {
+            supabase.from('course_settings').update({ website_id: siteName }).in('course_id', courseIds);
+          }
+        }}
       />
 
       {/* Loading Screen */}
