@@ -58,9 +58,7 @@
             setTimeout(() => openCoursePlayer(course, activityIndex), 500);
           }
         }
-      } catch (e) {
-        console.error('Failed to restore player state:', e);
-      }
+      } catch (e) {}
     }
   });
   
@@ -205,10 +203,7 @@
             if (!supabaseLoaded) await loadSupabase();
             
             const { createClient } = window.supabase || {};
-            if (!createClient) {
-              console.error('Supabase not loaded');
-              return;
-            }
+            if (!createClient) return;
             
             const supabaseClient = createClient(
               'https://bplarfqdpsgadtzzlxur.supabase.co',
@@ -286,13 +281,7 @@
       courseSlug: course.slug,
       activityIndex: startActivityIndex
     }));
-    console.log('Opening course player with course:', course);
-    console.log('Sections:', course.sections);
-    if (course.sections && course.sections.length > 0) {
-      course.sections.forEach((section, idx) => {
-        console.log(`Section ${idx}:`, section.title, 'Activities:', section.activities);
-      });
-    }
+
     if (!course.sections || course.sections.length === 0) {
       alert('This course has no content yet. Please check back later.');
       return;
@@ -323,9 +312,7 @@
           }
         }
       }
-    } catch (error) {
-      console.error('Enrollment error:', error);
-    }
+    } catch (error) {}
     
     const playerHTML = `
       <div id="course-player" class="fixed inset-0 z-50 bg-white flex" style="font-family: system-ui, -apple-system, sans-serif; min-width: 100vw;">
@@ -433,8 +420,7 @@
       }
     }, 100);
     
-    console.log('📚 Total activities loaded:', window.allActivities.length);
-    console.log('Activities:', window.allActivities);
+
     
     window.playActivity = (activity, sectionTitle) => {
       window.currentActivityIndex = window.allActivities.findIndex(a => a.id === activity.id);
@@ -523,14 +509,7 @@
         }
       }
       
-      console.log('🎬 Playing Activity:', {
-        title: activity.title,
-        type: activity.activity_type,
-        url: activity.url,
-        file_url: activity.file_url,
-        embedUrl: embedUrl,
-        source: activity.source
-      });
+
       
       const activityLabel = activity.activity_type === 'video' ? 'Video Lesson (10 Min)' :
                            activity.activity_type === 'pdf' ? 'PDF Document' :
@@ -584,7 +563,7 @@
           }
           // Use PDF.js viewer for better compatibility with local files
           const viewerUrl = pdfUrl.startsWith('http') ? pdfUrl : `https://docs.google.com/viewer?url=${encodeURIComponent(window.location.origin + pdfUrl)}&embedded=true`;
-          playerHTML = `<iframe src="${viewerUrl}" style="width: 100%; height: calc(100vh - 240px); border: 0; border-radius: 0.5rem;" onload="console.log('✅ PDF loaded')"></iframe>`;
+          playerHTML = `<iframe src="${viewerUrl}" style="width: 100%; height: calc(100vh - 240px); border: 0; border-radius: 0.5rem;"></iframe>`;
         }
       } else if (activity.activity_type === 'audio') {
         if (!embedUrl) {

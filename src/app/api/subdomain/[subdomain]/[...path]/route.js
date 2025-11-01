@@ -136,10 +136,6 @@ export async function GET(request, { params }) {
     html = sanitizeHTML(html);
     html = rewriteLinks(html, subdomain);
     
-    // Add debug info
-    const debugScript = `<script>console.log('DEBUG:', ${JSON.stringify(debugInfo)});</script>`;
-    html = html.replace('</head>', debugScript + '</head>');
-    
     // Replace or add title tag
     if (html.match(/<title>[^<]*<\/title>/i)) {
       html = html.replace(/<title>[^<]*<\/title>/i, `<title>${siteData.name}</title>`);
