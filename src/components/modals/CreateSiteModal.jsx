@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X, CheckCircle, ArrowRight, Image as ImageIcon, Dumbbell, GraduationCap, DollarSign, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '../../contexts/AuthContext';
+import { supabase } from '../../lib/supabase';
 
 const categories = ['All', 'Fitness', 'Education', 'Financial'];
 
@@ -19,10 +21,35 @@ const CreateSiteModal = ({
   const [isCreating, setIsCreating] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [currentStep, setCurrentStep] = useState(1);
+  const [courses, setCourses] = useState([]);
+  const [selectedCourses, setSelectedCourses] = useState([]);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (isOpen && user) {
+      loadCourses();
+    }
+  }, [isOpen, user]);
+
+  const loadCourses = async () => {
+    const { data } = await supabase
+      .from('courses')
+      .select('id, title')
+      .eq('user_id', user.id);
+    setCourses(data || []);
+  };
 
   const handleTemplateSelect = (template) => {
     setSelectedTemplate(template);
     setCurrentStep(2);
+  };
+
+  const handleNextStep = () => {
+    if (courses.length > 0) {
+      setCurrentStep(3);
+    } else {
+      handleCreateClick();
+    }
   };
 
   const handleBackToTemplates = () => {
@@ -32,6 +59,7 @@ const CreateSiteModal = ({
   const handleClose = () => {
     setCurrentStep(1);
     setSelectedCategory('All');
+    setSelectedCourses([]);
     onClose();
   };
 
@@ -212,18 +240,60 @@ const CreateSiteModal = ({
                           className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
                         <button
-                          onClick={handleCreateClick}
+                          onClick={handleNextStep}
                           disabled={isCreating || !siteName.trim()}
                           className="w-full px-6 py-3 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
                         >
                           {isCreating && (
                             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                           )}
-                          <span>Create Site</span>
+                          <span>{courses.length > 0 ? 'Next' : 'Create Site'}</span>
                           {!isCreating && <ArrowRight className="h-4 w-4" />}
                         </button>
                       </div>
                     </div>
+                  </div>
+                </div>
+              )}
+
+              {currentStep === 3 && courses.length > 0 && (
+                <div className="flex-1 px-8 overflow-y-auto pt-4">
+                  <div className="max-w-2xl mx-auto">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-6">Select courses to display</h3>
+                    <div className="space-y-3 mb-6">
+                      {courses.map((course) => (
+                        <label
+                          key={course.id}
+                          className="flex items-center p-4 border-2 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+                          style={{ borderColor: selectedCourses.includes(course.id) ? '#1f2937' : '#e5e7eb' }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={selectedCourses.includes(course.id)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSelectedCourses([...selectedCourses, course.id]);
+                              } else {
+                                setSelectedCourses(selectedCourses.filter(id => id !== course.id));
+                              }
+                            }}
+                            className="w-5 h-5 text-gray-900 border-gray-300 rounded focus:ring-gray-900"
+                          />
+                          <span className="ml-3 text-gray-900 font-medium">{course.title}</span>
+                        </label>
+                      ))}
+                    </div>
+                    <button
+                      onClick={handleCreateClick}
+                      disabled={isCreating}
+                      className="w-full px-6 py-3 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                    >
+                      {isCreating && (
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      )}
+                      <span>Create Site</span>
+                      {!isCreating && <ArrowRight className="h-4 w-4" />}
+                    </button>
                   </div>
                 </div>
               )}
