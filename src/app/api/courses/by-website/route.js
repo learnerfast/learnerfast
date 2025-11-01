@@ -47,7 +47,7 @@ export async function GET(request) {
       const settings = Array.isArray(course.course_settings) ? course.course_settings[0] : course.course_settings;
       if (!settings?.website_id) return false;
       const ids = typeof settings.website_id === 'string' ? settings.website_id.split(',') : [settings.website_id];
-      return ids.includes(site.id);
+      return ids.includes(websiteName) || ids.includes(site.id);
     });
 
     const mappedCourses = filteredCourses.map(course => {
