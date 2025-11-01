@@ -98,7 +98,7 @@ export async function GET(request, { params }) {
       .from('website_builder_saves')
       .select('page_contents, template_id')
       .eq('site_id', siteData.id)
-      .single();
+      .maybeSingle();
     
     const templateId = siteData.template_id || 'modern-minimal';
     let html = null;
