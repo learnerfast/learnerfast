@@ -409,9 +409,19 @@ const WebsitesList = () => {
         selectedTemplate={selectedTemplate}
         setSelectedTemplate={setSelectedTemplate}
         onCreate={handleCreateSite}
-        onCoursesSelected={(courseIds) => {
+        onCoursesSelected={async (courseIds) => {
           if (user?.id && courseIds.length > 0) {
-            supabase.from('course_settings').update({ website_id: siteName }).in('course_id', courseIds);
+            const siteUrl = siteName.trim().toLowerCase().replace(/\s+/g, '-');
+            for (const courseId of courseIds) {
+              await supabase
+                .from('course_settings')
+                .upsert({ 
+                  course_id: courseId, 
+                  website_id: siteUrl 
+                }, { 
+                  onConflict: 'course_id' 
+                });
+            }
           }
         }}
       />

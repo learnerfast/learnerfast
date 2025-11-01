@@ -33,18 +33,46 @@ const CreateSiteModal = ({
   }, [isOpen, user]);
 
   const loadCourses = async () => {
-    const { data } = await supabase
+    const { data: coursesData } = await supabase
       .from('courses')
-      .select(`
-        id, 
-        title, 
-        description,
-        course_settings(course_image),
-        course_access(access_type),
-        course_pricing(price, compare_price, show_compare_price)
-      `)
+      .select('id, title, description')
       .eq('user_id', user.id);
-    setCourses(data || []);
+    
+    if (!coursesData) {
+      setCourses([]);
+      return;
+    }
+
+    const enrichedCourses = await Promise.all(coursesData.map(async (course) => {
+      const { data: settings } = await supabase
+        .from('course_settings')
+        .select('course_image')
+        .eq('course_id', course.id)
+        .single();
+      
+      const { data: access } = await supabase
+        .from('course_access')
+        .select('access_type')
+        .eq('course_id', course.id)
+        .single();
+      
+      const { data: pricing } = await supabase
+        .from('course_pricing')
+        .select('price, compare_price, show_compare_price')
+        .eq('course_id', course.id)
+        .single();
+      
+      return {
+        ...course,
+        course_image: settings?.course_image,
+        access_type: access?.access_type || 'free',
+        price: pricing?.price || 0,
+        compare_price: pricing?.compare_price || 0,
+        show_compare_price: pricing?.show_compare_price || false
+      };
+    }));
+    
+    setCourses(enrichedCourses);
   };
 
   const handleTemplateSelect = (template) => {
@@ -273,10 +301,10 @@ const CreateSiteModal = ({
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Select courses to display</h3>
                     <div className="grid grid-cols-3 gap-4 mb-6" style={{ maxHeight: courses.length > 6 ? '600px' : 'auto', overflowY: courses.length > 6 ? 'auto' : 'visible' }}>
                       {courses.map((course) => {
-                        const accessType = course.course_access?.[0]?.access_type || 'free';
-                        const price = course.course_pricing?.[0]?.price || 0;
-                        const comparePrice = course.course_pricing?.[0]?.compare_price || 0;
-                        const showCompare = course.course_pricing?.[0]?.show_compare_price && comparePrice > price;
+                        const accessType = course.access_type || 'free';
+                        const price = course.price || 0;
+                        const comparePrice = course.compare_price || 0;
+                        const showCompare = course.show_compare_price && comparePrice > price;
                         const isSelected = selectedCourses.includes(course.id);
                         
                         return (
@@ -298,8 +326,8 @@ const CreateSiteModal = ({
                               className="absolute top-3 right-3 w-5 h-5 text-gray-900 border-gray-300 rounded focus:ring-gray-900 z-10"
                             />
                             <div className="aspect-video bg-gray-100 relative">
-                              {course.course_settings?.[0]?.course_image ? (
-                                <img src={course.course_settings[0].course_image} alt={course.title} className="w-full h-full object-cover" />
+                              {course.course_image ? (
+                                <img src={course.course_image} alt={course.title} className="w-full h-full object-cover" />
                               ) : (
                                 <div className="w-full h-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
                                   <GraduationCap className="h-12 w-12 text-blue-600" />
