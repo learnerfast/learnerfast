@@ -299,7 +299,7 @@ const CreateSiteModal = ({
                 <div className="flex-1 px-8 overflow-y-auto pt-4">
                   <div className="max-w-6xl mx-auto">
                     <h3 className="text-2xl font-bold text-gray-900 mb-6">Select courses to display</h3>
-                    <div className="grid grid-cols-3 gap-4 mb-6" style={{ maxHeight: courses.length > 6 ? '600px' : 'auto', overflowY: courses.length > 6 ? 'auto' : 'visible' }}>
+                    <div className="grid grid-cols-3 gap-4 mb-6" style={{ maxHeight: '600px', overflowY: 'auto', gridAutoRows: 'max-content' }}>
                       {courses.map((course) => {
                         const accessType = course.access_type || 'free';
                         const price = course.price || 0;
