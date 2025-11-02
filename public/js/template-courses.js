@@ -26,7 +26,7 @@
       sessionStorage.setItem(`courses_${websiteName}`, JSON.stringify(coursesCache));
       renderCourses(courses);
     } catch (error) {
-      console.error('Failed to load courses:', error);
+      // Failed to load courses
     }
   }
   
