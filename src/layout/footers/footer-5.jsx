@@ -34,6 +34,7 @@ const footer_content = {
                 {name: "Contact", link: "/contact"},
                 {name: "Privacy Policy", link: "/privacy-policy"},
                 {name: "Terms & Conditions", link: "/terms-conditions"},
+                {name: "Refund Policy", link: "/refund-policy"},
             ]
         },
         {

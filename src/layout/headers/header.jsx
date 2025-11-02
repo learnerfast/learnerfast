@@ -1,3 +1,4 @@
+'use client';
 import useSticky from '@/hooks/use-sticky';
 import Offcanvus from '@/common/offcanvus';
 import SearchPopup from '@/components/modals/search-popup';
