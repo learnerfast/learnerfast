@@ -27,31 +27,13 @@ const footer_content  = {
     footer_lisks : [
         {
             id: 1,
-            cls_1: "col-xl-3 col-lg-3 col-md-5",
-            cls_2: "footer-col-2",
-            title: "What We Do",
-            delay: ".7s",
-            links: [
-                {name: "Business", link: "#"},
-                {name: "Technology", link: "#"},
-                {name: "Online Marketing", link: "#"},
-                {name: "Advertising Strategy", link: "#"},
-                {name: "Strategy", link: "#"},
-                {name: "Development", link: "#"},
-            ]
-        },
-        {
-            id: 2,
             cls_1: "col-xl-2 col-lg-2 col-md-6",
             cls_2: "footer-col-3",
             title: "Other Pages",
-            delay: ".9s",
+            delay: ".7s",
             links: [
                 {name: "About", link: "/about"},
-                {name: "Services", link: "/service"},
-                {name: "How It Works", link: "#"},
                 {name: "Pricing Plan", link: "/price"},
-                {name: "Blog", link: "/blog"},
                 {name: "Contact", link: "/contact"},
                 {name: "Privacy Policy", link: "/privacy-policy"},
                 {name: "Terms & Conditions", link: "/terms-conditions"},
