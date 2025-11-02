@@ -1,3 +1,4 @@
+'use client';
 import { CopyRight } from '@/common/social-links';
 import EmailIcon from '@/svg/email';
 import EmailFour from '@/svg/email-4';
