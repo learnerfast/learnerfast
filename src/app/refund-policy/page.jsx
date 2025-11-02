@@ -1,7 +1,7 @@
 import React from "react";
 import Wrapper from "@/layout/wrapper";
 import HeaderOne from "@/layout/headers/header";
-import FooterFive from "@/layout/footers/footer-5";
+import Footer from "@/layout/footers/footer";
 import "./refund-policy.css";
 
 export const metadata = {
@@ -83,7 +83,7 @@ const RefundPolicyPage = () => {
           </address>
         </div>
       </div>
-      <FooterFive />
+      <Footer />
     </Wrapper>
   );
 };

@@ -1,6 +1,6 @@
 'use client';
 import AboutArea from "@/common/about-area";
-import FooterFive from "@/layout/footers/footer-5";
+import FooterFive from "@/layout/footers/footer";
 import HeaderSix from "@/layout/headers/header-6";
 import Breadcrumb from "../../common/breadcrumbs/breadcrumb";
 import HeroBanner from "../../common/hero-banner";

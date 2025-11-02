@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import {gsap} from 'gsap';
 import Link from 'next/link';
@@ -52,6 +53,9 @@ const footer_content  = {
                 {name: "Pricing Plan", link: "/price"},
                 {name: "Blog", link: "/blog"},
                 {name: "Contact", link: "/contact"},
+                {name: "Privacy Policy", link: "/privacy-policy"},
+                {name: "Terms & Conditions", link: "/terms-conditions"},
+                {name: "Refund Policy", link: "/refund-policy"},
             ]
         },
 

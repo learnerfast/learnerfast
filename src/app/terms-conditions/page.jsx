@@ -1,7 +1,7 @@
 import React from "react";
 import Wrapper from "@/layout/wrapper";
 import HeaderOne from "@/layout/headers/header";
-import FooterFive from "@/layout/footers/footer-5";
+import Footer from "@/layout/footers/footer";
 import "./terms-conditions.css";
 
 export const metadata = {
@@ -157,7 +157,7 @@ const TermsConditionsPage = () => {
           </address>
         </div>
       </div>
-      <FooterFive />
+      <Footer />
     </Wrapper>
   );
 };
