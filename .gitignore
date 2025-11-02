@@ -26,3 +26,4 @@ dist/
 supabase/.temp/
 .env*
 !.env.example
+.vercel

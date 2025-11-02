@@ -32,6 +32,8 @@ const footer_content = {
                 {name: "Integrations", link: "/integrations"},
                 {name: "Blog", link: "/blog"},
                 {name: "Contact", link: "/contact"},
+                {name: "Privacy Policy", link: "/privacy-policy"},
+                {name: "Terms & Conditions", link: "/terms-conditions"},
             ]
         },
         {
