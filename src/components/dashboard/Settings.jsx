@@ -105,9 +105,7 @@ const Settings = () => {
                 { id: 'general', name: 'General', icon: Globe },
                 { id: 'security', name: 'Security', icon: Shield },
                 { id: 'notifications', name: 'Notifications', icon: Bell },
-                { id: 'billing', name: 'Billing', icon: CreditCard },
-                { id: 'users', name: 'User Management', icon: Users },
-                { id: 'integrations', name: 'Integrations', icon: Database }
+                { id: 'billing', name: 'Billing', icon: CreditCard }
               ].map((item) => (
                 <button
                   key={item.id}
@@ -204,19 +202,6 @@ const Settings = () => {
                       onChange={(e) => handleChange('siteDescription', e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
                     />
-                  </div>
-                </div>
-                
-                <div className="border-t pt-6">
-                  <h4 className="text-md font-medium text-gray-900 mb-4">Site Logo</h4>
-                  <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <Globe className="h-8 w-8 text-gray-400" />
-                    </div>
-                    <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-                      <Upload className="h-4 w-4" />
-                      <span>Upload Logo</span>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -318,25 +303,15 @@ const Settings = () => {
               </div>
             )}
 
-            {/* Other tabs placeholder */}
-            {['billing', 'users', 'integrations'].includes(activeTab) && (
+            {/* Billing tab placeholder */}
+            {activeTab === 'billing' && (
               <div className="p-6 text-center">
                 <div className="py-12">
                   <div className="text-gray-400 mb-4">
-                    {activeTab === 'billing' && <CreditCard className="h-12 w-12 mx-auto" />}
-                    {activeTab === 'users' && <Users className="h-12 w-12 mx-auto" />}
-                    {activeTab === 'integrations' && <Database className="h-12 w-12 mx-auto" />}
+                    <CreditCard className="h-12 w-12 mx-auto" />
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
-                    {activeTab === 'billing' && 'Billing Settings'}
-                    {activeTab === 'users' && 'User Management'}
-                    {activeTab === 'integrations' && 'Integrations'}
-                  </h3>
-                  <p className="text-gray-500">
-                    {activeTab === 'billing' && 'Payment methods and subscription management coming soon.'}
-                    {activeTab === 'users' && 'Advanced user management features coming soon.'}
-                    {activeTab === 'integrations' && 'Third-party integrations and API settings coming soon.'}
-                  </p>
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">Billing Settings</h3>
+                  <p className="text-gray-500">Payment methods and subscription management coming soon.</p>
                 </div>
               </div>
             )}
