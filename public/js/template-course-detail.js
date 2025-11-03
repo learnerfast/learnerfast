@@ -220,6 +220,35 @@
             if (!session) {
               sessionStorage.setItem('returnUrl', window.location.pathname);
               window.location.href = '/signin';
+            } else if (course.access_type === 'paid') {
+              const { data: { user } } = await supabaseClient.auth.getUser();
+              const { data: enrollment } = await supabaseClient
+                .from('enrollments')
+                .select('*')
+                .eq('user_id', user.id)
+                .eq('course_id', course.id)
+                .single();
+              
+              if (enrollment) {
+                openCoursePlayer(course);
+              } else {
+                const response = await fetch('https://www.learnerfast.com/api/payment/initiate', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    courseId: course.id,
+                    userId: user.id,
+                    amount: course.price,
+                    courseName: course.title
+                  })
+                });
+                const data = await response.json();
+                if (data.success && data.checkoutUrl) {
+                  window.location.href = data.checkoutUrl;
+                } else {
+                  alert('Payment initiation failed. Please try again.');
+                }
+              }
             } else {
               openCoursePlayer(course);
             }
