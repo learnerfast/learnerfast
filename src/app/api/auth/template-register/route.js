@@ -55,6 +55,8 @@ export async function POST(request) {
     });
     
     if (authError) throw authError;
+    
+    // Insert into website_users
     const { data: newUser, error: insertError } = await supabase.from('website_users').insert([{
       email,
       password_hash: passwordHash,
@@ -68,6 +70,14 @@ export async function POST(request) {
     }]).select().single();
 
     if (insertError) throw insertError;
+    
+    // Also create profile for analytics
+    await supabase.from('profiles').upsert({
+      id: authData.user.id,
+      email: email,
+      name: name || email.split('@')[0],
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'id' });
 
     // Sign in to get session
     const supabaseClient = createClient(

@@ -40,6 +40,8 @@ const Users = () => {
         .select('*')
         .eq('user_id', user.id);
       setWebsites(sitesData || []);
+      
+      const websiteNames = (sitesData || []).map(s => s.name);
 
       // Load courses created by this user with sections and activities
       const { data: coursesData, error: coursesError } = await supabase
@@ -100,6 +102,16 @@ const Users = () => {
       
       setEnrollments(enrichedEnrollments);
 
+      // Load website_users for template websites
+      let websiteUsers = [];
+      if (websiteNames.length > 0) {
+        const { data: webUsersData } = await supabase
+          .from('website_users')
+          .select('*')
+          .in('website_name', websiteNames);
+        websiteUsers = webUsersData || [];
+      }
+      
       // Aggregate student data from enrollments
       const studentMap = new Map();
       enrichedEnrollments.forEach(enrollment => {
@@ -129,6 +141,22 @@ const Users = () => {
         }
       });
 
+      // Add website users who haven't enrolled yet
+      websiteUsers.forEach(webUser => {
+        if (!studentMap.has(webUser.email)) {
+          studentMap.set(webUser.email, {
+            id: webUser.id,
+            email: webUser.email,
+            name: webUser.name || webUser.email.split('@')[0],
+            enrollments: [],
+            totalProgress: 0,
+            lastActive: webUser.last_login || webUser.created_at,
+            joinDate: webUser.created_at,
+            website: webUser.website_name
+          });
+        }
+      });
+      
       const studentsArray = Array.from(studentMap.values()).map(s => ({
         ...s,
         avgProgress: s.enrollments.length > 0 ? Math.round(s.totalProgress / s.enrollments.length) : 0,

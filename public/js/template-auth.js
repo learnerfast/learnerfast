@@ -135,13 +135,13 @@
             const result = await response.json();
             
             if (!response.ok) {
-              if (isRegister && result.error?.includes('already exists')) {
-                showToast('Already registered! Redirecting to login...', true);
+              if (isRegister && (result.error?.includes('already exists') || result.error?.includes('User already exists'))) {
+                showToast('Email already registered! Redirecting to login...', false);
                 setTimeout(() => {
                   const pathParts = window.location.pathname.split('/');
                   pathParts.pop();
                   window.location.href = pathParts.join('/') + '/signin';
-                }, 2000);
+                }, 1500);
                 return;
               }
               throw new Error(result.error || 'Authentication failed');
