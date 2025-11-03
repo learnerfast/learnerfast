@@ -232,6 +232,8 @@
               if (enrollment) {
                 openCoursePlayer(course);
               } else {
+                btn.disabled = true;
+                btn.textContent = 'Processing...';
                 try {
                   const response = await fetch('https://www.learnerfast.com/api/payment/initiate', {
                     method: 'POST',
@@ -243,14 +245,24 @@
                       courseName: course.title
                     })
                   });
+                  
+                  if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                  }
+                  
                   const data = await response.json();
                   if (data.success && data.checkoutUrl) {
                     window.location.href = data.checkoutUrl;
                   } else {
-                    alert('Payment initiation failed. Please try again.');
+                    btn.disabled = false;
+                    btn.textContent = `Enroll Now - ₹${course.price}`;
+                    alert(data.error || 'Payment initiation failed. Please try again.');
                   }
                 } catch (error) {
-                  alert('An error occurred. Please try again.');
+                  btn.disabled = false;
+                  btn.textContent = `Enroll Now - ₹${course.price}`;
+                  console.error('Payment error:', error);
+                  alert('Payment service unavailable. Please try again later.');
                 }
               }
             } else if (course.access_type === 'free') {

@@ -12,6 +12,13 @@ export async function POST(request) {
   try {
     const { courseId, userId, amount, courseName } = await request.json();
 
+    if (!process.env.PHONEPE_CLIENT_ID || !process.env.PHONEPE_CLIENT_SECRET) {
+      return NextResponse.json(
+        { error: 'Payment gateway not configured. Please contact support.' },
+        { status: 503 }
+      );
+    }
+
     const merchantOrderId = `ORDER_${Date.now()}_${userId}`;
     const redirectUrl = `${process.env.NEXT_PUBLIC_APP_URL}/payment/callback`;
 
