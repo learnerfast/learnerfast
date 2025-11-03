@@ -15,27 +15,38 @@ const Header = () => {
   const loadNotifications = async () => {
     const notifs = [];
     
-    // Get recent enrollments
     const { data: courses } = await supabase
       .from('courses')
-      .select('id')
+      .select('id, title')
       .eq('user_id', user.id);
     
     if (courses?.length) {
       const courseIds = courses.map(c => c.id);
       const { data: enrollments } = await supabase
         .from('enrollments')
-        .select('*, profiles(name, email)')
+        .select('*, profiles(name, email), courses(title)')
         .in('course_id', courseIds)
         .order('enrolled_at', { ascending: false })
-        .limit(5);
+        .limit(10);
       
       enrollments?.forEach(e => {
+        const enrollDate = new Date(e.enrolled_at);
+        const now = new Date();
+        const diffMs = now - enrollDate;
+        const diffMins = Math.floor(diffMs / 60000);
+        const diffHours = Math.floor(diffMs / 3600000);
+        const diffDays = Math.floor(diffMs / 86400000);
+        
+        let timeStr;
+        if (diffMins < 60) timeStr = `${diffMins}m ago`;
+        else if (diffHours < 24) timeStr = `${diffHours}h ago`;
+        else timeStr = `${diffDays}d ago`;
+        
         notifs.push({
           type: 'enrollment',
           title: 'New Enrollment',
-          message: `${e.profiles?.name || e.profiles?.email || 'A student'} enrolled in your course`,
-          time: new Date(e.enrolled_at).toLocaleDateString()
+          message: `${e.profiles?.name || e.profiles?.email || 'A student'} enrolled in ${e.courses?.title || 'your course'}`,
+          time: timeStr
         });
       });
     }

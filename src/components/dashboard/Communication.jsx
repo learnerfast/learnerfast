@@ -37,6 +37,7 @@ const Communication = () => {
         .eq('user_id', user.id);
 
       const courseIds = (coursesData || []).map(c => c.id);
+      let enrichedEnrollments = [];
       
       if (courseIds.length > 0) {
         const { data: enrollmentsData } = await supabase
@@ -44,36 +45,84 @@ const Communication = () => {
           .select('*')
           .in('course_id', courseIds);
         
-        setEnrollments(enrollmentsData || []);
-
-        const userIds = [...new Set((enrollmentsData || []).map(e => e.user_id))];
-        
-        if (userIds.length > 0) {
+        if (enrollmentsData && enrollmentsData.length > 0) {
+          const userIds = [...new Set(enrollmentsData.map(e => e.user_id))];
+          
           const { data: profilesData } = await supabase
             .from('profiles')
-            .select('id, email, full_name')
+            .select('id, email, name, full_name')
             .in('id', userIds);
           
-          const studentsArray = (profilesData || []).map(profile => {
-            const userEnrollments = enrollmentsData.filter(e => e.user_id === profile.id);
-            const lastActive = userEnrollments.reduce((latest, e) => {
-              const date = new Date(e.last_accessed_at || e.enrolled_at);
-              return date > latest ? date : latest;
-            }, new Date(0));
-            
-            return {
-              id: profile.id,
-              email: profile.email,
-              name: profile.full_name || profile.email?.split('@')[0] || 'Student',
-              enrollments: userEnrollments.length,
-              lastActive,
-              isActive: lastActive > new Date(Date.now() - 7*24*60*60*1000)
-            };
-          });
+          const profileMap = new Map((profilesData || []).map(p => [p.id, p]));
           
-          setStudents(studentsArray);
+          enrichedEnrollments = enrollmentsData.map(e => ({
+            ...e,
+            profiles: profileMap.get(e.user_id) || null
+          }));
         }
       }
+      
+      setEnrollments(enrichedEnrollments);
+
+      // Load websites
+      const { data: sitesData } = await supabase
+        .from('sites')
+        .select('*')
+        .eq('user_id', user.id);
+      
+      const websiteNames = (sitesData || []).map(s => s.name);
+      
+      // Load website_users
+      let websiteUsers = [];
+      if (websiteNames.length > 0) {
+        const { data: webUsersData } = await supabase
+          .from('website_users')
+          .select('*')
+          .in('website_name', websiteNames);
+        websiteUsers = webUsersData || [];
+      }
+      
+      // Aggregate student data
+      const studentMap = new Map();
+      enrichedEnrollments.forEach(enrollment => {
+        const userId = enrollment.user_id;
+        const userEmail = enrollment.profiles?.email || `user_${userId.substring(0, 8)}`;
+        
+        if (!studentMap.has(userId)) {
+          studentMap.set(userId, {
+            id: userId,
+            email: userEmail,
+            name: enrollment.profiles?.name || enrollment.profiles?.full_name || userEmail.split('@')[0],
+            enrollments: [],
+            lastActive: enrollment.last_accessed_at || enrollment.enrolled_at
+          });
+        }
+        const student = studentMap.get(userId);
+        student.enrollments.push(enrollment);
+        if (enrollment.last_accessed_at && new Date(enrollment.last_accessed_at) > new Date(student.lastActive)) {
+          student.lastActive = enrollment.last_accessed_at;
+        }
+      });
+
+      // Add website users
+      websiteUsers.forEach(webUser => {
+        if (!studentMap.has(webUser.email)) {
+          studentMap.set(webUser.email, {
+            id: webUser.id,
+            email: webUser.email,
+            name: webUser.name || webUser.email.split('@')[0],
+            enrollments: [],
+            lastActive: webUser.last_login || webUser.created_at
+          });
+        }
+      });
+      
+      const studentsArray = Array.from(studentMap.values()).map(s => ({
+        ...s,
+        isActive: new Date(s.lastActive) > new Date(Date.now() - 7*24*60*60*1000)
+      }));
+      
+      setStudents(studentsArray);
     } catch (error) {
       // Error loading data
     }
