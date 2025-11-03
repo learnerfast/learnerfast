@@ -1,5 +1,5 @@
 "use client";
-import FooterFive from "@/layout/footers/footer-5";
+import FooterFive from "@/layout/footers/footer";
 import HeaderSix from "@/layout/headers/header-6";
 import Breadcrumb from "../../common/breadcrumbs/breadcrumb";
 import ContactFormArea from "./contact-form-area";

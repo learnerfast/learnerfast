@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import HeaderSix from "@/layout/headers/header-6";
-import FooterFive from "@/layout/footers/footer-5";
+import FooterFive from "@/layout/footers/footer";
 
 // error shapes
 import error_shape_1 from "@/assets/img/login/error-shape.png";

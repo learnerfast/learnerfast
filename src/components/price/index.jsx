@@ -1,7 +1,7 @@
 "use client";
 import BreadcrumbFive from "@/common/breadcrumbs/breadcrumb-5";
 import TestimonialArea from "@/common/testimonial-area";
-import FooterFive from "@/layout/footers/footer-5";
+import FooterFive from "@/layout/footers/footer";
 import HeaderSix from "@/layout/headers/header-6";
 import Brand from "../about/brand";
 import CtaArea from "../contact/cta-area";

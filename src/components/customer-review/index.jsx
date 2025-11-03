@@ -1,7 +1,7 @@
 'use client';
 import Breadcrumb from "@/common/breadcrumbs/breadcrumb";
 import HeroBanner from "@/common/hero-banner";
-import FooterFive from "@/layout/footers/footer-5";
+import FooterFive from "@/layout/footers/footer";
 import HeaderSix from "@/layout/headers/header-6";
 import CardArea from "../../common/card-area";
 import SalesArea from "../../common/sales-area";
