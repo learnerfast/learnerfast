@@ -7,9 +7,11 @@ ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT NOW();
 CREATE INDEX IF NOT EXISTS idx_website_users_website_name ON website_users(website_name);
 CREATE INDEX IF NOT EXISTS idx_website_users_email ON website_users(email);
 
--- Ensure enrollments table tracks website context
+-- Ensure enrollments table tracks website context and progress
 ALTER TABLE enrollments 
-ADD COLUMN IF NOT EXISTS last_accessed_at TIMESTAMPTZ DEFAULT NOW();
+ADD COLUMN IF NOT EXISTS last_accessed_at TIMESTAMPTZ DEFAULT NOW(),
+ADD COLUMN IF NOT EXISTS progress INTEGER DEFAULT 0,
+ADD COLUMN IF NOT EXISTS completed_at TIMESTAMPTZ;
 
 -- Create user_analytics table if not exists
 CREATE TABLE IF NOT EXISTS user_analytics (

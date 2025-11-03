@@ -12,27 +12,27 @@ const pricing_data_monthly = {
       {
          id: 1,
          title: "STARTER",
-         description: <>Perfect for individual <br /> educators getting started</>,
+         description: <>Perfect for <br /> getting started</>,
          price: 29,
-         price_yearly: 25,
+         price_yearly: 24,
          date: "Billed monthly",
          active: "",
       },
       {
          id: 2,
          title: "PROFESSIONAL",
-         description: <>Best for growing academies <br /> with advanced features</>,
+         description: <>For growing <br /> businesses</>,
          price: 79,
-         price_yearly: 69,
+         price_yearly: 66,
          date: "Billed monthly",
          active: "active",
       },
       {
          id: 3,
          title: "ENTERPRISE",
-         description: <>For institutions and <br /> large organizations</>,
+         description: <>For large <br /> organizations</>,
          price: 199,
-         price_yearly: 179,
+         price_yearly: 166,
          date: "Billed monthly",
          active: "",
       },
@@ -42,28 +42,28 @@ const pricing_data_monthly = {
    price_feature: [
       {
          id: 1,
-         title: "Custom Domains",
-         notice: <>Connect your own domain for professional branding</>
+         title: "Courses",
+         notice: <>Number of courses you can create</>
       },
       {
          id: 2,
-         title: "Video Embedding",
-         notice: <>Secure video hosting with DRM protection and watermarking</>
+         title: "Websites",
+         notice: <>Website builders with custom templates</>
       },
       {
          id: 3,
-         title: "Student Analytics",
-         notice: <>Track engagement, completion rates and learning progress</>
+         title: "Students",
+         notice: <>Maximum number of enrolled students</>
       },
       {
          id: 4,
-         title: "Website Builder",
-         notice: <>Drag and drop interface with professional templates</>
+         title: "Video Hosting",
+         notice: <>Secure video hosting and streaming</>
       },
       {
          id: 5,
-         title: "24/7 Support",
-         notice: <>Dedicated support for platform setup and maintenance</>
+         title: "Support",
+         notice: <>Customer support level</>
       },
 
    ],
@@ -74,10 +74,10 @@ const pricing_data_monthly = {
          id: 1,
          active: "",
          info: [
-            "1",
+            "Up to 3",
+            "1 Builder",
+            "100",
             "Basic",
-            "Limited",
-            "5 Pages",
             "Email",
          ]
 
@@ -86,10 +86,10 @@ const pricing_data_monthly = {
          id: 2,
          active: "active",
          info: [
-            "3",
-            "Advanced",
-            "Full",
             "Unlimited",
+            "5 Builders",
+            "Unlimited",
+            "Advanced",
             "Priority",
          ]
 
@@ -99,9 +99,9 @@ const pricing_data_monthly = {
          active: "",
          info: [
             "Unlimited",
-            "Enterprise",
-            "Full",
             "Unlimited",
+            "Unlimited",
+            "Enterprise",
             "Dedicated",
          ]
 

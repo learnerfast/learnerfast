@@ -49,47 +49,47 @@ const  service_data = [
     // for home 01 
     {
         id: 1,
-        icon: img_14,
-        img: img_14,
-        title: "Real-time Preview",
+        icon: img_11,
+        img: img_11,
+        title: "Course Builder",
         description: <>
-Preview course changes instantly as you build, ensuring flawless lesson layouts, accurate content updates, and efficient course development without delays or repeated publishing.</>,
+Create unlimited courses with sections and activities. Organize lessons, videos, and quizzes with drag-and-drop interface for seamless course structure.</>,
         delay: ".4s",
     },
     {
         id: 2,
-        icon: img_13,
-        img: img_13,
-        title: "Typography Management & Customization",
+        icon: img_15,
+        img: img_15,
+        title: "Website Builder",
         description: <>
-Customize fonts, colors, and styles to maintain brand consistency, improve readability, and create visually appealing, professional course materials that engage learners effectively.</>,
+Build professional learning websites with customizable templates. No coding required - just select a template, customize, and publish your branded platform.</>,
         delay: ".6s",
     },
     {
         id: 3,
-        icon: img_11,
-        img: img_11,
-        title: "Course Management",
+        icon: img_12,
+        img: img_12,
+        title: "Video Hosting",
         description: <>
-Effortlessly organize, schedule, and monitor courses from a centralized dashboard, track learner progress, assign instructors, and ensure a structured, seamless learning experience.</>,
+Secure video hosting with YouTube and Vimeo integration. Upload and embed videos directly into your courses with automatic player optimization.</>,
         delay: ".7s",
     },
     {
         id: 4,
-        icon: img_15,
-        img: img_15,
-        title: "Course Creation & Organization",
+        icon: img_18,
+        img: img_18,
+        title: "Student Management",
         description: <>
-Build and structure courses with intuitive tools, arranging lessons, modules, and topics logically for a smooth, guided learning journey that enhances comprehension.</>,
+Track enrollments, monitor progress, and manage student accounts from a centralized dashboard. View analytics on engagement and completion rates.</>,
         delay: ".8s",
     },
     {
         id: 5,
-        icon: img_12,
-        img: img_12,
-        title: "Video Content Management",
+        icon: img_14,
+        img: img_14,
+        title: "Real-time Preview",
         description: <>
-Upload, categorize, and secure video lessons with privacy settings, captions, and playback options, offering a rich multimedia experience that boosts learner engagement.</>,
+Preview your courses and websites instantly as you build. See exactly how students will experience your content before publishing.</>,
         delay: ".9s",
     },
 
@@ -97,28 +97,28 @@ Upload, categorize, and secure video lessons with privacy settings, captions, an
         id: 6,
         icon: img_16,
         img: img_16,
-       title: "Course Sections & Activities",
+       title: "Payment Integration",
         description: <>
-Break courses into modules with lessons, quizzes, and interactive exercises, helping learners apply knowledge, practice skills, and track their progress effectively.</>,
+Monetize your courses with PhonePe payment gateway integration. Set course prices and accept payments directly through your website.</>,
         delay: ".9s",
     }, 
        {
         id: 7,
         icon: img_17,
         img: img_17,
-       title: "Student Enrollment Tracking",
+       title: "Analytics Dashboard",
         description: <>
-Break courses into modules with lessons, quizzes, and interactive exercises, helping learners apply knowledge, practice skills, and track their progress effectively.</>,
+Comprehensive analytics showing total students, active users, enrollment trends, and course completion rates to optimize your platform.</>,
         delay: ".9s",
     }, 
 
        {
         id: 8,
-        icon: img_18,
-        img: img_18,
-       title: "Student/User Administration",
+        icon: img_13,
+        img: img_13,
+       title: "Custom Branding",
         description: <>
-Manage accounts, profiles, and learner roles easily, ensuring smooth administration, personalized support, and an organized learning environment for students and instructors.</>,
+Customize colors, fonts, logos, and layouts to match your brand identity. Create a professional learning experience with your unique style.</>,
         delay: ".9s",
     }, 
 
@@ -126,68 +126,59 @@ Manage accounts, profiles, and learner roles easily, ensuring smooth administrat
         id: 9,
         icon: img_5,
         img: img_5,
-         title: "Access Control & Permissions",
+         title: "User Authentication",
         description: <>
-Set role-based permissions to control who can view, edit, or manage course content, keeping your learning platform secure and organized.</>,
-        delay: ".9s",
-    }, 
-       {
-        id: 8,
-        icon: img_5,
-        img: img_5,
-         title: "Access Control & Permissions",
-        description: <>
-Set role-based permissions to control who can view, edit, or manage course content, keeping your learning platform secure and organized.</>,
+Secure login and registration system with email verification. Manage user roles and permissions for instructors and students.</>,
         delay: ".9s",
     }, 
 
     // for home 03
     {
-        id: 6,
-        icon: img_16,
-        img: img_16,
+        id: 10,
+        icon: <ServiceIconOne />,
+        img: <ServiceIconOne />,
         title: "Course Sections & Activities",
         description: <>
-Track student registrations, monitor participation, analyze completion rates, and gain actionable insights to optimize course delivery and improve learning outcomes.</>,
+Organize courses into sections with multiple activity types including videos, text lessons, and quizzes for structured learning paths.</>,
         delay: ".9s",
     },
     {
-        id: 7,
+        id: 11,
         icon: <ServiceIconTwo />,
         img: <ServiceIconTwo />,
-        title: "Student Enrollment Tracking",
+        title: "Enrollment Management",
         description: <>
-Track student registrations, monitor participation, analyze completion rates, and gain actionable insights to optimize course delivery and improve learning outcomes.</>,
+Automatic enrollment system for free and paid courses. Track student registrations and manage access to course content.</>,
         delay: ".9s",
     },
     {
-        id: 8,
+        id: 12,
         icon: <ServiceIconThree />,
         img: <ServiceIconThree />,
-        title: "Student/User Administration",
+        title: "Multi-Website Support",
         description: <>
-Manage accounts, profiles, and learner roles easily, ensuring smooth administration, personalized support, and an organized learning environment for students and instructors.</>,
+Create multiple learning websites from one dashboard. Each website can have its own courses, branding, and student base.</>,
         delay: ".9s",
     },
     {
-        id: 9,
+        id: 13,
         icon: <ServiceIconFoure/>,
         img: <ServiceIconFoure />,
-        title: "Access Control & Permissions",
+        title: "Template Library",
         description: <>
-Set role-based permissions to control who can view, edit, or manage course content, keeping your learning platform secure and organized.</>,
+Choose from professional website templates designed for online learning. Customize layouts, colors, and content easily.</>,
         delay: ".9s",
     },
     
     // for home 04
     {
-        id: 10,
+        id: 14,
         icon: icon_1,
         img: icon_1,
-        title: "Communication Tools",
-        sub_title: "Cloud Backup",
+        title: "Course Player",
+        sub_title: "Learning Experience",
         cls: "1",
-        description: <>Engage learners with messaging, announcements, and discussion boards, fostering collaboration, timely feedback, and interactive learning for better knowledge retention.</>,
+        description: <>Dedicated course player with progress tracking, section navigation, and seamless video playback for optimal learning experience.</>,
         delay: ".9s",
     },
     {

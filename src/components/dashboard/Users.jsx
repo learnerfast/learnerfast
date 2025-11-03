@@ -88,13 +88,21 @@ const Users = () => {
           enrichedEnrollments = enrollmentsData.map(e => {
             const course = coursesData?.find(c => c.id === e.course_id);
             const profile = profileMap.get(e.user_id);
+            
+            // Calculate progress: total activities in course
+            const totalActivities = course?.course_sections?.reduce((sum, section) => 
+              sum + (section.course_activities?.length || 0), 0) || 0;
+            
+            // For now, use progress from enrollment table if exists, otherwise 0
+            const progress = e.progress || 0;
+            
             return {
               ...e,
               courses: course ? { title: course.title, id: course.id } : null,
               profiles: profile || null,
-              progress: 0,
-              completed_at: null,
-              last_accessed_at: e.enrolled_at
+              progress: progress,
+              completed_at: e.completed_at || null,
+              last_accessed_at: e.last_accessed_at || e.enrolled_at
             };
           });
         }
@@ -116,11 +124,13 @@ const Users = () => {
       const studentMap = new Map();
       enrichedEnrollments.forEach(enrollment => {
         const userId = enrollment.user_id;
+        const userEmail = enrollment.profiles?.email || `user_${userId.substring(0, 8)}`;
+        
         if (!studentMap.has(userId)) {
           studentMap.set(userId, {
             id: userId,
-            email: enrollment.profiles?.email || `user_${userId.substring(0, 8)}`,
-            name: enrollment.profiles?.name || enrollment.profiles?.email?.split('@')[0] || `Student ${userId.substring(0, 8)}`,
+            email: userEmail,
+            name: enrollment.profiles?.name || userEmail.split('@')[0] || `Student ${userId.substring(0, 8)}`,
             enrollments: [],
             totalProgress: 0,
             lastActive: enrollment.last_accessed_at || enrollment.enrolled_at,
@@ -128,14 +138,15 @@ const Users = () => {
           });
         }
         const student = studentMap.get(userId);
+        const progress = enrollment.progress || 0;
         student.enrollments.push({
           courseId: enrollment.course_id,
           courseName: enrollment.courses?.title || 'Unknown Course',
-          progress: enrollment.progress || 0,
+          progress: progress,
           enrolledAt: enrollment.enrolled_at,
           completedAt: enrollment.completed_at
         });
-        student.totalProgress += enrollment.progress || 0;
+        student.totalProgress += progress;
         if (enrollment.last_accessed_at && new Date(enrollment.last_accessed_at) > new Date(student.lastActive)) {
           student.lastActive = enrollment.last_accessed_at;
         }
