@@ -1,10 +1,11 @@
 .refund-wrapper {
   background: #fafafa;
-  padding: 80px 20px 40px;
-  font-family: "Inter", sans-serif;
+  padding: 180px 20px 40px;
+  font-family: Inter, sans-serif;
   color: #222;
   line-height: 1.7;
   min-height: 100vh;
+
 }
 
 .refund-container {
@@ -17,15 +18,17 @@
 }
 
 .refund-container h1 {
-  color: #5f50e4;
+  color: #000000;
   font-size: 2rem;
   margin-bottom: 10px;
+
 }
 
 .refund-container h2 {
-  color: #3c36b1;
+  color: #000000;
   margin-top: 30px;
   font-size: 1.25rem;
+
 }
 
 .refund-container p {
