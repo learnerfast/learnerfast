@@ -293,27 +293,7 @@ const Courses = React.memo(() => {
     setVideoData({ title: '', url: '', script: '' });
   }, []);
 
-  const handleCourseClick = useCallback(async (course) => {
-    if (user) {
-      const { data, error } = await supabase
-        .from('course_videos')
-        .select('*')
-        .eq('course_id', course.id)
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-      
-      if (!error && data) {
-        setCourseVideos(data.map(v => ({
-          id: v.id,
-          title: v.title,
-          type: v.video_type,
-          embedUrl: v.embed_url,
-          addedAt: v.created_at
-        })));
-      }
-    }
-    setSelectedCourse(course);
-  }, [user]);
+
 
   const handleEditCourse = useCallback((course, e) => {
     e.stopPropagation();
@@ -479,7 +459,7 @@ const Courses = React.memo(() => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
-          <div key={course.id} onClick={() => handleCourseClick(course)} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer">
+          <div key={course.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
             <div className="aspect-video bg-gray-100 relative overflow-hidden">
               {course.course_settings?.course_image ? (
                 <img
@@ -555,62 +535,7 @@ const Courses = React.memo(() => {
         }}
       />
 
-      {/* Course Videos Modal */}
-      {selectedCourse && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-lg max-w-2xl w-full max-h-[80vh] overflow-hidden">
-            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-lg font-semibold">{selectedCourse.title} - Videos</h3>
-              <button
-                onClick={() => setSelectedCourse(null)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                ✕
-              </button>
-            </div>
-            
-            <div className="p-6 overflow-y-auto max-h-96">
-              {courseVideos.length === 0 ? (
-                <div className="text-center py-8">
-                  <Video className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-500">No videos uploaded yet</p>
-                  <button
-                    onClick={() => {
-                      setSelectedCourse(null);
-                      handleUploadVideo(selectedCourse.id);
-                    }}
-                    className="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
-                  >
-                    Upload First Video
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {courseVideos.map((video) => (
-                    <div key={video.id} className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50">
-                      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                        <Video className="h-6 w-6 text-gray-600" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">{video.title}</h4>
-                        <p className="text-sm text-gray-500 capitalize">{video.type} • {new Date(video.addedAt).toLocaleDateString()}</p>
-                      </div>
-                      <div className="flex space-x-2">
-                        <button
-                          onClick={() => setPlayingVideo(video)}
-                          className="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
-                        >
-                          Play
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Video Player Modal */}
       {playingVideo && (
