@@ -232,22 +232,7 @@
               if (enrollment) {
                 openCoursePlayer(course);
               } else {
-                const response = await fetch('https://www.learnerfast.com/api/payment/initiate', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    courseId: course.id,
-                    userId: user.id,
-                    amount: course.price,
-                    courseName: course.title
-                  })
-                });
-                const data = await response.json();
-                if (data.success && data.checkoutUrl) {
-                  window.location.href = data.checkoutUrl;
-                } else {
-                  alert('Payment initiation failed. Please try again.');
-                }
+                window.location.href = `/checkout.html?courseId=${course.id}`;
               }
             } else {
               openCoursePlayer(course);
