@@ -75,6 +75,9 @@ const CourseBuilder = ({ course, onBack }) => {
   const [showCourseIncludes, setShowCourseIncludes] = useState(true);
   const [showWhatYouLearn, setShowWhatYouLearn] = useState(true);
   const [showInstructor, setShowInstructor] = useState(true);
+  const iframeRef = useRef(null);
+  const [template, setTemplate] = useState('creative-pro');
+  const [isLoadingPreview, setIsLoadingPreview] = useState(true);
 
   useEffect(() => {
     if (course) {
@@ -1977,15 +1980,11 @@ const CourseBuilder = ({ course, onBack }) => {
     </div>
   );
 
-  const renderCoursePageLayout = () => {
-    const iframeRef = useRef(null);
-    const [template, setTemplate] = useState('creative-pro');
-    const [isLoading, setIsLoading] = useState(true);
-    
-    useEffect(() => {
+  useEffect(() => {
+    if (activeTab === 'course-page-layout') {
       const loadTemplate = async () => {
         if (selectedWebsites.length === 0) {
-          setIsLoading(false);
+          setIsLoadingPreview(false);
           return;
         }
         
@@ -2003,15 +2002,16 @@ const CourseBuilder = ({ course, onBack }) => {
         } catch (error) {
           // Error loading template
         } finally {
-          setIsLoading(false);
+          setIsLoadingPreview(false);
         }
       };
       
       loadTemplate();
-    }, [selectedWebsites]);
-    
-    useEffect(() => {
-      if (!iframeRef.current || isLoading || selectedWebsites.length === 0) return;
+    }
+  }, [activeTab, selectedWebsites]);
+  
+  useEffect(() => {
+    if (activeTab === 'course-page-layout' && iframeRef.current && !isLoadingPreview && selectedWebsites.length > 0) {
       
       const iframe = iframeRef.current;
       const timer = setTimeout(() => {
@@ -2063,19 +2063,18 @@ const CourseBuilder = ({ course, onBack }) => {
           // Preview error
         }
       }, 500);
-      
-      return () => clearTimeout(timer);
-    }, [courseTitle, courseDescription, loadedCourseImage, coursePrice, compareAtPrice, showComparePrice, accessType, courseIncludes, whatYouLearn, instructorName, instructorTitle, instructorBio, showCourseIncludes, showWhatYouLearn, showInstructor, sections, isLoading, selectedWebsites]);
-    
-    return (
-      <div className="flex-1 bg-gray-50 overflow-auto">
-        <div className="p-8">
-          <div className="mb-6">
-            <h2 className="text-2xl font-semibold text-gray-900">Course page layout</h2>
-            <p className="text-gray-600 mt-2">Live preview of how your course detail page appears without navigation, header, and footer.</p>
-          </div>
-          
-          {isLoading ? (
+    }
+  }, [activeTab, courseTitle, courseDescription, loadedCourseImage, coursePrice, compareAtPrice, showComparePrice, accessType, courseIncludes, whatYouLearn, instructorName, instructorTitle, instructorBio, showCourseIncludes, showWhatYouLearn, showInstructor, sections, isLoadingPreview, selectedWebsites, template]);
+
+  const renderCoursePageLayout = () => (
+    <div className="flex-1 bg-gray-50 overflow-auto">
+      <div className="p-8">
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold text-gray-900">Course page layout</h2>
+          <p className="text-gray-600 mt-2">Live preview of how your course detail page appears without navigation, header, and footer.</p>
+        </div>
+        
+        {isLoadingPreview ? (
             <div className="flex items-center justify-center h-96">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
             </div>
@@ -2110,12 +2109,11 @@ const CourseBuilder = ({ course, onBack }) => {
                 style={{ height: '900px', pointerEvents: 'none', userSelect: 'none' }}
                 title="Course Page Preview"
               />
-            </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    );
-  };
+    </div>
+  );
 
   const renderCoursePreview = () => (
     <CoursePlayer 
