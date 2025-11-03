@@ -2106,7 +2106,7 @@ const CourseBuilder = ({ course, onBack }) => {
                 ref={iframeRef}
                 src={`/templates/${template}/course-detail.html`}
                 className="w-full border-0"
-                style={{ height: '900px', pointerEvents: 'none', userSelect: 'none' }}
+                style={{ height: '2000px', pointerEvents: 'none', userSelect: 'none' }}
                 title="Course Page Preview"
               />
           </div>
