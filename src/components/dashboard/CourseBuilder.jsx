@@ -2021,11 +2021,21 @@ const CourseBuilder = ({ course, onBack }) => {
           
           const header = iframeDoc.querySelector('header');
           const footer = iframeDoc.querySelector('footer');
-          if (header) header.style.display = 'none';
-          if (footer) footer.style.display = 'none';
+          const nav = iframeDoc.querySelector('nav');
+          if (header) header.remove();
+          if (footer) footer.remove();
+          if (nav) nav.remove();
           
           const main = iframeDoc.querySelector('main');
-          if (main) main.style.paddingTop = '0';
+          if (main) {
+            main.style.paddingTop = '0';
+            main.style.marginTop = '0';
+          }
+          
+          if (iframeDoc.body) {
+            iframeDoc.body.style.paddingTop = '0';
+            iframeDoc.body.style.marginTop = '0';
+          }
           
           const courseData = {
             title: courseTitle,
@@ -2062,7 +2072,7 @@ const CourseBuilder = ({ course, onBack }) => {
         <div className="p-8">
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-gray-900">Course page layout</h2>
-            <p className="text-gray-600 mt-2">Live preview of how your course detail page appears on the selected website.</p>
+            <p className="text-gray-600 mt-2">Live preview of how your course detail page appears without navigation, header, and footer.</p>
           </div>
           
           {isLoading ? (
@@ -2091,7 +2101,7 @@ const CourseBuilder = ({ course, onBack }) => {
                   <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                   <div className="w-3 h-3 rounded-full bg-green-500"></div>
                 </div>
-                <div className="flex-1 text-center text-sm text-gray-400">Course Preview - Read Only</div>
+                <div className="flex-1 text-center text-sm text-gray-400">Course Detail Preview - Content Only</div>
               </div>
               <iframe 
                 ref={iframeRef}
