@@ -7,7 +7,7 @@ const fetchNotificationData = async () => {
   const response = await fetch('/api/cron/inactivity?getData=true');
   const data = await response.json();
   
-  const users = data.users || [];
+  const authUsers = data.users || [];
   const sites = data.sites || [];
   const courses = data.courses || [];
   
@@ -15,61 +15,64 @@ const fetchNotificationData = async () => {
   const last7Days = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
   const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
   
-  const newUsers = users.filter(u => new Date(u.created_at) > last7Days);
-  const recentUsers = users.filter(u => new Date(u.created_at) > last24Hours);
+  const newAuthUsers = authUsers.filter(u => new Date(u.created_at) > last7Days);
+  const recentAuthUsers = authUsers.filter(u => new Date(u.created_at) > last24Hours);
   const newSites = sites.filter(s => new Date(s.created_at) > last7Days);
   const newCourses = courses.filter(c => new Date(c.created_at) > last7Days);
   const publishedSites = sites.filter(s => s.status === 'published' && new Date(s.updated_at) > last7Days);
   
   const notifications = [];
   
-  recentUsers.forEach(user => {
+  recentAuthUsers.forEach(user => {
+    const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'New User';
     notifications.push({
       id: `user-${user.id}`,
       type: 'enrollment',
       icon: UserPlus,
       color: 'blue',
       title: 'New Student Enrollment',
-      message: `${user.user_metadata?.full_name || user.email} joined the platform`,
+      message: `${userName} joined the platform`,
       time: new Date(user.created_at),
-      data: { email: user.email, name: user.user_metadata?.full_name || 'N/A' }
+      data: { email: user.email, name: userName }
     });
   });
   
   publishedSites.forEach(site => {
-    const owner = users.find(u => u.id === site.user_id);
+    const owner = authUsers.find(u => u.id === site.user_id);
+    const ownerName = owner?.user_metadata?.full_name || owner?.email?.split('@')[0] || 'User';
     notifications.push({
       id: `site-${site.id}`,
       type: 'website',
       icon: Globe,
       color: 'green',
       title: 'Website Published',
-      message: `${owner?.user_metadata?.full_name || owner?.email || 'User'} published "${site.name}"`,
+      message: `${ownerName} published "${site.name}"`,
       time: new Date(site.updated_at),
       data: { siteName: site.name, owner: owner?.email }
     });
   });
   
   newCourses.slice(0, 5).forEach(course => {
-    const owner = users.find(u => u.id === course.user_id);
+    const owner = authUsers.find(u => u.id === course.user_id);
+    const ownerName = owner?.user_metadata?.full_name || owner?.email?.split('@')[0] || 'User';
     notifications.push({
       id: `course-${course.id}`,
       type: 'course',
       icon: BookOpen,
       color: 'purple',
       title: 'New Course Created',
-      message: `${owner?.user_metadata?.full_name || owner?.email || 'User'} created "${course.title}"`,
+      message: `${ownerName} created "${course.title}"`,
       time: new Date(course.created_at),
       data: { courseTitle: course.title, owner: owner?.email }
     });
   });
   
   const weeklyStats = {
-    newUsers: newUsers.length,
+    newUsers: newAuthUsers.length,
     newSites: newSites.length,
     newCourses: newCourses.length,
     publishedSites: publishedSites.length,
-    activeUsers: users.filter(u => u.last_sign_in_at && new Date(u.last_sign_in_at) > last7Days).length
+    activeUsers: authUsers.filter(u => u.last_sign_in_at && new Date(u.last_sign_in_at) > last7Days).length
   };
   
   notifications.push({
