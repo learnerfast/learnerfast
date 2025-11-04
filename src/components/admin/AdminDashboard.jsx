@@ -9,9 +9,11 @@ import AllCourses from './AllCourses';
 import Analytics from './Analytics';
 import Communication from './Communication';
 import SearchPage from './SearchPage';
+import Notifications from './Notifications';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('analytics');
+  const [showNotifications, setShowNotifications] = useState(false);
   const router = useRouter();
 
   const tabs = [
@@ -74,7 +76,10 @@ const AdminDashboard = () => {
               />
             </div>
             <div className="flex items-center space-x-4">
-              <button className="p-2 text-[#6b7280] hover:text-[#111827] transition-colors relative rounded-full hover:bg-[#f9fafb]">
+              <button 
+                onClick={() => setShowNotifications(true)}
+                className="p-2 text-[#6b7280] hover:text-[#111827] transition-colors relative rounded-full hover:bg-[#f9fafb]"
+              >
                 <Bell className="h-5 w-5" />
                 <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-[#ef4444] ring-2 ring-white"></span>
               </button>
@@ -97,6 +102,8 @@ const AdminDashboard = () => {
           </div>
         </main>
       </div>
+      
+      <Notifications isOpen={showNotifications} onClose={() => setShowNotifications(false)} />
     </div>
   );
 };
