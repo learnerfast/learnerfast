@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { supabaseAdmin } from '../../lib/supabase';
 import { Search, Globe, Eye, Download, TrendingUp, CheckCircle, Clock, Users, ExternalLink } from 'lucide-react';
 
 const AllWebsites = () => {
@@ -17,20 +16,16 @@ const AllWebsites = () => {
 
   const loadSites = async () => {
     try {
-      const { data: sitesData, error: sitesError } = await supabaseAdmin
-        .from('sites')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const response = await fetch('/api/cron/inactivity?getData=true');
+      const data = await response.json();
       
-      if (sitesError) throw sitesError;
-
-      const { data: { users: authUsers } } = await supabaseAdmin.auth.admin.listUsers();
+      const users = data.users || [];
+      const sitesData = data.sites || [];
+      const coursesData = data.courses || [];
       
-      const { data: coursesData } = await supabaseAdmin.from('courses').select('id, site_id');
-      
-      const sitesWithUsers = (sitesData || []).map(site => {
-        const user = authUsers?.find(u => u.id === site.user_id);
-        const courseCount = coursesData?.filter(c => c.site_id === site.id).length || 0;
+      const sitesWithUsers = sitesData.map(site => {
+        const user = users.find(u => u.id === site.user_id);
+        const courseCount = coursesData.filter(c => c.user_id === site.user_id).length;
         return {
           ...site,
           owner: {
