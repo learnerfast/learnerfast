@@ -22,41 +22,76 @@ const Header = () => {
       .select('id, title')
       .eq('user_id', user.id);
     
-    if (courses?.length) {
-      const courseIds = courses.map(c => c.id);
-      const { data: enrollments } = await supabase
-        .from('enrollments')
-        .select('*, profiles(name, email), courses(title)')
-        .in('course_id', courseIds)
-        .order('enrolled_at', { ascending: false })
-        .limit(10);
+    if (!courses?.length) return;
+    
+    const courseIds = courses.map(c => c.id);
+    const { data: enrollments } = await supabase
+      .from('enrollments')
+      .select('*, profiles(name, email)')
+      .in('course_id', courseIds)
+      .order('enrolled_at', { ascending: false });
+    
+    const { data: websiteUsers } = await supabase
+      .from('website_users')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    const notifs = [];
+    
+    // Add enrollments
+    enrollments?.forEach(e => {
+      const enrollDate = new Date(e.enrolled_at);
+      const diffMs = Date.now() - enrollDate;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
       
-      const notifs = enrollments?.map(e => {
-        const enrollDate = new Date(e.enrolled_at);
-        const diffMs = Date.now() - enrollDate;
-        const diffMins = Math.floor(diffMs / 60000);
-        const diffHours = Math.floor(diffMs / 3600000);
-        const diffDays = Math.floor(diffMs / 86400000);
-        
-        let timeStr;
-        if (diffMins < 60) timeStr = `${diffMins}m ago`;
-        else if (diffHours < 24) timeStr = `${diffHours}h ago`;
-        else timeStr = `${diffDays}d ago`;
-        
-        const name = e.profiles?.name || e.profiles?.email?.split('@')[0] || 'Student';
-        const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-        
-        return {
-          initials,
-          name,
-          message: `Enrolled in ${e.courses?.title || 'your course'}`,
-          time: timeStr,
-          type: 'Enrollment'
-        };
-      }) || [];
+      let timeStr;
+      if (diffMins < 60) timeStr = `${diffMins}m ago`;
+      else if (diffHours < 24) timeStr = `${diffHours}h ago`;
+      else timeStr = `${diffDays}d ago`;
       
-      setNotifications(notifs);
-    }
+      const name = e.profiles?.name || e.profiles?.email?.split('@')[0] || 'Student';
+      const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      
+      notifs.push({
+        initials,
+        name,
+        message: `Enrolled in your course`,
+        time: timeStr,
+        type: 'Enrollment',
+        date: enrollDate
+      });
+    });
+    
+    // Add website users
+    websiteUsers?.forEach(wu => {
+      const joinDate = new Date(wu.created_at);
+      const diffMs = Date.now() - joinDate;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+      
+      let timeStr;
+      if (diffMins < 60) timeStr = `${diffMins}m ago`;
+      else if (diffHours < 24) timeStr = `${diffHours}h ago`;
+      else timeStr = `${diffDays}d ago`;
+      
+      const name = wu.name || wu.email?.split('@')[0] || 'User';
+      const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+      
+      notifs.push({
+        initials,
+        name,
+        message: `Joined your platform`,
+        time: timeStr,
+        type: 'New User',
+        date: joinDate
+      });
+    });
+    
+    notifs.sort((a, b) => b.date - a.date);
+    setNotifications(notifs.slice(0, 15));
   };
 
   useEffect(() => {
@@ -110,12 +145,12 @@ const Header = () => {
                   className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-h-96 overflow-y-auto"
                 >
                   <div className="p-4 border-b border-gray-200">
-                    <h3 className="font-semibold text-gray-900">Recent Enrollments</h3>
+                    <h3 className="font-semibold text-gray-900">Notifications</h3>
                   </div>
                   {notifications.length === 0 ? (
                     <div className="p-8 text-center text-gray-500">
                       <Users className="h-8 w-8 mx-auto mb-2 text-gray-400" />
-                      <p className="text-sm">No recent enrollments</p>
+                      <p className="text-sm">No notifications</p>
                     </div>
                   ) : (
                     <div className="divide-y divide-gray-100">
