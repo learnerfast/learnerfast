@@ -3,8 +3,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { useRouter, usePathname } from 'next/navigation';
 import DynamicSidebar from '../components/layout/DynamicSidebar';
 import Header from '../components/layout/Header';
-import { HelpCircle } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 // Lazy load components for better performance
 const Home = lazy(() => import('../components/dashboard/Home'));
@@ -101,29 +99,6 @@ const Dashboard = () => {
           </div>
         </main>
       </div>
-
-      {/* Floating Help Button */}
-      <motion.div
-        className="fixed bottom-8 right-8 z-50 group"
-        initial="initial"
-        whileHover="hover"
-      >
-        <button
-          className="flex items-center justify-center p-3 bg-teal-600 text-white rounded-full shadow-lg hover:bg-teal-700 transition-all duration-300 ease-in-out"
-        >
-          <HelpCircle className="h-6 w-6" />
-          <motion.span
-            variants={{
-              initial: { width: 0, opacity: 0, marginLeft: 0 },
-              hover: { width: 'auto', opacity: 1, marginLeft: '0.75rem' }
-            }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            className="overflow-hidden whitespace-nowrap font-semibold"
-          >
-            Help & Support
-          </motion.span>
-        </button>
-      </motion.div>
     </div>
   );
 };
