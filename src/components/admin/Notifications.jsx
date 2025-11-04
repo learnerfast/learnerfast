@@ -240,7 +240,7 @@ const Notifications = ({ isOpen, onClose }) => {
                               </div>
                             </div>
                           </div>
-                        )
+                        )}
                         
                         {notification.data?.email && (
                           <p className="text-xs text-gray-500 mt-2">{notification.data.email}</p>
