@@ -13,31 +13,27 @@ const fetchNotificationData = async () => {
   
   const now = new Date();
   const last7Days = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-  const last24Hours = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-  
-  const newAuthUsers = authUsers.filter(u => new Date(u.created_at) > last7Days);
-  const recentAuthUsers = authUsers.filter(u => new Date(u.created_at) > last24Hours);
-  const newSites = sites.filter(s => new Date(s.created_at) > last7Days);
-  const newCourses = courses.filter(c => new Date(c.created_at) > last7Days);
-  const publishedSites = sites.filter(s => s.status === 'published' && new Date(s.updated_at) > last7Days);
+  const last30Days = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
   
   const notifications = [];
   
-  recentAuthUsers.forEach(user => {
+  // Show all users as enrollment notifications (most recent first)
+  authUsers.slice(0, 20).forEach(user => {
     const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'New User';
     notifications.push({
       id: `user-${user.id}`,
       type: 'enrollment',
       icon: UserPlus,
       color: 'blue',
-      title: 'New Student Enrollment',
+      title: 'Student Enrollment',
       message: `${userName} joined the platform`,
       time: new Date(user.created_at),
       data: { email: user.email, name: userName }
     });
   });
   
-  publishedSites.forEach(site => {
+  // Show published sites
+  sites.filter(s => s.status === 'published').slice(0, 10).forEach(site => {
     const owner = authUsers.find(u => u.id === site.user_id);
     const ownerName = owner?.user_metadata?.full_name || owner?.email?.split('@')[0] || 'User';
     notifications.push({
@@ -47,12 +43,13 @@ const fetchNotificationData = async () => {
       color: 'green',
       title: 'Website Published',
       message: `${ownerName} published "${site.name}"`,
-      time: new Date(site.updated_at),
+      time: new Date(site.updated_at || site.created_at),
       data: { siteName: site.name, owner: owner?.email }
     });
   });
   
-  newCourses.slice(0, 5).forEach(course => {
+  // Show all courses
+  courses.slice(0, 15).forEach(course => {
     const owner = authUsers.find(u => u.id === course.user_id);
     const ownerName = owner?.user_metadata?.full_name || owner?.email?.split('@')[0] || 'User';
     notifications.push({
@@ -60,28 +57,31 @@ const fetchNotificationData = async () => {
       type: 'course',
       icon: BookOpen,
       color: 'purple',
-      title: 'New Course Created',
+      title: 'Course Created',
       message: `${ownerName} created "${course.title}"`,
       time: new Date(course.created_at),
       data: { courseTitle: course.title, owner: owner?.email }
     });
   });
   
+  // Weekly analytics summary
   const weeklyStats = {
-    newUsers: newAuthUsers.length,
-    newSites: newSites.length,
-    newCourses: newCourses.length,
-    publishedSites: publishedSites.length,
+    totalUsers: authUsers.length,
+    newUsers: authUsers.filter(u => new Date(u.created_at) > last7Days).length,
+    newUsersMonth: authUsers.filter(u => new Date(u.created_at) > last30Days).length,
+    totalSites: sites.length,
+    publishedSites: sites.filter(s => s.status === 'published').length,
+    totalCourses: courses.length,
     activeUsers: authUsers.filter(u => u.last_sign_in_at && new Date(u.last_sign_in_at) > last7Days).length
   };
   
-  notifications.push({
+  notifications.unshift({
     id: 'weekly-analytics',
     type: 'analytics',
     icon: TrendingUp,
     color: 'orange',
-    title: 'Weekly Analytics Summary',
-    message: `${weeklyStats.newUsers} new users, ${weeklyStats.newSites} websites, ${weeklyStats.newCourses} courses created`,
+    title: 'Platform Analytics',
+    message: `${weeklyStats.totalUsers} total users, ${weeklyStats.newUsersMonth} joined this month`,
     time: now,
     data: weeklyStats
   });
@@ -214,25 +214,33 @@ const Notifications = ({ isOpen, onClose }) => {
                         <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
                         
                         {notification.type === 'analytics' && notification.data && (
-                          <div className="mt-3 grid grid-cols-2 gap-2">
-                            <div className="bg-blue-50 rounded-lg p-2">
-                              <p className="text-xs text-gray-600">New Users</p>
-                              <p className="text-lg font-bold text-blue-600">{notification.data.newUsers}</p>
+                          <div className="mt-3 space-y-2">
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="bg-blue-50 rounded-lg p-2">
+                                <p className="text-xs text-gray-600">Total Users</p>
+                                <p className="text-lg font-bold text-blue-600">{notification.data.totalUsers}</p>
+                              </div>
+                              <div className="bg-green-50 rounded-lg p-2">
+                                <p className="text-xs text-gray-600">Active (7d)</p>
+                                <p className="text-lg font-bold text-green-600">{notification.data.activeUsers}</p>
+                              </div>
                             </div>
-                            <div className="bg-green-50 rounded-lg p-2">
-                              <p className="text-xs text-gray-600">Active Users</p>
-                              <p className="text-lg font-bold text-green-600">{notification.data.activeUsers}</p>
-                            </div>
-                            <div className="bg-purple-50 rounded-lg p-2">
-                              <p className="text-xs text-gray-600">New Courses</p>
-                              <p className="text-lg font-bold text-purple-600">{notification.data.newCourses}</p>
-                            </div>
-                            <div className="bg-orange-50 rounded-lg p-2">
-                              <p className="text-xs text-gray-600">Published Sites</p>
-                              <p className="text-lg font-bold text-orange-600">{notification.data.publishedSites}</p>
+                            <div className="grid grid-cols-3 gap-2">
+                              <div className="bg-purple-50 rounded-lg p-2">
+                                <p className="text-xs text-gray-600">Courses</p>
+                                <p className="text-lg font-bold text-purple-600">{notification.data.totalCourses}</p>
+                              </div>
+                              <div className="bg-orange-50 rounded-lg p-2">
+                                <p className="text-xs text-gray-600">Websites</p>
+                                <p className="text-lg font-bold text-orange-600">{notification.data.totalSites}</p>
+                              </div>
+                              <div className="bg-teal-50 rounded-lg p-2">
+                                <p className="text-xs text-gray-600">Published</p>
+                                <p className="text-lg font-bold text-teal-600">{notification.data.publishedSites}</p>
+                              </div>
                             </div>
                           </div>
-                        )}
+                        )
                         
                         {notification.data?.email && (
                           <p className="text-xs text-gray-500 mt-2">{notification.data.email}</p>

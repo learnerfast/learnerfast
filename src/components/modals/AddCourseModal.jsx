@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { X, Upload, Sparkles, HelpCircle, Globe } from 'lucide-react';
-import HelpButton from '../dashboard/HelpButton';
 import { useWebsite } from '../../contexts/WebsiteContext';
 
 const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
@@ -675,9 +674,6 @@ const AddCourseModal = ({ isOpen, onClose, onAddCourse, onCourseCreated }) => {
           </div>
         </div>
       </div>
-      
-      {/* Help Button */}
-      <HelpButton />
     </div>
 
     {/* AI Assistant Modal */}
