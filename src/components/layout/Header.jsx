@@ -31,15 +31,25 @@ const Header = () => {
       .in('course_id', courseIds)
       .order('enrolled_at', { ascending: false });
     
+    const { data: sites } = await supabase
+      .from('sites')
+      .select('name')
+      .eq('user_id', user.id);
+    
+    const websiteNames = sites?.map(s => s.name) || [];
+    
     const { data: websiteUsers } = await supabase
       .from('website_users')
       .select('*')
+      .in('website_name', websiteNames)
       .order('created_at', { ascending: false });
     
     const notifs = [];
+    const seenUsers = new Set();
     
     // Add enrollments
     enrollments?.forEach(e => {
+      const userId = e.user_id;
       const enrollDate = new Date(e.enrolled_at);
       const diffMs = Date.now() - enrollDate;
       const diffMins = Math.floor(diffMs / 60000);
@@ -55,6 +65,7 @@ const Header = () => {
       const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
       
       notifs.push({
+        id: `enroll-${userId}-${enrollDate.getTime()}`,
         initials,
         name,
         message: `Enrolled in your course`,
@@ -62,10 +73,14 @@ const Header = () => {
         type: 'Enrollment',
         date: enrollDate
       });
+      seenUsers.add(userId);
     });
     
-    // Add website users
+    // Add unique website users
     websiteUsers?.forEach(wu => {
+      const userKey = wu.email || wu.id;
+      if (seenUsers.has(userKey)) return;
+      
       const joinDate = new Date(wu.created_at);
       const diffMs = Date.now() - joinDate;
       const diffMins = Math.floor(diffMs / 60000);
@@ -81,6 +96,7 @@ const Header = () => {
       const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
       
       notifs.push({
+        id: `user-${userKey}-${joinDate.getTime()}`,
         initials,
         name,
         message: `Joined your platform`,
@@ -88,6 +104,7 @@ const Header = () => {
         type: 'New User',
         date: joinDate
       });
+      seenUsers.add(userKey);
     });
     
     notifs.sort((a, b) => b.date - a.date);
