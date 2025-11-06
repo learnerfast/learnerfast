@@ -40,7 +40,7 @@ const CustomerReview = () => {
         <div className="row">
           <div className="col-xl-8">
             <div className="tp-testimonial__section-box">
-              <h3 className="tp-section-title">What our customers are saying</h3>
+              <h3 className="tp-section-title">What our customers are saying test</h3>
               <p>Real stories from trainers, coaches & academies who built their business with us.</p>
             </div>
           </div>
