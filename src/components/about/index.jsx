@@ -21,8 +21,7 @@ const About = () => {
       <CompanyArea />
       <AboutArea />
 
-      <JourneyArea />
-      <JobArea />
+
       <CtaArea />
       <FooterFive style_contact={true} style_team={true} />
     </>

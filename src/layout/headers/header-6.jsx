@@ -10,7 +10,7 @@ import UserDropdown from '@/components/UserDropdown';
 import '@/styles/user-dropdown.css';
 
 import logo_black from "@/../public/learnerfast-logo.png";
-import logo_white from "@/../public/learnerfast-logo.png";
+import logo_white from "@/../public/white-logo.png";
 
 
 const HeaderSix = ({ style_2 = false, hideNav = false }) => {

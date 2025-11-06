@@ -20,8 +20,7 @@ const Price = () => {
             <PriceArea />
             <PlanArea />
             <Brand />
-            <TestimonialArea />
-            <AnswerQuestion />
+       
             <CtaArea />
           </main>
           <FooterFive style_contact={true} style_team={true} />
