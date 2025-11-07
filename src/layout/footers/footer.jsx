@@ -18,11 +18,11 @@ import footer_logo from "@/../public/learnerfast-logo.png";
 const footer_content  = {
     title: <>Get Our Latest's News <br /> & Updates</>,
     description: <>Our highly skilled development teams <br /> specialized in data analysis.</>,
-    phone: "+806(000)8899",
-    contact_mail: "contact@info.com",
-    location: "1234 North Avenue Luke Lane, South Bend,",
+   //  phone: "+806(000)8899",
+    contact_mail: "support@learnerfast.com",
+   //  location: "1234 North Avenue Luke Lane, South Bend,",
 
-    copy_right: <>Full Copyright & Design By <Link href="#">@Theme pure</Link> – {new Date().getFullYear()}</>,
+    copy_right: <>Copyright © {new Date().getFullYear()} Learnerfast. All rights reserved. </>,
 
     footer_lisks : [
         {
@@ -139,25 +139,25 @@ const Footer = () => {
                                  <h4 className="tp-footer__widget-title">Contact Us</h4>
                                  <div className="tp-footer__contact-info tp-footer__icon-space">
                                     <ul>
-                                       <li>
+                                       {/* <li>
                                           <span>
                                             <PhoneIcon /> 
                                           </span>
                                           <Link href={`tel:${phone}`}>{phone}</Link>
-                                       </li>
+                                       </li> */}
                                        <li>
                                           <span>
                                             <ContactIcon /> 
                                           </span>
                                           <Link href={`mailto:${contact_mail}`}>{contact_mail}</Link>
                                        </li>
-                                       <li>
+                                       {/* <li>
                                           <span>
                                             <LocationIcon /> 
                                           </span>
                                           <Link href="https://www.google.com/maps/@41.6758525,-86.2531698,18.17z"
                                              target="_blank">{location}</Link>
-                                       </li>
+                                       </li> */}
                                     </ul>
                                  </div>
                               </div>
