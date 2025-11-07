@@ -134,12 +134,11 @@ const Subscription = () => {
                 {/* Price */}
                 <div className="mb-6">
                   <div className="flex items-baseline">
-                    <span className="text-5xl font-bold text-gray-900">₹{price.toLocaleString('en-IN')}</span>
-                    <span className="text-gray-600 ml-2">/{billingCycle === 'monthly' ? 'mo' : 'yr'}</span>
+                    <span className="text-5xl font-bold text-gray-900">₹{price.toLocaleString('en-IN')} /{billingCycle === 'monthly' ? 'mo' : 'yr'}</span>
                   </div>
                   {billingCycle === 'yearly' && (
                     <p className="text-sm text-gray-500 mt-1">
-                      ₹{Math.round(price / 12).toLocaleString('en-IN')}/month billed annually
+                      ₹{Math.round(price / 12).toLocaleString('en-IN')} /month billed annually
                     </p>
                   )}
                 </div>

@@ -108,9 +108,7 @@ const PriceArea = () => {
                             </div>
                             <div className="tp-price-top-title-wrapper">
                               {/* Hydration-safe price rendering */}
-                              <h4>
-                                {formatPrice(item.price)} <span>/mo</span>
-                              </h4>
+                              <h4>{formatPrice(item.price)} /mo</h4>
                               <p>Billed monthly (INR)</p>
                               <Link className="tp-btn-service" href="#">
                                 Get Started
@@ -204,9 +202,7 @@ const PriceArea = () => {
                               <p>{item.description}</p>
                             </div>
                             <div className="tp-price-top-title-wrapper">
-                              <h4>
-                                {formatPrice(item.price_yearly)} <span>/mo</span>
-                              </h4>
+                              <h4>{formatPrice(item.price_yearly)} /mo</h4>
                               <p>Billed yearly (INR)</p>
                               <Link className="tp-btn-service" href="#">
                                 Get Started
