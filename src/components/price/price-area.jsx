@@ -59,19 +59,8 @@ const pricing_data_monthly = {
 const { header_text, price_header, price_feature, price_feature_info } = pricing_data_monthly;
 
 const PriceArea = () => {
-  // Initially "USD" to match server render
-  const [currency, setCurrency] = useState({ symbol: "$", rate: 1, country: "US" });
-
-  useEffect(() => {
-    //  Run only on client
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (timeZone && timeZone.toLowerCase().includes("kolkata")) {
-      // Update to INR after hydration
-      setCurrency({ symbol: "₹", rate: 83, country: "IN" });
-    } else {
-      setCurrency({ symbol: "$", rate: 1, country: "US" });
-    }
-  }, []);
+  // Set to INR by default
+  const [currency] = useState({ symbol: "₹", rate: 83, country: "IN" });
 
   const formatPrice = (usd) => {
     const value = Math.round(usd * currency.rate);
@@ -122,11 +111,7 @@ const PriceArea = () => {
                               <h4>
                                 {formatPrice(item.price)} <span>/mo</span>
                               </h4>
-                              <p>
-                                {currency.country === "IN"
-                                  ? "Billed monthly (INR)"
-                                  : "Billed monthly (USD)"}
-                              </p>
+                              <p>Billed monthly (INR)</p>
                               <Link className="tp-btn-service" href="#">
                                 Get Started
                               </Link>
@@ -222,11 +207,7 @@ const PriceArea = () => {
                               <h4>
                                 {formatPrice(item.price_yearly)} <span>/mo</span>
                               </h4>
-                              <p>
-                                {currency.country === "IN"
-                                  ? "Billed yearly (INR)"
-                                  : "Billed yearly (USD)"}
-                              </p>
+                              <p>Billed yearly (INR)</p>
                               <Link className="tp-btn-service" href="#">
                                 Get Started
                               </Link>

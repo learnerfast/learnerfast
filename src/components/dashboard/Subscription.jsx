@@ -9,7 +9,7 @@ const Subscription = () => {
     {
       name: 'Starter',
       icon: Sparkles,
-      price: { monthly: 29, yearly: 290 },
+      price: { monthly: 2407, yearly: 24070 },
       description: 'Perfect for getting started',
       features: [
         'Up to 3 courses',
@@ -26,7 +26,7 @@ const Subscription = () => {
     {
       name: 'Professional',
       icon: Zap,
-      price: { monthly: 79, yearly: 790 },
+      price: { monthly: 6557, yearly: 65570 },
       description: 'For growing businesses',
       features: [
         'Unlimited courses',
@@ -46,7 +46,7 @@ const Subscription = () => {
     {
       name: 'Enterprise',
       icon: Crown,
-      price: { monthly: 199, yearly: 1990 },
+      price: { monthly: 16517, yearly: 165170 },
       description: 'For large organizations',
       features: [
         'Everything in Professional',
@@ -134,12 +134,12 @@ const Subscription = () => {
                 {/* Price */}
                 <div className="mb-6">
                   <div className="flex items-baseline">
-                    <span className="text-5xl font-bold text-gray-900">${price}</span>
+                    <span className="text-5xl font-bold text-gray-900">₹{price.toLocaleString('en-IN')}</span>
                     <span className="text-gray-600 ml-2">/{billingCycle === 'monthly' ? 'mo' : 'yr'}</span>
                   </div>
                   {billingCycle === 'yearly' && (
                     <p className="text-sm text-gray-500 mt-1">
-                      ${(price / 12).toFixed(2)}/month billed annually
+                      ₹{Math.round(price / 12).toLocaleString('en-IN')}/month billed annually
                     </p>
                   )}
                 </div>

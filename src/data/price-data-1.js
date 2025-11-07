@@ -13,7 +13,7 @@ const price_data_home_one = [
     title: "Personal Plan",
     desctiption: <>Customized anything in anytime</>,
     cls: "",
-    pric: "146.00",
+    pric: "₹12,118",
     price_feature: [
         {
             list: "Unlimited Paid Courses",
@@ -147,7 +147,7 @@ const price_data_home_one = [
         title: "Advanced",
         desctiption: <>Customized anything in anytime</>,
         cls: "active",
-        pric: "159.00",
+        pric: "₹13,197",
         price_feature: [
             {
     list: "Increase engagement",
@@ -284,7 +284,7 @@ const price_data_home_one = [
         title: "Personal Plan",
         desctiption: <>Customized anything in anytime</>,
         cls: "",
-        pric: "289.00",
+        pric: "₹23,987",
         price_feature: [
             {
     list: "Boost the learning experience",
@@ -449,7 +449,7 @@ const price_data_home_one = [
         title: "Personal Plan",
         desctiption: <>Customized anything in anytime</>,
         cls: "",
-        pric: "99.00",
+        pric: "₹8,217",
         price_feature: [
             {
                 list: "Easy To Track AI Data",
@@ -480,7 +480,7 @@ const price_data_home_one = [
         title: "Advanced",
         desctiption: <>Customized anything in anytime</>,
         cls: "active",
-        pric: "199.00",
+        pric: "₹16,517",
         price_feature: [
             {
                 list: "Easy To Track AI Data",
@@ -511,7 +511,7 @@ const price_data_home_one = [
         title: "Personal Plan",
         desctiption: <>Customized anything in anytime</>,
         cls: "",
-        pric: "299.00",
+        pric: "₹24,817",
         price_feature: [
             {
                 list: "Easy To Track AI Data",
