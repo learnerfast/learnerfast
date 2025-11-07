@@ -10,6 +10,9 @@ import Brand from "./brand";
 import CompanyArea from "./company-area";
 import JobArea from "./job-area";
 import JourneyArea from "./journey-area";
+import ShortTitle from "./short-title"
+import CompanyStory from "./company-story"
+
  
 const About = () => {
   return (
@@ -17,9 +20,11 @@ const About = () => {
       <HeaderSix />
       <Breadcrumb title_top="About"  title_bottom="LearnerFast" />
       <HeroBanner title="About" subtitle="LearnerFast" bg_img="/assets/img/breadcrumb/breadcrumb-2.jpg" />
+      <ShortTitle/>
       <Brand />
+      <CompanyStory/>
       <CompanyArea />
-      <AboutArea />
+      {/* <AboutArea /> */}
 
 
       <CtaArea />

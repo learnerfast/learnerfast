@@ -3,10 +3,16 @@ import React from 'react';
 
 const cta_content ={ 
      bg_img: "/assets/img/cta/cta-bg.jpg",
-     title: "Start Building Your Video Academy Today!",
-     description: <>Everything you need to create professional learning websites with secure video delivery <br /> and engage students worldwide.</>,
-     btn_text: "Create Your Academy",
+     title: "Start Your Online Teaching Journey Today!",
+     description: (
+       <>
+        Create and manage online courses easily, securely, and in your style.
+
+       </>
+     ),
+     btn_text: "Get Started with LearnerFast",
 }
+
 const {bg_img, title, description, btn_text}  = cta_content
 
 const CtaArea = () => {

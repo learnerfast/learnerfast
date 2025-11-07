@@ -3,12 +3,11 @@ import React,{useState} from 'react';
 
 const company_content ={
     sub_title:  "ABOUT THE PLATFORM",
-    title: <>Built for Educators <br />and Content Creators</>,
-    info_1: <>Our white-label video learning platform empowers educators to create professional websites with secure video delivery. From drag-and-drop website building to DRM-protected video streaming, we provide everything needed to launch your digital academy.</>,
-    info_2: <>With custom domain support and comprehensive analytics, you can build a branded learning experience that engages students and tracks their progress effectively.</>,
-    info_3: <>Our secure APIs and transparent pricing model give you complete control over your educational content and student data.</>,
+    title: <>Create Courses. Engage Students. Grow Your Online Learning Business.</>,
+    info_1: <>LearnerFast is your all-in-one platform to create, launch, and monetize online courses with ease. Whether you're a trainer, coach, institute, or business, LearnerFast helps you build an interactive learning environment that keeps your students engaged and learning effectively.</>,
+    info_2: <>Designed for educators, entrepreneurs, and organizations, LearnerFast offers powerful tools to deliver online training, manage students, track progress, and grow your e-learning business — all from a single dashboard.</>,
 }
-const {sub_title, title, info_1, info_2, info_3}  = company_content
+const {sub_title, title, info_1, info_2}  = company_content
 
 
 const CompanyArea = () => {
@@ -16,25 +15,9 @@ const CompanyArea = () => {
 
     return (
         <>
-            <div className="ab-company-area pt-105 pb-100">
+            <div className="ab-company-area pt-30 pb-100">
                <div className="container">
-                  <div className="row ab-company-section-space">
-                     <div className="col-xl-6">
-                        <div className="ab-company-section-box">
-                           <h4 className="inner-section-subtitle">{sub_title}</h4>
-                           <h3 className="tp-section-title">{title}</h3>
-                        </div>
-                     </div>
-                     <div className="col-xl-6 wow tpfadeRight" data-wow-duration=".9s" data-wow-delay=".5s">
-                        <div className="ab-company-right">
-                           <div className="ab-company-section-text">
-                              <p className="pb-10">{info_1}</p>
-                              <p className="pb-10">{info_2}</p>
-                              <p><span>{info_3}</span></p>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+                
                   <div className="row align-items-center">
                      <div className="col-xl-4">
                         <div className="ab-company-video">
@@ -52,7 +35,7 @@ const CompanyArea = () => {
                                  <div className="ab-company-fun-fact">
                                     <span>TRUSTED BY</span>
                                     <h4>5,000<em>+</em></h4>
-                                    <p>Educators</p>
+                                    <p>Teachers, Institutes & Trainers</p>
                                  </div>
                               </div>
                            </div>
@@ -60,18 +43,18 @@ const CompanyArea = () => {
                            <div className="col-md-4 col-sm-4 mb-40">
                               <div className="ab-company-fun-fact-wrap d-flex justify-content-md-center justify-content-left">
                                  <div className="ab-company-fun-fact">
-                                    <span>DELIVERED</span>
+                                    <span>HOSTED</span>
                                     <h4>2<em>M+</em></h4>
-                                    <p>Video Hours</p>
+                                    <p>Learning Minutes Delivered</p>
                                  </div>
                               </div>
                            </div>
                            <div className="col-md-4 col-sm-4 mb-40">
                               <div className="ab-company-fun-fact-wrap ab-company-border-none d-flex justify-content-md-center justify-content-left">
                                  <div className="ab-company-fun-fact">
-                                    <span>ACTIVE IN</span>
+                                    <span>USED IN</span>
                                     <h4>80<em>+</em></h4>
-                                    <p>Countries</p>
+                                    <p>Cities & Countries Worldwide</p>
                                  </div>
                               </div>
                            </div>
