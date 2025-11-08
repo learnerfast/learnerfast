@@ -1,11 +1,11 @@
 import useTitleAnimation from '@/hooks/useTitleAnimation';
 import service_data from '@/data/service-data';
-//import RightArrow from '@/svg/right-arrow';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useRef } from 'react';
 
-import img from "@/assets/img/service/sv-dashbord.png" 
+
 
 const service_content = {
     title: "Explore Our Features",
@@ -19,7 +19,7 @@ const service_content = {
     
 
 }
-const {title, sub_title,bg_img, title_2, des, btn_text}  = service_content
+const {title, sub_title}  = service_content
 
 const ServicesArea = () => {
     let titleRef = useRef(null)
@@ -50,33 +50,12 @@ const ServicesArea = () => {
                                     <h3 className="tp-service__title-sm tp-yellow-color"><Link href="/service-details">{item.title}</Link></h3>
                                     <p>{item.description}</p>
                                 </div>
-                                {/* <div className="tp-service__link">
-                                    <Link href="/service-details">
-                                        <RightArrow /> 
-                                    </Link>
-                                </div> */}
+                               
                             </div>
                         </div>
                     )}
 
-                     {/* <div className="col-xl-4 col-lg-4 col-md-6 wow tpfadeUp" data-wow-duration=".9s" data-wow-delay="1s">
-                        <div className="tp-service__dashboard" 
-                        style={{backgroundImage: `url(${bg_img})`}} >
-                           <div className="tp-service__top-content">
-                              <h3 className="tp-service__title-white">{title_2}</h3>
-                              <p>{des}</p>
-                              <Link className="tp-btn-orange tp-btn-hover alt-color-white" href="/project-details">
-                                 <span>{btn_text}</span>
-                                 <b></b>
-                              </Link>
-                           </div>
-                           <div className="tp-service__dashdboard-sm-img">
-                              <Image className="wow tpfadeRight" data-wow-duration=".9s" data-wow-delay=".7s" 
-                              src={img} alt="theme-pure" />
-                           </div>
-                        </div>
-                     </div> */}
-
+                     
                   </div>
                </div>
             </div>

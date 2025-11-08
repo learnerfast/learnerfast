@@ -76,9 +76,10 @@
 /* Swiper Scrollbar */
 .tp-scrollbar {
   position: absolute;
-  bottom: 0;
+
   left: 0;
-  margin: auto;
+  right:0px;
+  margin: 60px auto;
   height: 4px;
   background: #e0e0e0;
   border-radius: 2px;
@@ -87,7 +88,7 @@
 }
 
 .tp-scrollbar .swiper-scrollbar-drag {
-  background: #007bff; /* Blue progress */
+  background: #c6c6c6; /* Blue progress */
   border-radius: 2px;
 }
 

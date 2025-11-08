@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { X, CheckCircle, ArrowRight, Image as ImageIcon, Dumbbell, GraduationCap, DollarSign, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const categories = ['All', 'Fitness', 'Education', 'Financial'];
+const categories = ['All', 'Fitness', 'Education', 'Financial', 'Beautician'];
 
 const CreateSiteModal = ({
   isOpen,

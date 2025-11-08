@@ -387,8 +387,8 @@
     &-item{
         border: 1px solid #E9EBF1;
         border-radius: 20px;
-        padding: 45px;
-        min-height: 360px;
+        padding:30px;
+        min-height:280px;
         overflow: hidden;
         transition: .3s;
         &:hover{
@@ -415,11 +415,11 @@
         }
     }
     &-content{
-        margin-bottom: -47px;
+        margin-top:40px;
         transition: .3s;
         & span{
             font-weight: 700;
-            font-size: 11px;
+            font-size: 14px;
             line-height: 8px;
             letter-spacing: 0.03em;
             text-transform: uppercase;

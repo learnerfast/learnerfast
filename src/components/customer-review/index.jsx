@@ -18,8 +18,8 @@ const Customer = () => {
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
-            <Breadcrumb title_top={"Our Top"} title_bottom={"Service"} />
-            <HeroBanner title="Our Top" subtitle="Service" bg_img="/assets/img/breadcrumb/breadcrumb-2.jpg" />
+            <Breadcrumb title_top={"Our Top"} title_bottom={"Features"} />
+            <HeroBanner title="Our Top" subtitle="Features" bg_img="/assets/img/breadcrumb/breadcrumb-2.jpg" />
             <CustomerReview /> 
             <CardArea style_service={true} spacing="pt-100 pb-175" />
            
