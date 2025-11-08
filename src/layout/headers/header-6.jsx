@@ -71,7 +71,7 @@ const HeaderSix = ({ style_2 = false, hideNav = false }) => {
    return (
       <>
          <header>
-            <div id="header-sticky" className={`header-bottom__area header-sticky-bg-2 header-bottom__transparent ${!hideNav ? 'header-bottom__bdr' : ''} z-index-5 ${style_2 ? 'inner-header-2' : ''} ${sticky ? "header-sticky" : ''}`} style={hideNav ? {paddingTop: '20px', paddingBottom: '20px'} : {}}>
+            <div id="header-sticky" className={`header-bottom__area header-sticky-bg-2 header-bottom__transparent z-index-5 ${style_2 ? 'inner-header-2' : ''} ${sticky ? "header-sticky" : ''}`} style={hideNav ? {paddingTop: '20px', paddingBottom: '20px'} : {}}>
                <div className="container">
                   <div className="row g-0 align-items-center">
                      <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-4 col-6">
