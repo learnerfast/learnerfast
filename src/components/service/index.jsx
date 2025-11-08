@@ -17,13 +17,13 @@ const Service = () => {
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
-            <Breadcrumb title_top={"Our Top"} title_bottom={"Service"} />
-            <HeroBanner title="Our Top" subtitle="Service" bg_img="/assets/img/breadcrumb/breadcrumb-2.jpg" />
+            <Breadcrumb title_top={"Our Top"} title_bottom={"Features"} />
+            <HeroBanner title="Our Top" subtitle="Features" bg_img="/assets/img/breadcrumb/breadcrumb-2.jpg" />
             <ServiceArea /> 
             <CardArea style_service={true} spacing="pt-100 pb-175" />
-            <SalesArea style_service={true} />
+            {/* <SalesArea style_service={true} />
             <TestimonialArea />
-            <AnswerQuestion />
+            <AnswerQuestion /> */}
             <CtaArea />
           </main>
           <FooterFive style_contact={true} style_team={true} />
