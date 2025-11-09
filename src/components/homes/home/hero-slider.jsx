@@ -12,9 +12,6 @@ import shape_img_1 from "@/assets/img/hero/hero-shape-1.png";
 import shape_img_2 from "@/assets/img/hero/hero-shape-2.png";
 import thumb_1 from "@/assets/img/hero/hero-sm-3.png";
 import thumb_2 from "@/assets/img/hero/hero-sm-4.jpg";
-import hero_thumb_2 from "@/assets/img/hero/hero-sm-2.jpg";
-import HeroForm from "@/forms/hero-form";
-import LineShape from "@/svg/line-shape";
 
 const hero_content = {
   hero_shape: [
@@ -36,10 +33,6 @@ const hero_content = {
   hero_shape_img: [
     { id: 1, cls: "1", img: shape_img_1 },
     { id: 2, cls: "2", img: shape_img_2 },
-  ],
-  hero_thumbs: [
-    { id: 1, col: "4", cls: "tp-hero__sm-img", img: thumb_1 },
-    { id: 2, col: "8", cls: "", img: thumb_2 },
   ],
 };
 
@@ -68,13 +61,13 @@ const HeroSlider = () => {
       <div className="tp-hero__area tp-hero__pl-pr">
         <div className="tp-hero__bg p-relative">
           <div className="tp-hero-bg tp-hero-bg-single" ref={hero_bg}>
-            <Image src={hero_frame} alt="theme-pure" />
+            <Image src={hero_frame} alt="theme-pure" priority />
           </div>
 
           {/* Hero background shapes */}
           <div className="tp-hero-shape">
-            {hero_shape.map((item, i) => (
-              <Image key={i} className={item.cls} src={item.img} alt="shape" />
+            {hero_shape.map((item) => (
+              <Image key={item.id} className={item.cls} src={item.img} alt="shape" />
             ))}
           </div>
 
@@ -87,18 +80,7 @@ const HeroSlider = () => {
                     <h2 className="tp-hero__hero-title tp-title-anim">
                       {hero_title}
                     </h2>
-                    {/* <div className="tp-hero__title-shape d-none d-sm-block">
-                      <LineShape />
-                    </div> */}
                   </div>
-
-                  {/* <div
-                    className="tp-hero__input p-relative wow tpfadeUp"
-                    data-wow-duration=".9s"
-                    data-wow-delay=".5s"
-                  >
-                    <HeroForm />
-                  </div> */}
 
                   <p
                     className="wow tpfadeUp"
@@ -119,9 +101,9 @@ const HeroSlider = () => {
             <div className="row justify-content-center">
               <div className="col-xl-10">
                 <div className="tp-hero__thumb-wrapper-main p-relative">
-                  {hero_shape_img.map((item, i) => (
+                  {hero_shape_img.map((item) => (
                     <div
-                      key={i}
+                      key={item.id}
                       className={`tp-hero__shape-img-${item.cls} d-none d-xl-block`}
                     >
                       <Image src={item.img} alt="shape" />
@@ -131,46 +113,26 @@ const HeroSlider = () => {
                   <div className="tp-hero__thumb-wrapper d-none d-md-block p-relative">
                     <div className="row">
                       <div className="col-md-12">
-                        {/* ✅ Responsive Video Embed */}
+                        {/* Responsive Video Embed */}
                         <div className="video-container">
-<video
-  autoPlay
-  loop
-  muted
-  playsInline
-
->
-  <source src="/assets/img/hero/hero.mp4" type="video/mp4" />
-  Your browser does not support the video tag.
-</video>
-{/* src="/Users/vdocipher/Desktop/deepak/learning-next-js/public/assets/img/hero/hero.mp4" */}
-{/* <div style={{ position: "relative", paddingTop: "56.25%" }}>
-  <iframe
-    src="https://player.vdocipher.com/v2/?playbackInfo=eyJ2aWRlb0lkIjoiZGQyNTg0ODE2OTMyNGRhNGFiNTcxOGViNGNkMmYzMGEifQ=="
-    style={{
-      border: 0,
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-    }}
-    allowFullScreen
-    allow="encrypted-media"
-  ></iframe>
-</div> */}
-
-
-
-
-
-
-
-
-
-
-
-
+                          <video
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            style={{
+                              width: "100%",
+                              height: "530px",
+                              borderRadius: "10px",
+                              objectFit: "cover",
+                            }}
+                          >
+                            <source
+                              src="/assets/img/hero/learnerfastdemo.mp4"
+                              type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                          </video>
                         </div>
                       </div>
                     </div>
@@ -187,62 +149,3 @@ const HeroSlider = () => {
 };
 
 export default HeroSlider;
-
-
-// import React from "react";
-
-// const HeroSection = () => {
-//   return (
-//     <section className="hero-section container py-5">
-//       <div className="row align-items-center">
-        
-//         {/* Left Content */}
-//         <div className="col-md-6 hero-text">
-//           <h1 className="display-4 fw-bold mb-3">
-//             The learning platform for <br /> AI skills and business transformation
-//           </h1>
-//           <p className="lead mb-4">When people grow, business does too.</p>
-        
-//         </div>
-
-//         {/* Right Content */}
-//         <div className="col-md-6 hero-media text-center mt-4 mt-md-0">
-//            <div className="d-flex gap-3">
-//             <button className="btn btn-dark btn-lg">Get started</button>
-//             <button className="btn btn-outline-dark btn-lg">Compare plans</button>
-//           </div>
-//         </div>
-
-
-
-// <div className="row align-items-center">
-	
-//  <div className="col-md-12 hero-media text-center mt-4 mt-md-0">
-//           <div className="gradient-box position-relative overflow-hidden rounded-4 shadow">
-//             {/* Play Button + Text */}
-//             <div className="video-overlay d-flex align-items-center position-absolute bottom-0 start-0 p-3">
-//               <button className="play-btn me-2">
-//                 ▶
-//               </button>
-//               <div className="text-white">
-//                 <span className="d-block fw-semibold">An AI learning journey like no other</span>
-//                 <small>0:30</small>
-//               </div>
-//             </div>
-//             {/* Background + Image */}
-//             <img
-//               src="/path/to/woman-image.png"
-//               alt="Smiling Woman"
-//               className="img-fluid hero-img"
-//             />
-//           </div>
-//         </div>
-
-
-// </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default HeroSection;
