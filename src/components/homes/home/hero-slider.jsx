@@ -21,15 +21,15 @@ const hero_content = {
   hero_title: (
     <>
       <span className="tp_title">
-        <span className="child">The Leading Customer</span>
+        <span className="child">Create And Sell </span>
       </span>
       <br />
       <span>
-        <span className="child">Data Platform</span>
+        <span className="child">Courses</span>
       </span>
     </>
   ),
-  sub_title: <>We are not going to save your data</>,
+  sub_title: <>Deliver a smooth and secure learning experience</>,
   hero_shape_img: [
     { id: 1, cls: "1", img: shape_img_1 },
     { id: 2, cls: "2", img: shape_img_2 },
