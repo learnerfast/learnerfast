@@ -10,7 +10,7 @@ import icon_3 from "@/assets/img/contact/contact-icon-sm-3.png";
 
 const inner_content = {
   title: "Book a Demo!",
-  description: <>We will contact again after receive your request in 24h</>,
+  description: <>We will contact again after receive your request in 30Minutes</>,
 
   contact_data: [
     {
@@ -19,18 +19,18 @@ const inner_content = {
       title: "support@learnerfast.com",
       link: "mailto:support@learnerfast.com",
     },
-    // {
-    //   id: 2,
-    //   icon: icon_2,
-    //   title: "+1-202-555-0144",
-    //   link: "tel:+1-202-555-0144",
-    // },
-    // {
-    //   id: 3,
-    //   icon: icon_3,
-    //   title: "35Park Avenue, Uk",
-    //   link: "https://www.google.com.bd/maps/@23.7806365,90.4193257,12z",
-    // },
+    {
+      id: 2,
+      icon: icon_2,
+      title: "+91 9871754241",
+      link: "tel:+91 9871754241",
+    },
+    {
+      id: 3,
+      icon: icon_3,
+      title: "1B 221 BP Neelam Bata Road NIT Faridabad 121001 Haryana",
+      link: "",
+    },
   ],
 };
 const { title, description, contact_data } = inner_content;
