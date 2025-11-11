@@ -258,12 +258,24 @@
                     btn.textContent = `Enroll Now - ₹${course.price}`;
                     alert(data.error || 'Payment initiation failed. Please try again.');
                   }
-                } catch (error) {
-                  btn.disabled = false;
-                  btn.textContent = `Enroll Now - ₹${course.price}`;
-                  console.error('Payment error:', error);
-                  alert('Payment service unavailable. Please try again later.');
-                }
+                // } catch (error) {
+                //   btn.disabled = false;
+                //   btn.textContent = `Enroll Now - ₹${course.price}`;
+                //   console.error('Payment error:', error);
+                //   alert('Payment service unavailable. Please try again later.');
+                // }
+
+              }  catch (error) {
+  btn.disabled = false;
+  btn.textContent = `Enroll Now - ₹${course.price}`;
+  console.error('Payment error:', error);
+
+  // 🔄 Redirect to PhonePe Payment Gateway when API fails
+  const phonePeRedirectUrl = `https://api.phonepe.com/apis/hermes/pg/v1/pay?amount=${course.price * 100}&merchantId=YOUR_MERCHANT_ID&merchantTransactionId=${Date.now()}&callbackUrl=${encodeURIComponent(window.location.origin + '/payment-success')}&mobileNumber=USER_PHONE_NUMBER&message=${encodeURIComponent(course.title)}`;
+
+  // Redirect user to PhonePe
+  window.location.href = phonePeRedirectUrl;
+}
               }
             } else if (course.access_type === 'free') {
               openCoursePlayer(course);
