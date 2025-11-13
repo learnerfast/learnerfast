@@ -42,14 +42,27 @@ export async function POST(request) {
         created_at: new Date().toISOString()
       });
 
-    if (dbError) throw dbError;
+    if (dbError) {
+      console.error('Database error:', dbError);
+      throw dbError;
+    }
+
+    console.log('Payment record saved, initializing PhonePe client...');
 
     // Create PhonePe payment request
-    const client = getPhonePeClient();
+    let client;
+    try {
+      client = getPhonePeClient();
+      console.log('PhonePe client initialized');
+    } catch (clientError) {
+      console.error('PhonePe client initialization error:', clientError);
+      throw new Error('Failed to initialize payment gateway: ' + clientError.message);
+    }
     
+    console.log('Building payment request...');
     const metaInfo = MetaInfo.builder()
-      .udf1(courseId)
-      .udf2(userId)
+      .udf1(String(courseId))
+      .udf2(String(userId))
       .udf3(courseName)
       .build();
 
@@ -60,7 +73,9 @@ export async function POST(request) {
       .metaInfo(metaInfo)
       .build();
 
+    console.log('Calling PhonePe API...');
     const response = await client.pay(payRequest);
+    console.log('PhonePe response:', response);
 
     return NextResponse.json({
       success: true,
@@ -70,8 +85,15 @@ export async function POST(request) {
 
   } catch (error) {
     console.error('Payment initiation error:', error);
+    console.error('Error stack:', error.stack);
+    console.error('Error details:', JSON.stringify(error, null, 2));
+    
     return NextResponse.json(
-      { error: error.message || 'Payment initiation failed' },
+      { 
+        success: false,
+        error: error.message || 'Payment initiation failed',
+        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      },
       { status: 500 }
     );
   }
