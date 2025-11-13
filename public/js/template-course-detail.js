@@ -256,13 +256,14 @@
                   } else {
                     btn.disabled = false;
                     btn.textContent = `Enroll Now - ₹${course.price}`;
-                    alert(data.error || 'Payment initiation failed. Please try again.');
+                    console.error('Payment failed:', data);
+                    alert(`Payment Error: ${data.error || 'Payment initiation failed'}\n\nError Type: ${data.errorType || 'Unknown'}\n\nPlease contact support.`);
                   }
                 } catch (error) {
                   btn.disabled = false;
                   btn.textContent = `Enroll Now - ₹${course.price}`;
                   console.error('Payment error:', error);
-                  // alert('Payment service unavailable. Please try again later.');
+                  alert('Payment service unavailable. Please try again later.');
                 }
 
               }

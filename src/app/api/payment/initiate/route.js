@@ -92,7 +92,12 @@ export async function POST(request) {
       { 
         success: false,
         error: error.message || 'Payment initiation failed',
-        details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        errorType: error.constructor.name,
+        stack: error.stack,
+        envCheck: {
+          clientId: process.env.PHONEPE_CLIENT_ID ? 'Set' : 'Missing',
+          clientSecret: process.env.PHONEPE_CLIENT_SECRET ? 'Set' : 'Missing'
+        }
       },
       { status: 500 }
     );
