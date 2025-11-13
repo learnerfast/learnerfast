@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { toast } from "react-hot-toast";
 import NoticeTwo from "@/svg/notice-2";
 import header_img from "@/assets/img/price/price-4.1.png";
 
@@ -59,7 +59,6 @@ const pricing_data_monthly = {
 const { header_text, price_header, price_feature, price_feature_info } = pricing_data_monthly;
 
 const PriceArea = () => {
-  // Set to INR by default
   const [currency] = useState({ symbol: "₹", rate: 83, country: "IN" });
 
   const formatPrice = (usd) => {
@@ -67,12 +66,44 @@ const PriceArea = () => {
     return `${currency.symbol}${value.toLocaleString(currency.country === "IN" ? "en-IN" : "en-US")}`;
   };
 
+  const handleSubscribe = async (planName, price) => {
+    try {
+      const response = await fetch('/api/auth/session', { credentials: 'include' });
+      const session = await response.json();
+      
+      if (!session?.user) {
+        window.location.href = '/signin?redirect=/price';
+        return;
+      }
+
+      const amount = Math.round(price * currency.rate);
+      const paymentResponse = await fetch('/api/payment/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: session.user.id,
+          amount: amount,
+          courseName: `${planName} Subscription`,
+          courseId: `subscription_${planName.toLowerCase()}`
+        })
+      });
+
+      const data = await paymentResponse.json();
+      if (data.success && data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else {
+        toast.error('Payment initiation failed');
+      }
+    } catch (error) {
+      toast.error('Something went wrong');
+    }
+  };
+
   return (
     <div className="tp-price-area mb-120">
       <div className="container">
         <div className="price-tab-content">
           <div className="tab-content" id="nav-tabContent">
-            {/* MONTHLY TAB */}
             <div
               className="tab-pane fade show active"
               id="nav-home"
@@ -82,7 +113,6 @@ const PriceArea = () => {
               <div className="tp-price-table price-inner-white-bg z-index-3">
                 <div className="tp-price-table-wrapper">
                   <div className="row g-0 align-items-center">
-                    {/* Left Header */}
                     <div className="col-4">
                       <div className="tp-price-header">
                         <div className="tp-price-header-img">
@@ -94,7 +124,6 @@ const PriceArea = () => {
                       </div>
                     </div>
 
-                    {/* Right Price Cards */}
                     <div className="col-8">
                       <div className="tp-price-top-wrapper">
                         {price_header.map((item) => (
@@ -107,12 +136,14 @@ const PriceArea = () => {
                               <p>{item.description}</p>
                             </div>
                             <div className="tp-price-top-title-wrapper">
-                              {/* Hydration-safe price rendering */}
                               <h4>{formatPrice(item.price)} /mo</h4>
                               <p>Billed monthly (INR)</p>
-                              <Link className="tp-btn-service" href="#">
+                              <button 
+                                className="tp-btn-service"
+                                onClick={() => handleSubscribe(item.title, item.price)}
+                              >
                                 Get Started
-                              </Link>
+                              </button>
                             </div>
                           </div>
                         ))}
@@ -120,7 +151,6 @@ const PriceArea = () => {
                     </div>
                   </div>
 
-                  {/* Feature Section */}
                   <div className="tp-price-feature-wrapper">
                     <div className="row g-0">
                       <div className="col-4">
@@ -167,7 +197,6 @@ const PriceArea = () => {
               </div>
             </div>
 
-            {/* YEARLY TAB */}
             <div
               className="tab-pane fade"
               id="nav-profile"
@@ -177,7 +206,6 @@ const PriceArea = () => {
               <div className="tp-price-table price-inner-white-bg z-index-3">
                 <div className="tp-price-table-wrapper">
                   <div className="row g-0 align-items-center">
-                    {/* Left Header */}
                     <div className="col-4">
                       <div className="tp-price-header">
                         <div className="tp-price-header-img">
@@ -189,7 +217,6 @@ const PriceArea = () => {
                       </div>
                     </div>
 
-                    {/* Right Price Cards */}
                     <div className="col-8">
                       <div className="tp-price-top-wrapper">
                         {price_header.map((item) => (
@@ -204,9 +231,12 @@ const PriceArea = () => {
                             <div className="tp-price-top-title-wrapper">
                               <h4>{formatPrice(item.price_yearly)} /mo</h4>
                               <p>Billed yearly (INR)</p>
-                              <Link className="tp-btn-service" href="#">
+                              <button 
+                                className="tp-btn-service"
+                                onClick={() => handleSubscribe(item.title, item.price_yearly * 12)}
+                              >
                                 Get Started
-                              </Link>
+                              </button>
                             </div>
                           </div>
                         ))}
@@ -214,7 +244,6 @@ const PriceArea = () => {
                     </div>
                   </div>
 
-                  {/* Feature Section */}
                   <div className="tp-price-feature-wrapper">
                     <div className="row g-0">
                       <div className="col-4">
@@ -260,7 +289,6 @@ const PriceArea = () => {
                 </div>
               </div>
             </div>
-            {/* END YEARLY TAB */}
           </div>
         </div>
       </div>

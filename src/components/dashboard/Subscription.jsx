@@ -1,9 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Check, Sparkles, Zap, Crown } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+);
 
 const Subscription = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
+  const [currentPlan, setCurrentPlan] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchCurrentSubscription();
+  }, []);
+
+  const fetchCurrentSubscription = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { data } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .single();
+
+      setCurrentPlan(data);
+    } catch (error) {
+      console.error('Error fetching subscription:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const plans = [
     {
@@ -66,12 +98,45 @@ const Subscription = () => {
     }
   ];
 
-  const handleSubscribe = (planName) => {
-    toast.success(`Redirecting to checkout for ${planName} plan...`);
+  const handleSubscribe = async (planName, price) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        window.location.href = '/signin';
+        return;
+      }
+
+      const response = await fetch('/api/payment/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          amount: price,
+          courseName: `${planName} Subscription - ${billingCycle}`,
+          courseId: `subscription_${planName.toLowerCase()}_${billingCycle}`
+        })
+      });
+
+      const data = await response.json();
+      if (data.success && data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else {
+        toast.error('Payment initiation failed');
+      }
+    } catch (error) {
+      toast.error('Something went wrong');
+    }
   };
 
   return (
     <div className="space-y-8">
+      {currentPlan && (
+        <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl p-6 text-white">
+          <h3 className="text-xl font-bold mb-2">Current Plan: {currentPlan.plan_name}</h3>
+          <p className="text-sm opacity-90">Billing: {currentPlan.plan_type} • Amount: ₹{currentPlan.amount}</p>
+          <p className="text-sm opacity-90">Valid until: {new Date(currentPlan.end_date).toLocaleDateString()}</p>
+        </div>
+      )}
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900">Choose Your Plan</h2>
         <p className="text-gray-600 mt-2">Select the perfect plan for your learning platform</p>
@@ -145,14 +210,17 @@ const Subscription = () => {
 
                 {/* CTA Button */}
                 <button
-                  onClick={() => handleSubscribe(plan.name)}
+                  onClick={() => handleSubscribe(plan.name, price)}
+                  disabled={currentPlan?.plan_name === plan.name}
                   className={`w-full py-3 px-4 rounded-lg font-semibold transition-all ${
-                    plan.popular
+                    currentPlan?.plan_name === plan.name
+                      ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      : plan.popular
                       ? 'bg-gradient-to-r from-primary-600 to-primary-700 text-white hover:from-primary-700 hover:to-primary-800 shadow-md hover:shadow-lg'
                       : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                   }`}
                 >
-                  Get Started
+                  {currentPlan?.plan_name === plan.name ? 'Current Plan' : 'Get Started'}
                 </button>
 
                 {/* Features */}

@@ -34,22 +34,38 @@ export async function POST(request) {
       })
       .eq('order_id', orderId);
 
-    // If payment successful, create enrollment
+    // If payment successful, create enrollment or subscription
     if (state === 'COMPLETED') {
       const { data: payment } = await supabase
         .from('payments')
-        .select('user_id, course_id')
+        .select('user_id, course_id, payment_type, metadata')
         .eq('order_id', orderId)
         .single();
 
       if (payment) {
-        await supabase
-          .from('enrollments')
-          .insert({
-            user_id: payment.user_id,
-            course_id: payment.course_id,
-            enrolled_at: new Date().toISOString()
-          });
+        if (payment.payment_type === 'subscription') {
+          const endDate = new Date();
+          endDate.setMonth(endDate.getMonth() + (payment.metadata?.planType === 'yearly' ? 12 : 1));
+          
+          await supabase
+            .from('subscriptions')
+            .insert({
+              user_id: payment.user_id,
+              plan_name: payment.metadata?.planName || 'Unknown',
+              plan_type: payment.metadata?.planType || 'monthly',
+              amount: amount / 100,
+              status: 'active',
+              end_date: endDate.toISOString()
+            });
+        } else {
+          await supabase
+            .from('enrollments')
+            .insert({
+              user_id: payment.user_id,
+              course_id: payment.course_id,
+              enrolled_at: new Date().toISOString()
+            });
+        }
       }
     }
 
