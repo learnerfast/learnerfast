@@ -235,6 +235,8 @@
                 btn.disabled = true;
                 btn.textContent = 'Processing...';
                 try {
+                  console.log('Initiating payment:', { courseId: course.id, userId: user.id, amount: course.price });
+                  
                   const response = await fetch('https://www.learnerfast.com/api/payment/initiate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -246,24 +248,36 @@
                     })
                   });
                   
-                  if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                  }
-                  
+                  console.log('Response status:', response.status);
                   const data = await response.json();
+                  console.log('Response data:', data);
+                  
                   if (data.success && data.checkoutUrl) {
                     window.location.href = data.checkoutUrl;
                   } else {
                     btn.disabled = false;
                     btn.textContent = `Enroll Now - ₹${course.price}`;
                     console.error('Payment failed:', data);
-                    alert(`Payment Error: ${data.error || 'Payment initiation failed'}\n\nError Type: ${data.errorType || 'Unknown'}\n\nPlease contact support.`);
+                    
+                    let msg = 'Payment Error:\n\n';
+                    if (data.errorType === 'ConfigurationError') {
+                      msg += 'Payment gateway not configured properly.';
+                    } else if (data.errorType === 'PhonePeClientError') {
+                      msg += 'Payment gateway initialization failed.';
+                    } else if (data.errorType === 'PhonePeAPIError') {
+                      msg += 'Payment gateway API error.';
+                    } else {
+                      msg += data.error || 'Unknown error';
+                    }
+                    if (data.details) msg += '\n\nDetails: ' + data.details;
+                    msg += '\n\nContact: support@learnerfast.com';
+                    alert(msg);
                   }
                 } catch (error) {
                   btn.disabled = false;
                   btn.textContent = `Enroll Now - ₹${course.price}`;
                   console.error('Payment error:', error);
-                  alert('Payment service unavailable. Please try again later.');
+                  alert('Payment service unavailable.\n\nError: ' + error.message + '\n\nContact: support@learnerfast.com');
                 }
 
               }
