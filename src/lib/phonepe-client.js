@@ -6,7 +6,7 @@ export function getPhonePeClient() {
   if (!clientInstance) {
     const clientId = process.env.PHONEPE_CLIENT_ID;
     const clientSecret = process.env.PHONEPE_CLIENT_SECRET;
-    const clientVersion = process.env.PHONEPE_CLIENT_VERSION || 'v1';
+    const clientVersion = process.env.PHONEPE_CLIENT_VERSION || '1';
     const envString = (process.env.PHONEPE_ENV || 'SANDBOX').toUpperCase();
     const env = envString === 'PRODUCTION' ? Env.PRODUCTION : Env.SANDBOX;
 
