@@ -12,7 +12,15 @@ export async function POST(request) {
   try {
     const { courseId, userId, amount, courseName } = await request.json();
 
+    console.log('Payment initiation request:', { courseId, userId, amount, courseName });
+    console.log('PhonePe config:', {
+      clientId: process.env.PHONEPE_CLIENT_ID ? 'Set' : 'Missing',
+      clientSecret: process.env.PHONEPE_CLIENT_SECRET ? 'Set' : 'Missing',
+      env: process.env.PHONEPE_ENV
+    });
+
     if (!process.env.PHONEPE_CLIENT_ID || !process.env.PHONEPE_CLIENT_SECRET) {
+      console.error('PhonePe credentials missing');
       return NextResponse.json(
         { error: 'Payment gateway not configured. Please contact support.' },
         { status: 503 }
