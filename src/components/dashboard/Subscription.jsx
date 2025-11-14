@@ -39,59 +39,46 @@ const Subscription = () => {
 
   const plans = [
     {
-      name: 'Starter',
+      name: 'STARTER',
       icon: Sparkles,
       price: { monthly: 2407, yearly: 24070 },
       description: 'Perfect for getting started',
       features: [
         'Up to 3 courses',
         '1 website builder',
-        'Basic video hosting',
-        'Email support',
         '100 students',
-        'Course analytics',
-        'Basic templates'
+        'Basic video hosting',
+        'Email support'
       ],
       color: 'from-blue-500 to-cyan-500',
       popular: false
     },
     {
-      name: 'Professional',
+      name: 'PROFESSIONAL',
       icon: Zap,
       price: { monthly: 6557, yearly: 65570 },
       description: 'For growing businesses',
       features: [
         'Unlimited courses',
         '5 website builders',
-        'Advanced video hosting',
-        'Priority support',
         'Unlimited students',
-        'Advanced analytics',
-        'Premium templates',
-        'Custom branding',
-        'Email campaigns',
-        'Student management'
+        'Advanced video hosting',
+        'Priority support'
       ],
       color: 'from-purple-500 to-pink-500',
       popular: true
     },
     {
-      name: 'Enterprise',
+      name: 'ENTERPRISE',
       icon: Crown,
       price: { monthly: 16517, yearly: 165170 },
       description: 'For large organizations',
       features: [
-        'Everything in Professional',
-        'Unlimited websites',
-        'White-label solution',
-        'Dedicated support',
-        'Custom integrations',
-        'API access',
-        'Advanced security',
-        'Team collaboration',
-        'Custom domain',
-        'SLA guarantee',
-        'Training & onboarding'
+        'Unlimited courses',
+        'Unlimited website builders',
+        'Unlimited students',
+        'Enterprise video hosting',
+        'Dedicated support'
       ],
       color: 'from-amber-500 to-orange-500',
       popular: false
