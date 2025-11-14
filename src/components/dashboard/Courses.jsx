@@ -4,6 +4,7 @@ import AddCourseModal from '../modals/AddCourseModal';
 import CourseBuilder from './CourseBuilder';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../contexts/AuthContext';
+import { useWebsite } from '../../contexts/WebsiteContext';
 import { supabase } from '../../lib/supabase';
 import { validateVideoUrl, generateEmbedUrl, getVideoTypeFromUrl } from '../../utils/videoUtils';
 
@@ -128,6 +129,7 @@ export const CourseBuilderProvider = ({ children }) => {
 
 const Courses = React.memo(() => {
   const { user, loading } = useAuth();
+  const { subscription, trialExpired, canEdit } = useWebsite();
   const [courses, setCourses] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [videoCount, setVideoCount] = useState({});
@@ -207,6 +209,19 @@ const Courses = React.memo(() => {
 
   const handleAddCourse = useCallback(async (newCourseData) => {
     if (user) {
+      if (trialExpired && !subscription) {
+        toast.error('Trial expired. Please upgrade to continue.');
+        return;
+      }
+      
+      const courseLimit = subscription ? 
+        (subscription.plan_name === 'STARTER' ? 3 : Infinity) : 2;
+      
+      if (courses.length >= courseLimit) {
+        toast.error(`You've reached your course limit (${courseLimit}). Please upgrade your plan.`);
+        return;
+      }
+      
       try {
         const courseInsert = {
           user_id: user.id,
@@ -297,8 +312,12 @@ const Courses = React.memo(() => {
 
   const handleEditCourse = useCallback((course, e) => {
     e.stopPropagation();
+    if (!canEdit) {
+      toast.error('Trial expired. Please upgrade to edit courses.');
+      return;
+    }
     courseBuilder.startEditing(course);
-  }, [courseBuilder]);
+  }, [courseBuilder, canEdit]);
 
   const handleDeleteCourse = useCallback((course, e) => {
     e.stopPropagation();
@@ -432,7 +451,13 @@ const Courses = React.memo(() => {
           <p className="text-gray-600">Manage your educational content</p>
         </div>
         <button 
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            if (trialExpired && !subscription) {
+              toast.error('Trial expired. Please upgrade to create courses.');
+              return;
+            }
+            setIsModalOpen(true);
+          }}
           className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
         >
           <Plus className="h-4 w-4" />

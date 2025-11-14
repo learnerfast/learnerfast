@@ -52,6 +52,8 @@ export const WebsiteProvider = ({ children }) => {
   const { user } = useAuth();
   const [sites, setSites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [subscription, setSubscription] = useState(null);
+  const [trialExpired, setTrialExpired] = useState(false);
 
   const updateSiteStatus = React.useCallback((siteId, updates) => {
     setSites(prevSites => 
@@ -76,11 +78,11 @@ export const WebsiteProvider = ({ children }) => {
     };
   }, [updateSiteStatus, getSiteTemplate]);
 
-  // Load sites from Supabase - only on initial load
   useEffect(() => {
     const loadInitialSites = async () => {
       if (user) {
         await loadSites();
+        await checkSubscription();
       } else {
         setLoading(false);
       }
@@ -88,6 +90,37 @@ export const WebsiteProvider = ({ children }) => {
     
     loadInitialSites();
   }, [user]);
+
+  const checkSubscription = async () => {
+    if (!user?.id) return;
+    
+    try {
+      const { data: sub } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .single();
+      
+      setSubscription(sub);
+      
+      if (!sub) {
+        const { data: userData } = await supabase
+          .from('users')
+          .select('created_at')
+          .eq('id', user.id)
+          .single();
+        
+        if (userData) {
+          const trialEnd = new Date(userData.created_at);
+          trialEnd.setDate(trialEnd.getDate() + 7);
+          setTrialExpired(new Date() > trialEnd);
+        }
+      }
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+    }
+  };
 
   const loadSites = async () => {
     if (!user?.id) {
@@ -133,6 +166,17 @@ export const WebsiteProvider = ({ children }) => {
   const addSite = async (siteName, template) => {
     if (!user?.id) {
       throw new Error('User must be authenticated to create sites');
+    }
+    
+    if (trialExpired && !subscription) {
+      throw new Error('Trial expired. Please upgrade to continue.');
+    }
+    
+    const websiteLimit = subscription ? 
+      (subscription.plan_name === 'STARTER' ? 1 : subscription.plan_name === 'PROFESSIONAL' ? 5 : Infinity) : 1;
+    
+    if (sites.length >= websiteLimit) {
+      throw new Error(`You've reached your website limit (${websiteLimit}). Please upgrade your plan.`);
     }
     
     
@@ -203,7 +247,10 @@ export const WebsiteProvider = ({ children }) => {
     loadSites,
     updateSiteStatus,
     getSiteTemplate,
-  }), [sites, loading, addSite, deleteSite, loadSites, updateSiteStatus, getSiteTemplate]);
+    subscription,
+    trialExpired,
+    canEdit: !trialExpired || !!subscription
+  }), [sites, loading, addSite, deleteSite, loadSites, updateSiteStatus, getSiteTemplate, subscription, trialExpired]);
 
   return (
     <WebsiteContext.Provider value={value}>
