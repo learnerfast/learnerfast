@@ -105,20 +105,16 @@ export const WebsiteProvider = ({ children }) => {
       setSubscription(sub);
       
       if (!sub) {
-        const { data: userData } = await supabase
-          .from('users')
-          .select('created_at')
-          .eq('id', user.id)
-          .single();
+        const { data: { user: authUser } } = await supabase.auth.getUser();
         
-        if (userData) {
-          const trialEnd = new Date(userData.created_at);
+        if (authUser?.created_at) {
+          const trialEnd = new Date(authUser.created_at);
           trialEnd.setDate(trialEnd.getDate() + 7);
           setTrialExpired(new Date() > trialEnd);
         }
       }
     } catch (error) {
-      console.error('Error checking subscription:', error);
+      setTrialExpired(false);
     }
   };
 
