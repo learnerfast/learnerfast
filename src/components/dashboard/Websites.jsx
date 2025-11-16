@@ -50,7 +50,7 @@ const Websites = () => {
 };
 
 const WebsitesList = () => {
-  const { sites, loading, addSite, deleteSite: deleteSiteFromContext } = useWebsite();
+  const { sites, loading, addSite, deleteSite: deleteSiteFromContext, subscription, trialExpired } = useWebsite();
   const { user } = useAuth();
   const router = useRouter();
   
@@ -71,7 +71,22 @@ const WebsitesList = () => {
     sites.sort((a, b) => new Date(b.lastEdited || b.last_edited || 0) - new Date(a.lastEdited || a.last_edited || 0))
   , [sites]);
 
-  const openModal = () => setIsModalOpen(true);
+  const openModal = () => {
+    if (trialExpired && !subscription) {
+      toast.error('Trial expired. Please upgrade to continue.');
+      return;
+    }
+    
+    const websiteLimit = subscription ? 
+      (subscription.plan_name === 'STARTER' ? 1 : subscription.plan_name === 'PROFESSIONAL' ? 5 : Infinity) : 1;
+    
+    if (sites.length >= websiteLimit) {
+      toast.error(`You've reached your website limit (${websiteLimit}). Please upgrade your plan.`);
+      return;
+    }
+    
+    setIsModalOpen(true);
+  };
   const closeModal = () => {
     setIsModalOpen(false);
     toast.dismiss('duplicate-site-name');
