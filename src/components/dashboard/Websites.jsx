@@ -111,8 +111,9 @@ const WebsitesList = () => {
     
     return new Promise((resolve) => {
       setTimeout(async () => {
-        window.currentSiteName = siteName;
-        const newSite = await addSite(siteName, selectedTemplate);
+        try {
+          window.currentSiteName = siteName;
+          const newSite = await addSite(siteName, selectedTemplate);
         
         // Load and save the actual template content
         try {
@@ -236,6 +237,11 @@ const WebsitesList = () => {
         // Navigate to builder
         router.push(`/builder/${newSite.id}`);
         resolve(true);
+        } catch (error) {
+          setShowLoadingScreen(false);
+          toast.error(error.message || 'Failed to create website');
+          resolve(false);
+        }
       }, 5000);
     });
   };
