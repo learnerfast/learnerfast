@@ -68,11 +68,16 @@ const PriceArea = () => {
 
   const handleSubscribe = async (planName, price) => {
     try {
-      const response = await fetch('/api/auth/session', { credentials: 'include' });
-      const session = await response.json();
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      );
       
-      if (!session?.user) {
-        window.location.href = '/signin?redirect=/price';
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        window.location.href = '/sign-in?redirect=/price';
         return;
       }
 
@@ -81,7 +86,7 @@ const PriceArea = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          userId: session.user.id,
+          userId: user.id,
           amount: amount,
           courseName: `${planName} Subscription`,
           courseId: `subscription_${planName.toLowerCase()}`
