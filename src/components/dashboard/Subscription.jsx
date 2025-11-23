@@ -12,33 +12,33 @@ const Subscription = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
   const [currentPlan, setCurrentPlan] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [currency, setCurrency] = useState({ symbol: '$', rate: 1 });
+  const [currency, setCurrency] = useState({ symbol: '$', rate: 1, country: 'US' });
   
   useEffect(() => {
     const detectCurrency = () => {
       const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const currencyMap = {
-        'Asia/Kolkata': { symbol: '₹', rate: 83 },
-        'Asia/Calcutta': { symbol: '₹', rate: 83 },
-        'America/New_York': { symbol: '$', rate: 1 },
-        'America/Los_Angeles': { symbol: '$', rate: 1 },
-        'America/Chicago': { symbol: '$', rate: 1 },
-        'Europe/London': { symbol: '£', rate: 0.79 },
-        'Europe/Paris': { symbol: '€', rate: 0.92 },
-        'Europe/Berlin': { symbol: '€', rate: 0.92 },
-        'Australia/Sydney': { symbol: 'A$', rate: 1.52 },
-        'Asia/Dubai': { symbol: 'AED', rate: 3.67 },
-        'Asia/Singapore': { symbol: 'S$', rate: 1.34 },
+        'Asia/Kolkata': { symbol: '₹', rate: 83, country: 'IN' },
+        'Asia/Calcutta': { symbol: '₹', rate: 83, country: 'IN' },
+        'America/New_York': { symbol: '$', rate: 1, country: 'US' },
+        'America/Los_Angeles': { symbol: '$', rate: 1, country: 'US' },
+        'America/Chicago': { symbol: '$', rate: 1, country: 'US' },
+        'Europe/London': { symbol: '£', rate: 0.79, country: 'GB' },
+        'Europe/Paris': { symbol: '€', rate: 0.92, country: 'EU' },
+        'Europe/Berlin': { symbol: '€', rate: 0.92, country: 'EU' },
+        'Australia/Sydney': { symbol: 'A$', rate: 1.52, country: 'AU' },
+        'Asia/Dubai': { symbol: 'AED', rate: 3.67, country: 'AE' },
+        'Asia/Singapore': { symbol: 'S$', rate: 1.34, country: 'SG' },
       };
       
       if (currencyMap[timezone]) {
         setCurrency(currencyMap[timezone]);
       } else if (timezone.startsWith('Asia/')) {
-        setCurrency({ symbol: '₹', rate: 83 });
+        setCurrency({ symbol: '₹', rate: 83, country: 'IN' });
       } else if (timezone.startsWith('Europe/')) {
-        setCurrency({ symbol: '€', rate: 0.92 });
+        setCurrency({ symbol: '€', rate: 0.92, country: 'EU' });
       } else {
-        setCurrency({ symbol: '$', rate: 1 });
+        setCurrency({ symbol: '$', rate: 1, country: 'US' });
       }
     };
     
@@ -73,7 +73,7 @@ const Subscription = () => {
     {
       name: 'STARTER',
       icon: Sparkles,
-      price: { monthly: 2407, yearly: 24070 },
+      price: { monthly: 29, yearly: 290 },
       description: 'Perfect for getting started',
       features: [
         'Up to 3 courses',
@@ -88,7 +88,7 @@ const Subscription = () => {
     {
       name: 'PROFESSIONAL',
       icon: Zap,
-      price: { monthly: 6557, yearly: 65570 },
+      price: { monthly: 79, yearly: 790 },
       description: 'For growing businesses',
       features: [
         'Unlimited courses',
@@ -103,7 +103,7 @@ const Subscription = () => {
     {
       name: 'ENTERPRISE',
       icon: Crown,
-      price: { monthly: 16517, yearly: 165170 },
+      price: { monthly: 199, yearly: 1990 },
       description: 'For large organizations',
       features: [
         'Unlimited courses',
@@ -130,7 +130,7 @@ const Subscription = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userId: user.id,
-          amount: price,
+          amount: Math.round(price * currency.rate),
           courseName: `${planName} Subscription - ${billingCycle}`,
           courseId: `subscription_${planName.toLowerCase()}_${billingCycle}`
         })
@@ -218,11 +218,12 @@ const Subscription = () => {
                 {/* Price */}
                 <div className="mb-6">
                   <div className="flex items-baseline">
-                    <span className="text-5xl font-bold text-gray-900">{currency.symbol}{Math.round(price * currency.rate).toLocaleString()} /{billingCycle === 'monthly' ? 'mo' : 'yr'}</span>
+                    <span className="text-5xl font-bold text-gray-900">{currency.symbol}{Math.round(price * currency.rate).toLocaleString(currency.country === 'IN' ? 'en-IN' : 'en-US')}</span>
+                    <span className="text-gray-600 ml-2">/{billingCycle === 'monthly' ? 'mo' : 'yr'}</span>
                   </div>
                   {billingCycle === 'yearly' && (
                     <p className="text-sm text-gray-500 mt-1">
-                      {currency.symbol}{Math.round((price * currency.rate) / 12).toLocaleString()} /month billed annually
+                      {currency.symbol}{Math.round((price * currency.rate) / 12).toLocaleString(currency.country === 'IN' ? 'en-IN' : 'en-US')} /month billed annually
                     </p>
                   )}
                 </div>
