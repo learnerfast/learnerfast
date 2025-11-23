@@ -12,6 +12,38 @@ const Subscription = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
   const [currentPlan, setCurrentPlan] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currency, setCurrency] = useState({ symbol: '$', rate: 1 });
+  
+  useEffect(() => {
+    const detectCurrency = () => {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const currencyMap = {
+        'Asia/Kolkata': { symbol: '₹', rate: 83 },
+        'Asia/Calcutta': { symbol: '₹', rate: 83 },
+        'America/New_York': { symbol: '$', rate: 1 },
+        'America/Los_Angeles': { symbol: '$', rate: 1 },
+        'America/Chicago': { symbol: '$', rate: 1 },
+        'Europe/London': { symbol: '£', rate: 0.79 },
+        'Europe/Paris': { symbol: '€', rate: 0.92 },
+        'Europe/Berlin': { symbol: '€', rate: 0.92 },
+        'Australia/Sydney': { symbol: 'A$', rate: 1.52 },
+        'Asia/Dubai': { symbol: 'AED', rate: 3.67 },
+        'Asia/Singapore': { symbol: 'S$', rate: 1.34 },
+      };
+      
+      if (currencyMap[timezone]) {
+        setCurrency(currencyMap[timezone]);
+      } else if (timezone.startsWith('Asia/')) {
+        setCurrency({ symbol: '₹', rate: 83 });
+      } else if (timezone.startsWith('Europe/')) {
+        setCurrency({ symbol: '€', rate: 0.92 });
+      } else {
+        setCurrency({ symbol: '$', rate: 1 });
+      }
+    };
+    
+    detectCurrency();
+  }, []);
 
   useEffect(() => {
     fetchCurrentSubscription();
@@ -186,11 +218,11 @@ const Subscription = () => {
                 {/* Price */}
                 <div className="mb-6">
                   <div className="flex items-baseline">
-                    <span className="text-5xl font-bold text-gray-900">₹{price.toLocaleString('en-IN')} /{billingCycle === 'monthly' ? 'mo' : 'yr'}</span>
+                    <span className="text-5xl font-bold text-gray-900">{currency.symbol}{Math.round(price * currency.rate).toLocaleString()} /{billingCycle === 'monthly' ? 'mo' : 'yr'}</span>
                   </div>
                   {billingCycle === 'yearly' && (
                     <p className="text-sm text-gray-500 mt-1">
-                      ₹{Math.round(price / 12).toLocaleString('en-IN')} /month billed annually
+                      {currency.symbol}{Math.round((price * currency.rate) / 12).toLocaleString()} /month billed annually
                     </p>
                   )}
                 </div>

@@ -59,7 +59,38 @@ const pricing_data_monthly = {
 const { header_text, price_header, price_feature, price_feature_info } = pricing_data_monthly;
 
 const PriceArea = () => {
-  const [currency] = useState({ symbol: "₹", rate: 83, country: "IN" });
+  const [currency, setCurrency] = useState({ symbol: "$", rate: 1, country: "US" });
+  
+  React.useEffect(() => {
+    const detectCurrency = () => {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const currencyMap = {
+        'Asia/Kolkata': { symbol: '₹', rate: 83, country: 'IN' },
+        'Asia/Calcutta': { symbol: '₹', rate: 83, country: 'IN' },
+        'America/New_York': { symbol: '$', rate: 1, country: 'US' },
+        'America/Los_Angeles': { symbol: '$', rate: 1, country: 'US' },
+        'America/Chicago': { symbol: '$', rate: 1, country: 'US' },
+        'Europe/London': { symbol: '£', rate: 0.79, country: 'GB' },
+        'Europe/Paris': { symbol: '€', rate: 0.92, country: 'EU' },
+        'Europe/Berlin': { symbol: '€', rate: 0.92, country: 'EU' },
+        'Australia/Sydney': { symbol: 'A$', rate: 1.52, country: 'AU' },
+        'Asia/Dubai': { symbol: 'AED', rate: 3.67, country: 'AE' },
+        'Asia/Singapore': { symbol: 'S$', rate: 1.34, country: 'SG' },
+      };
+      
+      if (currencyMap[timezone]) {
+        setCurrency(currencyMap[timezone]);
+      } else if (timezone.startsWith('Asia/')) {
+        setCurrency({ symbol: '₹', rate: 83, country: 'IN' });
+      } else if (timezone.startsWith('Europe/')) {
+        setCurrency({ symbol: '€', rate: 0.92, country: 'EU' });
+      } else {
+        setCurrency({ symbol: '$', rate: 1, country: 'US' });
+      }
+    };
+    
+    detectCurrency();
+  }, []);
 
   const formatPrice = (usd) => {
     const value = Math.round(usd * currency.rate);
