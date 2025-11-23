@@ -81,8 +81,8 @@ export const WebsiteProvider = ({ children }) => {
   useEffect(() => {
     const loadInitialSites = async () => {
       if (user) {
-        await loadSites();
-        await checkSubscription();
+        loadSites();
+        checkSubscription();
       } else {
         setLoading(false);
       }
@@ -95,16 +95,16 @@ export const WebsiteProvider = ({ children }) => {
     if (!user?.id) return;
     
     try {
-      const { data: sub } = await supabase
+      const { data: sub, error } = await supabase
         .from('subscriptions')
         .select('*')
         .eq('user_id', user.id)
         .eq('status', 'active')
-        .single();
+        .maybeSingle();
       
       setSubscription(sub);
       
-      if (!sub) {
+      if (!sub && !error) {
         const { data: { user: authUser } } = await supabase.auth.getUser();
         
         if (authUser?.created_at) {
@@ -133,28 +133,32 @@ export const WebsiteProvider = ({ children }) => {
       
       if (error) throw error;
       
-      const sitesWithContent = await Promise.all((data || []).map(async (site) => {
-        try {
-          const { data: saveData } = await supabase
-            .from('website_builder_saves')
-            .select('page_contents')
-            .eq('site_id', site.id)
-            .eq('user_id', user.id)
-            .single();
-          
-          return {
-            ...site,
-            htmlContent: saveData?.page_contents?.home || null
-          };
-        } catch {
-          return site;
-        }
-      }));
+      setSites(data || []);
+      setLoading(false);
       
-      setSites(sitesWithContent);
+      if (data && data.length > 0) {
+        const sitesWithContent = await Promise.all(data.map(async (site) => {
+          try {
+            const { data: saveData } = await supabase
+              .from('website_builder_saves')
+              .select('page_contents')
+              .eq('site_id', site.id)
+              .eq('user_id', user.id)
+              .maybeSingle();
+            
+            return {
+              ...site,
+              htmlContent: saveData?.page_contents?.home || null
+            };
+          } catch {
+            return site;
+          }
+        }));
+        
+        setSites(sitesWithContent);
+      }
     } catch (error) {
       setSites([]);
-    } finally {
       setLoading(false);
     }
   };
