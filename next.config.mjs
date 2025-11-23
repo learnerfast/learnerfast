@@ -42,7 +42,7 @@ const nextConfig = {
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
           { 
             key: 'Content-Security-Policy', 
-            value: "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://dgq88cldibal5.cloudfront.net https://mercurystatic.phonepe.com https://linchpin.phonepe.com https://mercury.phonepe.com https://www.phonepe.com https://mercury-t2.phonepe.com blob:; worker-src 'self' blob:; connect-src 'self' https://*.phonepe.com https://*.supabase.co;"
+            value: "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://dgq88cldibal5.cloudfront.net https://mercurystatic.phonepe.com https://linchpin.phonepe.com https://mercury.phonepe.com https://www.phonepe.com https://mercury-t2.phonepe.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net blob:; worker-src 'self' blob:; connect-src 'self' https://*.phonepe.com https://*.supabase.co https://www.learnerfast.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com data:;"
           },
         ],
       },
