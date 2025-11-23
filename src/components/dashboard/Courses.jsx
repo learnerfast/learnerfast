@@ -453,7 +453,7 @@ const Courses = React.memo(() => {
         <button 
           onClick={() => {
             if (trialExpired && !subscription) {
-              toast.error('Trial expired. Please upgrade to create courses.');
+              toast.error('Trial expired. Please upgrade to continue creating courses.');
               return;
             }
             setIsModalOpen(true);

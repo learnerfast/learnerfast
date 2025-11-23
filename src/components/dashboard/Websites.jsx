@@ -73,7 +73,7 @@ const WebsitesList = () => {
 
   const openModal = () => {
     if (trialExpired && !subscription) {
-      toast.error('Trial expired. Please upgrade to continue.');
+      toast.error('Trial expired. Please upgrade to continue creating websites.');
       return;
     }
     
