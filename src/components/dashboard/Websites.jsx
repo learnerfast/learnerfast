@@ -346,12 +346,14 @@ const WebsitesList = () => {
                 }
               }}
             >
-              <button
-                onClick={() => toast.success('Trial started!')}
-                className="absolute top-3 right-3 z-10 px-3 py-1 text-xs bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors font-medium shadow-lg"
-              >
-                Trial
-              </button>
+              {!subscription && (
+                <button
+                  onClick={() => toast.success('Trial started!')}
+                  className="absolute top-3 right-3 z-10 px-3 py-1 text-xs bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors font-medium shadow-lg"
+                >
+                  Trial
+                </button>
+              )}
               {(() => {
                 const template = siteTemplates.find(t => t.id === site.template_id);
                 return template ? (
