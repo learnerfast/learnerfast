@@ -124,11 +124,13 @@ export async function POST(request) {
     try {
       response = await client.pay(payRequest);
     } catch (apiError) {
+      console.error('PhonePe API Error:', apiError);
       return NextResponse.json(
         { 
           success: false,
           error: 'Payment gateway API error',
-          errorType: 'PhonePeAPIError'
+          errorType: 'PhonePeAPIError',
+          details: apiError.message
         },
         { status: 500 }
       );
@@ -152,11 +154,13 @@ export async function POST(request) {
     });
 
   } catch (error) {
+    console.error('Payment initiation error:', error);
     return NextResponse.json(
       { 
         success: false,
         error: 'Payment initiation failed',
-        errorType: 'UnknownError'
+        errorType: 'UnknownError',
+        details: error.message
       },
       { status: 500 }
     );

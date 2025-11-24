@@ -11,12 +11,17 @@ export function getPhonePeClient() {
     const env = envString === 'PRODUCTION' ? Env.PRODUCTION : Env.SANDBOX;
 
     if (!clientId || !clientSecret) {
+      console.error('PhonePe credentials missing:', { clientId: !!clientId, clientSecret: !!clientSecret });
       throw new Error('PhonePe credentials are missing');
     }
 
+    console.log('Initializing PhonePe client:', { clientId, env: envString, version: clientVersion });
+
     try {
       clientInstance = StandardCheckoutClient.getInstance(clientId, clientSecret, clientVersion, env);
+      console.log('PhonePe client initialized successfully');
     } catch (error) {
+      console.error('PhonePe client initialization error:', error);
       throw new Error(`PhonePe client initialization failed: ${error.message}`);
     }
   }

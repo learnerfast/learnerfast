@@ -89,12 +89,16 @@
             if (data.success && data.checkoutUrl) {
               window.location.href = data.checkoutUrl;
             } else {
-              alert('Payment initiation failed. Please try again.');
+              const errorMsg = data.error || 'Payment initiation failed';
+              const errorDetails = data.details ? ` (${data.details})` : '';
+              alert(`${errorMsg}${errorDetails}. Please try again.`);
+              console.error('Payment error:', data);
               checkoutBtn.disabled = false;
               checkoutBtn.innerHTML = '<span class="material-symbols-outlined">lock</span> Secure Checkout';
             }
           } catch (error) {
-            alert('An error occurred. Please try again.');
+            console.error('Checkout error:', error);
+            alert(`An error occurred: ${error.message}. Please try again.`);
             checkoutBtn.disabled = false;
             checkoutBtn.innerHTML = '<span class="material-symbols-outlined">lock</span> Secure Checkout';
           }
