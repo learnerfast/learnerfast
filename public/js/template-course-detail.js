@@ -235,7 +235,10 @@
                 btn.disabled = true;
                 btn.textContent = 'Processing...';
                 try {
-                  const response = await fetch('https://www.learnerfast.com/api/payment/initiate', {
+                  const baseUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') 
+                    ? window.location.origin 
+                    : 'https://www.learnerfast.com';
+                  const response = await fetch(`${baseUrl}/api/payment/initiate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

@@ -56,6 +56,7 @@ export async function POST(request) {
         course_id: courseId,
         amount: amount,
         status: 'PENDING',
+        payment_type: 'course',
         created_at: new Date().toISOString()
       });
 
