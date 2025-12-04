@@ -238,6 +238,15 @@
                   const baseUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1') 
                     ? window.location.origin 
                     : 'https://www.learnerfast.com';
+                  
+                  console.log('🔵 Initiating payment:', {
+                    baseUrl,
+                    courseId: course.id,
+                    userId: user.id,
+                    amount: course.price,
+                    courseName: course.title
+                  });
+                  
                   const response = await fetch(`${baseUrl}/api/payment/initiate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -249,11 +258,15 @@
                     })
                   });
                   
+                  console.log('🔵 Response status:', response.status);
                   const data = await response.json();
+                  console.log('🔵 Response data:', data);
                   
                   if (data.success && data.checkoutUrl) {
+                    console.log('✅ Redirecting to:', data.checkoutUrl);
                     window.location.href = data.checkoutUrl;
                   } else {
+                    console.error('❌ Payment failed:', data);
                     btn.disabled = false;
                     btn.textContent = `Enroll Now - ₹${course.price}`;
                     
@@ -271,6 +284,7 @@
                     alert(msg);
                   }
                 } catch (error) {
+                  console.error('❌ Payment exception:', error);
                   btn.disabled = false;
                   btn.textContent = `Enroll Now - ₹${course.price}`;
                   alert('Payment service unavailable. Please try again later.');
