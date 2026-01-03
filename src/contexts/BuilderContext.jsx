@@ -83,6 +83,12 @@ export const BuilderProvider = ({ children, siteId }) => {
   // Expose template update function globally
   useEffect(() => {
     window.updateTemplateContent = (content) => {
+      // Check if any element is currently being edited
+      const iframe = document.querySelector('iframe[srcdoc]');
+      if (iframe?.contentDocument) {
+        const isEditing = iframe.contentDocument.querySelector('[data-editing="true"]');
+        if (isEditing) return; // Skip update during active editing
+      }
       setTemplateContent(content);
     };
     setSelectedElement(null);
@@ -410,17 +416,25 @@ export const BuilderProvider = ({ children, siteId }) => {
           setSaveTimeout(timeout);
         };
 
-        doc.addEventListener('input', handleChange, true);
-        doc.addEventListener('keydown', handleChange, true);
         doc.addEventListener('dragend', handleChange, true);
         doc.addEventListener('drop', handleChange, true);
-        doc.addEventListener('mouseup', handleChange, true);
+        
+        // Track when editing finishes to save to history
+        doc.addEventListener('blur', (e) => {
+          if (e.target.getAttribute('data-editing') === 'true') {
+            setTimeout(handleChange, 100);
+          }
+        }, true);
         
         // Observer for DOM mutations (position, style changes)
-        const observer = new MutationObserver(() => {
-          if (!isUndoRedoing) {
-            handleChange();
-          }
+        const observer = new MutationObserver((mutations) => {
+          if (isUndoRedoing) return;
+          // Skip if any element is being edited
+          const isEditing = doc.querySelector('[data-editing="true"]');
+          if (isEditing) return;
+          
+          const isContentEdit = mutations.some(m => m.target.getAttribute?.('contenteditable') === 'true');
+          if (!isContentEdit) handleChange();
         });
         
         if (doc.body) {
@@ -433,11 +447,8 @@ export const BuilderProvider = ({ children, siteId }) => {
         }
         
         return () => {
-          doc.removeEventListener('input', handleChange, true);
-          doc.removeEventListener('keydown', handleChange, true);
           doc.removeEventListener('dragend', handleChange, true);
           doc.removeEventListener('drop', handleChange, true);
-          doc.removeEventListener('mouseup', handleChange, true);
           if (observer) observer.disconnect();
         };
       }

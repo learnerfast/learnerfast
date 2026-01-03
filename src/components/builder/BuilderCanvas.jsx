@@ -315,6 +315,10 @@ const BuilderCanvas = () => {
 
           // Setup mutation observer to track style changes
           const observer = new MutationObserver((mutations) => {
+            // Skip if any element is being edited
+            const isEditing = iframeDoc.querySelector('[data-editing="true"]');
+            if (isEditing) return;
+            
             // Only sync if style attribute changed
             const hasStyleChange = mutations.some(m => 
               m.type === 'attributes' && m.attributeName === 'style'
@@ -348,14 +352,17 @@ const BuilderCanvas = () => {
   // Enable inline editing for text elements
   const enableInlineEditing = (element) => {
     element.setAttribute('contenteditable', 'true');
+    element.setAttribute('data-editing', 'true');
     element.style.outline = '2px solid #3b82f6';
     element.style.cursor = 'text';
     element.focus();
 
     const finishEditing = () => {
       element.setAttribute('contenteditable', 'false');
+      element.removeAttribute('data-editing');
       element.style.outline = '';
       element.style.cursor = 'grab';
+      syncIframeToTemplate();
     };
 
     element.addEventListener('keydown', (e) => {
@@ -413,7 +420,6 @@ const BuilderCanvas = () => {
           className="w-full mx-auto transition-all duration-300 ease-in-out bg-white shadow-lg h-full"
         >
           <iframe
-            key={builderTemplateContent}
             ref={iframeRef}
             srcDoc={builderTemplateContent}
             className="w-full h-full border-0"
