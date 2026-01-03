@@ -31,7 +31,7 @@ const UserDropdown = ({ sites, onLogout }) => {
       <div className="py-1">
         {sites.length > 0 ? (
           sites.map((site, index) => (
-            <Link key={site.id || index} href="/dashboard/websites" 
+            <Link key={site.id || index} href={`/builder/${site.id}`}
                   className="d-flex align-items-center px-3 py-2 text-decoration-none hover-item">
               <div className="cube-pagination me-2" style={{
                 width: '24px',
