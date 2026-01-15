@@ -71,8 +71,8 @@
           
           try {
             const apiUrl = window.location.hostname.includes('learnerfast.com') 
-              ? '/api/payment/initiate'
-              : 'https://www.learnerfast.com/api/payment/initiate';
+              ? '/api/payment/razorpay/create-order'
+              : 'https://www.learnerfast.com/api/payment/razorpay/create-order';
             
             const response = await fetch(apiUrl, {
               method: 'POST',
@@ -86,8 +86,37 @@
             });
             
             const data = await response.json();
-            if (data.success && data.checkoutUrl) {
-              window.location.href = data.checkoutUrl;
+            if (data.success && data.order) {
+              const options = {
+                key: 'rzp_live_S0gDDEqTf2wOwR',
+                amount: data.order.amount,
+                currency: data.order.currency,
+                name: course.title,
+                order_id: data.order.id,
+                handler: async (response) => {
+                  const verifyRes = await fetch(apiUrl.replace('create-order', 'verify'), {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(response)
+                  });
+                  const result = await verifyRes.json();
+                  if (result.success) {
+                    window.location.href = '/payment-success';
+                  } else {
+                    alert('Payment verification failed');
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.innerHTML = '<span class="material-symbols-outlined">lock</span> Secure Checkout';
+                  }
+                },
+                theme: { color: '#3399cc' }
+              };
+              const rzpScript = document.createElement('script');
+              rzpScript.src = 'https://checkout.razorpay.com/v1/checkout.js';
+              rzpScript.onload = () => {
+                const rzp = new window.Razorpay(options);
+                rzp.open();
+              };
+              document.head.appendChild(rzpScript);
             } else {
               const errorMsg = data.error || 'Payment initiation failed';
               const errorDetails = data.details ? ` (${data.details})` : '';

@@ -247,7 +247,7 @@
                     courseName: course.title
                   });
                   
-                  const response = await fetch(`${baseUrl}/api/payment/initiate`, {
+                  const response = await fetch(`${baseUrl}/api/payment/razorpay/create-order`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -262,9 +262,37 @@
                   const data = await response.json();
                   console.log('🔵 Response data:', data);
                   
-                  if (data.success && data.checkoutUrl) {
-                    console.log('✅ Redirecting to:', data.checkoutUrl);
-                    window.location.href = data.checkoutUrl;
+                  if (data.success && data.order) {
+                    const options = {
+                      key: 'rzp_live_S0gDDEqTf2wOwR',
+                      amount: data.order.amount,
+                      currency: data.order.currency,
+                      name: course.title,
+                      order_id: data.order.id,
+                      handler: async (response) => {
+                        const verifyRes = await fetch(`${baseUrl}/api/payment/razorpay/verify`, {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify(response)
+                        });
+                        const result = await verifyRes.json();
+                        if (result.success) {
+                          openCoursePlayer(course);
+                        } else {
+                          alert('Payment verification failed');
+                          btn.disabled = false;
+                          btn.textContent = `Enroll Now - ₹${course.price}`;
+                        }
+                      },
+                      theme: { color: '#3399cc' }
+                    };
+                    const script = document.createElement('script');
+                    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+                    script.onload = () => {
+                      const rzp = new window.Razorpay(options);
+                      rzp.open();
+                    };
+                    document.head.appendChild(script);
                   } else {
                     console.error('❌ Payment failed:', data);
                     btn.disabled = false;
