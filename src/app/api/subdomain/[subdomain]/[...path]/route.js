@@ -159,7 +159,7 @@ export async function GET(request, { params }) {
         'Pragma': 'no-cache',
         'Expires': '0',
         'X-Frame-Options': 'ALLOWALL',
-        'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://dgq88cldibal5.cloudfront.net https://mercurystatic.phonepe.com https://linchpin.phonepe.com https://mercury.phonepe.com https://www.phonepe.com https://mercury-t2.phonepe.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net blob:; worker-src 'self' blob:; connect-src 'self' https://*.phonepe.com https://*.supabase.co https://www.learnerfast.com https://learnerfast.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
+        'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://checkout.razorpay.com blob:; worker-src 'self' blob:; connect-src 'self' https://*.supabase.co https://www.learnerfast.com https://learnerfast.com https://cdn.jsdelivr.net https://api.razorpay.com https://lumberjack-cx.razorpay.com wss://*.supabase.co; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
       }
     });
     
