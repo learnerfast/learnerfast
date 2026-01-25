@@ -16,7 +16,7 @@ const company_content = {
   ),
   info_2: (
     <>
-      Led by <strong>Mrs. Mohita Kashyap (Founder & CEO)</strong>, the team realized that most
+      The team realized that most
       e-learning platforms were complicated, difficult to manage, and focused more
       on system management than the actual learning experience. They wanted to change that.
     </>
