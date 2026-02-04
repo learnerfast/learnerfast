@@ -159,7 +159,7 @@ export async function GET(request, { params }) {
         'Pragma': 'no-cache',
         'Expires': '0',
         'X-Frame-Options': 'ALLOWALL',
-        'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://checkout.razorpay.com blob:; worker-src 'self' blob:; connect-src 'self' https://*.supabase.co https://www.learnerfast.com https://learnerfast.com https://cdn.jsdelivr.net https://api.razorpay.com https://lumberjack-cx.razorpay.com wss://*.supabase.co; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
+        'Content-Security-Policy': "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://checkout.razorpay.com blob:; worker-src 'self' blob:; connect-src 'self' https://*.supabase.co https://www.learnerfast.com https://learnerfast.com https://cdn.jsdelivr.net https://api.razorpay.com https://lumberjack-cx.razorpay.com https://*.sentry.io wss://*.supabase.co; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;"
       }
     });
     

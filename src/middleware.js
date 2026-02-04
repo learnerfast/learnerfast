@@ -39,7 +39,7 @@ export function middleware(request) {
       return NextResponse.redirect(new URL(`https://${hostname}/home`, request.url));
     }
     const response = NextResponse.rewrite(new URL(`/api/subdomain/${subdomain}${url.pathname}`, request.url));
-    response.headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://checkout.razorpay.com blob:; connect-src 'self' https://*.supabase.co https://www.learnerfast.com https://learnerfast.com https://api.razorpay.com https://lumberjack-cx.razorpay.com wss://*.supabase.co; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; frame-src 'self';");
+    response.headers.set('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com https://cdn.tailwindcss.com https://cdn.jsdelivr.net https://checkout.razorpay.com blob:; connect-src 'self' https://*.supabase.co https://www.learnerfast.com https://learnerfast.com https://api.razorpay.com https://lumberjack-cx.razorpay.com https://*.sentry.io wss://*.supabase.co; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.supabase.co; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; frame-src 'self';");
     return response;
   }
   
