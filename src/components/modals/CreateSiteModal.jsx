@@ -211,6 +211,23 @@ const CreateSiteModal = ({
                           placeholder="e.g. My Awesome Course"
                           className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         />
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            Choose your domain
+                          </h3>
+                          <div className="flex items-center">
+                            <input
+                              type="text"
+                              value={siteName.toLowerCase().replace(/\s+/g, '-')}
+                              onChange={(e) => setSiteName(e.target.value.replace(/[^a-z0-9-]/g, ''))}
+                              placeholder="demo"
+                              className="flex-1 px-4 py-3 text-lg border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            />
+                            <span className="px-4 py-3 text-lg bg-gray-100 border border-l-0 border-gray-300 rounded-r-lg text-gray-600">
+                              .learnerfast.com
+                            </span>
+                          </div>
+                        </div>
                         <button
                           onClick={handleCreateClick}
                           disabled={isCreating || !siteName.trim()}
