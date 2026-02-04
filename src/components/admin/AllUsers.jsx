@@ -162,12 +162,12 @@ const AllUsers = () => {
 
   return (
     <div>
-      <div className="mb-6 flex justify-between items-start">
+      <div className="mb-6 flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">All Users</h2>
-          <p className="text-gray-600 mt-1">Manage all registered users</p>
+          <p className="text-gray-600 text-sm mt-1">Manage all registered users</p>
         </div>
-        <button onClick={exportCSV} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2">
+        <button onClick={exportCSV} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center gap-2 text-sm">
           <Download className="h-4 w-4" /> Export CSV
         </button>
       </div>
@@ -179,26 +179,26 @@ const AllUsers = () => {
         <StatsCard title="Verified" value={stats.verified} icon={Mail} color="purple" />
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div className="mb-6 flex flex-col md:flex-row gap-4">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="p-4 border-b border-gray-200 flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               type="text"
               placeholder="Search users..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
             />
           </div>
           <div className="flex gap-2">
-            <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary appearance-none bg-white">
+            <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm">
               <option value="all">All Users</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
               <option value="verified">Verified</option>
             </select>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary appearance-none bg-white">
+            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm">
               <option value="recent">Recent</option>
               <option value="active">Most Active</option>
               <option value="websites">Most Websites</option>
