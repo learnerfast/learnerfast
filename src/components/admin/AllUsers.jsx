@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Search, Mail, Calendar, Download, UserCheck, UserX, TrendingUp, Eye } from 'lucide-react';
+import { Search, Mail, Calendar, Download, UserCheck, UserX, TrendingUp, Eye, Trash2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
 import StatsCard from './StatsCard';
@@ -55,6 +55,7 @@ const AllUsers = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [sortBy, setSortBy] = useState('recent');
   const [viewUser, setViewUser] = useState(null);
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, userId: null, userEmail: '' });
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   
@@ -111,6 +112,26 @@ const AllUsers = () => {
 
   const sendEmail = (email) => {
     window.location.href = `mailto:${email}`;
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      const res = await fetch('/api/cron/inactivity', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: deleteModal.userId })
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success('User deleted successfully');
+        setDeleteModal({ isOpen: false, userId: null, userEmail: '' });
+        window.location.reload();
+      } else {
+        toast.error(data.error || 'Failed to delete user');
+      }
+    } catch (error) {
+      toast.error('Failed to delete user');
+    }
   };
 
 
@@ -250,6 +271,9 @@ const AllUsers = () => {
                       <button onClick={() => setViewUser(user)} className="text-green-600 hover:text-green-800" title="View Details">
                         <Eye className="h-4 w-4" />
                       </button>
+                      <button onClick={() => setDeleteModal({ isOpen: true, userId: user.id, userEmail: user.email })} className="text-red-600 hover:text-red-800" title="Delete User">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -320,6 +344,40 @@ const AllUsers = () => {
             <div className="mt-6 flex gap-2">
               <button onClick={() => sendEmail(viewUser.email)} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2">
                 <Mail className="h-4 w-4" /> Send Email
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteModal.isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setDeleteModal({ isOpen: false, userId: null, userEmail: '' })}>
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                <Trash2 className="h-6 w-6 text-red-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900">Delete User</h3>
+                <p className="text-sm text-gray-600">This action cannot be undone</p>
+              </div>
+            </div>
+            <p className="text-gray-700 mb-4">
+              Are you sure you want to delete <strong>{deleteModal.userEmail}</strong>? This will permanently delete:
+            </p>
+            <ul className="list-disc list-inside text-sm text-gray-600 mb-6 space-y-1">
+              <li>User account and authentication</li>
+              <li>All websites created by this user</li>
+              <li>All courses created by this user</li>
+              <li>All enrollments and payments</li>
+              <li>All subscriptions</li>
+            </ul>
+            <div className="flex gap-3">
+              <button onClick={() => setDeleteModal({ isOpen: false, userId: null, userEmail: '' })} className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                Cancel
+              </button>
+              <button onClick={handleDeleteUser} className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
+                Delete User
               </button>
             </div>
           </div>

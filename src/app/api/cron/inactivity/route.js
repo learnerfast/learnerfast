@@ -143,3 +143,37 @@ export async function GET(request) {
     return NextResponse.json({ success: false, error: error.message || 'Internal server error' }, { status: 500 });
   }
 }
+
+export async function DELETE(request) {
+  try {
+    const { userId } = await request.json();
+    
+    if (!userId) {
+      return NextResponse.json({ success: false, error: 'User ID required' }, { status: 400 });
+    }
+    
+    await Promise.all([
+      supabaseAdmin.from('sites').delete().eq('user_id', userId),
+      supabaseAdmin.from('courses').delete().eq('user_id', userId),
+      supabaseAdmin.from('website_builder_saves').delete().eq('user_id', userId),
+      supabaseAdmin.from('enrollments').delete().eq('user_id', userId),
+      supabaseAdmin.from('payments').delete().eq('user_id', userId),
+      supabaseAdmin.from('subscriptions').delete().eq('user_id', userId),
+      supabaseAdmin.from('website_users').delete().eq('user_id', userId)
+    ]);
+    
+    const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
+    
+    if (error) {
+      return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+    }
+    
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    Sentry.captureException(error, {
+      tags: { api: 'admin', method: 'DELETE' },
+      extra: { type: 'delete_user_error' }
+    });
+    return NextResponse.json({ success: false, error: error.message || 'Internal server error' }, { status: 500 });
+  }
+}
