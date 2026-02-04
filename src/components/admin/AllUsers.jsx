@@ -45,7 +45,7 @@ const fetchUsers = async () => {
 };
 
 const AllUsers = () => {
-  const { data: users, error, isLoading } = useSWR('/api/users', fetchUsers, {
+  const { data: users, error, isLoading, mutate } = useSWR('/api/users', fetchUsers, {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
     refreshInterval: 60000
@@ -119,13 +119,14 @@ const AllUsers = () => {
       const res = await fetch('/api/cron/inactivity', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: deleteModal.userId })
+        body: JSON.stringify({ userId: deleteModal.userId }),
+        credentials: 'include'
       });
       const data = await res.json();
       if (data.success) {
         toast.success('User deleted successfully');
         setDeleteModal({ isOpen: false, userId: null, userEmail: '' });
-        window.location.reload();
+        mutate('/api/users');
       } else {
         toast.error(data.error || 'Failed to delete user');
       }
