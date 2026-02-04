@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Search, Mail, Calendar, Download, UserCheck, UserX, TrendingUp, Eye, Trash2 } from 'lucide-react';
+import { Search, Mail, Calendar, Download, UserCheck, UserX, TrendingUp, Eye, Trash2, MoreVertical } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import useSWR from 'swr';
 import StatsCard from './StatsCard';
@@ -56,6 +56,7 @@ const AllUsers = () => {
   const [sortBy, setSortBy] = useState('recent');
   const [viewUser, setViewUser] = useState(null);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, userId: null, userEmail: '' });
+  const [openDropdown, setOpenDropdown] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
   
@@ -207,17 +208,13 @@ const AllUsers = () => {
         </div>
 
         <div className="overflow-x-auto -mx-4 md:mx-0">
-          <table className="w-full min-w-[800px]">
+          <table className="w-full">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="text-left py-3 px-4 font-semibold text-gray-700">Name</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">User</th>
                 <th className="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-700">Websites</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-700">Courses</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-700">Published</th>
+                <th className="text-left py-3 px-4 font-semibold text-gray-700">Activity</th>
                 <th className="text-left py-3 px-4 font-semibold text-gray-700">Joined</th>
-                <th className="text-left py-3 px-4 font-semibold text-gray-700">Last Sign In</th>
                 <th className="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
               </tr>
             </thead>
@@ -225,12 +222,12 @@ const AllUsers = () => {
               {paginatedUsers.map((user) => (
                 <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
                   <td className="py-3 px-4">
-                    <button onClick={() => setViewUser(user)} className="text-blue-600 hover:underline">{user.name || 'N/A'}</button>
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm">{user.email}</span>
+                    <div>
+                      <div className="font-medium text-gray-900">{user.name || 'N/A'}</div>
+                      <div className="text-sm text-gray-500 flex items-center gap-1">
+                        <Mail className="h-3 w-3" />
+                        {user.email}
+                      </div>
                     </div>
                   </td>
                   <td className="py-3 px-4">
@@ -241,41 +238,36 @@ const AllUsers = () => {
                     </span>
                   </td>
                   <td className="py-3 px-4">
-                    <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
-                      {user.websitesCount}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4">
-                    <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
-                      {user.coursesCount}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4">
-                    <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">
-                      {user.publishedSites}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className="flex items-center space-x-2">
-                      <Calendar className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm">{new Date(user.created_at).toLocaleDateString()}</span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4 text-sm text-gray-600">
-                    {user.last_sign_in ? new Date(user.last_sign_in).toLocaleDateString() : 'Never'}
-                  </td>
-                  <td className="py-3 px-4">
                     <div className="flex gap-2">
-                      <button onClick={() => sendEmail(user.email)} className="text-blue-600 hover:text-blue-800" title="Send Email">
-                        <Mail className="h-4 w-4" />
-                      </button>
-                      <button onClick={() => setViewUser(user)} className="text-green-600 hover:text-green-800" title="View Details">
-                        <Eye className="h-4 w-4" />
-                      </button>
-                      <button onClick={() => setDeleteModal({ isOpen: true, userId: user.id, userEmail: user.email })} className="text-red-600 hover:text-red-800" title="Delete User">
-                        <Trash2 className="h-4 w-4" />
-                      </button>
+                      <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">{user.websitesCount}W</span>
+                      <span className="px-2 py-1 bg-green-100 text-green-800 rounded text-xs">{user.coursesCount}C</span>
+                      <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">{user.publishedSites}P</span>
                     </div>
+                  </td>
+                  <td className="py-3 px-4">
+                    <div className="text-sm text-gray-600">{new Date(user.created_at).toLocaleDateString()}</div>
+                    <div className="text-xs text-gray-400">Last: {user.last_sign_in ? new Date(user.last_sign_in).toLocaleDateString() : 'Never'}</div>
+                  </td>
+                  <td className="py-3 px-4 relative">
+                    <button 
+                      onClick={() => setOpenDropdown(openDropdown === user.id ? null : user.id)}
+                      className="p-2 hover:bg-gray-100 rounded"
+                    >
+                      <MoreVertical className="h-4 w-4" />
+                    </button>
+                    {openDropdown === user.id && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                        <button onClick={() => { setViewUser(user); setOpenDropdown(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2">
+                          <Eye className="h-4 w-4" /> View Details
+                        </button>
+                        <button onClick={() => { sendEmail(user.email); setOpenDropdown(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 flex items-center gap-2">
+                          <Mail className="h-4 w-4" /> Send Email
+                        </button>
+                        <button onClick={() => { setDeleteModal({ isOpen: true, userId: user.id, userEmail: user.email }); setOpenDropdown(null); }} className="w-full text-left px-4 py-2 hover:bg-gray-50 text-red-600 flex items-center gap-2">
+                          <Trash2 className="h-4 w-4" /> Delete User
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
