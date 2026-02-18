@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { User, Mail, Phone, Calendar, Globe } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Globe, Trash2, MoreVertical } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -11,11 +12,12 @@ const supabase = createClient(
 const SiteUsers = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all');
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, userId: null, userName: '' });
+  const [openDropdown, setOpenDropdown] = useState(null);
 
   useEffect(() => {
     fetchSiteUsers();
-  }, [filter]);
+  }, []);
 
   const fetchSiteUsers = async () => {
     setLoading(true);
@@ -36,6 +38,24 @@ const SiteUsers = () => {
       console.error('Error fetching site users:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      const { error } = await supabase
+        .from('site_users')
+        .delete()
+        .eq('id', deleteModal.userId);
+
+      if (error) throw error;
+
+      toast.success('User deleted successfully');
+      setDeleteModal({ isOpen: false, userId: null, userName: '' });
+      fetchSiteUsers();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      toast.error('Failed to delete user');
     }
   };
 
@@ -71,6 +91,9 @@ const SiteUsers = () => {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Registered Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -111,6 +134,27 @@ const SiteUsers = () => {
                       </span>
                     </div>
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap relative">
+                    <button 
+                      onClick={() => setOpenDropdown(openDropdown === user.id ? null : user.id)}
+                      className="p-2 hover:bg-gray-100 rounded"
+                    >
+                      <MoreVertical className="h-4 w-4" />
+                    </button>
+                    {openDropdown === user.id && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                        <button 
+                          onClick={() => { 
+                            setDeleteModal({ isOpen: true, userId: user.id, userName: user.name }); 
+                            setOpenDropdown(null); 
+                          }} 
+                          className="w-full text-left px-4 py-2 hover:bg-gray-50 text-red-600 flex items-center gap-2"
+                        >
+                          <Trash2 className="h-4 w-4" /> Delete User
+                        </button>
+                      </div>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -122,6 +166,39 @@ const SiteUsers = () => {
           </div>
         )}
       </div>
+
+      {deleteModal.isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={() => setDeleteModal({ isOpen: false, userId: null, userName: '' })}>
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                <Trash2 className="h-6 w-6 text-red-600" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-gray-900">Delete User</h3>
+                <p className="text-sm text-gray-600">This action cannot be undone</p>
+              </div>
+            </div>
+            <p className="text-gray-700 mb-6">
+              Are you sure you want to delete <strong>{deleteModal.userName}</strong> from site registrations?
+            </p>
+            <div className="flex gap-3">
+              <button 
+                onClick={() => setDeleteModal({ isOpen: false, userId: null, userName: '' })} 
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={handleDeleteUser} 
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              >
+                Delete User
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
