@@ -33,6 +33,7 @@ const footer_content  = {
             delay: ".7s",
             links: [
                 {name: "About", link: "/about"},
+                {name: "Blogs", link: "/blogs"},
                 {name: "Pricing Plan", link: "/price"},
                 {name: "Contact", link: "/contact"},
                 {name: "Privacy Policy", link: "/privacy-policy"},
