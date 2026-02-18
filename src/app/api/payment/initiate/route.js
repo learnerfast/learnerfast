@@ -54,6 +54,7 @@ export async function POST(request) {
         order_id: merchantOrderId,
         user_id: userId,
         course_id: courseId,
+        plan_name: courseName,
         amount: amount,
         status: 'PENDING',
         payment_type: 'course',

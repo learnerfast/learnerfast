@@ -96,7 +96,7 @@ const Purchases = () => {
                   User
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Course
+                  Plan Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Amount
@@ -136,7 +136,7 @@ const Purchases = () => {
                     <div className="flex items-center">
                       <BookOpen className="h-4 w-4 text-gray-400 mr-2" />
                       <span className="text-sm text-gray-900">
-                        {purchase.courses?.title || 'N/A'}
+                        {purchase.plan_name || purchase.courses?.title || 'N/A'}
                       </span>
                     </div>
                   </td>
