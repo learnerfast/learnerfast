@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Users, Globe, BookOpen, BarChart3, Settings, Bell, Search, User, MessageSquare, ShoppingCart } from 'lucide-react';
+import { Users, Globe, BookOpen, BarChart3, Settings, Bell, Search, User, MessageSquare, ShoppingCart, UserPlus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import AllUsers from './AllUsers';
@@ -11,6 +11,7 @@ import Communication from './Communication';
 import SearchPage from './SearchPage';
 import Notifications from './Notifications';
 import Purchases from './Purchases';
+import SiteUsers from './SiteUsers';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('analytics');
@@ -23,6 +24,7 @@ const AdminDashboard = () => {
     { id: 'purchases', name: 'Purchases', icon: ShoppingCart },
     { id: 'websites', name: 'Websites', icon: Globe },
     { id: 'users', name: 'Users', icon: Users },
+    { id: 'site-users', name: 'Site Registrations', icon: UserPlus },
     { id: 'communication', name: 'Communication', icon: MessageSquare },
     { id: 'search', name: 'Search', icon: Search },
   ];
@@ -98,6 +100,7 @@ const AdminDashboard = () => {
             {activeTab === 'websites' && <AllWebsites />}
             {activeTab === 'courses' && <AllCourses />}
             {activeTab === 'purchases' && <Purchases />}
+            {activeTab === 'site-users' && <SiteUsers />}
             {activeTab === 'analytics' && <Analytics />}
             {activeTab === 'communication' && <Communication />}
             {activeTab === 'search' && <SearchPage />}
