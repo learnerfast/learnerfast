@@ -1,6 +1,6 @@
 import Blogs from "@/common/blog";
 import Wrapper from "@/layout/wrapper";
-import Header from "@/layout/headers/header";
+import Header from "@/layout/headers/header-6";
 import Footer from "@/layout/footers/footer";
 
 export const metadata = {
@@ -11,7 +11,7 @@ const BlogPage = () => {
   return (
     <Wrapper>
       <Header />
-      <main style={{ padding: '80px 20px' }}>
+      <main style={{ padding: '100px 20px 40px' }}>
         <Blogs />
       </main>
       <Footer />
