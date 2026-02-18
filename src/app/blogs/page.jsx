@@ -10,7 +10,7 @@ export const metadata = {
 const BlogPage = () => {
   return (
     <Wrapper>
-      <Header />
+      <Header style_2={true} />
       <main style={{ padding: '100px 20px 40px' }}>
         <Blogs />
       </main>
