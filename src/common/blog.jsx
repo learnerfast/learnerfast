@@ -16,9 +16,13 @@ const formatDate = (dateString) =>
   });
 
 const decodeHtml = (html) => {
-  const txt = document.createElement('textarea');
-  txt.innerHTML = html;
-  return txt.value;
+  return html
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&#038;/g, '&');
 };
 
 const stripHtml = (html) => html?.replace(/<[^>]+>/g, "") || "";
