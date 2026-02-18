@@ -15,6 +15,12 @@ const formatDate = (dateString) =>
     day: "numeric",
   });
 
+const decodeHtml = (html) => {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = html;
+  return txt.value;
+};
+
 const stripHtml = (html) => html?.replace(/<[^>]+>/g, "") || "";
 
 const calculateReadingTime = (content) => {
@@ -24,7 +30,7 @@ const calculateReadingTime = (content) => {
 };
 
 const limitWords = (text, wordLimit = 8) => {
-  const cleanText = stripHtml(text);
+  const cleanText = stripHtml(decodeHtml(text));
   const words = cleanText.split(/\s+/);
   if (words.length <= wordLimit) return cleanText;
   return words.slice(0, wordLimit).join(" ") + "...";
