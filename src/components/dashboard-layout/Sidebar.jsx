@@ -20,7 +20,8 @@ import {
   GraduationCap,
   ClipboardList,
   FileCheck,
-  CreditCard
+  CreditCard,
+  ShoppingCart
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCourseContext } from '../../app/dashboard/courses/page';
@@ -31,6 +32,7 @@ const navigation = [
   { name: 'Website', href: '/dashboard/websites', icon: Globe },
   { name: 'Users', href: '/dashboard/users', icon: Users },
   { name: 'Communication', href: '/dashboard/communication', icon: MessageSquare },
+  { name: 'Purchases', href: '/dashboard/purchases', icon: ShoppingCart },
   { name: 'Subscription', href: '/dashboard/subscription', icon: CreditCard },
   { name: 'Search', href: '/dashboard/search', icon: SearchIcon }
 ];
