@@ -12,10 +12,11 @@ const Purchases = () => {
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
 
   useEffect(() => {
     fetchPurchases();
-  }, [filter]);
+  }, [filter, typeFilter]);
 
   const fetchPurchases = async () => {
     setLoading(true);
@@ -31,6 +32,10 @@ const Purchases = () => {
 
       if (filter !== 'all') {
         query = query.eq('status', filter.toUpperCase());
+      }
+
+      if (typeFilter !== 'all') {
+        query = query.eq('payment_type', typeFilter);
       }
 
       const { data, error } = await query;
@@ -71,17 +76,28 @@ const Purchases = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-900">Course Purchases</h2>
-        <select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="all">All Purchases</option>
-          <option value="completed">Completed</option>
-          <option value="pending">Pending</option>
-          <option value="failed">Failed</option>
-        </select>
+        <h2 className="text-2xl font-bold text-gray-900">All Purchases</h2>
+        <div className="flex gap-3">
+          <select
+            value={typeFilter}
+            onChange={(e) => setTypeFilter(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="all">All Types</option>
+            <option value="subscription">Subscriptions</option>
+            <option value="course">Courses</option>
+          </select>
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="all">All Status</option>
+            <option value="completed">Completed</option>
+            <option value="pending">Pending</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
       </div>
 
       <div className="bg-white rounded-lg shadow overflow-hidden">

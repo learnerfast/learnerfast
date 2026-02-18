@@ -23,13 +23,30 @@ const UserPurchases = () => {
   const fetchUserPurchases = async () => {
     setLoading(true);
     try {
+      // Get user's courses
+      const { data: userCourses } = await supabase
+        .from('courses')
+        .select('id')
+        .eq('user_id', user.id);
+
+      const courseIds = (userCourses || []).map(c => c.id);
+
+      if (courseIds.length === 0) {
+        setPurchases([]);
+        setLoading(false);
+        return;
+      }
+
+      // Get purchases for user's courses only
       const { data, error } = await supabase
         .from('payments')
         .select(`
           *,
+          users:user_id (email, full_name),
           courses:course_id (title, description)
         `)
-        .eq('user_id', user.id)
+        .in('course_id', courseIds)
+        .eq('payment_type', 'course')
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -68,15 +85,15 @@ const UserPurchases = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">My Purchases</h1>
-        <p className="mt-2 text-gray-600">View all your course purchase history</p>
+        <h1 className="text-3xl font-bold text-gray-900">Course Purchases</h1>
+        <p className="mt-2 text-gray-600">View all purchases of your courses from students</p>
       </div>
 
       {purchases.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-12 text-center">
           <BookOpen className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">No purchases yet</h3>
-          <p className="text-gray-500">Start learning by purchasing your first course!</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">No course purchases yet</h3>
+          <p className="text-gray-500">When students purchase your courses, they will appear here.</p>
         </div>
       ) : (
         <div className="grid gap-6">
