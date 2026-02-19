@@ -41,68 +41,111 @@ const BuilderInspector = () => {
   };
 
   return (
-    <div className="absolute top-0 right-0 h-full w-80 bg-white border-l border-gray-200 flex flex-col shadow-lg z-20">
+    <div className="absolute top-0 right-0 h-full w-80 bg-white border-l border-gray-200 flex flex-col shadow-lg z-20 builder-inspector transition-smooth">
       {/* Element Toolbar */}
       {selectedElement && (
-        <div className="border-b border-gray-200 p-2 pt-4 pb-4">
+        <div className="border-b border-gray-200 p-2 pt-4 pb-4 transition-smooth">
           <div className="flex items-center justify-center">
             <div className="flex items-center space-x-1 flex-1 justify-center">
               <button
                 onClick={() => {
                   if (selectedElement?.element) {
-                    selectedElement.element.setAttribute('contenteditable', 'true');
-                    selectedElement.element.style.outline = '2px solid #3b82f6';
-                    selectedElement.element.focus();
+                    try {
+                      selectedElement.element.setAttribute('contenteditable', 'true');
+                      selectedElement.element.style.outline = '2px solid #3b82f6';
+                      selectedElement.element.focus();
+                    } catch (error) {
+                      console.error('Edit failed:', error);
+                      if (window.showToast) {
+                        window.showToast('Failed to enable editing', 'error');
+                      }
+                    }
                   }
                 }}
                 title="Edit"
-                className="p-2 rounded-md text-blue-600 hover:bg-blue-50 transition-colors border border-gray-200"
+                className="p-2 rounded-md text-blue-600 hover:bg-blue-50 transition-smooth border border-gray-200"
               >
                 <Edit3 className="h-4 w-4" />
               </button>
               <button
                 onClick={() => {
                   if (selectedElement?.element) {
-                    const cloned = selectedElement.element.cloneNode(true);
-                    selectedElement.element.parentNode.insertBefore(cloned, selectedElement.element.nextSibling);
+                    try {
+                      const cloned = selectedElement.element.cloneNode(true);
+                      selectedElement.element.parentNode.insertBefore(cloned, selectedElement.element.nextSibling);
+                      if (window.showToast) {
+                        window.showToast('Element duplicated', 'success');
+                      }
+                    } catch (error) {
+                      console.error('Duplicate failed:', error);
+                      if (window.showToast) {
+                        window.showToast('Failed to duplicate element', 'error');
+                      }
+                    }
                   }
                 }}
                 title="Duplicate"
-                className="p-2 rounded-md text-green-600 hover:bg-green-50 transition-colors border border-gray-200"
+                className="p-2 rounded-md text-green-600 hover:bg-green-50 transition-smooth border border-gray-200"
               >
                 <Copy className="h-4 w-4" />
               </button>
               <button
                 onClick={() => {
                   if (selectedElement?.element?.previousElementSibling) {
-                    selectedElement.element.parentNode.insertBefore(selectedElement.element, selectedElement.element.previousElementSibling);
+                    try {
+                      selectedElement.element.parentNode.insertBefore(selectedElement.element, selectedElement.element.previousElementSibling);
+                      if (window.showToast) {
+                        window.showToast('Element moved up', 'success');
+                      }
+                    } catch (error) {
+                      console.error('Move up failed:', error);
+                    }
                   }
                 }}
                 title="Move Up"
-                className="p-2 rounded-md text-gray-600 hover:bg-gray-50 transition-colors border border-gray-200"
+                className="p-2 rounded-md text-gray-600 hover:bg-gray-50 transition-smooth border border-gray-200"
               >
                 <ArrowUp className="h-4 w-4" />
               </button>
               <button
                 onClick={() => {
                   if (selectedElement?.element?.nextElementSibling) {
-                    selectedElement.element.parentNode.insertBefore(selectedElement.element.nextElementSibling, selectedElement.element);
+                    try {
+                      selectedElement.element.parentNode.insertBefore(selectedElement.element.nextElementSibling, selectedElement.element);
+                      if (window.showToast) {
+                        window.showToast('Element moved down', 'success');
+                      }
+                    } catch (error) {
+                      console.error('Move down failed:', error);
+                    }
                   }
                 }}
                 title="Move Down"
-                className="p-2 rounded-md text-gray-600 hover:bg-gray-50 transition-colors border border-gray-200"
+                className="p-2 rounded-md text-gray-600 hover:bg-gray-50 transition-smooth border border-gray-200"
               >
                 <ArrowDown className="h-4 w-4" />
               </button>
               <button
                 onClick={() => {
                   if (selectedElement?.element) {
-                    selectedElement.element.remove();
-                    setSelectedElement(null);
+                    if (confirm('Are you sure you want to delete this element?')) {
+                      try {
+                        selectedElement.element.remove();
+                        setSelectedElement(null);
+                        if (window.showToast) {
+                          window.showToast('Element deleted', 'success');
+                        }
+                      } catch (error) {
+                        console.error('Delete failed:', error);
+                        if (window.showToast) {
+                          window.showToast('Failed to delete element', 'error');
+                        }
+                      }
+                    }
                   }
                 }}
                 title="Delete"
-                className="p-2 rounded-md text-red-600 hover:bg-red-50 transition-colors border border-gray-200"
+                className="p-2 rounded-md text-red-600 hover:bg-red-50 transition-smooth border border-gray-200"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
@@ -119,7 +162,7 @@ const BuilderInspector = () => {
                     });
                   }
                 }}
-                className="p-1.5 rounded-md hover:bg-red-100 text-red-500 hover:text-red-700 transition-colors"
+                className="p-1.5 rounded-md hover:bg-red-100 text-red-500 hover:text-red-700 transition-smooth"
                 title="Unselect element"
               >
                 <X className="h-4 w-4" />
@@ -135,7 +178,7 @@ const BuilderInspector = () => {
             <button
               key={tab.id}
               onClick={() => switchInspectorTab(tab.id)}
-              className={`flex-1 flex items-center justify-center space-x-1 px-2 py-2 text-xs font-medium rounded-md transition-colors ${
+              className={`flex-1 flex items-center justify-center space-x-1 px-2 py-2 text-xs font-medium rounded-md transition-smooth ${
                 activeInspectorTab === tab.id
                   ? 'bg-blue-100 text-blue-700'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'

@@ -150,7 +150,7 @@ const BuilderSidebar = () => {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="absolute top-0 left-0 h-full z-20 bg-white border-r border-gray-200 flex flex-col shadow-lg w-64"
+      className="absolute top-0 left-0 h-full z-20 bg-white border-r border-gray-200 flex flex-col shadow-lg w-64 builder-sidebar"
     >
       <div className="flex-1 overflow-y-auto">
             <div className="p-4 space-y-4">

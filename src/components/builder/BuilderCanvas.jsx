@@ -20,6 +20,7 @@ const BuilderCanvas = () => {
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const [elementPosition, setElementPosition] = useState({ x: 200, y: 100 });
   const [isDragOver, setIsDragOver] = useState(false);
+  const [loadError, setLoadError] = useState(null);
 
   // Ensure no selection on mount
   useEffect(() => {
@@ -48,6 +49,7 @@ const BuilderCanvas = () => {
   useEffect(() => {
     if (builderTemplateContent && !isLoadingTemplate) {
       setLoading(false);
+      setLoadError(null);
     }
   }, [builderTemplateContent, isLoadingTemplate]);
 
@@ -93,12 +95,15 @@ const BuilderCanvas = () => {
 
   // Handle iframe load and setup interaction
   const handleIframeLoad = () => {
-    setIframeLoaded(true);
-    
-    if (iframeRef.current) {
-      try {
+    try {
+      setIframeLoaded(true);
+      
+      if (iframeRef.current) {
         const iframeDoc = iframeRef.current.contentDocument;
-        if (iframeDoc) {
+        if (!iframeDoc) {
+          setLoadError('Failed to load editor');
+          return;
+        }
           // Check for existing selected elements in loaded HTML
           const existingSelected = iframeDoc.querySelectorAll('.builder-selected');
           existingSelected.forEach(el => {
@@ -345,6 +350,11 @@ const BuilderCanvas = () => {
           iframeRef.current._styleObserver = observer;
         }
       } catch (error) {
+        console.error('Error setting up iframe:', error);
+        setLoadError('Failed to initialize editor');
+        if (window.showToast) {
+          window.showToast('Failed to initialize editor', 'error');
+        }
       }
     }
   };
@@ -412,12 +422,32 @@ const BuilderCanvas = () => {
 
 
   // Only render when template content is loaded and not loading
+  if (loadError) {
+    return (
+      <div className="flex-1 bg-gray-100 h-full flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{loadError}</p>
+          <button 
+            onClick={() => {
+              setLoadError(null);
+              setLoading(true);
+              window.location.reload();
+            }}
+            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-smooth"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (builderTemplateContent && !loading && !isLoadingTemplate) {
     return (
-      <div className="flex-1 bg-gray-100 h-full">
+      <div className="flex-1 bg-gray-100 h-full builder-canvas">
         <div
           ref={containerRef}
-          className="w-full mx-auto transition-all duration-300 ease-in-out bg-white shadow-lg h-full"
+          className="w-full mx-auto transition-smooth bg-white shadow-lg h-full"
         >
           <iframe
             ref={iframeRef}
@@ -431,7 +461,7 @@ const BuilderCanvas = () => {
 
           {/* Drag overlay */}
           {isDragOver && (
-            <div className="absolute inset-0 bg-primary-500 bg-opacity-5 border-2 border-dashed border-primary-400 z-30" />
+            <div className="absolute inset-0 bg-primary-500 bg-opacity-5 border-2 border-dashed border-primary-400 z-30 transition-smooth" />
           )}
         </div>
       </div>

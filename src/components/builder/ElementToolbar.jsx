@@ -25,13 +25,20 @@ const ElementToolbar = ({ element, position = { x: 0, y: 0 } }) => {
 
   const handleDuplicate = () => {
     if (element?.element) {
-      const cloned = element.element.cloneNode(true);
-      cloned.removeAttribute('data-builder-selected');
-      cloned.classList.remove('builder-selected');
-      element.element.parentNode.insertBefore(cloned, element.element.nextSibling);
-      
-      if (window.showToast) {
-        window.showToast('Element duplicated', 'success');
+      try {
+        const cloned = element.element.cloneNode(true);
+        cloned.removeAttribute('data-builder-selected');
+        cloned.classList.remove('builder-selected');
+        element.element.parentNode.insertBefore(cloned, element.element.nextSibling);
+        
+        if (window.showToast) {
+          window.showToast('Element duplicated', 'success');
+        }
+      } catch (error) {
+        console.error('Duplicate failed:', error);
+        if (window.showToast) {
+          window.showToast('Failed to duplicate element', 'error');
+        }
       }
     }
   };
@@ -39,11 +46,18 @@ const ElementToolbar = ({ element, position = { x: 0, y: 0 } }) => {
   const handleDelete = () => {
     if (element?.element) {
       if (confirm('Are you sure you want to delete this element?')) {
-        element.element.remove();
-        setSelectedElement(null);
-        
-        if (window.showToast) {
-          window.showToast('Element deleted', 'success');
+        try {
+          element.element.remove();
+          setSelectedElement(null);
+          
+          if (window.showToast) {
+            window.showToast('Element deleted', 'success');
+          }
+        } catch (error) {
+          console.error('Delete failed:', error);
+          if (window.showToast) {
+            window.showToast('Failed to delete element', 'error');
+          }
         }
       }
     }
@@ -51,20 +65,34 @@ const ElementToolbar = ({ element, position = { x: 0, y: 0 } }) => {
 
   const handleMoveUp = () => {
     if (element?.element?.previousElementSibling) {
-      element.element.parentNode.insertBefore(element.element, element.element.previousElementSibling);
-      
-      if (window.showToast) {
-        window.showToast('Element moved up', 'success');
+      try {
+        element.element.parentNode.insertBefore(element.element, element.element.previousElementSibling);
+        
+        if (window.showToast) {
+          window.showToast('Element moved up', 'success');
+        }
+      } catch (error) {
+        console.error('Move up failed:', error);
+        if (window.showToast) {
+          window.showToast('Failed to move element', 'error');
+        }
       }
     }
   };
 
   const handleMoveDown = () => {
     if (element?.element?.nextElementSibling) {
-      element.element.parentNode.insertBefore(element.element.nextElementSibling, element.element);
-      
-      if (window.showToast) {
-        window.showToast('Element moved down', 'success');
+      try {
+        element.element.parentNode.insertBefore(element.element.nextElementSibling, element.element);
+        
+        if (window.showToast) {
+          window.showToast('Element moved down', 'success');
+        }
+      } catch (error) {
+        console.error('Move down failed:', error);
+        if (window.showToast) {
+          window.showToast('Failed to move element', 'error');
+        }
       }
     }
   };
@@ -111,16 +139,23 @@ const ElementToolbar = ({ element, position = { x: 0, y: 0 } }) => {
 
   const handleEdit = () => {
     if (element?.element) {
-      const isEditable = element.element.getAttribute('contenteditable') === 'true';
-      
-      if (isEditable) {
-        element.element.setAttribute('contenteditable', 'false');
-        element.element.style.outline = '';
-        element.element.blur();
-      } else {
-        element.element.setAttribute('contenteditable', 'true');
-        element.element.style.outline = '2px solid #3b82f6';
-        element.element.focus();
+      try {
+        const isEditable = element.element.getAttribute('contenteditable') === 'true';
+        
+        if (isEditable) {
+          element.element.setAttribute('contenteditable', 'false');
+          element.element.style.outline = '';
+          element.element.blur();
+        } else {
+          element.element.setAttribute('contenteditable', 'true');
+          element.element.style.outline = '2px solid #3b82f6';
+          element.element.focus();
+        }
+      } catch (error) {
+        console.error('Edit toggle failed:', error);
+        if (window.showToast) {
+          window.showToast('Failed to enable editing', 'error');
+        }
       }
     }
   };
@@ -188,7 +223,7 @@ const ElementToolbar = ({ element, position = { x: 0, y: 0 } }) => {
 
   return (
     <div 
-      className="fixed z-50 bg-white rounded-lg shadow-lg border border-gray-200 p-1 flex items-center space-x-1"
+      className="fixed z-50 bg-white rounded-lg shadow-lg border border-gray-200 p-1 flex items-center space-x-1 transition-smooth"
       style={{
         left: safePosition.x,
         top: safePosition.y,
@@ -201,7 +236,7 @@ const ElementToolbar = ({ element, position = { x: 0, y: 0 } }) => {
           onClick={tool.action}
           title={tool.label}
           disabled={tool.disabled}
-          className={`p-2 rounded-md transition-colors ${tool.color} ${tool.disabled ? 'opacity-30 cursor-not-allowed' : ''}`}
+          className={`p-2 rounded-md transition-smooth ${tool.color} ${tool.disabled ? 'opacity-30 cursor-not-allowed' : ''}`}
         >
           <tool.icon className="h-4 w-4" />
         </button>

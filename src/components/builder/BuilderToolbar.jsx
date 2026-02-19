@@ -52,6 +52,16 @@ const BuilderToolbar = () => {
   });
   const [showHelpPopup, setShowHelpPopup] = useState(false);
   const [helpStep, setHelpStep] = useState(1);
+  const [saveError, setSaveError] = useState(null);
+
+  // Debounce helper
+  const debounce = (func, wait) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
 
   // Extract colors from current template elements
   React.useEffect(() => {
@@ -187,61 +197,68 @@ const BuilderToolbar = () => {
   };
 
   const saveThemeChanges = async () => {
-    const mainIframe = document.querySelector('iframe[srcdoc]');
-    if (mainIframe?.contentDocument) {
-      const doc = mainIframe.contentDocument;
-      
-      let style = doc.getElementById('theme-colors-style');
-      if (!style) {
-        style = doc.createElement('style');
-        style.id = 'theme-colors-style';
-        doc.head.appendChild(style);
-      }
-      
-      style.textContent = `
-        button, .btn, .btn-primary { background-color: ${customColors.primary} !important; }
-        .accent { background-color: ${customColors.accent1} !important; }
-        h1, h2, h3, h4, h5, h6, p { color: ${customColors.darkText} !important; }
-        a { color: ${customColors.linkText} !important; }
-        .dark-bg { background-color: ${customColors.darkBg} !important; }
-        .light-bg { background-color: ${customColors.lightBg} !important; }
-        body { background-color: ${customColors.bodyBg} !important; }
-      `;
-      
-      if (themeChanges.fonts) {
-        let fontStyle = doc.getElementById('theme-fonts-style');
-        if (!fontStyle) {
-          fontStyle = doc.createElement('style');
-          fontStyle.id = 'theme-fonts-style';
-          doc.head.appendChild(fontStyle);
+    try {
+      const mainIframe = document.querySelector('iframe[srcdoc]');
+      if (mainIframe?.contentDocument) {
+        const doc = mainIframe.contentDocument;
+        
+        let style = doc.getElementById('theme-colors-style');
+        if (!style) {
+          style = doc.createElement('style');
+          style.id = 'theme-colors-style';
+          doc.head.appendChild(style);
         }
-        fontStyle.textContent = `
-          h1, h2, h3, h4, h5, h6 { font-family: ${themeChanges.fonts.heading} !important; }
-          body, p, span, div { font-family: ${themeChanges.fonts.body} !important; }
+        
+        style.textContent = `
+          button, .btn, .btn-primary { background-color: ${customColors.primary} !important; }
+          .accent { background-color: ${customColors.accent1} !important; }
+          h1, h2, h3, h4, h5, h6, p { color: ${customColors.darkText} !important; }
+          a { color: ${customColors.linkText} !important; }
+          .dark-bg { background-color: ${customColors.darkBg} !important; }
+          .light-bg { background-color: ${customColors.lightBg} !important; }
+          body { background-color: ${customColors.bodyBg} !important; }
         `;
         
-        if (themeChanges.fonts.sizes) {
-          let sizeStyle = doc.getElementById('theme-font-sizes-style');
-          if (!sizeStyle) {
-            sizeStyle = doc.createElement('style');
-            sizeStyle.id = 'theme-font-sizes-style';
-            doc.head.appendChild(sizeStyle);
+        if (themeChanges.fonts) {
+          let fontStyle = doc.getElementById('theme-fonts-style');
+          if (!fontStyle) {
+            fontStyle = doc.createElement('style');
+            fontStyle.id = 'theme-fonts-style';
+            doc.head.appendChild(fontStyle);
           }
-          const sizes = themeChanges.fonts.sizes;
-          sizeStyle.textContent = `
-            h1 { font-size: ${sizes.h1}px !important; }
-            h2 { font-size: ${sizes.h2}px !important; }
-            h3 { font-size: ${sizes.h3}px !important; }
-            .text-large { font-size: ${sizes.large}px !important; }
-            body, p { font-size: ${sizes.normal}px !important; }
-            .text-small, small { font-size: ${sizes.small}px !important; }
+          fontStyle.textContent = `
+            h1, h2, h3, h4, h5, h6 { font-family: ${themeChanges.fonts.heading} !important; }
+            body, p, span, div { font-family: ${themeChanges.fonts.body} !important; }
           `;
+          
+          if (themeChanges.fonts.sizes) {
+            let sizeStyle = doc.getElementById('theme-font-sizes-style');
+            if (!sizeStyle) {
+              sizeStyle = doc.createElement('style');
+              sizeStyle.id = 'theme-font-sizes-style';
+              doc.head.appendChild(sizeStyle);
+            }
+            const sizes = themeChanges.fonts.sizes;
+            sizeStyle.textContent = `
+              h1 { font-size: ${sizes.h1}px !important; }
+              h2 { font-size: ${sizes.h2}px !important; }
+              h3 { font-size: ${sizes.h3}px !important; }
+              .text-large { font-size: ${sizes.large}px !important; }
+              body, p { font-size: ${sizes.normal}px !important; }
+              .text-small, small { font-size: ${sizes.small}px !important; }
+            `;
+          }
         }
       }
-    }
-    
-    if (window.showToast) {
-      window.showToast('Theme changes saved!', 'success');
+      
+      if (window.showToast) {
+        window.showToast('Theme changes saved!', 'success');
+      }
+    } catch (error) {
+      console.error('Error saving theme:', error);
+      if (window.showToast) {
+        window.showToast('Failed to save theme changes', 'error');
+      }
     }
   };
   const {
@@ -265,7 +282,7 @@ const BuilderToolbar = () => {
 
 
   return (
-    <div className="bg-white border-b border-black px-4 py-3 flex items-center justify-between text-sm z-10 shadow-sm">
+    <div className="bg-white border-b border-black px-4 py-3 flex items-center justify-between text-sm z-10 shadow-sm builder-toolbar">
       {/* Left section */}
       <div className="flex items-center space-x-4">
         <Link
@@ -551,12 +568,21 @@ const BuilderToolbar = () => {
       <div className="flex items-center space-x-3">
         <button
           type="button"
-          onClick={async () => {
-            const { data } = await supabase.from('sites').select('url').eq('id', siteId).single();
-            const subdomain = data?.url || 'demo';
-            window.open(`https://${subdomain}.learnerfast.com?v=${Date.now()}`, '_blank');
+          onClick={async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            try {
+              const { data } = await supabase.from('sites').select('url').eq('id', siteId).single();
+              const subdomain = data?.url || 'demo';
+              window.open(`https://${subdomain}.learnerfast.com?v=${Date.now()}`, '_blank');
+            } catch (error) {
+              console.error('Preview error:', error);
+              if (window.showToast) {
+                window.showToast('Failed to open preview', 'error');
+              }
+            }
           }}
-          className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-smooth"
         >
           <Eye className="h-4 w-4" />
           <span className="hidden md:inline">Preview</span>
@@ -567,6 +593,7 @@ const BuilderToolbar = () => {
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
+            setSaveError(null);
             const iframe = document.querySelector('iframe');
             if (iframe?.contentDocument) {
               iframe.contentDocument.querySelectorAll('.builder-selected, .builder-hover').forEach(el => {
@@ -574,12 +601,19 @@ const BuilderToolbar = () => {
                 el.removeAttribute('data-element-type');
               });
             }
-            saveProject();
+            saveProject().catch(err => {
+              console.error('Save failed:', err);
+              setSaveError('Failed to save. Please try again.');
+              if (window.showToast) {
+                window.showToast('Save failed. Please try again.', 'error');
+              }
+            });
           }}
           disabled={isSaving}
-          className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium disabled:opacity-50"
+          className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-smooth font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
         >
-          {isSaving ? 'Saving...' : 'Save'}
+          {isSaving && <span className="loading-spinner inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span>}
+          <span>{isSaving ? 'Saving...' : 'Save'}</span>
         </button>
 
         <button
